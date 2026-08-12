@@ -19,7 +19,7 @@ class SchoolProfileSeeder extends Seeder
             'vision' => 'Menjadi institusi pendidikan yang unggul, berbudaya, dan berwawasan global.',
             'mission' => '1. Menyelenggarakan pembelajaran yang aktif, inovatif, kreatif, efektif, dan menyenangkan.\n2. Mengembangkan potensi peserta didik secara optimal.',
             'phone' => '+6281234567890',
-            'email' => 'info@smaspgri1lumajang.sch.id',
+            'email' => 'smaspgri1lumajang@sch.id',
             'address' => 'Jl. Pendidikan No. 1, Lumajang, Jawa Timur',
             'created_at' => now(),
             'updated_at' => now(),

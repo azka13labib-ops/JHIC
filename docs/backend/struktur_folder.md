@@ -51,10 +51,6 @@ backend/
         └── ProductService.php
 ```
 
----
-
-## 🔄 Alur Data (Request → Response)
-
 ```
 HTTP Request
      │
