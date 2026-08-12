@@ -4,14 +4,14 @@
 Katalog produk/jasa yang dibuat oleh jurusan di sekolah beserta fitur untuk melakukan inquiry pembelian.
 
 ## Todo List
-- [ ] Buat Migration & Model untuk `Products`, `ProductCategories`, dan `Inquiries`.
-- [ ] Endpoint Katalog Produk:
-  - [ ] `GET /api/products` (Tampilkan semua produk dengan Pagination).
-  - [ ] `GET /api/products/{slug}` (Detail produk).
-- [ ] Fitur Filter & Search:
-  - [ ] Tambahkan parameter filter di `GET /api/products` berdasarkan Kategori atau Jurusan.
-  - [ ] Tambahkan parameter search kata kunci.
-- [ ] Endpoint Inquiry:
-  - [ ] `POST /api/inquiries` (Endpoint untuk menerima form pemesanan/pertanyaan produk).
+- [x] Buat Migration & Model untuk `Products`, `ProductCategories`, dan `Inquiries`.
+- [x] Endpoint Katalog Produk:
+  - [x] `GET /api/products` (Tampilkan semua produk dengan Pagination).
+  - [x] `GET /api/products/{slug}` (Detail produk).
+- [x] Fitur Filter & Search:
+  - [x] Tambahkan parameter filter di `GET /api/products` berdasarkan Kategori atau Jurusan.
+  - [x] Tambahkan parameter search kata kunci.
+- [x] Endpoint Inquiry:
+  - [x] `POST /api/inquiries` (Endpoint untuk menerima form pemesanan/pertanyaan produk).
     - *Security*: Terapkan rate limit (max 5 kali submit per jam per IP) untuk hindari spam.
-- [ ] Performa: Tambahkan index database pada kolom `category_id` dan `jurusan` untuk mempercepat query filtering.
+- [x] Performa: Tambahkan index database pada kolom `category_id` dan `jurusan` untuk mempercepat query filtering.
