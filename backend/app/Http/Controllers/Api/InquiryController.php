@@ -3,28 +3,24 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Inquiry;
-use App\Models\Product;
+use App\Http\Requests\StoreInquiryRequest;
+use App\Services\BludService;
 
 class InquiryController extends Controller
 {
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'nullable|string|max:20',
-            'message' => 'required|string',
-        ]);
+    protected $bludService;
 
-        $inquiry = new Inquiry($validated);
-        $inquiry->user_id = auth('sanctum')->id(); // will be null if not logged in
-        $inquiry->save();
+    public function __construct(BludService $bludService)
+    {
+        $this->bludService = $bludService;
+    }
+
+    public function store(StoreInquiryRequest $request)
+    {
+        $inquiry = $this->bludService->submitInquiry($request->validated());
 
         return response()->json([
-            'message' => 'Inquiry submitted successfully.',
+            'message' => 'Inquiry berhasil dikirim. Tim kami akan segera menghubungi Anda.',
             'data' => $inquiry
         ], 201);
     }

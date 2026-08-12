@@ -4,36 +4,39 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Http\Resources\ProductResource;
+use App\Services\BludService;
 
 class ProductController extends Controller
 {
+    protected $bludService;
+
+    public function __construct(BludService $bludService)
+    {
+        $this->bludService = $bludService;
+    }
+
     public function index(Request $request)
     {
-        $query = Product::with('category')->where('is_active', true);
+        $products = $this->bludService->getProducts($request->all());
+        
+        $products->getCollection()->transform(function ($product) {
+            if ($product->image_path) {
+                $product->image_path = asset('storage/' . $product->image_path);
+            }
+            return $product;
+        });
 
-        if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
-        }
-
-        if ($request->filled('department')) {
-            $query->where('department', $request->department);
-        }
-
-        if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        $products = $query->latest()->paginate(12);
-
-        return ProductResource::collection($products);
+        return response()->json($products);
     }
 
     public function show($slug)
     {
-        $product = Product::with('category')->where('slug', $slug)->where('is_active', true)->firstOrFail();
-        
-        return new ProductResource($product);
+        $product = $this->bludService->getProduct($slug);
+
+        if ($product->image_path) {
+            $product->image_path = asset('storage/' . $product->image_path);
+        }
+
+        return response()->json(['data' => $product]);
     }
 }

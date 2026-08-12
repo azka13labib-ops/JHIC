@@ -3,38 +3,29 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\JobApplication;
-use App\Models\Vacancy;
+use App\Http\Requests\ApplyJobRequest;
+use App\Services\BkkService;
 
 class JobApplicationController extends Controller
 {
-    public function apply(Request $request, $id)
+    protected $bkkService;
+
+    public function __construct(BkkService $bkkService)
     {
-        $vacancy = Vacancy::findOrFail($id);
+        $this->bkkService = $bkkService;
+    }
 
-        if (!$vacancy->is_active) {
-            return response()->json(['message' => 'Lowongan ini sudah ditutup.'], 400);
+    public function apply(ApplyJobRequest $request, $id)
+    {
+        try {
+            $application = $this->bkkService->applyJob($id, $request->validated(), $request->user(), $request->file('cv_file'));
+
+            return response()->json([
+                'message' => 'Lamaran berhasil dikirim.',
+                'data' => $application
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 400);
         }
-
-        $request->validate([
-            'cv_file' => 'required|file|mimes:pdf|max:5120', // PDF Max 5MB
-            'cover_letter' => 'nullable|string'
-        ]);
-
-        $path = $request->file('cv_file')->store('job_applications/cv', 'public');
-
-        $application = JobApplication::create([
-            'vacancy_id' => $vacancy->id,
-            'user_id' => $request->user()->id,
-            'cv_path' => $path,
-            'cover_letter' => $request->cover_letter,
-            'status' => 'pending'
-        ]);
-
-        return response()->json([
-            'message' => 'Lamaran berhasil dikirim.',
-            'data' => $application
-        ], 201);
     }
 }
