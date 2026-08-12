@@ -15,7 +15,7 @@ Pembuatan halaman statis/SSG untuk informasi profil sekolah, jurusan, alumni, pr
   - [x] `/berita` (List berita).
   - [x] `/berita/[slug]` (Detail berita).
 - [x] Integrasikan API Endpoint: `/api/school-info`, `/api/partners`, `/api/news`, dll.
-- [ ] Optimasi Performa:
-  - [ ] Gunakan `<Image />` Next.js dengan pengaturan `priority` pada gambar Hero.
-  - [ ] Implementasikan *Lazy Loading* untuk gambar di *below-the-fold*.
-- [ ] Cantumkan 5 Logo Wajib di Footer: JHIC, Jagoan Hosting, Komdigi, Garuda Spark, Ngalup.
+- [x] Optimasi Performa:
+  - [x] Gunakan `<Image />` Next.js dengan pengaturan `priority` pada gambar Hero.
+  - [x] Implementasikan *Lazy Loading* untuk gambar di *below-the-fold*.
+- [x] Cantumkan 5 Logo Wajib di Footer: JHIC, Jagoan Hosting, Komdigi, Garuda Spark, Ngalup.

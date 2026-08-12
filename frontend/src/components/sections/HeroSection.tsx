@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function HeroSection() {
   return (
@@ -20,6 +21,16 @@ export default function HeroSection() {
           <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
             Jagoan Indonesia Hackathon Camp (JIHC) adalah institusi pendidikan terkemuka yang mencetak generasi unggul siap kerja di industri teknologi masa depan.
           </p>
+          <div className="flex justify-center mb-10">
+             <Image 
+                src="/logo-sekolah.jpg" 
+                alt="Ilustrasi JIHC" 
+                width={300} 
+                height={300} 
+                priority 
+                className="rounded-2xl shadow-2xl object-cover"
+             />
+          </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link 
               href="/ppdb" 

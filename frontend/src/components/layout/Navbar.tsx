@@ -1,12 +1,19 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <nav className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-backdrop-filter:bg-white/60">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/logo-sekolah.png" alt="Logo Sekolah" className="h-8 w-auto" />
+        <div className="flex items-center gap-3">
+          <Image 
+            src="/logo-sekolah.jpg" 
+            alt="Logo Sekolah" 
+            width={40} 
+            height={40} 
+            className="h-10 w-auto rounded-md object-contain" 
+            priority
+          />
           <span className="font-bold text-xl tracking-tight text-blue-900">JIHC</span>
         </div>
         
