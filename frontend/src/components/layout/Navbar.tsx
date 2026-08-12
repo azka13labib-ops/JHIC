@@ -37,7 +37,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             <Link href="/" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Home</Link>
             <Link href="/profil" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Profil</Link>
-            <Link href="/jurusan" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Jurusan</Link>
+            <Link href="/peminatan" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Peminatan</Link>
             <Link href="/prestasi" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Prestasi</Link>
             <Link href="/berita" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Berita</Link>
             <Link href="/ppdb" className="text-sm font-bold px-6 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors shadow-md">

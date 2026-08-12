@@ -30,9 +30,9 @@ export async function getDepartments(): Promise<Department[]> {
     return res.data;
   } catch (error) {
     return [
-      { id: 1, name: "Rekayasa Perangkat Lunak", description: "Fokus pada pengembangan aplikasi web dan mobile masa depan.", icon: "Laptop" },
-      { id: 2, name: "Desain Komunikasi Visual", description: "Mencetak desainer kreatif untuk UI/UX, branding, dan animasi.", icon: "Palette" },
-      { id: 3, name: "Teknik Komputer Jaringan", description: "Membangun dan mengelola infrastruktur jaringan dan komputasi awan.", icon: "Server" },
+      { id: 1, name: "MIPA", description: "Matematika dan Ilmu Pengetahuan Alam. Mempersiapkan siswa di bidang sains, kedokteran, dan teknik.", icon: "Microscope" },
+      { id: 2, name: "IPS", description: "Ilmu Pengetahuan Sosial. Berfokus pada sosiologi, ekonomi, geografi, dan sejarah.", icon: "Globe" },
+      { id: 3, name: "Ilmu Bahasa dan Budaya", description: "Mempelajari linguistik, sastra, dan budaya dari berbagai bahasa dunia.", icon: "BookText" },
     ];
   }
 }

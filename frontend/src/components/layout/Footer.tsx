@@ -15,7 +15,7 @@ export default function Footer() {
             <h4 className="font-semibold mb-4 text-white">Tautan Cepat</h4>
             <ul className="space-y-2 text-sm text-slate-400">
               <li><Link href="/profil" className="hover:text-blue-400 transition-colors">Profil Sekolah</Link></li>
-              <li><Link href="/jurusan" className="hover:text-blue-400 transition-colors">Jurusan</Link></li>
+              <li><Link href="/peminatan" className="hover:text-blue-400 transition-colors">Peminatan</Link></li>
               <li><Link href="/prestasi" className="hover:text-blue-400 transition-colors">Prestasi</Link></li>
             </ul>
           </div>
