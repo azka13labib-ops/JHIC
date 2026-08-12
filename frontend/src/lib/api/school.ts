@@ -1,24 +1,26 @@
 import { serverFetch } from './server';
 import type { SchoolProfile, Achievement, Department, Partner } from '@/types/school';
 
+const MOCK_SCHOOL_PROFILE: SchoolProfile = {
+  id: 1,
+  name: "SMA PGRI 1 Lumajang",
+  description: "Selamat datang di SMA PGRI 1 Lumajang! Kami bangga menjadi tempat di mana masa depan dibentuk. Mari bergabung dan wujudkan mimpimu menjadi generasi unggul bersertifikasi internasional yang siap kerja di era digital.",
+  vision: "Menjadi lembaga pendidikan terdepan yang mencetak talenta unggul berstandar global dengan tetap menjunjung tinggi nilai-nilai agama dan budaya bangsa.",
+  mission: "1. Menyelenggarakan pendidikan berkualitas yang adaptif terhadap perkembangan zaman.\n2. Mengembangkan potensi peserta didik melalui kegiatan akademik dan non-akademik.\n3. Membekali peserta didik dengan keterampilan praktis, sertifikasi industri, dan jiwa kewirausahaan.",
+  principal_name: "Bapak Kepala Sekolah, M.Pd",
+  principal_message: "SMA PGRI 1 Lumajang bukan sekadar sekolah, melainkan inkubator bagi para inovator muda. Kami membekali siswa tidak hanya dengan teori, namun juga skill praktis yang langsung relevan dengan kebutuhan industri masa depan. Bergabunglah bersama kami, dan jadilah bagian dari revolusi industri!",
+  email: "info@smapgri1lmj.sch.id",
+  phone: "(0334) 881234",
+  address: "Jl. Contoh Alamat No. 123, Lumajang, Jawa Timur"
+};
+
 export async function getSchoolProfile(): Promise<SchoolProfile> {
   try {
     const res = await serverFetch<{ data: SchoolProfile }>('/school-info', { revalidate: 86400, tags: ['school'] });
     return res.data;
   } catch (error) {
     console.warn("Failed to fetch school profile from API, using dummy data.", error);
-    return {
-      id: 1,
-      name: "Jagoan Indonesia Hackathon Camp (JIHC)",
-      description: "Pusat keunggulan pendidikan vokasi yang berfokus pada teknologi dan industri kreatif digital.",
-      vision: "Menjadi lembaga pendidikan terdepan yang mencetak talenta digital berstandar global.",
-      mission: "1. Mengedepankan pendidikan berbasis proyek nyata.\n2. Berkolaborasi erat dengan industri teknologi.\n3. Membentuk karakter inovatif dan problem solver.",
-      address: "Jl. Teknologi No. 1, Malang",
-      email: "info@jihc.sch.id",
-      phone: "(0341) 123456",
-      principal_name: "Dr. Budi Santoso, M.Kom",
-      principal_message: "Selamat datang di JIHC! Kami bangga menjadi tempat di mana masa depan teknologi Indonesia dibentuk. Mari bergabung dan wujudkan mimpimu bersama kami."
-    };
+    return MOCK_SCHOOL_PROFILE;
   }
 }
 

@@ -4,50 +4,55 @@ export default function Footer() {
   return (
     <footer className="bg-slate-900 text-slate-300 py-12">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          <div>
-            <h3 className="text-xl font-bold text-white mb-4">JIHC</h3>
-            <p className="text-sm leading-relaxed mb-4">
-              Jagoan Indonesia Hackathon Camp.<br />
-              Mencetak generasi unggul di bidang teknologi dan digital kreatif.
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="col-span-1 md:col-span-1">
+            <h3 className="text-xl font-bold mb-4">SMA PGRI 1 Lumajang</h3>
+            <p className="text-sm text-slate-400">
+              Mencetak generasi unggul siap kerja di industri masa depan.
             </p>
           </div>
           <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Tautan Cepat</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/profil" className="hover:text-blue-400">Profil Sekolah</Link></li>
-              <li><Link href="/ppdb" className="hover:text-blue-400">Pendaftaran PPDB</Link></li>
-              <li><Link href="/berita" className="hover:text-blue-400">Berita & Informasi</Link></li>
-              <li><Link href="/karir" className="hover:text-blue-400">Bursa Kerja</Link></li>
+            <h4 className="font-semibold mb-4 text-white">Tautan Cepat</h4>
+            <ul className="space-y-2 text-sm text-slate-400">
+              <li><Link href="/profil" className="hover:text-blue-400 transition-colors">Profil Sekolah</Link></li>
+              <li><Link href="/jurusan" className="hover:text-blue-400 transition-colors">Jurusan</Link></li>
+              <li><Link href="/prestasi" className="hover:text-blue-400 transition-colors">Prestasi</Link></li>
             </ul>
           </div>
           <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Kontak</h4>
-            <ul className="space-y-2 text-sm">
-              <li>📍 Jl. Teknologi No. 1, Malang</li>
-              <li>📞 (0341) 123456</li>
-              <li>✉️ info@jihc.sch.id</li>
+            <h4 className="font-semibold mb-4 text-white">Layanan</h4>
+            <ul className="space-y-2 text-sm text-slate-400">
+              <li><Link href="/ppdb" className="hover:text-blue-400 transition-colors">PPDB Online</Link></li>
+              <li><Link href="/berita" className="hover:text-blue-400 transition-colors">Berita & Informasi</Link></li>
+              <li><Link href="/kontak" className="hover:text-blue-400 transition-colors">Hubungi Kami</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-4 text-white">Kontak</h4>
+            <ul className="space-y-2 text-sm text-slate-400">
+              <li>Jl. Contoh Alamat No. 123</li>
+              <li>Lumajang, Jawa Timur</li>
+              <li>Email: info@smapgri1lmj.sch.id</li>
+              <li>Telp: (0334) 881234</li>
             </ul>
           </div>
         </div>
-
-        {/* Sponsor Logos Section */}
-        <div className="border-t border-slate-700 pt-8 mt-8">
-          <p className="text-center text-sm font-semibold text-slate-400 mb-6 uppercase tracking-wider">
-            Didukung Oleh
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-70 grayscale hover:grayscale-0 transition-all duration-300">
-            {/* 5 Logo Wajib JHIC */}
-            <div className="text-white font-bold text-xl">JHIC</div>
-            <div className="text-white font-bold text-xl">Jagoan Hosting</div>
-            <div className="text-white font-bold text-xl">Komdigi</div>
-            <div className="text-white font-bold text-xl">Garuda Spark</div>
-            <div className="text-white font-bold text-xl">Ngalup</div>
+        
+        {/* Logo Mitra Wajib */}
+        <div className="mt-12 pt-8 border-t border-slate-800">
+          <h4 className="text-center text-sm font-semibold text-slate-500 mb-6 uppercase tracking-wider">Didukung Oleh</h4>
+          <div className="flex flex-wrap justify-center items-center gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+            {/* Menggunakan teks placeholder atau logo eksternal sementara karena belum ada file logonya */}
+            <span className="font-bold text-lg text-white">JIHC</span>
+            <span className="font-bold text-lg text-white">Jagoan Hosting</span>
+            <span className="font-bold text-lg text-white">Komdigi</span>
+            <span className="font-bold text-lg text-white">Garuda Spark</span>
+            <span className="font-bold text-lg text-white">Ngalup</span>
           </div>
         </div>
-        
-        <div className="text-center text-sm mt-12 text-slate-500">
-          &copy; {new Date().getFullYear()} Jagoan Indonesia Hackathon Camp. All rights reserved.
+
+        <div className="mt-8 text-center text-sm text-slate-500">
+          © {new Date().getFullYear()} SMA PGRI 1 Lumajang. All rights reserved.
         </div>
       </div>
     </footer>

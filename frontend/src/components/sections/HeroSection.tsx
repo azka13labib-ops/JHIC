@@ -18,13 +18,13 @@ export default function HeroSection() {
               <span className="text-blue-500">🎓</span> Religius, Cerdas, Terampil, Profesional
             </div>
             <h1 className="text-5xl sm:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              JIHC: <span className="text-slate-800">Mencetak Generasi Emas</span> <br className="hidden sm:block" />
+              SMA PGRI 1 Lumajang <span className="text-slate-800">Mencetak Generasi Emas</span> <br className="hidden sm:block" />
               <span className="text-blue-700">
                 Bersama Kita Bisa!
               </span>
             </h1>
             <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-              Jagoan Indonesia Hackathon Camp (JIHC) hadir sebagai institusi pendidikan vokasi teknologi terkemuka. Kami berkomitmen untuk mencetak talenta digital unggul yang kompeten, kreatif, berkarakter, dan siap berinovasi di industri teknologi masa depan.
+              SMA PGRI 1 Lumajang hadir sebagai institusi pendidikan terkemuka. Kami berkomitmen untuk mencetak lulusan unggul yang religius, cerdas, terampil, berkarakter, dan siap berinovasi di masa depan.
             </p>
             
             {/* Stats Row */}

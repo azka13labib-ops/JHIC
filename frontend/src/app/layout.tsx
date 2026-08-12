@@ -13,11 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: {
-    template: '%s | JIHC',
-    default: 'Jagoan Indonesia Hackathon Camp (JIHC)',
-  },
-  description: 'Mencetak generasi unggul di bidang teknologi dan digital kreatif.',
+  title: "SMA PGRI 1 Lumajang",
+  description: "Mencetak generasi unggul siap kerja di industri masa depan",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

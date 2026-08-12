@@ -8,8 +8,8 @@ export default function Navbar() {
       <div className="bg-slate-900 text-slate-300 py-2 text-xs">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="flex gap-4">
-            <span className="flex items-center gap-1">✉️ info@jihc.sch.id</span>
-            <span className="flex items-center gap-1">📞 (0341) 123456</span>
+            <span className="flex items-center gap-1">✉️ info@smapgri1lmj.sch.id</span>
+            <span className="flex items-center gap-1">📞 (0334) 881234</span>
           </div>
           <div className="flex gap-4">
             <a href="#" className="hover:text-white">Facebook</a>
@@ -31,7 +31,7 @@ export default function Navbar() {
               className="h-12 w-auto rounded-md object-contain" 
               priority
             />
-            <span className="font-extrabold text-2xl tracking-tight text-slate-800">JIHC</span>
+            <span className="font-extrabold text-2xl tracking-tight text-slate-800 hidden sm:block">SMA PGRI 1</span>
           </div>
           
           <div className="hidden md:flex items-center gap-8">
