@@ -10,4 +10,4 @@ Setup awal untuk backend Laravel, termasuk konfigurasi keamanan, database, dan e
 - [x] Buat Model & Migration untuk `User` (Siswa dan Admin).
 - [x] Setup *Role & Permission* (Menggunakan enum `role` di tabel users).
 - [x] Konfigurasi Laravel Storage (jalankan `php artisan storage:link`) untuk upload file.
-- [ ] (Opsional) Setup Redis untuk Caching dan Queue.
+- [x] (Opsional) Setup Redis untuk Caching dan Queue.
