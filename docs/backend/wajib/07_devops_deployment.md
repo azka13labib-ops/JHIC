@@ -23,14 +23,14 @@ Setup server VPS, containerisasi dengan Docker, konfigurasi Nginx sebagai revers
 - [ ] Install Docker & Docker Compose di VPS.
 
 ### 2. Dockerisasi Aplikasi
-- [ ] Buat `Dockerfile` untuk Laravel (`backend/Dockerfile`).
+- [x] Buat `Dockerfile` untuk Laravel (`backend/Dockerfile`).
   - Base image: `php:8.3-fpm`.
   - Copy composer, install dependencies.
   - Expose via PHP-FPM.
-- [ ] Buat `Dockerfile` untuk Next.js (`frontend/Dockerfile`).
+- [ ] Buat `Dockerfile` untuk Next.js (`frontend/Dockerfile`). (Menunggu fase frontend)
   - Build Next.js dengan `npm run build`.
   - Jalankan dengan `node server.js` atau PM2.
-- [ ] Buat `docker-compose.yml` di root project yang mengorkestrasi:
+- [x] Buat `docker-compose.yml` di root project yang mengorkestrasi:
   - Service `laravel` (PHP-FPM).
   - Service `nextjs`.
   - Service `nginx` (Reverse Proxy).
@@ -38,7 +38,7 @@ Setup server VPS, containerisasi dengan Docker, konfigurasi Nginx sebagai revers
   - Service `redis`.
 
 ### 3. Konfigurasi Nginx
-- [ ] Buat konfigurasi Nginx sebagai reverse proxy.
+- [x] Buat konfigurasi Nginx sebagai reverse proxy.
   - Traffic ke domain utama → Next.js (port 3000).
   - Traffic ke `/api/*` → Laravel (PHP-FPM port 9000).
 - [ ] Aktifkan SSL/HTTPS menggunakan Let's Encrypt (Certbot).

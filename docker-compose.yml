@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # Nginx Reverse Proxy
+  webserver:
+    image: nginx:alpine
+    container_name: jihc_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./backend:/var/www/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - app
+
+  # Laravel Backend (PHP-FPM)
+  app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: jihc_backend
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./backend:/var/www/html
+      # Jangan override vendor dan node_modules agar pakai dari image docker
+      - /var/www/html/vendor
+    depends_on:
+      - db
+      - redis
+
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: jihc_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-jihc_db}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_USER: ${DB_USERNAME:-jihc_user}
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
+  # Redis Cache & Queue
+  redis:
+    image: redis:alpine
+    container_name: jihc_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+
+  # --- FRONTEND NEXT.JS (Akan diaktifkan nanti di fase Frontend) ---
+  # nextjs:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: jihc_frontend
+  #   restart: unless-stopped
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - app
+
+volumes:
+  dbdata:
+  redisdata:
