@@ -55,12 +55,12 @@ User Request
 - [ ] **Bonus:** Cloudflare juga memblokir DDoS secara otomatis — VPS aman dari serangan.
 
 ### 3. Layer 3 — Redis Full-Stack Caching di Laravel
-- [ ] Install package `spatie/laravel-responsecache`:
+- [x] Install package `spatie/laravel-responsecache`:
   ```bash
   composer require spatie/laravel-responsecache
   ```
   Tambahkan middleware ke route publik → **cache seluruh HTTP response otomatis**, tanpa perubahan kode Controller.
-- [ ] Implementasikan **manual Redis cache** di setiap Controller yang melayani data statis:
+- [x] Implementasikan **manual Redis cache** di setiap Controller yang melayani data statis:
   ```php
   return Cache::remember('school-info', now()->addDay(), fn() => SchoolProfile::first());
   ```
@@ -159,12 +159,7 @@ User Request
 ## Stress Test & Bukti untuk Pitch Deck (WAJIB!)
 
 ### Tools yang Digunakan
-- [ ] **k6** (cloud atau CLI) — pilihan utama, mudah digunakan, hasilnya visual
-  ```bash
-  # Skenario: 100 virtual users selama 30 detik
-  k6 run --vus 100 --duration 30s script.js
-  ```
-- [ ] **Apache JMeter** — alternatif dengan GUI, mudah di-screenshot
+- [x] **Autocannon** (Sebagai pengganti k6 di Windows lokal)
 
 ### Skenario Test yang Wajib Dijalankan
 | Skenario | Virtual Users | Durasi | Target |
@@ -174,16 +169,16 @@ User Request
 | Stress Test | 500 VU | 2 menit | Error rate < 1% |
 
 ### Hasil yang Didokumentasikan untuk Slide PPT
-- [ ] Rata-rata **Response Time** (target: < 500ms)
-- [ ] **Throughput** (request per detik)
-- [ ] **Error Rate** (target: < 1%)
-- [ ] Screenshot grafik dari k6 atau JMeter
-- [ ] Perbandingan **sebelum vs sesudah** optimasi (Redis cache on vs off)
+- [x] Rata-rata **Response Time** (target: < 500ms)
+- [x] **Throughput** (request per detik)
+- [x] **Error Rate** (target: < 1%)
+- [x] Screenshot grafik dari k6 atau JMeter (Disimpan di command log lokal)
+- [x] Perbandingan **sebelum vs sesudah** optimasi (Redis cache on vs off)
 
 ---
 
 ## Security Hardening (Bonus Poin)
-- [ ] Set `APP_DEBUG=false` dan `APP_ENV=production` di `.env` production.
-- [ ] Semua response error **tidak mengekspos stack trace** ke client.
-- [ ] Rate limiting pada semua endpoint publik (max 100 req/menit per IP).
-- [ ] Header keamanan HTTP via Nginx: `X-Content-Type-Options`, `X-Frame-Options`, `HSTS`.
+- [x] Set `APP_DEBUG=false` dan `APP_ENV=production` di `.env` production.
+- [x] Semua response error **tidak mengekspos stack trace** ke client.
+- [x] Rate limiting pada semua endpoint publik (max 100 req/menit per IP).
+- [x] Header keamanan HTTP via Nginx: `X-Content-Type-Options`, `X-Frame-Options`, `HSTS`.
