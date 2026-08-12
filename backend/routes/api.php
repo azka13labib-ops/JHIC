@@ -4,17 +4,29 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\LandingPageController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\InquiryController;
+use Spatie\ResponseCache\Middlewares\CacheResponse;
 
+// Global Rate Limiting untuk proteksi API
 Route::middleware(['throttle:100,1'])->group(function () {
-    Route::get('/school-info', [LandingPageController::class, 'schoolInfo']);
-    Route::get('/news', [LandingPageController::class, 'news']);
-    Route::get('/achievements', [LandingPageController::class, 'achievements']);
-    Route::get('/alumnis', [LandingPageController::class, 'alumnis']);
-    Route::get('/partners', [LandingPageController::class, 'partners']);
-    
-    // BLUD Products
-    Route::get('/products', [ProductController::class, 'index']);
-    Route::get('/products/{slug}', [ProductController::class, 'show']);
+
+    // Cached Public API Routes (Landing Page, BKK, BLUD Catalog)
+    Route::middleware([CacheResponse::class])->group(function () {
+        // Landing Page API
+        Route::get('/school-info', [\App\Http\Controllers\Api\LandingPageController::class, 'schoolInfo']);
+        Route::get('/news', [\App\Http\Controllers\Api\LandingPageController::class, 'news']);
+        Route::get('/achievements', [\App\Http\Controllers\Api\LandingPageController::class, 'achievements']);
+        Route::get('/alumnis', [\App\Http\Controllers\Api\LandingPageController::class, 'alumnis']);
+        Route::get('/partners', [\App\Http\Controllers\Api\LandingPageController::class, 'partners']);
+        
+        // BLUD Catalog API
+        Route::get('/products', [\App\Http\Controllers\Api\ProductController::class, 'index']);
+        Route::get('/products/{slug}', [\App\Http\Controllers\Api\ProductController::class, 'show']);
+
+        // BKK Public Routes
+        Route::get('/companies', [\App\Http\Controllers\Api\CompanyController::class, 'index']);
+        Route::get('/jobs', [\App\Http\Controllers\Api\JobController::class, 'index']);
+        Route::get('/jobs/{id}', [\App\Http\Controllers\Api\JobController::class, 'show']);
+    });
 });
 
 // BLUD Inquiries (Stricter rate limiting to prevent spam)
@@ -26,10 +38,7 @@ Route::middleware(['throttle:5,60'])->group(function () {
 Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
 Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
 
-// BKK Public Routes
-Route::get('/companies', [\App\Http\Controllers\Api\CompanyController::class, 'index']);
-Route::get('/jobs', [\App\Http\Controllers\Api\JobController::class, 'index']);
-Route::get('/jobs/{id}', [\App\Http\Controllers\Api\JobController::class, 'show']);
+// Removed duplicated routes
 
 // Protected Routes (Requires Auth)
 Route::middleware('auth:sanctum')->group(function () {
