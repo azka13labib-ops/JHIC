@@ -4,14 +4,14 @@
 Fitur lowongan pekerjaan bagi alumni dan informasi tempat magang/PKL bagi siswa.
 
 ## Todo List
-- [ ] Buat Migration & Model: `Jobs` (Lowongan), `Companies` (Mitra Industri), `JobApplications`.
-- [ ] Endpoint Lowongan:
-  - [ ] `GET /api/jobs` (List lowongan, paginated).
-  - [ ] `GET /api/jobs/{id}` (Detail lowongan).
-- [ ] Filter Lowongan:
-  - [ ] Tambahkan query params untuk filter berdasarkan tipe pekerjaan (PKL / Lulusan) dan lokasi.
-- [ ] Endpoint Melamar:
-  - [ ] `POST /api/jobs/{id}/apply` (Menerima data pelamar dan upload CV).
+- [x] Buat Migration & Model: `Jobs` (Lowongan), `Companies` (Mitra Industri), `JobApplications`.
+- [x] Endpoint Lowongan:
+  - [x] `GET /api/jobs` (List lowongan, paginated).
+  - [x] `GET /api/jobs/{id}` (Detail lowongan).
+- [x] Filter Lowongan:
+  - [x] Tambahkan query params untuk filter berdasarkan tipe pekerjaan (PKL / Lulusan) dan lokasi.
+- [x] Endpoint Melamar:
+  - [x] `POST /api/jobs/{id}/apply` (Menerima data pelamar dan upload CV).
     - *Security*: Batasi tipe file hanya PDF, size max 5MB.
-- [ ] Endpoint Mitra:
-  - [ ] `GET /api/companies` (List profil perusahaan mitra yang bekerjasama dengan sekolah).
+- [x] Endpoint Mitra:
+  - [x] `GET /api/companies` (List profil perusahaan mitra yang bekerjasama dengan sekolah).
