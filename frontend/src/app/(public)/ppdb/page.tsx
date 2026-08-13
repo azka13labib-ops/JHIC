@@ -44,7 +44,7 @@ function CountdownTimer({ targetDate }: { targetDate: string }) {
         { val: timeLeft.minutes, label: 'Menit' },
         { val: timeLeft.seconds, label: 'Detik' },
       ].map(({ val, label }) => (
-        <div key={label} className="bg-white/10 backdrop-blur border border-white/20 rounded-xl px-4 py-3 text-center min-w-[70px]">
+        <div key={label} className="bg-white/10 backdrop-blur border border-white/20 rounded-xl px-4 py-3 text-center min-w-17.5">
           <div className="text-3xl font-extrabold">{String(val).padStart(2, '0')}</div>
           <div className="text-xs text-blue-200 mt-1">{label}</div>
         </div>
@@ -80,7 +80,7 @@ export default function PpdbPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero dengan countdown */}
-      <section className="relative bg-gradient-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-24 overflow-hidden">
+      <section className="relative bg-linear-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-24 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-amber-400 rounded-full blur-3xl" />
         </div>
@@ -179,7 +179,7 @@ export default function PpdbPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step) => (
               <div key={step.num} className="relative text-center">
-                <div className="w-14 h-14 bg-gradient-to-br from-[#2B3B6F] to-blue-500 rounded-full flex items-center justify-center text-white font-extrabold text-xl mx-auto mb-4 shadow-lg">
+                <div className="w-14 h-14 bg-linear-to-br from-[#2B3B6F] to-blue-500 rounded-full flex items-center justify-center text-white font-extrabold text-xl mx-auto mb-4 shadow-lg">
                   {step.num}
                 </div>
                 <h3 className="font-bold text-slate-900 mb-2">{step.title}</h3>

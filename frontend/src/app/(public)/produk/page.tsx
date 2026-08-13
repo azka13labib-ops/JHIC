@@ -33,7 +33,7 @@ export default async function ProdukPage({
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-emerald-600 to-teal-700 text-white py-20 text-center">
+      <section className="bg-linear-to-br from-emerald-600 to-teal-700 text-white py-20 text-center">
         <div className="container mx-auto px-4">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm mb-6">
             🛍️ Produk Unggulan BLUD
@@ -83,7 +83,7 @@ export default async function ProdukPage({
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-4xl bg-gradient-to-br from-emerald-50 to-teal-50">
+                      <div className="w-full h-full flex items-center justify-center text-4xl bg-linear-to-br from-emerald-50 to-teal-50">
                         📦
                       </div>
                     )}
@@ -91,12 +91,12 @@ export default async function ProdukPage({
                       {product.department}
                     </div>
                   </div>
-                  <div className="p-5 flex flex-col flex-grow">
+                  <div className="p-5 flex flex-col grow">
                     <p className="text-xs text-slate-400 mb-1">{product.category?.name}</p>
                     <h2 className="font-bold text-slate-900 mb-2 line-clamp-2 group-hover:text-emerald-600 transition-colors">
                       {product.name}
                     </h2>
-                    <p className="text-slate-500 text-sm line-clamp-2 flex-grow">{product.description}</p>
+                    <p className="text-slate-500 text-sm line-clamp-2 grow">{product.description}</p>
                     <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
                       <span className="font-extrabold text-emerald-600 text-lg">{formatPrice(product.price)}</span>
                       <span className="text-xs text-slate-400 bg-slate-50 px-2 py-1 rounded-full">Lihat Detail →</span>

@@ -38,38 +38,36 @@ class AchievementController extends Controller
         return response()->json($achievement, 201);
     }
 
-    public function show($id)
-    {
-        return response()->json(Achievement::findOrFail($id));
-    }
-
-    public function update(Request $request, $id)
+    public function show(int $id)
     {
         $achievement = Achievement::findOrFail($id);
-        $request->validate([
-            'title'       => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'level'       => 'required|in:sekolah,kota,provinsi,nasional,internasional',
-            'year'        => 'required|integer|min:2000|max:2100',
-            'image'       => 'nullable|image|max:2048',
-        ]);
+        return response()->json(['data' => $achievement]);
+    }
 
-        $data = $request->only(['title', 'description', 'level', 'year']);
+    public function update(Request $request, int $id)
+    {
+        $achievement = Achievement::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'level' => 'required|string|max:100',
+            'year' => 'required|integer',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
 
         if ($request->hasFile('image')) {
             if ($achievement->image_path) {
                 Storage::disk('public')->delete($achievement->image_path);
             }
-            $data['image_path'] = $request->file('image')->store('achievements', 'public');
+            $validated['image_path'] = $request->file('image')->store('achievements', 'public');
         }
 
-        $achievement->update($data);
-        Cache::forget('api.achievements');
-
-        return response()->json($achievement);
+        $achievement->update($validated);
+        return response()->json(['message' => 'Achievement updated successfully']);
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $achievement = Achievement::findOrFail($id);
         if ($achievement->image_path) {

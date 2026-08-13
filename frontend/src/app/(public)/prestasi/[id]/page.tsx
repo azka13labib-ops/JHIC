@@ -31,7 +31,7 @@ export default async function AchievementDetailPage({ params }: { params: Promis
 
         <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
           {achievement.image_path ? (
-            <div className="relative w-full h-[400px] sm:h-[500px] bg-slate-100">
+            <div className="relative w-full h-100 sm:h-125 bg-slate-100">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={achievement.image_path}
@@ -40,7 +40,7 @@ export default async function AchievementDetailPage({ params }: { params: Promis
               />
             </div>
           ) : (
-            <div className="relative w-full h-[300px] bg-slate-100 flex items-center justify-center">
+            <div className="relative w-full h-75 bg-slate-100 flex items-center justify-center">
               <span className="text-8xl">🏅</span>
             </div>
           )}

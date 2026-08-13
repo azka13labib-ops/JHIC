@@ -71,7 +71,7 @@ export default async function JurusanDetailPage({ params }: { params: { slug: st
 
   return (
     <div className="min-h-screen bg-white">
-      <section className={`bg-gradient-to-br ${details.color} text-white py-20`}>
+      <section className={`bg-linear-to-br ${details.color} text-white py-20`}>
         <div className="container mx-auto px-4">
           <Link href="/jurusan" className="inline-flex items-center gap-2 text-white/70 hover:text-white mb-6 transition-colors">
             ← Semua Peminatan

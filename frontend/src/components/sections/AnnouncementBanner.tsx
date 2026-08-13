@@ -52,7 +52,7 @@ export default function AnnouncementBanner({ announcements }: AnnouncementBanner
           
           {/* Left: Date Calendar */}
           {announcement.event_date && (
-            <div className="flex-shrink-0 bg-white text-blue-600 rounded-xl p-3 w-20 flex flex-col items-center justify-center shadow-sm">
+            <div className="shrink-0 bg-white text-blue-600 rounded-xl p-3 w-20 flex flex-col items-center justify-center shadow-sm">
               <span className="text-xs font-bold uppercase">{month}</span>
               <span className="text-2xl font-black">{day}</span>
             </div>
@@ -74,7 +74,7 @@ export default function AnnouncementBanner({ announcements }: AnnouncementBanner
           </div>
 
           {/* Right: Action */}
-          <div className="flex-shrink-0 flex flex-col items-center md:items-end gap-3 w-full md:w-auto mt-4 md:mt-0">
+          <div className="shrink-0 flex flex-col items-center md:items-end gap-3 w-full md:w-auto mt-4 md:mt-0">
             <span className="text-blue-200 text-xs font-medium">
               {timeAgo}
             </span>

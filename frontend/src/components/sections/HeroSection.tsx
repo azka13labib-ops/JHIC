@@ -60,8 +60,8 @@ export default function HeroSection() {
           </div>
 
           {/* Bagian Gambar/Ilustrasi (Kanan) */}
-          <div className="relative mx-auto w-full lg:h-[600px] flex items-center justify-end">
-            <div className="relative w-full h-[400px] sm:h-[500px] lg:h-full rounded-[2rem] overflow-hidden shadow-2xl">
+          <div className="relative mx-auto w-full lg:h-150 flex items-center justify-end">
+            <div className="relative w-full h-100 sm:h-125 lg:h-full rounded-[2rem] overflow-hidden shadow-2xl">
                  <Image 
                     src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=800&auto=format&fit=crop" 
                     alt="Gedung Sekolah JIHC" 

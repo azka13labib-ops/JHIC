@@ -32,7 +32,7 @@ export default async function ProdukDetailPage({ params }: { params: { slug: str
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Gambar */}
-          <div className="relative h-80 lg:h-[500px] bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl overflow-hidden shadow-lg">
+          <div className="relative h-80 lg:h-125 bg-linear-to-br from-emerald-50 to-teal-50 rounded-2xl overflow-hidden shadow-lg">
             {product.image_path ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={product.image_path} alt={product.name} className="w-full h-full object-cover" />

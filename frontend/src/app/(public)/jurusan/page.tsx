@@ -28,7 +28,7 @@ export default async function JurusanPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-20 text-center">
+      <section className="bg-linear-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-20 text-center">
         <div className="container mx-auto px-4">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm mb-6">
             📚 Program Peminatan
@@ -47,11 +47,11 @@ export default async function JurusanPage() {
               key={dept.id}
               className="group bg-white border border-slate-100 rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col"
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+              <div className="w-16 h-16 bg-linear-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
                 {ICON_MAP[dept.icon ?? ''] ?? '📖'}
               </div>
               <h2 className="text-xl font-bold text-slate-900 mb-3">{dept.name}</h2>
-              <p className="text-slate-600 text-sm leading-relaxed flex-grow">{dept.description}</p>
+              <p className="text-slate-600 text-sm leading-relaxed grow">{dept.description}</p>
               <div className="mt-6 pt-4 border-t border-slate-100">
                 <span className="text-blue-600 font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
                   Selengkapnya <span>→</span>

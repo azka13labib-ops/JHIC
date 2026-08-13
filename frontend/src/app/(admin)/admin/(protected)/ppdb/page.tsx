@@ -150,7 +150,7 @@ export default function AdminPpdbPage() {
                     <td className="px-4 py-3 font-semibold text-slate-900">{reg.full_name}</td>
                     <td className="px-4 py-3 text-slate-600">{reg.nisn}</td>
                     <td className="px-4 py-3 text-slate-600">{reg.major_choice}</td>
-                    <td className="px-4 py-3 text-slate-600 max-w-[150px] truncate">{reg.previous_school}</td>
+                    <td className="px-4 py-3 text-slate-600 max-w-37.5 truncate">{reg.previous_school}</td>
                     <td className="px-4 py-3">
                       <span className={`px-2 py-1 rounded-full text-xs font-semibold ${STATUS_COLORS[reg.status]}`}>
                         {reg.status}

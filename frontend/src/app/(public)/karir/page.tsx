@@ -36,7 +36,7 @@ export default async function KarirPage({
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-violet-600 to-purple-700 text-white py-20 text-center">
+      <section className="bg-linear-to-br from-violet-600 to-purple-700 text-white py-20 text-center">
         <div className="container mx-auto px-4">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm mb-6">
             💼 Bursa Kerja Khusus (BKK)
@@ -100,7 +100,7 @@ export default async function KarirPage({
             {activeJobs.map((job: Vacancy) => (
               <div key={job.id} className="bg-white border border-slate-100 rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
                 <div className="flex flex-col md:flex-row md:items-start gap-4">
-                  <div className="w-14 h-14 bg-gradient-to-br from-violet-100 to-purple-100 rounded-xl flex items-center justify-center text-2xl shrink-0">
+                  <div className="w-14 h-14 bg-linear-to-br from-violet-100 to-purple-100 rounded-xl flex items-center justify-center text-2xl shrink-0">
                     {job.type === 'pkl' ? '🎓' : job.type === 'full_time' ? '💼' : '⏰'}
                   </div>
                   <div className="flex-1">

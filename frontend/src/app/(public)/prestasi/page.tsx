@@ -22,7 +22,7 @@ export default async function PrestasiPage() {
   return (
     <div className="min-h-screen bg-white pb-20">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-20 text-center">
+      <section className="bg-linear-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-20 text-center">
         <div className="container mx-auto px-4">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm mb-6">
             🏆 Prestasi Siswa
@@ -65,7 +65,7 @@ export default async function PrestasiPage() {
                     </span>
                   </div>
                 </div>
-                <div className="p-6 flex flex-col flex-grow">
+                <div className="p-6 flex flex-col grow">
                   <div className="flex items-center gap-2 text-sm font-semibold text-[#2B3B6F] mb-3">
                     📅 Tahun {item.year}
                   </div>

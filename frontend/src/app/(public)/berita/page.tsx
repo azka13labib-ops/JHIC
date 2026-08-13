@@ -37,7 +37,7 @@ export default async function BeritaPage() {
                     </div>
                   )}
                 </div>
-                <div className="p-6 flex flex-col flex-grow">
+                <div className="p-6 flex flex-col grow">
                   <div className="flex justify-between items-center text-xs text-slate-500 mb-3">
                     <span>{new Date(item.published_at || item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                     <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-md">{item.author?.name || 'Admin'}</span>
@@ -45,7 +45,7 @@ export default async function BeritaPage() {
                   <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                     {item.title}
                   </h2>
-                  <p className="text-slate-600 line-clamp-3 flex-grow">
+                  <p className="text-slate-600 line-clamp-3 grow">
                     {item.content}
                   </p>
                   <div className="mt-4 pt-4 border-t border-slate-100 font-semibold text-blue-600 flex items-center gap-2">

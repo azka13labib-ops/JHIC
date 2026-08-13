@@ -48,7 +48,7 @@ export default async function DetailBeritaPage({ params }: { params: Promise<{ s
             <img 
               src={news.image_path} 
               alt={news.title} 
-              className="w-full h-auto object-cover max-h-[500px]"
+              className="w-full h-auto object-cover max-h-125"
             />
           </div>
         )}

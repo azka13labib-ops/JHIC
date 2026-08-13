@@ -21,7 +21,7 @@ export default async function ProfilPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-24 overflow-hidden">
+      <section className="relative bg-linear-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-24 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-64 h-64 bg-white rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-0 w-80 h-80 bg-amber-400 rounded-full blur-3xl" />
@@ -76,9 +76,9 @@ export default async function ProfilPage() {
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-slate-900">Sambutan Kepala Sekolah</h2>
           </div>
-          <div className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl p-8 md:p-12 border border-slate-100 flex flex-col md:flex-row gap-8 items-center">
+          <div className="bg-linear-to-br from-slate-50 to-blue-50 rounded-2xl p-8 md:p-12 border border-slate-100 flex flex-col md:flex-row gap-8 items-center">
             <div className="shrink-0">
-              <div className="w-32 h-32 bg-gradient-to-br from-[#2B3B6F] to-blue-400 rounded-full flex items-center justify-center text-white text-5xl shadow-lg">
+              <div className="w-32 h-32 bg-linear-to-br from-[#2B3B6F] to-blue-400 rounded-full flex items-center justify-center text-white text-5xl shadow-lg">
                 👨‍🏫
               </div>
               <p className="text-center mt-3 font-bold text-slate-800 text-sm">{profile.principal_name}</p>

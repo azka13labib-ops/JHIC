@@ -51,7 +51,7 @@ export default function DashboardPage() {
 
   if (status === 'loading' || loading) {
     return (
-      <div className="p-8 flex items-center justify-center min-h-[400px]">
+      <div className="p-8 flex items-center justify-center min-h-100">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
           <p className="text-slate-500 text-sm">Memuat data...</p>

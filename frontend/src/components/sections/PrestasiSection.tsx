@@ -29,7 +29,7 @@ export default function PrestasiSection({ achievements }: { achievements: Achiev
               key={item.id} 
               className="bg-slate-800/50 border border-slate-700 p-6 rounded-2xl flex gap-6 hover:bg-slate-800 transition-colors"
             >
-              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
+              <div className="shrink-0 w-16 h-16 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
                 {idx === 0 ? <Trophy className="w-8 h-8" /> : idx === 1 ? <Medal className="w-8 h-8" /> : <Award className="w-8 h-8" />}
               </div>
               <div>
