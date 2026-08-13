@@ -12,7 +12,7 @@ class NewsResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-        public function toArray($request): array
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,
@@ -20,7 +20,7 @@ class NewsResource extends JsonResource
             'slug' => $this->slug,
             'content' => $this->content,
             'image_path' => $this->image_path ? asset('storage/' . $this->image_path) : null,
-            'author' => $this->whenLoaded('author', function() {
+            'author' => $this->whenLoaded('author', function () {
                 return ['name' => $this->author->name];
             }),
             'published_at' => $this->published_at,

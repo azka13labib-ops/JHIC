@@ -13,5 +13,14 @@ class News extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
-    //
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            \Spatie\ResponseCache\Facades\ResponseCache::clear();
+        });
+
+        static::deleted(function ($model) {
+            \Spatie\ResponseCache\Facades\ResponseCache::clear();
+        });
+    }
 }
