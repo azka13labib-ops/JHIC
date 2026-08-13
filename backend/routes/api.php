@@ -32,6 +32,16 @@ Route::middleware(['throttle:100,1'])->group(function () {
     });
 });
 
+// PPDB Info publik
+Route::get('/ppdb/info', [\App\Http\Controllers\Api\PpdbController::class, 'info']);
+
+// PPDB Submit — tanpa login (guest)
+Route::middleware(['throttle:10,60'])->group(function () {
+    Route::post('/ppdb/submit', [\App\Http\Controllers\Api\PpdbController::class, 'submit']);
+    Route::post('/ppdb/upload-doc', [\App\Http\Controllers\Api\PpdbController::class, 'uploadDoc']);
+    Route::get('/ppdb/check-status', [\App\Http\Controllers\Api\PpdbController::class, 'checkStatus']);
+});
+
 // BLUD Inquiries (Stricter rate limiting to prevent spam)
 Route::middleware(['throttle:5,60'])->group(function () {
     Route::post('/inquiries', [InquiryController::class, 'store']);
@@ -41,22 +51,63 @@ Route::middleware(['throttle:5,60'])->group(function () {
 Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
 Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
 
-// Removed duplicated routes
-
 // Protected Routes (Requires Auth)
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
     Route::get('/me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
-    // Admin Routes
-    Route::prefix('admin')->group(function () {
-        Route::apiResource('news', \App\Http\Controllers\Api\Admin\NewsController::class);
+
+    // BKK Job Apply (rate limit 3 per hari)
+    Route::middleware(['throttle:3,1440'])->group(function () {
+        Route::post('/jobs/{id}/apply', [\App\Http\Controllers\Api\JobApplicationController::class, 'apply']);
     });
-    
-    // PPDB Routes
-    Route::post('/ppdb/submit', [\App\Http\Controllers\Api\PpdbController::class, 'submit']);
-    Route::post('/ppdb/upload-doc', [\App\Http\Controllers\Api\PpdbController::class, 'uploadDoc']);
-    Route::get('/ppdb/status', [\App\Http\Controllers\Api\PpdbController::class, 'status']);
-    
-    // BKK Job Apply
-    Route::post('/jobs/{id}/apply', [\App\Http\Controllers\Api\JobApplicationController::class, 'apply']);
+
+    // ============================================================
+    // Admin Routes — memerlukan auth:sanctum (role admin di gate/policy)
+    // ============================================================
+    Route::prefix('admin')->group(function () {
+
+        // Dashboard Stats
+        Route::get('/dashboard/stats', [\App\Http\Controllers\Api\Admin\DashboardController::class, 'stats']);
+
+        // Berita
+        Route::apiResource('news', \App\Http\Controllers\Api\Admin\NewsController::class);
+
+        // Fitur Landing Page
+        Route::apiResource('features', \App\Http\Controllers\Api\Admin\FeatureController::class);
+
+        // Prestasi
+        Route::apiResource('achievements', \App\Http\Controllers\Api\Admin\AchievementController::class);
+
+        // Alumni
+        Route::apiResource('alumni', \App\Http\Controllers\Api\Admin\AlumniController::class);
+
+        // Mitra / Partner
+        Route::apiResource('partners', \App\Http\Controllers\Api\Admin\PartnerController::class);
+
+        // Pengumuman
+        Route::apiResource('announcements', \App\Http\Controllers\Api\Admin\AnnouncementController::class);
+
+        // Profil Sekolah
+        Route::get('/school-profile', [\App\Http\Controllers\Api\Admin\SchoolProfileController::class, 'show']);
+        Route::put('/school-profile', [\App\Http\Controllers\Api\Admin\SchoolProfileController::class, 'update']);
+
+        // PPDB — Pendaftaran
+        Route::get('/registrations', [\App\Http\Controllers\Api\Admin\RegistrationController::class, 'index']);
+        Route::get('/registrations/export', [\App\Http\Controllers\Api\Admin\RegistrationController::class, 'exportCsv']);
+        Route::get('/registrations/{id}', [\App\Http\Controllers\Api\Admin\RegistrationController::class, 'show']);
+        Route::patch('/registrations/{id}/status', [\App\Http\Controllers\Api\Admin\RegistrationController::class, 'updateStatus']);
+
+        // Produk BLUD
+        Route::get('/product-categories', [\App\Http\Controllers\Api\Admin\ProductController::class, 'categories']);
+        Route::apiResource('products', \App\Http\Controllers\Api\Admin\ProductController::class);
+
+        // Lowongan BKK
+        Route::get('/vacancy-companies', [\App\Http\Controllers\Api\Admin\VacancyController::class, 'companies']);
+        Route::apiResource('vacancies', \App\Http\Controllers\Api\Admin\VacancyController::class);
+
+        // Lamaran Kerja
+        Route::get('/job-applications', [\App\Http\Controllers\Api\Admin\JobApplicationController::class, 'index']);
+        Route::get('/job-applications/{id}', [\App\Http\Controllers\Api\Admin\JobApplicationController::class, 'show']);
+        Route::patch('/job-applications/{id}/status', [\App\Http\Controllers\Api\Admin\JobApplicationController::class, 'updateStatus']);
+    });
 });
