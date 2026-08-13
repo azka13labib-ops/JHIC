@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getAchievements } from '@/lib/api/resources';
-import Image from 'next/image';
+
+export const revalidate = 0; // Force dynamic rendering to bypass persistent cache
 
 export const metadata: Metadata = {
   title: 'Prestasi | SMA PGRI 1 Lumajang',
@@ -47,11 +48,11 @@ export default async function PrestasiPage() {
               <div key={item.id} className="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all overflow-hidden group">
                 <div className="relative h-56 bg-slate-100">
                   {item.image_path ? (
-                    <Image
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
                       src={item.image_path}
                       alt={item.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 bg-slate-50">
@@ -64,7 +65,7 @@ export default async function PrestasiPage() {
                     </span>
                   </div>
                 </div>
-                <div className="p-6">
+                <div className="p-6 flex flex-col flex-grow">
                   <div className="flex items-center gap-2 text-sm font-semibold text-[#2B3B6F] mb-3">
                     📅 Tahun {item.year}
                   </div>
@@ -72,10 +73,21 @@ export default async function PrestasiPage() {
                     {item.title}
                   </h3>
                   {item.description && (
-                    <p className="text-slate-600 text-sm line-clamp-3">
+                    <p className="text-slate-600 text-sm line-clamp-3 mb-4">
                       {item.description}
                     </p>
                   )}
+                  <div className="mt-auto pt-4 border-t border-slate-100">
+                    <a
+                      href={`/prestasi/${item.id}`}
+                      className="text-blue-600 hover:text-blue-800 font-semibold text-sm flex items-center gap-1 transition-colors"
+                    >
+                      Lihat Selengkapnya
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}

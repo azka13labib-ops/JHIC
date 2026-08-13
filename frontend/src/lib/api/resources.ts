@@ -109,9 +109,10 @@ const MOCK_PPDB_INFO = {
 // ======= ACHIEVEMENTS =======
 export async function getAchievements(): Promise<Achievement[]> {
   try {
-    const res = await serverFetch<{ data: Achievement[] }>('/achievements', { revalidate: 3600 });
+    const res = await serverFetch<{ data: Achievement[] }>('/achievements', { revalidate: 60 });
     return res.data || [];
-  } catch {
+  } catch (err) {
+    console.error('getAchievements error:', err);
     return [];
   }
 }
