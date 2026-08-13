@@ -63,7 +63,7 @@ export default function HeroSection() {
           <div className="relative mx-auto w-full lg:h-[600px] flex items-center justify-end">
             <div className="relative w-full h-[400px] sm:h-[500px] lg:h-full rounded-[2rem] overflow-hidden shadow-2xl">
                  <Image 
-                    src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop" 
+                    src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=800&auto=format&fit=crop" 
                     alt="Gedung Sekolah JIHC" 
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
