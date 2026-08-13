@@ -114,9 +114,15 @@ export default function AdminNewAchievementPage() {
           <input
             type="file"
             accept="image/*"
-            className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
+            className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 mb-4"
             onChange={(e) => setImage(e.target.files?.[0] || null)}
           />
+          {image && (
+            <div className="relative w-40 h-40 rounded-lg overflow-hidden border border-slate-200">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={URL.createObjectURL(image)} alt="Preview" className="object-cover w-full h-full" />
+            </div>
+          )}
         </div>
 
         <div className="pt-4">

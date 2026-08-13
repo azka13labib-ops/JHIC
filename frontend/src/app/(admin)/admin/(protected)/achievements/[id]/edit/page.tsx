@@ -17,6 +17,7 @@ export default function AdminEditAchievementPage({ params }: { params: Promise<{
     description: '',
     level: 'sekolah',
     year: '',
+    image_path: '',
   });
   const [image, setImage] = useState<File | null>(null);
 
@@ -33,6 +34,7 @@ export default function AdminEditAchievementPage({ params }: { params: Promise<{
           description: data.description || '',
           level: data.level || 'sekolah',
           year: data.year || '',
+          image_path: data.image_path || '',
         });
       }
     } finally {
@@ -86,7 +88,7 @@ export default function AdminEditAchievementPage({ params }: { params: Promise<{
     <div className="max-w-2xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-slate-900">Edit Prestasi</h1>
-        <button onClick={() => router.back()} className="text-slate-500 hover:text-slate-700">Kembali</button>
+        <button type="button" onClick={() => router.back()} className="text-slate-500 hover:text-slate-700">Kembali</button>
       </div>
 
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-4">
@@ -144,9 +146,20 @@ export default function AdminEditAchievementPage({ params }: { params: Promise<{
           <input
             type="file"
             accept="image/*"
-            className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
+            className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 mb-4"
             onChange={(e) => setImage(e.target.files?.[0] || null)}
           />
+          {image ? (
+            <div className="relative w-40 h-40 rounded-lg overflow-hidden border border-slate-200">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={URL.createObjectURL(image)} alt="Preview" className="object-cover w-full h-full" />
+            </div>
+          ) : formData.image_path ? (
+            <div className="relative w-40 h-40 rounded-lg overflow-hidden border border-slate-200">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '')}/storage/${formData.image_path}`} alt="Preview" className="object-cover w-full h-full" />
+            </div>
+          ) : null}
         </div>
 
         <div className="pt-4">
