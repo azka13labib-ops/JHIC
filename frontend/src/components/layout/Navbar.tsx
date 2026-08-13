@@ -40,6 +40,28 @@ export default function Navbar() {
             <Link href="/peminatan" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Peminatan</Link>
             <Link href="/prestasi" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Prestasi</Link>
             <Link href="/berita" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Berita</Link>
+            
+            {/* Dropdown Lainnya */}
+            <div className="relative group pt-4 pb-4">
+              <button className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors flex items-center gap-1">
+                Lainnya
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+              <div className="absolute top-12 left-0 mt-2 w-52 bg-white border border-slate-100 shadow-xl rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden">
+                <Link href="/produk" className="px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-600 border-b border-slate-50 last:border-0 transition-colors">
+                  🛍️ Produk / BLUD
+                </Link>
+                <Link href="/karir" className="px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-600 border-b border-slate-50 last:border-0 transition-colors">
+                  💼 Karir / BKK
+                </Link>
+                <Link href="/kontak" className="px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-600 border-b border-slate-50 last:border-0 transition-colors">
+                  📞 Kontak Kami
+                </Link>
+              </div>
+            </div>
+
             <Link href="/ppdb" className="text-sm font-bold px-6 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors shadow-md">
               PPDB Online
             </Link>
