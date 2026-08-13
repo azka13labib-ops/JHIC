@@ -13,7 +13,10 @@ Route::middleware(['throttle:100,1'])->group(function () {
     Route::middleware([CacheResponse::class])->group(function () {
         // Landing Page API
         Route::get('/school-info', [\App\Http\Controllers\Api\LandingPageController::class, 'schoolInfo']);
+        Route::get('/features', [\App\Http\Controllers\Api\LandingPageController::class, 'features']);
+        Route::get('/announcements', [\App\Http\Controllers\Api\LandingPageController::class, 'announcements']);
         Route::get('/news', [\App\Http\Controllers\Api\LandingPageController::class, 'news']);
+        Route::get('/news/{slug}', [\App\Http\Controllers\Api\LandingPageController::class, 'showNews']);
         Route::get('/achievements', [\App\Http\Controllers\Api\LandingPageController::class, 'achievements']);
         Route::get('/alumnis', [\App\Http\Controllers\Api\LandingPageController::class, 'alumnis']);
         Route::get('/partners', [\App\Http\Controllers\Api\LandingPageController::class, 'partners']);
@@ -43,6 +46,11 @@ Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']
 // Protected Routes (Requires Auth)
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
+    Route::get('/me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
+    // Admin Routes
+    Route::prefix('admin')->group(function () {
+        Route::apiResource('news', \App\Http\Controllers\Api\Admin\NewsController::class);
+    });
     
     // PPDB Routes
     Route::post('/ppdb/submit', [\App\Http\Controllers\Api\PpdbController::class, 'submit']);

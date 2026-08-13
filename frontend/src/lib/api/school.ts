@@ -17,6 +17,9 @@ const MOCK_SCHOOL_PROFILE: SchoolProfile = {
 export async function getSchoolProfile(): Promise<SchoolProfile> {
   try {
     const res = await serverFetch<{ data: SchoolProfile }>('/school-info', { revalidate: 86400, tags: ['school'] });
+    if (!res.data) {
+      return MOCK_SCHOOL_PROFILE;
+    }
     return res.data;
   } catch (error) {
     console.warn("Failed to fetch school profile from API, using dummy data.", error);
@@ -60,5 +63,45 @@ export async function getPartners(): Promise<Partner[]> {
       { id: 3, name: "Garuda Spark", logo_url: "/images/partners/garuda-spark.png" },
       { id: 4, name: "Ngalup", logo_url: "/images/partners/ngalup.png" },
     ];
+  }
+}
+
+export async function getNews(): Promise<any[]> {
+  try {
+    const res = await serverFetch<{ data: any[] }>('/news', { revalidate: 60, tags: ['news'] });
+    return res.data || [];
+  } catch (error) {
+    console.error("Failed to fetch news", error);
+    return [];
+  }
+}
+
+export async function getNewsBySlug(slug: string): Promise<any> {
+  try {
+    const res = await serverFetch<{ data: any }>(`/news/${slug}`, { revalidate: 60, tags: [`news-${slug}`] });
+    return res.data;
+  } catch (error) {
+    console.error(`Failed to fetch news ${slug}`, error);
+    return null;
+  }
+}
+
+export async function getFeatures(): Promise<any[]> {
+  try {
+    const res = await serverFetch<{ data: any[] }>('/features', { revalidate: 60, tags: ['features'] });
+    return res.data || [];
+  } catch (error) {
+    console.error("Failed to fetch features", error);
+    return [];
+  }
+}
+
+export async function getAnnouncements(): Promise<any[]> {
+  try {
+    const res = await serverFetch<{ data: any[] }>('/announcements', { revalidate: 60, tags: ['announcements'] });
+    return res.data || [];
+  } catch (error) {
+    console.error("Failed to fetch announcements", error);
+    return [];
   }
 }

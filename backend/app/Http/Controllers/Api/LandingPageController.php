@@ -18,8 +18,28 @@ use App\Http\Resources\AchievementResource;
 use App\Http\Resources\AlumniResource;
 use App\Http\Resources\PartnerResource;
 
+use App\Models\Feature;
+use App\Models\Announcement;
+
 class LandingPageController extends Controller
 {
+    public function features()
+    {
+        $data = Cache::remember('api.features', 86400, function () {
+            return Feature::where('is_active', true)->orderBy('sort_order')->get();
+        });
+
+        return response()->json(['data' => $data], 200);
+    }
+
+    public function announcements()
+    {
+        $data = Cache::remember('api.announcements', 86400, function () {
+            return Announcement::where('is_active', true)->latest()->get();
+        });
+
+        return response()->json(['data' => $data], 200);
+    }
     public function schoolInfo()
     {
         $data = Cache::remember('api.school-info', 86400, function () {
@@ -36,10 +56,16 @@ class LandingPageController extends Controller
     public function news()
     {
         $data = Cache::remember('api.news', 86400, function () {
-            return News::with('author')->latest('published_at')->take(6)->get();
+            return News::with('author')->latest('published_at')->get();
         });
 
         return NewsResource::collection($data);
+    }
+
+    public function showNews($slug)
+    {
+        $news = News::with('author')->where('slug', $slug)->firstOrFail();
+        return new NewsResource($news);
     }
 
     public function achievements()
