@@ -20,10 +20,7 @@ class AuthLoginRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-        public function authorize(): bool
-    {
-        return true;
-    }
+
 
     public function rules(): array
     {
