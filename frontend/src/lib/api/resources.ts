@@ -1,5 +1,5 @@
 import { serverFetch } from './server';
-import type { Product, Vacancy, Company } from '@/types';
+import type { Product, Vacancy, Company, Registration, PpdbInfo, Achievement } from '@/types';
 
 // ======= PRODUCTS =======
 export async function getProducts(params?: { category?: string; search?: string }): Promise<Product[]> {
@@ -105,3 +105,13 @@ const MOCK_PPDB_INFO = {
   ],
   tracks: ['Jalur Reguler', 'Jalur Prestasi', 'Jalur Afirmasi'],
 };
+
+// ======= ACHIEVEMENTS =======
+export async function getAchievements(): Promise<Achievement[]> {
+  try {
+    const res = await serverFetch<{ data: Achievement[] }>('/achievements', { revalidate: 3600 });
+    return res.data || [];
+  } catch {
+    return [];
+  }
+}
