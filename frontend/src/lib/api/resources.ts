@@ -1,5 +1,5 @@
 import { serverFetch } from './server';
-import type { Product, Vacancy, Company, Registration, PpdbInfo, Achievement } from '@/types';
+import type { Product, Vacancy, Company, Achievement } from '@/types';
 
 // ======= PRODUCTS =======
 export async function getProducts(params?: { category?: string; search?: string }): Promise<Product[]> {

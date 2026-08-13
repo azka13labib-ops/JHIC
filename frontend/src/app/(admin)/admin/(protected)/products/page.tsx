@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 
 interface Product {
@@ -25,20 +25,25 @@ export default function AdminProductsPage() {
 
   const authHeaders = { Authorization: `Bearer ${session?.accessToken}`, Accept: 'application/json' };
 
-  const fetchData = useCallback(async () => {
+  useEffect(() => {
     if (!session?.accessToken) return;
-    setLoading(true);
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/products`, { headers: authHeaders });
-      const data = await res.json();
-      setProducts(Array.isArray(data) ? data : data.data ?? []);
-    } finally {
-      setLoading(false);
-    }
+    let active = true;
+    const fetchIt = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/products`, { headers: authHeaders });
+        const data = await res.json();
+        if (active) {
+          setProducts(Array.isArray(data) ? data : data.data ?? []);
+          setLoading(false);
+        }
+      } catch {
+        if (active) setLoading(false);
+      }
+    };
+    fetchIt();
+    return () => { active = false; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
-
-  useEffect(() => { fetchData(); }, [fetchData]);
 
   const deleteProduct = async (id: number) => {
     if (!confirm('Yakin hapus produk ini?')) return;
@@ -48,7 +53,10 @@ export default function AdminProductsPage() {
         method: 'DELETE',
         headers: authHeaders,
       });
-      fetchData();
+      // Refresh list
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/products`, { headers: authHeaders });
+      const data = await res.json();
+      setProducts(Array.isArray(data) ? data : data.data ?? []);
     } finally {
       setDeleting(null);
     }
