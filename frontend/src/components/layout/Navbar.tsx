@@ -39,7 +39,6 @@ export default function Navbar() {
             <Link href="/profil" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Profil</Link>
             <Link href="/peminatan" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Peminatan</Link>
             <Link href="/prestasi" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Prestasi</Link>
-            <Link href="/berita" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Berita</Link>
             
             {/* Dropdown Lainnya */}
             <div className="relative group pt-4 pb-4">
@@ -49,15 +48,48 @@ export default function Navbar() {
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
               </button>
-              <div className="absolute top-12 left-0 mt-2 w-52 bg-white border border-slate-100 shadow-xl rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden">
-                <Link href="/produk" className="px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-600 border-b border-slate-50 last:border-0 transition-colors">
-                  🛍️ Produk / BLUD
+              <div className="absolute top-12 left-0 mt-2 w-48 bg-white border border-slate-100 shadow-xl rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden max-h-[70vh] overflow-y-auto">
+                <Link href="/agenda" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+                  Agenda
                 </Link>
-                <Link href="/karir" className="px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-600 border-b border-slate-50 last:border-0 transition-colors">
-                  💼 Karir / BKK
+                <Link href="/artikel" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+                  Artikel
                 </Link>
-                <Link href="/kontak" className="px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-600 border-b border-slate-50 last:border-0 transition-colors">
-                  📞 Kontak Kami
+                <Link href="/info" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+                  Info
+                </Link>
+                <Link href="/berita" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+                  Berita
+                </Link>
+                <Link href="/buku-tamu" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+                  Buku Tamu
+                </Link>
+                <Link href="/opini" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+                  Opini
+                </Link>
+                <Link href="/blog" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+                  Daftar Blog
+                </Link>
+                <Link href="/link" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+                  Link
+                </Link>
+                <Link href="/galeri" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+                  Galleri
+                </Link>
+                <Link href="/sitemap" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+                  Peta Situs
+                </Link>
+                <Link href="/kontak" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+                  Kontak Sekolah
+                </Link>
+                
+                {/* Garis pemisah untuk menu tambahan aplikasi kita */}
+                <div className="h-px bg-slate-100 my-1 mx-4"></div>
+                <Link href="/produk" className="px-4 py-2.5 text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-colors flex items-center gap-2">
+                  <span>🛍️</span> Produk / BLUD
+                </Link>
+                <Link href="/karir" className="px-4 py-2.5 text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-colors flex items-center gap-2">
+                  <span>💼</span> Karir / BKK
                 </Link>
               </div>
             </div>
