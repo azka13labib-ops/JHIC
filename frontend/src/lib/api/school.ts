@@ -165,3 +165,23 @@ export async function getStudentWorks(): Promise<any[]> {
     return [];
   }
 }
+
+export async function getOpinions(): Promise<any[]> {
+  try {
+    const res = await serverFetch<{ data: any[] }>('/opinions', { revalidate: 60, tags: ['opinions'] });
+    return res.data || [];
+  } catch (error) {
+    console.error('Failed to fetch opinions', error);
+    return [];
+  }
+}
+
+export async function getOpinionById(id: string): Promise<any> {
+  try {
+    const res = await serverFetch<{ data: any }>(`/opinions/${id}`, { revalidate: 60, tags: [`opinion-${id}`] });
+    return res.data;
+  } catch (error) {
+    console.error(`Failed to fetch opinion ${id}`, error);
+    return null;
+  }
+}
