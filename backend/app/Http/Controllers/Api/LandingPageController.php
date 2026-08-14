@@ -155,4 +155,13 @@ class LandingPageController extends Controller
         return response()->json(['data' => $opinion], 200);
     }
 
+
+    public function blogs()
+    {
+        $data = Cache::remember('api.blogs', 86400, function () {
+            return \App\Models\Blog::latest('created_at')->get();
+        });
+        return response()->json(['data' => $data], 200);
+    }
+
 }

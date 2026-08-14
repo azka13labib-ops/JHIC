@@ -25,6 +25,7 @@ Route::middleware(['throttle:100,1'])->group(function () {
         
                 Route::get('/opinions', [\App\Http\Controllers\Api\LandingPageController::class, 'opinions']);
         Route::get('/opinions/{id}', [\App\Http\Controllers\Api\LandingPageController::class, 'showOpinion']);
+                Route::get('/blogs', [\App\Http\Controllers\Api\LandingPageController::class, 'blogs']);
         Route::get('/student-works', [\App\Http\Controllers\Api\LandingPageController::class, 'studentWorks']);
 
         Route::get('/galleries', [\App\Http\Controllers\Api\LandingPageController::class, 'galleries']);
@@ -84,6 +85,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // Berita
         Route::apiResource('news', \App\Http\Controllers\Api\Admin\NewsController::class);
                 Route::apiResource('opinions', \App\Http\Controllers\Api\Admin\OpinionController::class);
+                Route::apiResource('blogs', \App\Http\Controllers\Api\Admin\BlogController::class);
         Route::apiResource('student-works', \App\Http\Controllers\Api\Admin\StudentWorkController::class);
         Route::apiResource('galleries', \App\Http\Controllers\Api\Admin\GalleryController::class);
         Route::apiResource('articles', \App\Http\Controllers\Api\Admin\ArticleController::class);

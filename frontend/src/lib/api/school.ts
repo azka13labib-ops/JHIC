@@ -185,3 +185,13 @@ export async function getOpinionById(id: string): Promise<any> {
     return null;
   }
 }
+
+export async function getBlogs(): Promise<any[]> {
+  try {
+    const res = await serverFetch<{ data: any[] }>('/blogs', { revalidate: 60, tags: ['blogs'] });
+    return res.data || [];
+  } catch (error) {
+    console.error('Failed to fetch blogs', error);
+    return [];
+  }
+}
