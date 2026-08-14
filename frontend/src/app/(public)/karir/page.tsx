@@ -1,3 +1,4 @@
+import { Briefcase, Building2, GraduationCap, Clock, MapPin } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -40,7 +41,7 @@ export default async function KarirPage({
       <section className="bg-linear-to-br from-violet-600 to-purple-700 text-white py-20 text-center">
         <div className="container mx-auto px-4">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm mb-6">
-            💼 Bursa Kerja Khusus (BKK)
+            <Briefcase className="w-3.5 h-3.5 inline mr-1 text-blue-500" /> Bursa Kerja Khusus (BKK)
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">Portal Karir & PKL</h1>
           <p className="text-purple-200 max-w-xl mx-auto text-lg">
@@ -92,7 +93,7 @@ export default async function KarirPage({
         {/* Jobs Grid */}
         {activeJobs.length === 0 ? (
           <div className="text-center py-20 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
-            <span className="text-5xl block mb-4">💼</span>
+            <div className="w-16 h-16 mx-auto rounded-2xl bg-blue-50 flex items-center justify-center mb-4"><Briefcase className="w-8 h-8 text-blue-600" /></div>
             <p className="text-slate-500 text-lg">Belum ada lowongan yang tersedia saat ini.</p>
             <Link href="/karir" className="text-violet-600 text-sm hover:underline mt-2 block">Lihat semua lowongan</Link>
           </div>
@@ -102,7 +103,7 @@ export default async function KarirPage({
               <div key={job.id} className="bg-white border border-slate-100 rounded-2xl shadow-sm p-6 hover:shadow-md transition-shadow">
                 <div className="flex flex-col md:flex-row md:items-start gap-4">
                   <div className="w-14 h-14 bg-linear-to-br from-violet-100 to-purple-100 rounded-xl flex items-center justify-center text-2xl shrink-0">
-                    {job.type === 'pkl' ? '🎓' : job.type === 'full_time' ? '💼' : '⏰'}
+                    {job.type === 'pkl' ? <GraduationCap className="w-5 h-5 text-blue-600" /> : job.type === 'full_time' ? <Briefcase className="w-5 h-5 text-blue-600" /> : <Clock className="w-5 h-5 text-blue-600" />}
                   </div>
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -111,7 +112,7 @@ export default async function KarirPage({
                       </span>
                       {job.deadline && (
                         <span className="text-xs text-slate-400">
-                          ⏰ Deadline: {new Date(job.deadline).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                          <Clock className="w-3.5 h-3.5 inline mr-1 text-slate-400" /> Deadline: {new Date(job.deadline).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
                         </span>
                       )}
                     </div>

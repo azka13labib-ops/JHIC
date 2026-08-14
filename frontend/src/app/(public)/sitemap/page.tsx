@@ -1,3 +1,4 @@
+import { Map } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -17,7 +18,7 @@ export default function SitemapPage() {
       
       <div className="flex-1 flex items-center justify-center p-4 py-20">
         <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl text-center max-w-2xl w-full border border-slate-100">
-          <div className="text-6xl mb-6">🗺️</div>
+          <div className="w-20 h-20 mx-auto rounded-3xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-6"><Map className="w-10 h-10" /></div>
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-4">Pemetaan Otomatis Sedang Dibuat</h2>
           <p className="text-slate-600 text-lg mb-8 leading-relaxed">
             Halaman ini akan menampilkan peta situs yang ter-generate otomatis saat seluruh fitur sudah selesai.

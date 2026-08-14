@@ -1,3 +1,4 @@
+import { Newspaper } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
@@ -33,7 +34,7 @@ export default async function ArtikelPage() {
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-slate-400">
-                      <span className="text-4xl">📰</span>
+                      <Newspaper className="w-12 h-12 text-slate-300" />
                     </div>
                   )}
                 </div>

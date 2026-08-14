@@ -1,5 +1,19 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { 
+  Landmark, 
+  Award, 
+  Building2, 
+  Trophy, 
+  Rocket, 
+  HeartHandshake, 
+  Lightbulb, 
+  BookOpen, 
+  ArrowRight, 
+  ArrowLeft,
+  Calendar,
+  Sparkles
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Sejarah Singkat | SMA PGRI 1 Lumajang',
@@ -17,7 +31,8 @@ export default function SejarahPage() {
       badgeColor: 'bg-blue-100 text-blue-800 border-blue-200',
       description:
         'SMA PGRI 1 Lumajang resmi didirikan oleh Yayasan Pembina Lembaga Pendidikan (YPLP) PGRI Kabupaten Lumajang sebagai wujud nyata kepedulian para pendidik terhadap ketersediaan akses pendidikan tingkat menengah atas yang berkualitas dan terjangkau di kawasan Lumajang.',
-      icon: '🏛️',
+      icon: Landmark,
+      iconBg: 'bg-blue-50 text-blue-600 border-blue-200',
     },
     {
       year: '1995',
@@ -26,7 +41,8 @@ export default function SejarahPage() {
       badgeColor: 'bg-amber-100 text-amber-800 border-amber-200',
       description:
         'Setelah satu dekade membuktikan dedikasi dan kualitas belajar mengajar, SMA PGRI 1 Lumajang berhasil meraih status "Disamakan" oleh Departemen Pendidikan dan Kebudayaan RI, membuktikan standarisasi mutu pendidikan yang setara dengan SMA Negeri.',
-      icon: '📜',
+      icon: Award,
+      iconBg: 'bg-amber-50 text-amber-600 border-amber-200',
     },
     {
       year: '2005',
@@ -35,7 +51,8 @@ export default function SejarahPage() {
       badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
       description:
         'Pembangunan gedung kampus terpadu, laboratorium komputer berjejaring, laboratorium IPA lengkap, serta perpustakaan representatif guna menunjang kurikulum yang semakin berbasis sains dan teknologi terapan.',
-      icon: '🏢',
+      icon: Building2,
+      iconBg: 'bg-emerald-50 text-emerald-600 border-emerald-200',
     },
     {
       year: '2015',
@@ -44,7 +61,8 @@ export default function SejarahPage() {
       badgeColor: 'bg-purple-100 text-purple-800 border-purple-200',
       description:
         'Meraih predikat Akreditasi "A" Unggul dari Badan Akreditasi Nasional Sekolah/Madrasah (BAN-S/M) secara berkelanjutan. Di era ini, siswa-siswi SMAGRISA mulai menorehkan prestasi bergengsi di ajang lomba olimpiade sains, olahraga, seni, dan karya ilmiah remaja tingkat nasional.',
-      icon: '🏆',
+      icon: Trophy,
+      iconBg: 'bg-purple-50 text-purple-600 border-purple-200',
     },
     {
       year: '2020 - Sekarang',
@@ -53,7 +71,8 @@ export default function SejarahPage() {
       badgeColor: 'bg-indigo-100 text-indigo-800 border-indigo-200',
       description:
         'Mengimplementasikan Kurikulum Merdeka dengan penguatan ekosistem Smart School (CBT, E-Rapor, E-Learning), sertifikasi industri, Bursa Kerja Khusus (BKK), serta unit produksi Teaching Factory berbasis Badan Layanan Umum Daerah (BLUD).',
-      icon: '🚀',
+      icon: Rocket,
+      iconBg: 'bg-indigo-50 text-indigo-600 border-indigo-200',
     },
   ];
 
@@ -61,17 +80,20 @@ export default function SejarahPage() {
     {
       title: 'Jiwa Perjuangan PGRI',
       desc: 'Menanamkan semangat patriotisme guru dan pengabdian tanpa henti mencerdaskan kehidupan bangsa.',
-      icon: '✊',
+      icon: Sparkles,
+      iconColor: 'text-amber-500',
     },
     {
       title: 'Inklusivitas & Kesetaraan',
       desc: 'Membuka kesempatan seluas-luasnya bagi putra-putri daerah untuk mengenyam pendidikan bermutu tinggi.',
-      icon: '🤝',
+      icon: HeartHandshake,
+      iconColor: 'text-blue-500',
     },
     {
       title: 'Adaptif Terhadap Zaman',
       desc: 'Konsisten bertransformasi menyelaraskan kurikulum dengan perkembangan teknologi dan tuntutan era digital.',
-      icon: '💡',
+      icon: Lightbulb,
+      iconColor: 'text-emerald-500',
     },
   ];
 
@@ -85,7 +107,7 @@ export default function SejarahPage() {
         </div>
         <div className="container mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/20 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider mb-6 text-amber-300">
-            🏛️ Profil Sekolah
+            <Landmark className="w-3.5 h-3.5" /> Profil Sekolah
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight">
             Sejarah Singkat Sekolah
@@ -110,8 +132,8 @@ export default function SejarahPage() {
         {/* Intro Card */}
         <div className="max-w-4xl mx-auto bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-slate-100 mb-16">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl font-bold shadow-inner">
-              📖
+            <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-inner">
+              <BookOpen className="w-7 h-7" />
             </div>
             <div>
               <h2 className="text-2xl font-bold text-slate-900">Latar Belakang Berdirinya SMAGRISA</h2>
@@ -136,25 +158,28 @@ export default function SejarahPage() {
           </div>
 
           <div className="relative border-l-2 border-blue-200 ml-4 sm:ml-8 space-y-12">
-            {milestones.map((item, index) => (
-              <div key={index} className="relative pl-8 sm:pl-12 group">
-                {/* Marker */}
-                <div className="absolute -left-4 sm:-left-5 top-1.5 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white border-4 border-blue-600 shadow-md flex items-center justify-center text-sm sm:text-base group-hover:scale-110 transition-transform">
-                  {item.icon}
-                </div>
-
-                <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 hover:shadow-md hover:border-blue-200 transition-all">
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                    <span className="text-2xl font-extrabold text-[#1E2B58]">{item.year}</span>
-                    <span className={`text-xs font-bold px-3 py-1 rounded-full border ${item.badgeColor}`}>
-                      {item.badge}
-                    </span>
+            {milestones.map((item, index) => {
+              const IconComponent = item.icon;
+              return (
+                <div key={index} className="relative pl-8 sm:pl-12 group">
+                  {/* Marker */}
+                  <div className="absolute -left-4 sm:-left-5 top-1.5 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white border-4 border-blue-600 shadow-md flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
+                    <IconComponent className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h3>
-                  <p className="text-slate-600 leading-relaxed text-sm sm:text-base">{item.description}</p>
+
+                  <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 hover:shadow-md hover:border-blue-200 transition-all">
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                      <span className="text-2xl font-extrabold text-[#1E2B58]">{item.year}</span>
+                      <span className={`text-xs font-bold px-3 py-1 rounded-full border ${item.badgeColor}`}>
+                        {item.badge}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h3>
+                    <p className="text-slate-600 leading-relaxed text-sm sm:text-base">{item.description}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -166,13 +191,18 @@ export default function SejarahPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {values.map((v, i) => (
-              <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg transition-shadow text-center">
-                <div className="text-4xl mb-4">{v.icon}</div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">{v.title}</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">{v.desc}</p>
-              </div>
-            ))}
+            {values.map((v, i) => {
+              const IconComp = v.icon;
+              return (
+                <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg transition-shadow text-center group">
+                  <div className="w-14 h-14 mx-auto rounded-2xl bg-slate-50 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <IconComp className={`w-7 h-7 ${v.iconColor}`} />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">{v.title}</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">{v.desc}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
 

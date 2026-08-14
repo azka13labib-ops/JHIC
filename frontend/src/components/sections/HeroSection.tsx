@@ -1,3 +1,4 @@
+import { GraduationCap, Play, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -15,7 +16,7 @@ export default function HeroSection() {
           {/* Bagian Teks (Kiri) */}
           <div className="text-left max-w-2xl">
             <div className="inline-flex px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-800 font-semibold text-sm mb-6 items-center gap-2 max-w-fit shadow-sm">
-              <span className="text-blue-500">🎓</span> Religius, Cerdas, Terampil, Profesional
+              <GraduationCap className="w-4 h-4 text-blue-500 inline mr-1" /> Religius, Cerdas, Terampil, Profesional
             </div>
             <h1 className="text-5xl sm:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
               SMA PGRI 1 Lumajang <span className="text-slate-800">Mencetak Generasi Emas</span> <br className="hidden sm:block" />
@@ -54,7 +55,7 @@ export default function HeroSection() {
                 href="/profil/sejarah" 
                 className="w-full sm:w-auto px-8 py-3.5 bg-white border-2 border-amber-400 text-slate-800 font-bold rounded-lg hover:bg-amber-50 transition-all duration-300 text-center flex items-center justify-center gap-2"
               >
-                <span className="text-amber-500">▶</span> Profil Sekolah
+                <Play className="w-3.5 h-3.5 fill-amber-500 text-amber-500 inline mr-1" /> Profil Sekolah
               </Link>
             </div>
           </div>
@@ -75,9 +76,7 @@ export default function HeroSection() {
             {/* Floating Badge (Pemanis) */}
             <div className="absolute -bottom-6 left-10 lg:-left-12 bg-white py-4 px-6 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4 z-20">
               <div className="w-12 h-12 bg-[#2B3B6F] rounded-full flex items-center justify-center text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <CheckCircle2 className="w-6 h-6 text-emerald-400" />
               </div>
               <div>
                 <div className="text-base font-bold text-[#2B3B6F]">Terakreditasi A</div>

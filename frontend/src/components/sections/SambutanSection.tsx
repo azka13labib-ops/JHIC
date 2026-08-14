@@ -1,4 +1,5 @@
 import type { SchoolProfile } from '@/types/school';
+import { Quote, Eye, Rocket } from 'lucide-react';
 
 export default function SambutanSection({ profile }: { profile: SchoolProfile }) {
   return (
@@ -8,7 +9,7 @@ export default function SambutanSection({ profile }: { profile: SchoolProfile })
           {/* Bagian Kiri: Sambutan Kepsek */}
           <div className="w-full md:w-1/2">
             <div className="bg-white p-8 md:p-12 rounded-2xl shadow-xl relative">
-              <div className="absolute -top-6 -left-6 text-6xl text-blue-200">"</div>
+              <Quote className="absolute -top-4 -left-4 w-12 h-12 text-blue-100" />
               <p className="text-slate-700 leading-relaxed text-lg italic relative z-10 mb-8">
                 {profile.principal_message}
               </p>
@@ -30,7 +31,9 @@ export default function SambutanSection({ profile }: { profile: SchoolProfile })
             
             <div className="mb-8">
               <h3 className="text-xl font-semibold text-blue-600 mb-3 flex items-center gap-2">
-                <span className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-sm">👁️</span>
+                <span className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                  <Eye className="w-4 h-4" />
+                </span>
                 Visi
               </h3>
               <p className="text-slate-600 leading-relaxed pl-10 border-l-2 border-slate-200 ml-4">
@@ -40,7 +43,9 @@ export default function SambutanSection({ profile }: { profile: SchoolProfile })
 
             <div>
               <h3 className="text-xl font-semibold text-blue-600 mb-3 flex items-center gap-2">
-                <span className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-sm">🚀</span>
+                <span className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                  <Rocket className="w-4 h-4" />
+                </span>
                 Misi
               </h3>
               <div className="text-slate-600 leading-relaxed pl-10 border-l-2 border-slate-200 ml-4">

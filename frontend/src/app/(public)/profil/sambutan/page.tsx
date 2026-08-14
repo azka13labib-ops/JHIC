@@ -1,5 +1,17 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { 
+  Mic, 
+  User, 
+  Laptop, 
+  Handshake, 
+  Building2, 
+  Trophy, 
+  Quote, 
+  Sparkles, 
+  ArrowRight, 
+  ArrowLeft 
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Sambutan Kepala Sekolah | SMA PGRI 1 Lumajang',
@@ -13,22 +25,22 @@ export default function SambutanPage() {
     {
       title: 'Kurikulum Berbasis Karakter & Digital',
       desc: 'Memadukan pembentukan adab, nilai spiritual, dan literasi teknologi modern.',
-      icon: '💻',
+      icon: Laptop,
     },
     {
       title: 'Bursa Kerja Khusus & Kemitraan DUDI',
       desc: 'Kerjasama aktif dengan industri ternama dan perguruan tinggi terkemuka.',
-      icon: '🤝',
+      icon: Handshake,
     },
     {
       title: 'Fasilitas Belajar Standar Industri',
       desc: 'Laboratorium modern, ruang kelas nyaman ber-AC, dan lingkungan belajar asri.',
-      icon: '🏢',
+      icon: Building2,
     },
     {
       title: 'Ekstrakurikuler & Prestasi Multidimensi',
       desc: 'Wadah pengembangan bakat seni, olahraga, sains, kepemimpinan, dan kewirausahaan.',
-      icon: '🏆',
+      icon: Trophy,
     },
   ];
 
@@ -42,7 +54,7 @@ export default function SambutanPage() {
         </div>
         <div className="container mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/20 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider mb-6 text-amber-300">
-            🎙️ Pesan Pimpinan
+            <Mic className="w-3.5 h-3.5" /> Pesan Pimpinan
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight">
             Sambutan Kepala Sekolah
@@ -71,7 +83,7 @@ export default function SambutanPage() {
               {/* Profil Kepsek */}
               <div className="w-full md:w-1/3 flex flex-col items-center text-center p-6 bg-slate-50 rounded-2xl border border-slate-100">
                 <div className="w-36 h-36 rounded-full bg-linear-to-br from-[#1E2B58] to-blue-600 flex items-center justify-center text-white text-6xl shadow-xl ring-4 ring-white mb-4">
-                  👨‍🏫
+                  <User className="w-16 h-16" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900">Bapak Kepala Sekolah, M.Pd</h3>
                 <p className="text-sm font-semibold text-blue-600 mt-1">Kepala SMA PGRI 1 Lumajang</p>
@@ -83,13 +95,14 @@ export default function SambutanPage() {
               </div>
 
               {/* Teks Sambutan Lengkap */}
-              <div className="w-full md:w-2/3">
+              <div className="w-full md:w-2/3 relative">
+                <Quote className="absolute -top-4 -left-4 w-12 h-12 text-blue-100 pointer-events-none" />
                 <div className="text-sm font-bold text-amber-500 uppercase tracking-wider mb-2">Assalamu&apos;alaikum Warahmatullahi Wabarakatuh</div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-6">
                   Selamat Datang di Portal Resmi SMA PGRI 1 Lumajang
                 </h2>
 
-                <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base sm:text-lg space-y-4">
+                <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base sm:text-lg space-y-4 relative z-10">
                   <p>
                     Puji syukur kita panjatkan ke hadirat Allah SWT, Tuhan Yang Maha Esa, atas limpahan rahmat, hidayah, dan karunia-Nya sehingga website resmi SMA PGRI 1 Lumajang (SMAGRISA) dapat hadir sebagai media informasi, komunikasi, dan transparansi publik bagi seluruh masyarakat, pemerhati pendidikan, orang tua, serta siswa-siswi tercinta.
                   </p>
@@ -134,15 +147,20 @@ export default function SambutanPage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {highlights.map((h, i) => (
-                <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow flex items-start gap-4">
-                  <div className="text-4xl p-3 bg-blue-50 rounded-2xl shrink-0">{h.icon}</div>
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-1">{h.title}</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed">{h.desc}</p>
+              {highlights.map((h, i) => {
+                const IconComp = h.icon;
+                return (
+                  <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow flex items-start gap-4 group">
+                    <div className="p-3 bg-blue-50 rounded-2xl text-blue-600 shrink-0 group-hover:scale-110 transition-transform">
+                      <IconComp className="w-7 h-7" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-slate-900 mb-1">{h.title}</h3>
+                      <p className="text-sm text-slate-600 leading-relaxed">{h.desc}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 

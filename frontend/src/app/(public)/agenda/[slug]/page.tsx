@@ -1,3 +1,4 @@
+import { MapPin, Calendar, Clock } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -31,7 +32,7 @@ export default async function DetailAgendaPage({ params }: { params: Promise<{ s
           {item.location && (
             <>
                 <span className="text-slate-300">|</span>
-                <span>📍 {item.location}</span>
+                <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-blue-500" /> {item.location}</span>
             </>
           )}
         </div>

@@ -1,3 +1,4 @@
+import { Trophy, Medal, Award } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import type { Metadata } from 'next';
 import { getAchievements } from '@/lib/api/resources';
@@ -26,7 +27,7 @@ export default async function PrestasiPage() {
       <section className="bg-linear-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-20 text-center">
         <div className="container mx-auto px-4">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm mb-6">
-            🏆 Prestasi Siswa
+            <Trophy className="w-3.5 h-3.5 inline mr-1 text-amber-500" /> Prestasi Siswa
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">Kebanggaan Kami</h1>
           <p className="text-blue-200 max-w-xl mx-auto text-lg">
@@ -39,7 +40,7 @@ export default async function PrestasiPage() {
       <div className="container mx-auto px-4 mt-16">
         {achievements.length === 0 ? (
           <div className="text-center py-20 border border-dashed border-slate-200 rounded-3xl">
-            <div className="text-5xl mb-4">🏆</div>
+            <div className="w-16 h-16 mx-auto rounded-2xl bg-amber-50 flex items-center justify-center mb-4"><Trophy className="w-8 h-8 text-amber-500" /></div>
             <h3 className="text-xl font-bold text-slate-900 mb-2">Belum Ada Data Prestasi</h3>
             <p className="text-slate-500">Data prestasi sedang diperbarui oleh admin.</p>
           </div>

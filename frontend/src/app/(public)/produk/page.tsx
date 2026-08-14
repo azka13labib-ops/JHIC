@@ -1,3 +1,4 @@
+import { ShoppingBag, Package, Sparkles } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -37,7 +38,7 @@ export default async function ProdukPage({
       <section className="bg-linear-to-br from-emerald-600 to-teal-700 text-white py-20 text-center">
         <div className="container mx-auto px-4">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm mb-6">
-            🛍️ Produk Unggulan BLUD
+            <ShoppingBag className="w-3.5 h-3.5 inline mr-1 text-emerald-500" /> Produk Unggulan BLUD
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">Karya Terbaik Siswa Kami</h1>
           <p className="text-emerald-100 max-w-xl mx-auto text-lg">

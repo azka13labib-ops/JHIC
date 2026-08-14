@@ -1,3 +1,4 @@
+import { Calendar, MapPin } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
@@ -32,7 +33,7 @@ export default async function AgendaPage() {
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-slate-400">
-                    <span className="text-4xl">📅</span>
+                    <Calendar className="w-12 h-12 text-slate-300" />
                   </div>
                 )}
               </div>
@@ -46,8 +47,8 @@ export default async function AgendaPage() {
                   {item.title}
                 </h2>
                 {item.location && (
-                  <p className="text-sm text-slate-500 mb-3 flex items-center gap-1">
-                    📍 {item.location}
+                  <p className="text-sm text-slate-500 mb-3 flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5 text-blue-500 shrink-0" /> {item.location}
                   </p>
                 )}
                 <p className="text-slate-600 line-clamp-3 grow">

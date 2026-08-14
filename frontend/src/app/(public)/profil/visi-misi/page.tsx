@@ -1,5 +1,19 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { 
+  Target, 
+  Compass, 
+  GraduationCap, 
+  Laptop, 
+  Briefcase, 
+  Sprout, 
+  Handshake, 
+  Check, 
+  CheckCircle2, 
+  Sparkles,
+  Award,
+  Heart
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Visi & Misi | SMA PGRI 1 Lumajang',
@@ -14,37 +28,37 @@ export default function VisiMisiPage() {
       no: '01',
       title: 'Pendidikan Karakter & Spiritual',
       desc: 'Menyelenggarakan pembelajaran yang berlandaskan iman, taqwa, serta nilai-nilai budi pekerti luhur guna mencetak peserta didik berakhlakul karimah.',
-      icon: '🕌',
+      icon: Heart,
     },
     {
       no: '02',
       title: 'Keunggulan Akademik & Prestasi',
       desc: 'Mengembangkan kurikulum yang adaptif, inovatif, dan berstandar nasional untuk mengoptimalkan potensi intelektual dan prestasi di berbagai kompetisi sains maupun seni.',
-      icon: '🎓',
+      icon: GraduationCap,
     },
     {
       no: '03',
       title: 'Keterampilan Digital & Sertifikasi Industri',
       desc: 'Membekali peserta didik dengan literasi digital tingkat lanjut, keterampilan teknologi informasi, dan sertifikasi keahlian yang diakui industri global.',
-      icon: '💻',
+      icon: Laptop,
     },
     {
       no: '04',
       title: 'Kewirausahaan & Kemandirian (Teaching Factory)',
       desc: 'Menumbuhkan jiwa kepemimpinan, kreativitas, dan wirausaha mandiri melalui program praktek kerja terapan dan unit bisnis sekolah (BLUD).',
-      icon: '💼',
+      icon: Briefcase,
     },
     {
       no: '05',
       title: 'Wawasan Lingkungan & Sosial',
       desc: 'Mewujudkan budaya sekolah yang ramah anak, peduli kelestarian lingkungan hidup, tanggap bencana, dan menjunjung tinggi kearifan lokal.',
-      icon: '🌱',
+      icon: Sprout,
     },
     {
       no: '06',
       title: 'Kemitraan Strategis Dunia Kerja',
       desc: 'Membangun jejaring kolaborasi erat dengan Perguruan Tinggi Terkemuka, Industri, Dunia Usaha, dan Lembaga Sertifikasi Profesi.',
-      icon: '🤝',
+      icon: Handshake,
     },
   ];
 
@@ -93,7 +107,7 @@ export default function VisiMisiPage() {
         </div>
         <div className="container mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/20 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider mb-6 text-amber-300">
-            🎯 Arah & Panduan Sekolah
+            <Target className="w-3.5 h-3.5" /> Arah & Panduan Sekolah
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight">
             Visi, Misi & Tata Nilai
@@ -118,9 +132,9 @@ export default function VisiMisiPage() {
         {/* Visi Section */}
         <div className="max-w-5xl mx-auto mb-20">
           <div className="bg-linear-to-br from-blue-600 to-indigo-800 rounded-3xl p-8 sm:p-14 text-white shadow-xl relative overflow-hidden group">
-            <div className="absolute -right-10 -bottom-10 text-9xl opacity-10 group-hover:scale-110 transition-transform duration-500">🎯</div>
+            <Target className="absolute -right-10 -bottom-10 w-72 h-72 opacity-10 group-hover:scale-110 transition-transform duration-500" />
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
-              Visi Utama Sekolah
+              <Compass className="w-3.5 h-3.5" /> Visi Utama Sekolah
             </div>
             <h2 className="text-2xl sm:text-4xl font-extrabold leading-snug mb-6 text-amber-300">
               &ldquo;Terwujudnya Generasi Emas yang Religius, Unggul dalam Prestasi, Terampil dalam Teknologi, Berkarakter Mandiri, dan Berdaya Saing Global.&rdquo;
@@ -139,21 +153,24 @@ export default function VisiMisiPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {missions.map((item, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-md hover:border-blue-200 transition-all flex gap-5 items-start"
-              >
-                <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl shrink-0 font-bold">
-                  {item.icon}
+            {missions.map((item, idx) => {
+              const IconComponent = item.icon;
+              return (
+                <div
+                  key={idx}
+                  className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-md hover:border-blue-200 transition-all flex gap-5 items-start group"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 font-bold group-hover:scale-110 transition-transform">
+                    <IconComponent className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-black text-blue-600 tracking-wider uppercase mb-1">Misi #{item.no}</div>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                    <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+                  </div>
                 </div>
-                <div>
-                  <div className="text-xs font-black text-blue-600 tracking-wider uppercase mb-1">Misi #{item.no}</div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -194,7 +211,7 @@ export default function VisiMisiPage() {
                   <ul className="space-y-3">
                     {g.points.map((pt, j) => (
                       <li key={j} className="text-sm text-slate-600 flex items-start gap-2.5">
-                        <span className="text-blue-600 font-bold mt-0.5">✓</span>
+                        <Check className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
                         <span>{pt}</span>
                       </li>
                     ))}

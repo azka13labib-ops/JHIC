@@ -1,3 +1,4 @@
+import { Camera } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -32,7 +33,7 @@ export default async function DetailGaleriPage({ params }: { params: Promise<{ s
           </div>
         ) : (
           <div className="w-full h-96 bg-slate-100 flex items-center justify-center text-slate-400 rounded-2xl mb-10">
-            <span className="text-6xl">📸</span>
+            <Camera className="w-16 h-16 text-slate-300" />
           </div>
         )}
       </div>

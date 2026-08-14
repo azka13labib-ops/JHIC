@@ -1,3 +1,4 @@
+import { GraduationCap } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -17,7 +18,7 @@ export default function AlumniPage() {
       
       <div className="flex-1 flex items-center justify-center p-4 py-20">
         <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl text-center max-w-2xl w-full border border-slate-100">
-          <div className="text-6xl mb-6">🎓</div>
+          <div className="w-20 h-20 mx-auto rounded-3xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6"><GraduationCap className="w-10 h-10" /></div>
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-4">Portal Alumni</h2>
           <p className="text-slate-600 text-lg mb-8 leading-relaxed">
             Sistem pendataan (Tracer Study) dan forum alumni sedang dalam tahap integrasi dengan database pusat.

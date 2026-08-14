@@ -38,8 +38,9 @@ export default function PrestasiSection({ achievements }: { achievements: Achiev
                 </div>
                 <h3 className="text-xl font-bold mb-2">{item.title}</h3>
                 <p className="text-slate-400 text-sm mb-3">{item.description}</p>
-                <div className="text-sm font-medium text-slate-300">
-                  🏆 <span className="text-white">{item.student_name}</span>
+                <div className="text-sm font-medium text-slate-300 flex items-center">
+                  <Trophy className="w-4 h-4 text-amber-400 inline mr-1.5 shrink-0" />
+                  <span className="text-white">{item.student_name}</span>
                 </div>
               </div>
             </div>

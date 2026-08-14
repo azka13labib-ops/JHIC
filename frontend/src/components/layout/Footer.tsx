@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { MapPin, Mail, Phone } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -31,11 +32,19 @@ export default function Footer() {
           </div>
           <div>
             <h4 className="font-semibold mb-4 text-white">Kontak</h4>
-            <ul className="space-y-2 text-sm text-slate-400">
-              <li>Jl. Contoh Alamat No. 123</li>
-              <li>Lumajang, Jawa Timur</li>
-              <li>Email: info@smapgri1lmj.sch.id</li>
-              <li>Telp: (0334) 881234</li>
+            <ul className="space-y-2.5 text-sm text-slate-400">
+              <li className="flex items-start gap-2">
+                <MapPin className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                <span>Jl. Contoh Alamat No. 123, Lumajang, Jawa Timur</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-blue-400 shrink-0" />
+                <span>info@smapgri1lmj.sch.id</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>(0334) 881234</span>
+              </li>
             </ul>
           </div>
         </div>

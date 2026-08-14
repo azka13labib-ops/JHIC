@@ -1,3 +1,4 @@
+import { Palette } from 'lucide-react';
 import Link from "next/link";
 import { getImageUrl } from "@/lib/utils";
 import Image from "next/image";
@@ -33,7 +34,7 @@ export default async function StudentWorkPage() {
                   </div>
                 ) : (
                   <div className="aspect-video w-full bg-slate-100 flex items-center justify-center text-slate-400">
-                    <span className="text-4xl">🎨</span>
+                    <Palette className="w-12 h-12 text-slate-300" />
                   </div>
                 )}
                 <div className="p-6">

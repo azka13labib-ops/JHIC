@@ -2,6 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { 
+  GraduationCap, 
+  Sparkles, 
+  FileCheck, 
+  Calendar, 
+  Clock, 
+  Megaphone, 
+  FileText, 
+  Trophy, 
+  Handshake 
+} from 'lucide-react';
 
 interface PpdbInfo {
   registration_start?: string;
@@ -86,7 +97,7 @@ export default function PpdbPage() {
         </div>
         <div className="container mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 bg-amber-400/20 border border-amber-400/40 rounded-full px-4 py-2 text-amber-300 text-sm font-semibold mb-6">
-            🎓 PPDB 2026 / 2027 Dibuka!
+            <GraduationCap className="w-4 h-4" /> PPDB 2026 / 2027 Dibuka!
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
             Penerimaan Peserta Didik Baru
@@ -106,15 +117,15 @@ export default function PpdbPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/ppdb/daftar"
-              className="px-8 py-4 bg-amber-400 hover:bg-amber-500 text-slate-900 font-extrabold rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+              className="px-8 py-4 bg-amber-400 hover:bg-amber-500 text-slate-900 font-extrabold rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-0.5 inline-flex items-center justify-center gap-2"
             >
-              Daftar Sekarang ✨
+              <Sparkles className="w-5 h-5" /> Daftar Sekarang
             </Link>
             <Link
               href="/ppdb/status"
-              className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold rounded-xl transition-all duration-300 backdrop-blur"
+              className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold rounded-xl transition-all duration-300 backdrop-blur inline-flex items-center justify-center gap-2"
             >
-              Cek Status Pendaftaran
+              <FileCheck className="w-5 h-5" /> Cek Status Pendaftaran
             </Link>
           </div>
         </div>
@@ -126,12 +137,14 @@ export default function PpdbPage() {
           <h2 className="text-3xl font-bold text-center text-slate-900 mb-8">Jadwal PPDB</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
-              { icon: '📅', label: 'Pembukaan Pendaftaran', date: info.registration_start },
-              { icon: '⏰', label: 'Penutupan Pendaftaran', date: info.registration_end },
-              { icon: '📢', label: 'Pengumuman Hasil', date: info.announcement_date },
-            ].map(({ icon, label, date }) => (
+              { icon: Calendar, iconColor: 'text-blue-600', label: 'Pembukaan Pendaftaran', date: info.registration_start },
+              { icon: Clock, iconColor: 'text-amber-500', label: 'Penutupan Pendaftaran', date: info.registration_end },
+              { icon: Megaphone, iconColor: 'text-emerald-600', label: 'Pengumuman Hasil', date: info.announcement_date },
+            ].map(({ icon: IconComponent, iconColor, label, date }) => (
               <div key={label} className="bg-slate-50 rounded-2xl p-6 text-center border border-slate-100">
-                <div className="text-4xl mb-3">{icon}</div>
+                <div className="w-12 h-12 mx-auto rounded-2xl bg-white shadow-xs flex items-center justify-center mb-3">
+                  <IconComponent className={`w-6 h-6 ${iconColor}`} />
+                </div>
                 <div className="text-sm text-slate-500 mb-1">{label}</div>
                 <div className="text-xl font-bold text-slate-900">
                   {date ? new Date(date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '—'}
@@ -146,11 +159,14 @@ export default function PpdbPage() {
           <h2 className="text-3xl font-bold text-center text-slate-900 mb-8">Jalur Penerimaan</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {(info.tracks ?? []).map((track, i) => {
-              const icons = ['📝', '🏆', '🤝'];
-              const colors = ['bg-blue-50 border-blue-100', 'bg-amber-50 border-amber-100', 'bg-emerald-50 border-emerald-100'];
+              const icons = [FileText, Trophy, Handshake];
+              const colors = ['bg-blue-50 border-blue-100 text-blue-600', 'bg-amber-50 border-amber-100 text-amber-600', 'bg-emerald-50 border-emerald-100 text-emerald-600'];
+              const IconComp = icons[i % 3];
               return (
-                <div key={i} className={`${colors[i % 3]} rounded-2xl p-6 border text-center`}>
-                  <div className="text-4xl mb-3">{icons[i % 3]}</div>
+                <div key={i} className={`${colors[i % 3].split(' ').slice(0, 2).join(' ')} rounded-2xl p-6 border text-center`}>
+                  <div className="w-12 h-12 mx-auto rounded-2xl bg-white shadow-xs flex items-center justify-center mb-3">
+                    <IconComp className={`w-6 h-6 ${colors[i % 3].split(' ')[2]}`} />
+                  </div>
                   <h3 className="text-lg font-bold text-slate-900">{track}</h3>
                 </div>
               );
