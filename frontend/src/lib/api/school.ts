@@ -125,3 +125,23 @@ export async function getAgendaById(id: string): Promise<any> {
     return null;
   }
 }
+
+export async function getArticles(): Promise<any[]> {
+  try {
+    const res = await serverFetch<{ data: any[] }>('/articles', { revalidate: 60, tags: ['articles'] });
+    return res.data || [];
+  } catch (error) {
+    console.error('Failed to fetch articles', error);
+    return [];
+  }
+}
+
+export async function getArticleById(id: string): Promise<any> {
+  try {
+    const res = await serverFetch<{ data: any }>(`/articles/${id}`, { revalidate: 60, tags: [`article-${id}`] });
+    return res.data;
+  } catch (error) {
+    console.error(`Failed to fetch article ${id}`, error);
+    return null;
+  }
+}
