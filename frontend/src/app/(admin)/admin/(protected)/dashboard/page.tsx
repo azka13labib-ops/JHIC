@@ -64,10 +64,10 @@ export default function DashboardPage() {
   if (!session) return null;
 
   const statCards = [
-    { label: 'Total Pendaftar PPDB', value: stats?.ppdb.total ?? 0, sub: `${stats?.ppdb.pending ?? 0} menunggu`, href: '/admin/ppdb', color: 'bg-blue-500', icon: '🎓' },
-    { label: 'Berita Dipublikasi', value: stats?.news.total ?? 0, sub: 'Total artikel', href: '/admin/news', color: 'bg-indigo-500', icon: '📰' },
-    { label: 'Produk BLUD Aktif', value: stats?.products.active ?? 0, sub: `${stats?.products.total ?? 0} total produk`, href: '/admin/products', color: 'bg-emerald-500', icon: '📦' },
-    { label: 'Lowongan Aktif', value: stats?.jobs.active ?? 0, sub: `${stats?.applications.pending ?? 0} lamaran baru`, href: '/admin/jobs', color: 'bg-violet-500', icon: '💼' },
+    { label: 'Total Pendaftar PPDB', value: stats?.ppdb.total ?? 0, sub: `${stats?.ppdb.pending ?? 0} menunggu`, href: '/admin/ppdb', color: 'bg-blue-500', icon: GraduationCap },
+    { label: 'Berita Dipublikasi', value: stats?.news.total ?? 0, sub: 'Total artikel', href: '/admin/news', color: 'bg-indigo-500', icon: Newspaper },
+    { label: 'Produk BLUD Aktif', value: stats?.products.active ?? 0, sub: `${stats?.products.total ?? 0} total produk`, href: '/admin/products', color: 'bg-emerald-500', icon: Package },
+    { label: 'Lowongan Aktif', value: stats?.jobs.active ?? 0, sub: `${stats?.applications.pending ?? 0} lamaran baru`, href: '/admin/jobs', color: 'bg-violet-500', icon: Briefcase },
   ];
 
   return (
@@ -87,19 +87,23 @@ export default function DashboardPage() {
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {statCards.map((card) => (
-          <Link key={card.label} href={card.href}
-            className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-4">
-              <div className={`w-10 h-10 ${card.color} rounded-xl flex items-center justify-center text-white text-xl`}>
-                {card.icon}
+        {statCards.map((card) => {
+          const Icon = card.icon;
+          return (
+            <Link key={card.label} href={card.href}
+              className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all group overflow-hidden relative">
+              <div className={`absolute -right-6 -top-6 w-24 h-24 rounded-full opacity-10 transition-transform group-hover:scale-150 ${card.color}`}></div>
+              <div className="flex items-center justify-between mb-4">
+                <div className={`w-12 h-12 ${card.color} rounded-xl flex items-center justify-center text-white text-xl shadow-sm group-hover:rotate-6 transition-transform`}>
+                  <Icon className="w-6 h-6" />
+                </div>
               </div>
-            </div>
-            <div className="text-3xl font-extrabold text-slate-900 mb-1">{card.value}</div>
-            <div className="text-sm font-semibold text-slate-700">{card.label}</div>
-            <div className="text-xs text-slate-400 mt-1">{card.sub}</div>
-          </Link>
-        ))}
+              <div className="text-3xl font-extrabold text-slate-900 mb-1">{card.value}</div>
+              <div className="text-sm font-semibold text-slate-700">{card.label}</div>
+              <div className="text-xs text-slate-400 mt-1">{card.sub}</div>
+            </Link>
+          );
+        })}
       </div>
 
       {/* Pendaftar Terbaru */}
