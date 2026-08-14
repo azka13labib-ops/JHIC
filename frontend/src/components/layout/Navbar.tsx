@@ -36,7 +36,27 @@ export default function Navbar() {
           
           <div className="hidden md:flex items-center gap-4 lg:gap-6">
             <Link href="/" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Home</Link>
-            <Link href="/profil" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors">Profil</Link>
+            
+            {/* Profil Dropdown */}
+            <div className="relative group pt-4 pb-4">
+              <button className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors flex items-center gap-1">
+                Profil
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transition-transform group-hover:rotate-180 duration-200" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+              <div className="absolute top-12 left-0 mt-2 w-56 bg-white border border-slate-100 shadow-xl rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden z-50">
+                <Link href="/profil/sejarah" className="px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+                  Sejarah
+                </Link>
+                <Link href="/profil/visi-misi" className="px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+                  Visi Misi
+                </Link>
+                <Link href="/profil/sambutan" className="px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+                  Sambutan Kepala Sekolah
+                </Link>
+              </div>
+            </div>
             
             {/* Akademik Dropdown */}
             <div className="relative group pt-4 pb-4">

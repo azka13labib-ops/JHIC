@@ -51,7 +51,7 @@ export default function HeroSection() {
                 Daftar Sekarang
               </Link>
               <Link 
-                href="/profil" 
+                href="/profil/sejarah" 
                 className="w-full sm:w-auto px-8 py-3.5 bg-white border-2 border-amber-400 text-slate-800 font-bold rounded-lg hover:bg-amber-50 transition-all duration-300 text-center flex items-center justify-center gap-2"
               >
                 <span className="text-amber-500">▶</span> Profil Sekolah
