@@ -43,7 +43,7 @@ class AgendaController extends Controller
             'date' => $request->date,
             'location' => $request->location,
             'description' => $request->description,
-            'image_path' => $imagePath,
+            'image' => $imagePath,
         ]);
 
         Cache::forget('api.agenda');
@@ -75,7 +75,7 @@ class AgendaController extends Controller
             'image' => 'nullable|image|max:2048',
         ]);
 
-        $imagePath = $agenda->image_path;
+        $imagePath = $agenda->image;
         if ($request->hasFile('image')) {
             // Delete old image if exists
             if ($imagePath && Storage::disk('public')->exists($imagePath)) {
@@ -89,7 +89,7 @@ class AgendaController extends Controller
             'date' => $request->date,
             'location' => $request->location,
             'description' => $request->description,
-            'image_path' => $imagePath,
+            'image' => $imagePath,
         ]);
 
         Cache::forget('api.agenda');
@@ -104,8 +104,8 @@ class AgendaController extends Controller
     {
         $agenda = Agenda::findOrFail($id);
 
-        if ($agenda->image_path && Storage::disk('public')->exists($agenda->image_path)) {
-            Storage::disk('public')->delete($agenda->image_path);
+        if ($agenda->image && Storage::disk('public')->exists($agenda->image)) {
+            Storage::disk('public')->delete($agenda->image);
         }
 
         $agenda->delete();

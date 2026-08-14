@@ -41,9 +41,9 @@ export default function EditAgendaPage() {
         setDate(data.date ? data.date.split('T')[0] : "");
         setLocation(data.location || "");
         setContent(data.description);
-        if (data.image_path) {
+        if (data.image) {
           // Assuming Laravel storage URL configuration
-          setCurrentImageUrl(`http://localhost:8000/storage/${data.image_path}`);
+          setCurrentImageUrl(`http://localhost:8000/storage/${data.image}`);
         }
       } catch (err: any) {
         setError(err.message);

@@ -23,10 +23,10 @@ export default async function AgendaPage() {
           {agendas.map((item) => (
             <div key={item.id} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
               <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
-                {item.image_path ? (
+                {item.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img 
-                    src={item.image_path} 
+                    src={item.image} 
                     alt={item.title} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
