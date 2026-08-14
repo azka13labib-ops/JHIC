@@ -1,3 +1,4 @@
+import { getImageUrl } from "@/lib/utils";
 import type { Metadata } from 'next';
 import { getAchievements } from '@/lib/api/resources';
 
@@ -49,8 +50,7 @@ export default async function PrestasiPage() {
                 <div className="relative h-56 bg-slate-100">
                   {item.image_path ? (
                     /* eslint-disable-next-line @next/next/no-img-element */
-                    <img
-                      src={item.image_path}
+                    <img src={getImageUrl(item.image_path)}
                       alt={item.title}
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                     />

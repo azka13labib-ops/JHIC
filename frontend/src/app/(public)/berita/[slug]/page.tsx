@@ -1,3 +1,4 @@
+import { getImageUrl } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
 import Link from "next/link";
@@ -45,8 +46,7 @@ export default async function DetailBeritaPage({ params }: { params: Promise<{ s
         {news.image_path && (
           <div className="mb-10 rounded-2xl overflow-hidden shadow-sm">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img 
-              src={news.image_path} 
+            <img src={getImageUrl(news.image_path)} 
               alt={news.title} 
               className="w-full h-auto object-cover max-h-125"
             />

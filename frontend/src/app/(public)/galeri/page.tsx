@@ -1,3 +1,4 @@
+import { getImageUrl } from "@/lib/utils";
 import Image from "next/image";
 import { getGalleries } from "@/lib/api/school";
 
@@ -23,8 +24,7 @@ export default async function GalleryPage() {
             <div key={item.id} className="group relative overflow-hidden rounded-2xl bg-slate-100 aspect-square shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300">
                 {item.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img 
-                    src={item.image} 
+                  <img src={getImageUrl(item.image)} 
                     alt={item.title} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />

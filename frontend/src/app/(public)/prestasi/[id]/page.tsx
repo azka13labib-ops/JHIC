@@ -1,3 +1,4 @@
+import { getImageUrl } from "@/lib/utils";
 import { getAchievements } from '@/lib/api/resources';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -33,8 +34,7 @@ export default async function AchievementDetailPage({ params }: { params: Promis
           {achievement.image_path ? (
             <div className="relative w-full h-100 sm:h-125 bg-slate-100">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={achievement.image_path}
+              <img src={getImageUrl(achievement.image_path)}
                 alt={achievement.title}
                 className="w-full h-full object-cover"
               />

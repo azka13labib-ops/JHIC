@@ -1,3 +1,4 @@
+import { getImageUrl } from "@/lib/utils";
 import Image from "next/image";
 import { getStudentWorks } from "@/lib/api/school";
 
@@ -24,8 +25,7 @@ export default async function StudentWorkPage() {
                 {item.image ? (
                   <div className="relative aspect-video w-full overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img 
-                      src={item.image} 
+                    <img src={getImageUrl(item.image)} 
                       alt={item.title} 
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />

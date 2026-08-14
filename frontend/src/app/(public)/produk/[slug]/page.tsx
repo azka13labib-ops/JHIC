@@ -1,3 +1,4 @@
+import { getImageUrl } from "@/lib/utils";
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -35,7 +36,7 @@ export default async function ProdukDetailPage({ params }: { params: { slug: str
           <div className="relative h-80 lg:h-125 bg-linear-to-br from-emerald-50 to-teal-50 rounded-2xl overflow-hidden shadow-lg">
             {product.image_path ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={product.image_path} alt={product.name} className="w-full h-full object-cover" />
+              <img src={getImageUrl(product.image_path)} alt={product.name} className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-6xl">📦</div>
             )}

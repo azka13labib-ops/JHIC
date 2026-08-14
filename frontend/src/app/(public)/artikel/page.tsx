@@ -1,3 +1,4 @@
+import { getImageUrl } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { getArticle } from "@/lib/api/school";
@@ -26,8 +27,7 @@ export default async function ArtikelPage() {
                 <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
                   {item.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img 
-                      src={item.image} 
+                    <img src={getImageUrl(item.image)} 
                       alt={item.title} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />

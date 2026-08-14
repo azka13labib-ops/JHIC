@@ -1,3 +1,4 @@
+import { getImageUrl } from "@/lib/utils";
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -77,8 +78,7 @@ export default async function ProdukPage({
                   <div className="relative h-48 bg-slate-100 overflow-hidden">
                     {product.image_path ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={product.image_path}
+                      <img src={getImageUrl(product.image_path)}
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />

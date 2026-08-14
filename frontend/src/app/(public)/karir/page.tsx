@@ -1,3 +1,4 @@
+import { getImageUrl } from "@/lib/utils";
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getJobs, getCompanies } from '@/lib/api/resources';
@@ -148,7 +149,7 @@ export default async function KarirPage({
                 <div key={company.id} className="bg-slate-50 border border-slate-100 rounded-xl p-4 text-center hover:shadow-md transition-shadow">
                   {company.logo_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={company.logo_url} alt={company.name} className="h-10 object-contain mx-auto mb-2" />
+                    <img src={getImageUrl(company.logo_url)} alt={company.name} className="h-10 object-contain mx-auto mb-2" />
                   ) : (
                     <div className="text-3xl mb-2">🏢</div>
                   )}
