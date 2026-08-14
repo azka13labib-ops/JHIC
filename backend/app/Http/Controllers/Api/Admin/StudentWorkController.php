@@ -3,21 +3,21 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Article;
+use App\Models\StudentWork;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
 
-class ArticleController extends Controller
+class StudentWorkController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $article = Article::orderBy('created_at', 'desc')->get();
-        return response()->json($article);
+        $student_works = StudentWork::orderBy('created_at', 'desc')->get();
+        return response()->json($student_works);
     }
 
     /**
@@ -27,27 +27,26 @@ class ArticleController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'image' => 'nullable|image|max:2048', // max 2MB
+            'student_name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable|image|max:2048',
         ]);
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('article', 'public');
+            $imagePath = $request->file('image')->store('student_works', 'public');
         }
 
-        $article = Article::create([
+        $student_works = StudentWork::create([
             'title' => $request->title,
-            'slug' => Str::slug($request->title) . '-' . uniqid(),
-            'content' => $request->content,
+            'student_name' => $request->student_name,
+            'description' => $request->description,
             'image' => $imagePath,
-            'author' => $request->user()->name,
-            'published_at' => now(), // for now, auto publish
         ]);
 
-        Cache::forget('api.article');
+        Cache::forget('api.student_works');
 
-        return response()->json($article, 201);
+        return response()->json($student_works, 201);
     }
 
     /**
@@ -55,8 +54,8 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = Article::findOrFail($id);
-        return response()->json($article);
+        $student_works = StudentWork::findOrFail($id);
+        return response()->json($student_works);
     }
 
     /**
@@ -64,33 +63,34 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $article = Article::findOrFail($id);
+        $student_works = StudentWork::findOrFail($id);
 
         $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'student_name' => 'required|string|max:255',
+            'description' => 'required|string',
             'image' => 'nullable|image|max:2048',
         ]);
 
-        $imagePath = $article->image;
+        $imagePath = $student_works->image;
         if ($request->hasFile('image')) {
             // Delete old image if exists
             if ($imagePath && Storage::disk('public')->exists($imagePath)) {
                 Storage::disk('public')->delete($imagePath);
             }
-            $imagePath = $request->file('image')->store('article', 'public');
+            $imagePath = $request->file('image')->store('student_works', 'public');
         }
 
-        $article->update([
+        $student_works->update([
             'title' => $request->title,
             // Only update slug if title changed significantly, but for simplicity we keep old slug or generate new
             'content' => $request->content,
             'image' => $imagePath,
         ]);
 
-        Cache::forget('api.article');
+        Cache::forget('api.student_works');
 
-        return response()->json($article);
+        return response()->json($student_works);
     }
 
     /**
@@ -98,16 +98,16 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        $article = Article::findOrFail($id);
+        $student_works = StudentWork::findOrFail($id);
 
-        if ($article->image && Storage::disk('public')->exists($article->image)) {
-            Storage::disk('public')->delete($article->image);
+        if ($student_works->image && Storage::disk('public')->exists($student_works->image)) {
+            Storage::disk('public')->delete($student_works->image);
         }
 
-        $article->delete();
-        Cache::forget('api.article');
+        $student_works->delete();
+        Cache::forget('api.student_works');
 
-        \Illuminate\Support\Facades\Cache::forget('api.articles');
-        return response()->json(['message' => 'Artikel berhasil dihapus.']);
+        \Illuminate\Support\Facades\Cache::forget('api.student_works');
+        return response()->json(['message' => 'Karya Siswa berhasil dihapus.']);
     }
 }

@@ -155,3 +155,13 @@ export async function getGalleries(): Promise<any[]> {
     return [];
   }
 }
+
+export async function getStudentWorks(): Promise<any[]> {
+  try {
+    const res = await serverFetch<{ data: any[] }>('/student-works', { revalidate: 60, tags: ['student-works'] });
+    return res.data || [];
+  } catch (error) {
+    console.error('Failed to fetch student works', error);
+    return [];
+  }
+}

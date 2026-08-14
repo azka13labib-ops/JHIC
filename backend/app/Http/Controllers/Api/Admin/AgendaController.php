@@ -111,6 +111,7 @@ class AgendaController extends Controller
         $agenda->delete();
         Cache::forget('api.agenda');
 
+        \Illuminate\Support\Facades\Cache::forget('api.agendas');
         return response()->json(['message' => 'Agenda berhasil dihapus.']);
     }
 }

@@ -131,4 +131,13 @@ class LandingPageController extends Controller
         return response()->json(['data' => $data], 200);
     }
 
+
+    public function studentWorks()
+    {
+        $data = Cache::remember('api.student_works', 86400, function () {
+            return \App\Models\StudentWork::latest('created_at')->get();
+        });
+        return response()->json(['data' => $data], 200);
+    }
+
 }

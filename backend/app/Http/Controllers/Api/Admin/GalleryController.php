@@ -99,6 +99,7 @@ class GalleryController extends Controller
         $gallery->delete();
         Cache::forget('api.gallery');
 
+        \Illuminate\Support\Facades\Cache::forget('api.galleries');
         return response()->json(['message' => 'Galeri berhasil dihapus.']);
     }
 }
