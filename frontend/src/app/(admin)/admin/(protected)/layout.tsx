@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -12,7 +11,16 @@ import {
   Briefcase,
   Users,
   LogOut,
-  Menu
+  Menu,
+  BookOpen,
+  Calendar,
+  Image as ImageIcon,
+  MessageSquare,
+  PenTool,
+  GraduationCap,
+  Users2,
+  FolderOpen,
+  Link as LinkIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
@@ -28,9 +36,64 @@ const sidebarNavItems = [
     icon: <Newspaper className="w-5 h-5 mr-3" />,
   },
   {
+    title: "Agenda",
+    href: "/admin/agendas",
+    icon: <Calendar className="w-5 h-5 mr-3" />,
+  },
+  {
+    title: "Artikel",
+    href: "/admin/articles",
+    icon: <BookOpen className="w-5 h-5 mr-3" />,
+  },
+  {
+    title: "Direktori Guru",
+    href: "/admin/teachers",
+    icon: <Users2 className="w-5 h-5 mr-3" />,
+  },
+  {
+    title: "Ekstrakurikuler",
+    href: "/admin/extracurriculars",
+    icon: <Trophy className="w-5 h-5 mr-3" />,
+  },
+  {
     title: "Prestasi",
     href: "/admin/achievements",
     icon: <Trophy className="w-5 h-5 mr-3" />,
+  },
+  {
+    title: "Karya Siswa",
+    href: "/admin/student-works",
+    icon: <PenTool className="w-5 h-5 mr-3" />,
+  },
+  {
+    title: "Galeri",
+    href: "/admin/galleries",
+    icon: <ImageIcon className="w-5 h-5 mr-3" />,
+  },
+  {
+    title: "Alumni",
+    href: "/admin/alumni",
+    icon: <GraduationCap className="w-5 h-5 mr-3" />,
+  },
+  {
+    title: "Blog Siswa",
+    href: "/admin/blogs",
+    icon: <FolderOpen className="w-5 h-5 mr-3" />,
+  },
+  {
+    title: "Opini",
+    href: "/admin/opinions",
+    icon: <MessageSquare className="w-5 h-5 mr-3" />,
+  },
+  {
+    title: "Buku Tamu",
+    href: "/admin/guestbooks",
+    icon: <MessageSquare className="w-5 h-5 mr-3" />,
+  },
+  {
+    title: "Link Penting",
+    href: "/admin/quick-links",
+    icon: <LinkIcon className="w-5 h-5 mr-3" />,
   },
   {
     title: "Produk BLUD",
