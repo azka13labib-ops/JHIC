@@ -1,35 +1,63 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from "next/link";
+import Image from "next/image";
+import { getAgendas } from "@/lib/api/school";
 
-export const metadata: Metadata = {
-  title: 'Agenda Sekolah | SMA PGRI 1 Lumajang',
-};
+export const revalidate = 60; // Revalidate every minute
 
-export default function AgendaPage() {
+export default async function AgendaPage() {
+  const agendas = await getAgendas();
+
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
-      <section className="bg-linear-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-16 text-center">
-        <div className="container mx-auto px-4">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">Agenda Sekolah</h1>
-          <p className="text-blue-200">Jadwal kegiatan dan acara penting sekolah</p>
+    <div className="container mx-auto px-4 py-20 min-h-screen">
+      <h1 className="text-4xl font-bold mb-8 text-center">Agenda Sekolah</h1>
+      <p className="text-slate-600 text-center mb-12 max-w-2xl mx-auto">
+        Jadwal kegiatan dan acara penting seputar SMA PGRI 1 Lumajang.
+      </p>
+
+      {agendas.length === 0 ? (
+        <div className="text-center py-20 bg-slate-50 rounded-xl border border-dashed border-slate-300">
+          <p className="text-slate-500 text-lg">Belum ada agenda yang dijadwalkan.</p>
         </div>
-      </section>
-      
-      <div className="flex-1 flex items-center justify-center p-4 py-20">
-        <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl text-center max-w-2xl w-full border border-slate-100">
-          <div className="text-6xl mb-6">📅</div>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-4">Sedang Dipersiapkan</h2>
-          <p className="text-slate-600 text-lg mb-8 leading-relaxed">
-            Data agenda sekolah saat ini sedang diperbarui oleh pihak admin. Silakan kembali lagi nanti.
-          </p>
-          <Link 
-            href="/" 
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3.5 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
-          >
-            <span>←</span> Kembali ke Beranda
-          </Link>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {agendas.map((item) => (
+            <div key={item.id} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+              <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
+                {item.image_path ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img 
+                    src={item.image_path} 
+                    alt={item.title} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-slate-400">
+                    <span className="text-4xl">📅</span>
+                  </div>
+                )}
+              </div>
+              <div className="p-6 flex flex-col grow">
+                <div className="flex justify-between items-center text-xs text-slate-500 mb-3">
+                  <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-md font-bold">
+                    {new Date(item.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  </span>
+                </div>
+                <h2 className="text-xl font-bold text-slate-900 mb-2">
+                  {item.title}
+                </h2>
+                {item.location && (
+                  <p className="text-sm text-slate-500 mb-3 flex items-center gap-1">
+                    📍 {item.location}
+                  </p>
+                )}
+                <p className="text-slate-600 line-clamp-3 grow">
+                  {item.description}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -105,3 +105,23 @@ export async function getAnnouncements(): Promise<any[]> {
     return [];
   }
 }
+
+export async function getAgendas(): Promise<any[]> {
+  try {
+    const res = await serverFetch<{ data: any[] }>('/agendas', { revalidate: 60, tags: ['agendas'] });
+    return res.data || [];
+  } catch (error) {
+    console.error('Failed to fetch agendas', error);
+    return [];
+  }
+}
+
+export async function getAgendaById(id: string): Promise<any> {
+  try {
+    const res = await serverFetch<{ data: any }>(`/agendas/${id}`, { revalidate: 60, tags: [`agenda-${id}`] });
+    return res.data;
+  } catch (error) {
+    console.error(`Failed to fetch agenda ${id}`, error);
+    return null;
+  }
+}
