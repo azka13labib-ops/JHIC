@@ -1,0 +1,75 @@
+import Link from "next/link";
+import { Button } from "@/components/ui/Button";
+import { fetchApi } from "@/lib/api-client";
+import { Plus, Edit } from "lucide-react";
+import { DeleteGuestbookButton } from "@/components/admin/DeleteGuestbookButton";
+
+export const dynamic = "force-dynamic";
+
+export default async function GuestbookPage() {
+  const res = await fetchApi("/admin/guestbooks", { cache: "no-store" });
+  
+  if (!res.ok) {
+    return (
+      <div className="p-8">
+        <h1 className="text-2xl font-bold text-red-500">Gagal mengambil data berita.</h1>
+      </div>
+    );
+  }
+
+  const guestbooksList = await res.json();
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Manajemen Buku Tamu</h1>
+          <p className="text-muted-foreground">Kelola berita dan pengumuman sekolah.</p>
+        </div>
+        
+      </div>
+
+      <div className="rounded-md border bg-white">
+        <table className="w-full text-sm text-left">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b">
+            <tr>
+              <th className="px-6 py-4">Judul</th>
+              <th className="px-6 py-4">Nama</th>
+              <th className="px-6 py-4">Instansi</th>
+              <th className="px-6 py-4">Pesan</th>
+              <th className="px-6 py-4">Tanggal Publikasi</th>
+              <th className="px-6 py-4 text-right">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {guestbooksList.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
+                  Belum ada berita.
+                </td>
+              </tr>
+            ) : (
+              guestbooksList.map((item: any) => (
+                <tr key={item.id} className="bg-white border-b hover:bg-gray-50">
+                  <td className="px-6 py-4 font-medium text-gray-900">{item.title}</td>
+                  <td className="px-6 py-4">{item.author || "-"}</td>
+                  <td className="px-6 py-4">
+                    {new Date(item.created_at).toLocaleDateString("id-ID", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric"
+                    })}
+                  </td>
+                  <td className="px-6 py-4 text-right space-x-2">
+                    
+                    <DeleteGuestbookButton id={item.id} title={item.title} />
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}

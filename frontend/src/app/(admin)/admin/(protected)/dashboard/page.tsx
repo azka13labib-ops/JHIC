@@ -143,6 +143,14 @@ export default function DashboardPage() {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {[
           { label: 'Kelola Berita', href: '/admin/news', icon: '📰' },
+          { label: 'Kelola Agenda', href: '/admin/agendas', icon: '📅' },
+          { label: 'Kelola Artikel', href: '/admin/articles', icon: '📖' },
+          { label: 'Kelola Galeri', href: '/admin/galleries', icon: '🖼️' },
+          { label: 'Kelola Karya Siswa', href: '/admin/student-works', icon: '🎨' },
+          { label: 'Kelola Opini', href: '/admin/opinions', icon: '✍️' },
+          { label: 'Buku Tamu', href: '/admin/guestbooks', icon: '📕' },
+          { label: 'Blog Siswa', href: '/admin/blogs', icon: '🌐' },
+          { label: 'Link Penting', href: '/admin/quick-links', icon: '🔗' },
           { label: 'Kelola PPDB', href: '/admin/ppdb', icon: '🎓' },
           { label: 'Kelola Produk', href: '/admin/products', icon: '📦' },
           { label: 'Kelola Lowongan', href: '/admin/jobs', icon: '💼' },

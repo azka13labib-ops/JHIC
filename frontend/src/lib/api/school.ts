@@ -195,3 +195,23 @@ export async function getBlogs(): Promise<any[]> {
     return [];
   }
 }
+
+export async function getQuickLinks(): Promise<any[]> {
+  try {
+    const res = await serverFetch<{ data: any[] }>('/quick-links', { revalidate: 60, tags: ['quick-links'] });
+    return res.data || [];
+  } catch (error) {
+    console.error('Failed to fetch quick links', error);
+    return [];
+  }
+}
+
+export async function getGuestbooks(): Promise<any[]> {
+  try {
+    const res = await serverFetch<{ data: any[] }>('/guestbooks', { revalidate: 60, tags: ['guestbooks'] });
+    return res.data || [];
+  } catch (error) {
+    console.error('Failed to fetch guestbooks', error);
+    return [];
+  }
+}

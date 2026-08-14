@@ -25,7 +25,9 @@ Route::middleware(['throttle:100,1'])->group(function () {
         
                 Route::get('/opinions', [\App\Http\Controllers\Api\LandingPageController::class, 'opinions']);
         Route::get('/opinions/{id}', [\App\Http\Controllers\Api\LandingPageController::class, 'showOpinion']);
-                Route::get('/blogs', [\App\Http\Controllers\Api\LandingPageController::class, 'blogs']);
+                                Route::get('/guestbooks', [\App\Http\Controllers\Api\LandingPageController::class, 'guestbooks']);
+        Route::get('/quick-links', [\App\Http\Controllers\Api\LandingPageController::class, 'quickLinks']);
+        Route::get('/blogs', [\App\Http\Controllers\Api\LandingPageController::class, 'blogs']);
         Route::get('/student-works', [\App\Http\Controllers\Api\LandingPageController::class, 'studentWorks']);
 
         Route::get('/galleries', [\App\Http\Controllers\Api\LandingPageController::class, 'galleries']);
@@ -50,6 +52,7 @@ Route::get('/ppdb/info', [\App\Http\Controllers\Api\PpdbController::class, 'info
 
 // PPDB Submit — tanpa login (guest)
 Route::middleware(['throttle:10,60'])->group(function () {
+        Route::post('/guestbooks', [\App\Http\Controllers\Api\LandingPageController::class, 'storeGuestbook']);
     Route::post('/ppdb/submit', [\App\Http\Controllers\Api\PpdbController::class, 'submit']);
     Route::post('/ppdb/upload-doc', [\App\Http\Controllers\Api\PpdbController::class, 'uploadDoc']);
     Route::get('/ppdb/check-status', [\App\Http\Controllers\Api\PpdbController::class, 'checkStatus']);
@@ -85,7 +88,9 @@ Route::middleware('auth:sanctum')->group(function () {
         // Berita
         Route::apiResource('news', \App\Http\Controllers\Api\Admin\NewsController::class);
                 Route::apiResource('opinions', \App\Http\Controllers\Api\Admin\OpinionController::class);
-                Route::apiResource('blogs', \App\Http\Controllers\Api\Admin\BlogController::class);
+                                Route::apiResource('guestbooks', \App\Http\Controllers\Api\Admin\GuestbookController::class);
+        Route::apiResource('quick-links', \App\Http\Controllers\Api\Admin\QuickLinkController::class);
+        Route::apiResource('blogs', \App\Http\Controllers\Api\Admin\BlogController::class);
         Route::apiResource('student-works', \App\Http\Controllers\Api\Admin\StudentWorkController::class);
         Route::apiResource('galleries', \App\Http\Controllers\Api\Admin\GalleryController::class);
         Route::apiResource('articles', \App\Http\Controllers\Api\Admin\ArticleController::class);

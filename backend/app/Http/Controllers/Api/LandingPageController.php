@@ -164,4 +164,36 @@ class LandingPageController extends Controller
         return response()->json(['data' => $data], 200);
     }
 
+
+    public function quickLinks()
+    {
+        $data = Cache::remember('api.quick_links', 86400, function () {
+            return \App\Models\QuickLink::latest('created_at')->get();
+        });
+        return response()->json(['data' => $data], 200);
+    }
+
+
+    public function guestbooks()
+    {
+        $data = Cache::remember('api.guestbooks', 60, function () { // cache 1 minute for guestbook list
+            return \App\Models\Guestbook::latest('created_at')->limit(50)->get();
+        });
+        return response()->json(['data' => $data], 200);
+    }
+
+    public function storeGuestbook(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'institution' => 'nullable|string|max:255',
+            'message' => 'required|string|max:2000',
+        ]);
+        
+        $guestbook = \App\Models\Guestbook::create($validated);
+        Cache::forget('api.guestbooks');
+        return response()->json(['message' => 'Buku tamu berhasil dikirim.', 'data' => $guestbook], 201);
+    }
+
 }
