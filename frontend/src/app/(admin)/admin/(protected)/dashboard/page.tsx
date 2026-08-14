@@ -4,6 +4,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { Newspaper, Calendar, BookOpen, ImageIcon, Palette, PenTool, Book, Globe, Link2, GraduationCap, Package, Briefcase } from 'lucide-react';
 
 interface DashboardStats {
   ppdb: { total: number; pending: number; accepted: number; rejected: number };
@@ -142,22 +143,24 @@ export default function DashboardPage() {
       {/* Quick Links */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {[
-          { label: 'Kelola Berita', href: '/admin/news', icon: '📰' },
-          { label: 'Kelola Agenda', href: '/admin/agendas', icon: '📅' },
-          { label: 'Kelola Artikel', href: '/admin/articles', icon: '📖' },
-          { label: 'Kelola Galeri', href: '/admin/galleries', icon: '🖼️' },
-          { label: 'Kelola Karya Siswa', href: '/admin/student-works', icon: '🎨' },
-          { label: 'Kelola Opini', href: '/admin/opinions', icon: '✍️' },
-          { label: 'Buku Tamu', href: '/admin/guestbooks', icon: '📕' },
-          { label: 'Blog Siswa', href: '/admin/blogs', icon: '🌐' },
-          { label: 'Link Penting', href: '/admin/quick-links', icon: '🔗' },
-          { label: 'Kelola PPDB', href: '/admin/ppdb', icon: '🎓' },
-          { label: 'Kelola Produk', href: '/admin/products', icon: '📦' },
-          { label: 'Kelola Lowongan', href: '/admin/jobs', icon: '💼' },
-        ].map(({ label, href, icon }) => (
+          { label: 'Kelola Berita', href: '/admin/news', icon: Newspaper, color: 'text-indigo-500' },
+          { label: 'Kelola Agenda', href: '/admin/agendas', icon: Calendar, color: 'text-blue-500' },
+          { label: 'Kelola Artikel', href: '/admin/articles', icon: BookOpen, color: 'text-emerald-500' },
+          { label: 'Kelola Galeri', href: '/admin/galleries', icon: ImageIcon, color: 'text-rose-500' },
+          { label: 'Kelola Karya Siswa', href: '/admin/student-works', icon: Palette, color: 'text-fuchsia-500' },
+          { label: 'Kelola Opini', href: '/admin/opinions', icon: PenTool, color: 'text-orange-500' },
+          { label: 'Buku Tamu', href: '/admin/guestbooks', icon: Book, color: 'text-red-500' },
+          { label: 'Blog Siswa', href: '/admin/blogs', icon: Globe, color: 'text-cyan-500' },
+          { label: 'Link Penting', href: '/admin/quick-links', icon: Link2, color: 'text-slate-500' },
+          { label: 'Kelola PPDB', href: '/admin/ppdb', icon: GraduationCap, color: 'text-blue-600' },
+          { label: 'Kelola Produk', href: '/admin/products', icon: Package, color: 'text-emerald-600' },
+          { label: 'Kelola Lowongan', href: '/admin/jobs', icon: Briefcase, color: 'text-violet-600' },
+        ].map(({ label, href, icon: Icon, color }) => (
           <Link key={label} href={href}
-            className="bg-slate-50 border border-slate-100 rounded-xl p-4 text-center hover:bg-slate-100 transition-colors">
-            <span className="text-2xl block mb-2">{icon}</span>
+            className="bg-slate-50 border border-slate-100 rounded-xl p-4 text-center hover:bg-slate-100 hover:shadow-sm transition-all group">
+            <div className={`w-12 h-12 mx-auto mb-3 bg-white rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform ${color}`}>
+              <Icon className="w-6 h-6" />
+            </div>
             <span className="text-sm font-semibold text-slate-700">{label}</span>
           </Link>
         ))}
