@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import Image from "next/image";
 
 export default function EditOpinionPage() {
   const router = useRouter();
@@ -17,8 +16,6 @@ export default function EditOpinionPage() {
   
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  
-  
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState("");
@@ -32,15 +29,14 @@ export default function EditOpinionPage() {
             Accept: "application/json",
           }
         });
-        if (!res.ok) throw new Error("Gagal mengambil data berita.");
+        if (!res.ok) throw new Error("Gagal mengambil data opini.");
         
         const data = await res.json();
         setTitle(data.title);
         setContent(data.content);
-        `);
-        }
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : "Terjadi kesalahan";
+        setError(message);
       } finally {
         setFetching(false);
       }
@@ -62,38 +58,33 @@ export default function EditOpinionPage() {
       setLoading(true);
       setError("");
 
-      const formData = new FormData();
-      // Laravel uses _method=PUT when submitting FormData
-      formData.append("_method", "PUT");
-      formData.append("title", title);
-      formData.append("content", content);
-      
-
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/opinions/${id}`, {
-        method: "POST", // Must be POST with _method=PUT for multipart/form-data in Laravel
+        method: "PUT",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${session?.accessToken}`,
           Accept: "application/json",
         },
-        body: formData,
+        body: JSON.stringify({ title, content }),
       });
 
       if (!res.ok) {
         const errorData = await res.json();
-        throw new Error(errorData.message || "Gagal mengubah berita.");
+        throw new Error(errorData.message || "Gagal mengubah opini.");
       }
 
       router.push("/admin/opinions");
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Terjadi kesalahan";
+      setError(message);
     } finally {
       setLoading(false);
     }
   };
 
   if (fetching) {
-    return <div className="p-8">Memuat data berita...</div>;
+    return <div className="p-8">Memuat data opini...</div>;
   }
 
   return (
@@ -118,22 +109,12 @@ export default function EditOpinionPage() {
             />
           </div>
 
-          
-            )}
-            <Input 
-              id="image" 
-              type="file" 
-              accept="image/*"
-              onChange={(e) => setImage(e.target.files?.[0] || null)} 
-            />
-          </div>
-
           <div className="space-y-2">
             <Label htmlFor="content">Konten Opini</Label>
             <Textarea 
               id="content" 
-              placeholder="Tulis isi berita di sini..." 
-              className="min-h-[200px]"
+              placeholder="Tulis isi opini di sini..." 
+              className="min-h-50"
               value={content} 
               onChange={(e) => setContent(e.target.value)} 
               required

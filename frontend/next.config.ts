@@ -25,11 +25,25 @@ const securityHeaders = [
     key: 'Permissions-Policy',
     value: 'camera=(), microphone=(), geolocation=(self)',
   },
+  {
+    // Fix #9: Content-Security-Policy
+    key: 'Content-Security-Policy',
+    value: [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "img-src 'self' data: blob: http://localhost:8000 http://127.0.0.1:8000 https://images.unsplash.com",
+      "connect-src 'self' http://localhost:8000 http://127.0.0.1:8000",
+      "frame-ancestors 'none'",
+    ].join('; '),
+  },
 ];
 
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
+      // Fix #8: Removed wildcard https://** — only allow known hosts
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
@@ -42,10 +56,8 @@ const nextConfig: NextConfig = {
         protocol: 'http',
         hostname: '127.0.0.1',
       },
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
+      // Add your production storage hostname here when deploying:
+      // { protocol: 'https', hostname: 'your-cdn-or-storage.com' },
     ],
   },
   async headers() {

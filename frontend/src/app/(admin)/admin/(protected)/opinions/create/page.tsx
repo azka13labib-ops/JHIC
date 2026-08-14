@@ -14,7 +14,6 @@ export default function CreateOpinionPage() {
   
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -29,29 +28,26 @@ export default function CreateOpinionPage() {
       setLoading(true);
       setError("");
 
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("content", content);
-      
-
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/opinions`, {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${session?.accessToken}`,
           Accept: "application/json",
         },
-        body: formData,
+        body: JSON.stringify({ title, content }),
       });
 
       if (!res.ok) {
         const errorData = await res.json();
-        throw new Error(errorData.message || "Gagal menyimpan berita.");
+        throw new Error(errorData.message || "Gagal menyimpan opini.");
       }
 
       router.push("/admin/opinions");
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Terjadi kesalahan";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -79,14 +75,12 @@ export default function CreateOpinionPage() {
             />
           </div>
 
-          
-
           <div className="space-y-2">
             <Label htmlFor="content">Konten Opini</Label>
             <Textarea 
               id="content" 
-              placeholder="Tulis isi berita di sini..." 
-              className="min-h-[200px]"
+              placeholder="Tulis isi opini di sini..." 
+              className="min-h-50"
               value={content} 
               onChange={(e) => setContent(e.target.value)} 
               required

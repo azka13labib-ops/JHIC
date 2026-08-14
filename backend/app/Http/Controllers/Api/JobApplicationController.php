@@ -25,7 +25,8 @@ class JobApplicationController extends Controller
                 'data' => $application
             ], 201);
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
+            \Illuminate\Support\Facades\Log::error('Job application error', ['error' => $e->getMessage()]);
+            return response()->json(['message' => 'Gagal mengirim lamaran, silakan coba lagi.'], 500);
         }
     }
 }

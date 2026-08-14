@@ -68,17 +68,17 @@ class OpinionController extends Controller
         ]);
 
         $imagePath = null;
+        if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('opinion', 'public');
         }
 
         $opinion->update([
-            'title' => $request->title,
-            // Only update slug if title changed significantly, but for simplicity we keep old slug or generate new
+            'title'   => $request->title,
             'content' => $request->content,
-            
         ]);
 
         Cache::forget('api.opinion');
+        Cache::forget('api.opinions');
 
         return response()->json($opinion);
     }

@@ -152,12 +152,12 @@ export default function AdminEditAchievementPage({ params }: { params: Promise<{
           {image ? (
             <div className="relative w-40 h-40 rounded-lg overflow-hidden border border-slate-200">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={getImageUrl(URL.createObjectURL(image))} alt="Preview" className="object-cover w-full h-full" />
+              <img src={URL.createObjectURL(image)} alt="Preview" className="object-cover w-full h-full" />
             </div>
           ) : formData.image_path ? (
             <div className="relative w-40 h-40 rounded-lg overflow-hidden border border-slate-200">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={getImageUrl(`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', ''))}/storage/${formData.image_path}`} alt="Preview" className="object-cover w-full h-full" />
+              <img src={getImageUrl(formData.image_path)} alt="Preview" className="object-cover w-full h-full" />
             </div>
           ) : null}
         </div>

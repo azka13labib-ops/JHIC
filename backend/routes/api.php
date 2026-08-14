@@ -49,15 +49,12 @@ Route::middleware(['throttle:100,1'])->group(function () {
     });
 });
 
-// PPDB Info publik
+// PPDB Info publik (no auth needed)
 Route::get('/ppdb/info', [\App\Http\Controllers\Api\PpdbController::class, 'info']);
 
-// PPDB Submit — tanpa login (guest)
+// Guestbook submit (guest, throttled)
 Route::middleware(['throttle:10,60'])->group(function () {
-        Route::post('/guestbooks', [\App\Http\Controllers\Api\LandingPageController::class, 'storeGuestbook']);
-    Route::post('/ppdb/submit', [\App\Http\Controllers\Api\PpdbController::class, 'submit']);
-    Route::post('/ppdb/upload-doc', [\App\Http\Controllers\Api\PpdbController::class, 'uploadDoc']);
-    Route::get('/ppdb/check-status', [\App\Http\Controllers\Api\PpdbController::class, 'checkStatus']);
+    Route::post('/guestbooks', [\App\Http\Controllers\Api\LandingPageController::class, 'storeGuestbook']);
 });
 
 // BLUD Inquiries (Stricter rate limiting to prevent spam)
@@ -65,14 +62,23 @@ Route::middleware(['throttle:5,60'])->group(function () {
     Route::post('/inquiries', [InquiryController::class, 'store']);
 });
 
-// Auth Routes
-Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
-Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
+// Auth Routes — tighter throttle to prevent brute force (#2, #11)
+Route::middleware(['throttle:10,60'])->group(function () {
+    Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
+    Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
+});
 
 // Protected Routes (Requires Auth)
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
     Route::get('/me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
+
+    // PPDB — requires login (#5, #7)
+    Route::middleware(['throttle:10,60'])->group(function () {
+        Route::post('/ppdb/submit', [\App\Http\Controllers\Api\PpdbController::class, 'submit']);
+        Route::post('/ppdb/upload-doc', [\App\Http\Controllers\Api\PpdbController::class, 'uploadDoc']);
+        Route::get('/ppdb/check-status', [\App\Http\Controllers\Api\PpdbController::class, 'checkStatus']);
+    });
 
     // BKK Job Apply (rate limit 3 per hari)
     Route::middleware(['throttle:3,1440'])->group(function () {
@@ -80,9 +86,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     // ============================================================
-    // Admin Routes — memerlukan auth:sanctum (role admin di gate/policy)
+    // Admin Routes — requires auth:sanctum AND role=admin (#1)
     // ============================================================
-    Route::prefix('admin')->group(function () {
+    Route::middleware('admin')->prefix('admin')->group(function () {
 
         // Dashboard Stats
         Route::get('/dashboard/stats', [\App\Http\Controllers\Api\Admin\DashboardController::class, 'stats']);

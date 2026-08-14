@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { serverFetch } from './server';
 import type { SchoolProfile, Achievement, Department, Partner } from '@/types/school';
 
@@ -31,7 +32,7 @@ export async function getDepartments(): Promise<Department[]> {
   try {
     const res = await serverFetch<{ data: Department[] }>('/departments', { revalidate: 86400 });
     return res.data;
-  } catch (error) {
+  } catch {
     return [
       { id: 1, name: "MIPA", description: "Matematika dan Ilmu Pengetahuan Alam. Mempersiapkan siswa di bidang sains, kedokteran, dan teknik.", icon: "Microscope" },
       { id: 2, name: "IPS", description: "Ilmu Pengetahuan Sosial. Berfokus pada sosiologi, ekonomi, geografi, dan sejarah.", icon: "Globe" },
@@ -44,7 +45,7 @@ export async function getAchievements(): Promise<Achievement[]> {
   try {
     const res = await serverFetch<{ data: Achievement[] }>('/achievements', { revalidate: 86400, tags: ['achievements'] });
     return res.data;
-  } catch (error) {
+  } catch {
     return [
       { id: 1, title: "Juara 1 Web Development", description: "LKS Tingkat Nasional 2025", level: "Nasional", date: "2025-10-12", student_name: "Ahmad Rizky" },
       { id: 2, title: "Medali Emas UI/UX Design", description: "Asean Skills Competition", level: "Internasional", date: "2025-08-20", student_name: "Siti Aminah" },
@@ -56,7 +57,7 @@ export async function getPartners(): Promise<Partner[]> {
   try {
     const res = await serverFetch<{ data: Partner[] }>('/partners', { revalidate: 86400 });
     return res.data;
-  } catch (error) {
+  } catch {
     return [
       { id: 1, name: "Jagoan Hosting", logo_url: "/images/partners/jagoan-hosting.png" },
       { id: 2, name: "Komdigi", logo_url: "/images/partners/komdigi.png" },
@@ -136,12 +137,24 @@ export async function getArticles(): Promise<any[]> {
   }
 }
 
+export const getArticle = getArticles;
+
 export async function getArticleById(id: string): Promise<any> {
   try {
     const res = await serverFetch<{ data: any }>(`/articles/${id}`, { revalidate: 60, tags: [`article-${id}`] });
     return res.data;
   } catch (error) {
     console.error(`Failed to fetch article ${id}`, error);
+    return null;
+  }
+}
+
+export async function getArticleBySlug(slug: string): Promise<any> {
+  try {
+    const res = await serverFetch<{ data: any }>(`/articles/${slug}`, { revalidate: 60, tags: [`article-${slug}`] });
+    return res.data;
+  } catch (error) {
+    console.error(`Failed to fetch article ${slug}`, error);
     return null;
   }
 }
@@ -196,12 +209,24 @@ export async function getOpinions(): Promise<any[]> {
   }
 }
 
+export const getOpinion = getOpinions;
+
 export async function getOpinionById(id: string): Promise<any> {
   try {
     const res = await serverFetch<{ data: any }>(`/opinions/${id}`, { revalidate: 60, tags: [`opinion-${id}`] });
     return res.data;
   } catch (error) {
     console.error(`Failed to fetch opinion ${id}`, error);
+    return null;
+  }
+}
+
+export async function getOpinionBySlug(slug: string): Promise<any> {
+  try {
+    const res = await serverFetch<{ data: any }>(`/opinions/${slug}`, { revalidate: 60, tags: [`opinion-${slug}`] });
+    return res.data;
+  } catch (error) {
+    console.error(`Failed to fetch opinion ${slug}`, error);
     return null;
   }
 }

@@ -25,8 +25,11 @@ class PpdbController extends Controller
                 'message' => 'Formulir PPDB berhasil disubmit.',
                 'data' => $registration
             ], 201);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
+            \Illuminate\Support\Facades\Log::error('PPDB submit error', ['error' => $e->getMessage()]);
+            return response()->json(['message' => 'Terjadi kesalahan pada pendaftaran, silakan coba lagi.'], 500);
         }
     }
 
@@ -39,7 +42,8 @@ class PpdbController extends Controller
                 'data' => $doc
             ]);
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
+            \Illuminate\Support\Facades\Log::error('PPDB upload error', ['error' => $e->getMessage()]);
+            return response()->json(['message' => 'Gagal mengunggah dokumen, silakan coba lagi.'], 500);
         }
     }
 

@@ -54,7 +54,7 @@ export default async function AgendaPage() {
                   {item.description}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}

@@ -25,21 +25,16 @@ class QuickLinkController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string', // max 2MB
+            'url'   => 'required|url|max:255',
         ]);
 
-        $imagePath = null;
+        $quickLink = QuickLink::create($validated);
 
-        $quickLink = QuickLink::create([
-            'title' => $request->title,
-            'url' => $request->url,
-        ]);
+        Cache::forget('api.quick_links');
 
-        Cache::forget('api.quick_link');
-
-        return response()->json($quick_link, 201);
+        return response()->json($quickLink, 201);
     }
 
     /**
@@ -58,21 +53,14 @@ class QuickLinkController extends Controller
     {
         $quickLink = QuickLink::findOrFail($id);
 
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'url'   => 'required|url|max:255',
         ]);
 
-        $imagePath = null;
-            $imagePath = $request->file('image')->store('quick_link', 'public');
-        }
+        $quickLink->update($validated);
 
-        $quickLink->update([
-            'title' => $request->title,
-            'url' => $request->url,
-        ]);
-
-        Cache::forget('api.quick_link');
+        Cache::forget('api.quick_links');
 
         return response()->json($quickLink);
     }
@@ -83,13 +71,9 @@ class QuickLinkController extends Controller
     public function destroy($id)
     {
         $quickLink = QuickLink::findOrFail($id);
+        $quickLink->delete();
 
-        
-
-        $quick_link->delete();
-        Cache::forget('api.quick_link');
-
-        \Illuminate\Support\Facades\Cache::forget('api.quick_links');
+        Cache::forget('api.quick_links');
         return response()->json(['message' => 'QuickLink berhasil dihapus.']);
     }
 }

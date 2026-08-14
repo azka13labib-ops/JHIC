@@ -6,8 +6,6 @@ import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import Image from "next/image";
 
 export default function EditBlogPage() {
   const router = useRouter();
@@ -16,9 +14,7 @@ export default function EditBlogPage() {
   const { data: session } = useSession();
   
   const [title, setTitle] = useState("");
-  
-  
-  
+  const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState("");
@@ -32,15 +28,14 @@ export default function EditBlogPage() {
             Accept: "application/json",
           }
         });
-        if (!res.ok) throw new Error("Gagal mengambil data berita.");
+        if (!res.ok) throw new Error("Gagal mengambil data blog.");
         
         const data = await res.json();
         setTitle(data.title);
-        
-        `);
-        }
-      } catch (err: any) {
-        setError(err.message);
+        setUrl(data.url);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : "Terjadi kesalahan";
+        setError(message);
       } finally {
         setFetching(false);
       }
@@ -53,8 +48,8 @@ export default function EditBlogPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !content) {
-      setError("Judul dan Konten harus diisi.");
+    if (!title || !url) {
+      setError("Judul dan URL harus diisi.");
       return;
     }
 
@@ -62,38 +57,33 @@ export default function EditBlogPage() {
       setLoading(true);
       setError("");
 
-      const formData = new FormData();
-      // Laravel uses _method=PUT when submitting FormData
-      formData.append("_method", "PUT");
-      formData.append("title", title);
-      
-      
-
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/blogs/${id}`, {
-        method: "POST", // Must be POST with _method=PUT for multipart/form-data in Laravel
+        method: "PUT",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${session?.accessToken}`,
           Accept: "application/json",
         },
-        body: formData,
+        body: JSON.stringify({ title, url }),
       });
 
       if (!res.ok) {
         const errorData = await res.json();
-        throw new Error(errorData.message || "Gagal mengubah berita.");
+        throw new Error(errorData.message || "Gagal mengubah blog.");
       }
 
       router.push("/admin/blogs");
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Terjadi kesalahan";
+      setError(message);
     } finally {
       setLoading(false);
     }
   };
 
   if (fetching) {
-    return <div className="p-8">Memuat data berita...</div>;
+    return <div className="p-8">Memuat data blog...</div>;
   }
 
   return (
@@ -118,17 +108,17 @@ export default function EditBlogPage() {
             />
           </div>
 
-          
-            )}
+          <div className="space-y-2">
+            <Label htmlFor="url">URL / Link Blog</Label>
             <Input 
-              id="image" 
-              type="file" 
-              accept="image/*"
-              onChange={(e) => setImage(e.target.files?.[0] || null)} 
+              id="url" 
+              type="url"
+              placeholder="https://..." 
+              value={url} 
+              onChange={(e) => setUrl(e.target.value)} 
+              required
             />
           </div>
-
-          
 
           <Button type="submit" disabled={loading}>
             {loading ? "Menyimpan..." : "Simpan Perubahan"}

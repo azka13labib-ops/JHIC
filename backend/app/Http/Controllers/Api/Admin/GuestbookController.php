@@ -25,19 +25,16 @@ class GuestbookController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string', // max 2MB
+        $validated = $request->validate([
+            'name'        => 'required|string|max:255',
+            'email'       => 'nullable|email|max:255',
+            'institution' => 'nullable|string|max:255',
+            'message'     => 'required|string|max:2000',
         ]);
 
-        $imagePath = null;
+        $guestbook = Guestbook::create($validated);
 
-        $guestbook = Guestbook::create([
-            'title' => $request->title,
-            'url' => $request->url,
-        ]);
-
-        Cache::forget('api.guestbook');
+        Cache::forget('api.guestbooks');
 
         return response()->json($guestbook, 201);
     }
@@ -58,21 +55,16 @@ class GuestbookController extends Controller
     {
         $guestbook = Guestbook::findOrFail($id);
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
+        $validated = $request->validate([
+            'name'        => 'required|string|max:255',
+            'email'       => 'nullable|email|max:255',
+            'institution' => 'nullable|string|max:255',
+            'message'     => 'required|string|max:2000',
         ]);
 
-        $imagePath = null;
-            $imagePath = $request->file('image')->store('guestbook', 'public');
-        }
+        $guestbook->update($validated);
 
-        $guestbook->update([
-            'title' => $request->title,
-            'url' => $request->url,
-        ]);
-
-        Cache::forget('api.guestbook');
+        Cache::forget('api.guestbooks');
 
         return response()->json($guestbook);
     }
@@ -83,13 +75,9 @@ class GuestbookController extends Controller
     public function destroy($id)
     {
         $guestbook = Guestbook::findOrFail($id);
-
-        
-
         $guestbook->delete();
-        Cache::forget('api.guestbook');
 
-        \Illuminate\Support\Facades\Cache::forget('api.guestbooks');
-        return response()->json(['message' => 'Guestbook berhasil dihapus.']);
+        Cache::forget('api.guestbooks');
+        return response()->json(['message' => 'Buku tamu berhasil dihapus.']);
     }
 }

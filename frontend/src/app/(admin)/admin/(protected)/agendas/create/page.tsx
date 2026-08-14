@@ -121,7 +121,7 @@ export default function CreateAgendaPage() {
             <Textarea 
               id="description" 
               placeholder="Tulis deksripsi agenda di sini..." 
-              className="min-h-[200px]"
+              className="min-h-50"
               value={description} 
               onChange={(e) => setContent(e.target.value)} 
               required

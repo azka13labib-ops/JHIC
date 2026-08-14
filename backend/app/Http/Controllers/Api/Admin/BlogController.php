@@ -25,19 +25,14 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string', // max 2MB
+            'url'   => 'required|url|max:255',
         ]);
 
-        $imagePath = null;
+        $blog = Blog::create($validated);
 
-        $blog = Blog::create([
-            'title' => $request->title,
-            'url' => $request->url,
-        ]);
-
-        Cache::forget('api.blog');
+        Cache::forget('api.blogs');
 
         return response()->json($blog, 201);
     }
@@ -58,19 +53,14 @@ class BlogController extends Controller
     {
         $blog = Blog::findOrFail($id);
 
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'url'   => 'required|url|max:255',
         ]);
 
+        $blog->update($validated);
 
-
-        $blog->update([
-            'title' => $request->title,
-            'url' => $request->url,
-        ]);
-
-        Cache::forget('api.blog');
+        Cache::forget('api.blogs');
 
         return response()->json($blog);
     }
@@ -81,13 +71,9 @@ class BlogController extends Controller
     public function destroy($id)
     {
         $blog = Blog::findOrFail($id);
-
-        
-
         $blog->delete();
-        Cache::forget('api.blog');
 
-        \Illuminate\Support\Facades\Cache::forget('api.blogs');
+        Cache::forget('api.blogs');
         return response()->json(['message' => 'Blog berhasil dihapus.']);
     }
 }
