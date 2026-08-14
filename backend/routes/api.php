@@ -19,18 +19,20 @@ Route::middleware(['throttle:100,1'])->group(function () {
         Route::get('/news/{slug}', [\App\Http\Controllers\Api\LandingPageController::class, 'showNews']);
         
         Route::get('/agendas', [\App\Http\Controllers\Api\LandingPageController::class, 'agendas']);
-        Route::get('/agendas/{id}', [\App\Http\Controllers\Api\LandingPageController::class, 'showAgenda']);
+        Route::get('/agendas/{slug}', [\App\Http\Controllers\Api\LandingPageController::class, 'showAgenda']);
         Route::get('/articles', [\App\Http\Controllers\Api\LandingPageController::class, 'articles']);
         Route::get('/articles/{id}', [\App\Http\Controllers\Api\LandingPageController::class, 'showArticle']);
         
-                Route::get('/opinions', [\App\Http\Controllers\Api\LandingPageController::class, 'opinions']);
+        Route::get('/opinions', [\App\Http\Controllers\Api\LandingPageController::class, 'opinions']);
         Route::get('/opinions/{id}', [\App\Http\Controllers\Api\LandingPageController::class, 'showOpinion']);
-                                Route::get('/guestbooks', [\App\Http\Controllers\Api\LandingPageController::class, 'guestbooks']);
+        Route::get('/guestbooks', [\App\Http\Controllers\Api\LandingPageController::class, 'guestbooks']);
         Route::get('/quick-links', [\App\Http\Controllers\Api\LandingPageController::class, 'quickLinks']);
         Route::get('/blogs', [\App\Http\Controllers\Api\LandingPageController::class, 'blogs']);
         Route::get('/student-works', [\App\Http\Controllers\Api\LandingPageController::class, 'studentWorks']);
+        Route::get('/student-works/{slug}', [\App\Http\Controllers\Api\LandingPageController::class, 'showStudentWork']);
 
         Route::get('/galleries', [\App\Http\Controllers\Api\LandingPageController::class, 'galleries']);
+        Route::get('/galleries/{slug}', [\App\Http\Controllers\Api\LandingPageController::class, 'showGallery']);
 
         Route::get('/achievements', [\App\Http\Controllers\Api\LandingPageController::class, 'achievements']);
         Route::get('/alumnis', [\App\Http\Controllers\Api\LandingPageController::class, 'alumnis']);

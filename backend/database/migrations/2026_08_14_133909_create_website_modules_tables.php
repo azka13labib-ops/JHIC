@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('agendas');
         Schema::create('agendas', function (Blueprint $table) {
             $table->id();

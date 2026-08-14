@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getImageUrl } from "@/lib/utils";
 import Image from "next/image";
 import { getStudentWorks } from "@/lib/api/school";
@@ -21,7 +22,7 @@ export default async function StudentWorkPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {works.map((item) => (
-            <div key={item.id} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300 group">
+            <Link href={`/karya-siswa/${item.slug}`} key={item.id} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300 group">
                 {item.image ? (
                   <div className="relative aspect-video w-full overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -42,7 +43,7 @@ export default async function StudentWorkPage() {
                       {item.description}
                     </p>
                 </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}

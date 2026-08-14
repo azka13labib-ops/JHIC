@@ -63,9 +63,7 @@ class BlogController extends Controller
             'content' => 'required|string',
         ]);
 
-        $imagePath = null;
-            $imagePath = $request->file('image')->store('blog', 'public');
-        }
+
 
         $blog->update([
             'title' => $request->title,

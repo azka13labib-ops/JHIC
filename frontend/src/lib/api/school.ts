@@ -116,12 +116,12 @@ export async function getAgendas(): Promise<any[]> {
   }
 }
 
-export async function getAgendaById(id: string): Promise<any> {
+export async function getAgendaBySlug(slug: string): Promise<any> {
   try {
-    const res = await serverFetch<{ data: any }>(`/agendas/${id}`, { revalidate: 60, tags: [`agenda-${id}`] });
+    const res = await serverFetch<{ data: any }>(`/agendas/${slug}`, { revalidate: 60, tags: [`agenda-${slug}`] });
     return res.data;
   } catch (error) {
-    console.error(`Failed to fetch agenda ${id}`, error);
+    console.error(`Failed to fetch agenda ${slug}`, error);
     return null;
   }
 }
@@ -156,6 +156,16 @@ export async function getGalleries(): Promise<any[]> {
   }
 }
 
+export async function getGalleryBySlug(slug: string): Promise<any> {
+  try {
+    const res = await serverFetch<{ data: any }>(`/galleries/${slug}`, { revalidate: 60, tags: [`gallery-${slug}`] });
+    return res.data;
+  } catch (error) {
+    console.error(`Failed to fetch gallery ${slug}`, error);
+    return null;
+  }
+}
+
 export async function getStudentWorks(): Promise<any[]> {
   try {
     const res = await serverFetch<{ data: any[] }>('/student-works', { revalidate: 60, tags: ['student-works'] });
@@ -163,6 +173,16 @@ export async function getStudentWorks(): Promise<any[]> {
   } catch (error) {
     console.error('Failed to fetch student works', error);
     return [];
+  }
+}
+
+export async function getStudentWorkBySlug(slug: string): Promise<any> {
+  try {
+    const res = await serverFetch<{ data: any }>(`/student-works/${slug}`, { revalidate: 60, tags: [`student-work-${slug}`] });
+    return res.data;
+  } catch (error) {
+    console.error(`Failed to fetch student work ${slug}`, error);
+    return null;
   }
 }
 

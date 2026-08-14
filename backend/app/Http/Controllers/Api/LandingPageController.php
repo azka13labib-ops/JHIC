@@ -103,9 +103,9 @@ class LandingPageController extends Controller
         return response()->json(['data' => $data], 200);
     }
 
-    public function showAgenda($id)
+    public function showAgenda($slug)
     {
-        $agenda = \App\Models\Agenda::findOrFail($id);
+        $agenda = \App\Models\Agenda::where('slug', $slug)->firstOrFail();
         return response()->json(['data' => $agenda], 200);
     }
 
@@ -131,6 +131,11 @@ class LandingPageController extends Controller
         return response()->json(['data' => $data], 200);
     }
 
+    public function showGallery($slug)
+    {
+        $gallery = \App\Models\Gallery::where('slug', $slug)->firstOrFail();
+        return response()->json(['data' => $gallery], 200);
+    }
 
     public function studentWorks()
     {
@@ -138,6 +143,12 @@ class LandingPageController extends Controller
             return \App\Models\StudentWork::latest('created_at')->get();
         });
         return response()->json(['data' => $data], 200);
+    }
+
+    public function showStudentWork($slug)
+    {
+        $studentWork = \App\Models\StudentWork::where('slug', $slug)->firstOrFail();
+        return response()->json(['data' => $studentWork], 200);
     }
 
 
