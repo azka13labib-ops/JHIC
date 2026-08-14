@@ -17,7 +17,7 @@ export default async function StudentWorkPage() {
     );
   }
 
-  const student-worksList = await res.json();
+  const worksList = await res.json();
 
   return (
     <div className="space-y-6">
@@ -44,14 +44,14 @@ export default async function StudentWorkPage() {
             </tr>
           </thead>
           <tbody>
-            {student-worksList.length === 0 ? (
+            {worksList.length === 0 ? (
               <tr>
                 <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
                   Belum ada berita.
                 </td>
               </tr>
             ) : (
-              student-worksList.map((item: any) => (
+              worksList.map((item: any) => (
                 <tr key={item.id} className="bg-white border-b hover:bg-gray-50">
                   <td className="px-6 py-4 font-medium text-gray-900">{item.title}</td>
                   <td className="px-6 py-4">{item.student_name}</td>
