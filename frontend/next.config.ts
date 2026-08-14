@@ -60,6 +60,9 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [];
   },
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
 };
 
 export default nextConfig;

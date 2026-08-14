@@ -94,4 +94,41 @@ class LandingPageController extends Controller
 
         return PartnerResource::collection($data);
     }
+
+    public function agendas()
+    {
+        $data = Cache::remember('api.agendas', 86400, function () {
+            return \App\Models\Agenda::latest('date')->get();
+        });
+        return response()->json(['data' => $data], 200);
+    }
+
+    public function showAgenda($id)
+    {
+        $agenda = \App\Models\Agenda::findOrFail($id);
+        return response()->json(['data' => $agenda], 200);
+    }
+
+    public function articles()
+    {
+        $data = Cache::remember('api.articles', 86400, function () {
+            return \App\Models\Article::latest('created_at')->get();
+        });
+        return response()->json(['data' => $data], 200);
+    }
+
+    public function showArticle($id)
+    {
+        $article = \App\Models\Article::findOrFail($id);
+        return response()->json(['data' => $article], 200);
+    }
+
+    public function galleries()
+    {
+        $data = Cache::remember('api.galleries', 86400, function () {
+            return \App\Models\Gallery::latest('created_at')->get();
+        });
+        return response()->json(['data' => $data], 200);
+    }
+
 }

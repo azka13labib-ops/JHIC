@@ -17,6 +17,13 @@ Route::middleware(['throttle:100,1'])->group(function () {
         Route::get('/announcements', [\App\Http\Controllers\Api\LandingPageController::class, 'announcements']);
         Route::get('/news', [\App\Http\Controllers\Api\LandingPageController::class, 'news']);
         Route::get('/news/{slug}', [\App\Http\Controllers\Api\LandingPageController::class, 'showNews']);
+        
+        Route::get('/agendas', [\App\Http\Controllers\Api\LandingPageController::class, 'agendas']);
+        Route::get('/agendas/{id}', [\App\Http\Controllers\Api\LandingPageController::class, 'showAgenda']);
+        Route::get('/articles', [\App\Http\Controllers\Api\LandingPageController::class, 'articles']);
+        Route::get('/articles/{id}', [\App\Http\Controllers\Api\LandingPageController::class, 'showArticle']);
+        Route::get('/galleries', [\App\Http\Controllers\Api\LandingPageController::class, 'galleries']);
+
         Route::get('/achievements', [\App\Http\Controllers\Api\LandingPageController::class, 'achievements']);
         Route::get('/alumnis', [\App\Http\Controllers\Api\LandingPageController::class, 'alumnis']);
         Route::get('/partners', [\App\Http\Controllers\Api\LandingPageController::class, 'partners']);
