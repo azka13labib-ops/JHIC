@@ -71,6 +71,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // Berita
         Route::apiResource('news', \App\Http\Controllers\Api\Admin\NewsController::class);
+        Route::apiResource('galleries', \App\Http\Controllers\Api\Admin\GalleryController::class);
         Route::apiResource('articles', \App\Http\Controllers\Api\Admin\ArticleController::class);
         Route::apiResource('agendas', \App\Http\Controllers\Api\Admin\AgendaController::class);
 

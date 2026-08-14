@@ -1,32 +1,45 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
+import Image from "next/image";
+import { getGalleries } from "@/lib/api/school";
 
-export const metadata: Metadata = {
-  title: 'Galeri Sekolah | SMA PGRI 1 Lumajang',
-};
+export const revalidate = 60; // Revalidate every minute
 
-export default function GaleriPage() {
+export default async function GalleryPage() {
+  const galleries = await getGalleries();
+
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
-      <section className="bg-linear-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-16 text-center">
-        <div className="container mx-auto px-4">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">Galeri Sekolah</h1>
-          <p className="text-blue-200">Dokumentasi kegiatan dan momen berharga</p>
+    <div className="container mx-auto px-4 py-20 min-h-screen">
+      <h1 className="text-4xl font-bold mb-8 text-center">Galeri Foto</h1>
+      <p className="text-slate-600 text-center mb-12 max-w-2xl mx-auto">
+        Kumpulan dokumentasi kegiatan dan fasilitas di SMA PGRI 1 Lumajang.
+      </p>
+
+      {galleries.length === 0 ? (
+        <div className="text-center py-20 bg-slate-50 rounded-xl border border-dashed border-slate-300">
+          <p className="text-slate-500 text-lg">Belum ada foto yang diunggah.</p>
         </div>
-      </section>
-      
-      <div className="flex-1 flex items-center justify-center p-4 py-20">
-        <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl text-center max-w-2xl w-full border border-slate-100">
-          <div className="text-6xl mb-6">🖼️</div>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-4">Album Kosong</h2>
-          <p className="text-slate-600 text-lg mb-8 leading-relaxed">
-            Modul galeri foto dan video saat ini belum terhubung dengan penyimpanan.
-          </p>
-          <Link href="/" className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3.5 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20">
-            <span>←</span> Kembali ke Beranda
-          </Link>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {galleries.map((item) => (
+            <div key={item.id} className="group relative overflow-hidden rounded-2xl bg-slate-100 aspect-square shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300">
+                {item.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img 
+                    src={item.image} 
+                    alt={item.title} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-slate-400">
+                    <span className="text-4xl">📸</span>
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                    <h2 className="text-white font-bold text-lg">{item.title}</h2>
+                </div>
+            </div>
+          ))}
         </div>
-      </div>
+      )}
     </div>
   );
 }

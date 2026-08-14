@@ -145,3 +145,13 @@ export async function getArticleById(id: string): Promise<any> {
     return null;
   }
 }
+
+export async function getGalleries(): Promise<any[]> {
+  try {
+    const res = await serverFetch<{ data: any[] }>('/galleries', { revalidate: 60, tags: ['galleries'] });
+    return res.data || [];
+  } catch (error) {
+    console.error('Failed to fetch galleries', error);
+    return [];
+  }
+}
