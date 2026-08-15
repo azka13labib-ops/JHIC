@@ -12,9 +12,12 @@ export default function JurusanSection({ departments }: { departments: Departmen
     <section className="py-20 bg-slate-50">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold text-slate-900 mb-4">Program Peminatan</h2>
-          <p className="text-slate-600 text-lg">
-            Kami menyediakan program peminatan yang dirancang untuk mengakomodasi minat dan bakat peserta didik menuju jenjang pendidikan tinggi.
+          <div className="inline-block px-3.5 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+            Kurikulum Merdeka • Fase F (Kelas XI - XII)
+          </div>
+          <h2 className="text-3xl font-bold text-slate-900 mb-4">Program Peminatan Akademik</h2>
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+            Sesuai Kurikulum Merdeka, siswa baru Kelas 10 menempuh program umum bersama. Pemilihan kelompok peminatan (MIPA, IPS, atau Bahasa) dilaksanakan pada kenaikan Kelas 11 sesuai bakat dan rencana studi lanjut.
           </p>
         </div>
 

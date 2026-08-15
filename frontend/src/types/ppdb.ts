@@ -3,7 +3,7 @@ export interface Registration {
   registration_number: string;
   full_name: string;
   nisn: string;
-  major_choice: string;
+  major_choice?: string;
   status: 'pending' | 'verified' | 'accepted' | 'rejected';
   previous_school: string;
   created_at: string;

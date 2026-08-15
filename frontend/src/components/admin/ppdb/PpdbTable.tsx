@@ -120,7 +120,7 @@ export function PpdbTable({
             <tr>
               <th className="px-6 py-4">No. Pendaftaran</th>
               <th className="px-6 py-4">Data Calon Siswa</th>
-              <th className="px-6 py-4">Pilihan Jurusan</th>
+              <th className="px-6 py-4">Program / Jenjang</th>
               <th className="px-6 py-4">Status & Verifikasi</th>
               <th className="px-6 py-4">Catatan</th>
               <th className="px-6 py-4">Tgl Daftar</th>
@@ -175,7 +175,7 @@ export function PpdbTable({
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-bold bg-blue-50 text-blue-700 border border-blue-100">
                         <GraduationCap className="w-3.5 h-3.5" />
-                        {reg.major_choice}
+                        {reg.major_choice || 'Fase E (Umum)'}
                       </span>
                     </td>
 

@@ -27,7 +27,7 @@ interface DashboardStats {
     id: number;
     registration_number: string;
     full_name: string;
-    major_choice: string;
+    major_choice?: string;
     status: string;
     created_at: string;
   }>;
@@ -38,7 +38,6 @@ export default function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Dynamic time greeting
   const getGreeting = () => {
     const hours = new Date().getHours();
     if (hours < 11) return 'Selamat Pagi';
@@ -249,7 +248,7 @@ export default function DashboardPage() {
                   <tr>
                     <th className="py-3 px-3">No. Daftar</th>
                     <th className="py-3 px-3">Nama</th>
-                    <th className="py-3 px-3">Peminatan</th>
+                    <th className="py-3 px-3">Program / Jenjang</th>
                     <th className="py-3 px-3 text-center">Status</th>
                   </tr>
                 </thead>
@@ -260,7 +259,7 @@ export default function DashboardPage() {
                       <tr key={reg.id} className="hover:bg-slate-50/80 transition-colors">
                         <td className="py-3 px-3 font-mono font-bold text-blue-600">{reg.registration_number}</td>
                         <td className="py-3 px-3 font-bold text-slate-900">{reg.full_name}</td>
-                        <td className="py-3 px-3 text-slate-600 font-semibold">{reg.major_choice}</td>
+                        <td className="py-3 px-3 text-slate-600 font-semibold">{reg.major_choice || 'Fase E (Umum)'}</td>
                         <td className="py-3 px-3 text-center">
                           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-bold border ${cfg.badge}`}>
                             <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />

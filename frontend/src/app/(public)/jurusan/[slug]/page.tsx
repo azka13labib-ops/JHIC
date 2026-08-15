@@ -19,14 +19,15 @@ export async function generateStaticParams() {
   return departments.map((d) => ({ slug: d.name.toLowerCase().replace(/\s+/g, '-') }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
   const departments = await getDepartments();
   const dept = departments.find(
-    (d) => d.name.toLowerCase().replace(/\s+/g, '-') === params.slug
+    (d) => d.name.toLowerCase().replace(/\s+/g, '-') === slug
   );
   return {
-    title: `${dept?.name ?? 'Peminatan'} | SMA PGRI 1 Lumajang`,
-    description: dept?.description ?? 'Detail program peminatan SMA PGRI 1 Lumajang',
+    title: `${dept?.name ?? 'Peminatan'} (Fase F) | SMA PGRI 1 Lumajang`,
+    description: dept?.description ?? 'Detail program peminatan Fase F (Kelas 11 & 12) SMA PGRI 1 Lumajang',
   };
 }
 
@@ -53,10 +54,11 @@ const DEPT_DETAILS: Record<string, {
   },
 };
 
-export default async function JurusanDetailPage({ params }: { params: { slug: string } }) {
+export default async function JurusanDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const departments = await getDepartments();
   const dept = departments.find(
-    (d) => d.name.toLowerCase().replace(/\s+/g, '-') === params.slug
+    (d) => d.name.toLowerCase().replace(/\s+/g, '-') === slug
   );
 
   if (!dept) {

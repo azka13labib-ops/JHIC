@@ -66,7 +66,7 @@ export interface Registration {
   gender: 'L' | 'P';
   address: string;
   previous_school: string;
-  major_choice: string;
+  major_choice?: string;
   status: 'pending' | 'verified' | 'accepted' | 'rejected';
   phone?: string;
   email?: string;

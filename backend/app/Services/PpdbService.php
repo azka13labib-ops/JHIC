@@ -34,7 +34,7 @@ class PpdbService
             'gender' => $data['gender'],
             'address' => $data['address'],
             'previous_school' => $data['previous_school'],
-            'major_choice' => $data['major_choice'],
+            'major_choice' => $data['major_choice'] ?? 'Fase E (Umum)',
             'status' => 'pending'
         ];
 

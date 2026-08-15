@@ -109,7 +109,7 @@ export default function PpdbPage() {
 
   const steps = [
     { num: 1, title: 'Buat Akun & Login', desc: 'Daftar dengan email & data diri calon peserta didik baru.' },
-    { num: 2, title: 'Isi Formulir & Peminatan', desc: 'Pilih jurusan peminatan (MIPA, IPS, Bahasa) dan lengkapi profil.' },
+    { num: 2, title: 'Isi Formulir Pendaftaran', desc: 'Lengkapi biodata diri, data asal sekolah, dan kontak siswa.' },
     { num: 3, title: 'Upload Berkas Persyaratan', desc: 'Unggah berkas KK, Akta, dan Ijazah secara digital.' },
     { num: 4, title: 'Verifikasi & Pengumuman', desc: 'Pantau status verifikasi dan hasil seleksi secara real-time.' },
   ];

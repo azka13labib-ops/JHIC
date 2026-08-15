@@ -19,7 +19,7 @@ export default function HeroSection() {
     },
     {
       title: 'PROGRAMS',
-      desc: 'Peminatan MIPA, IPS, dan Bahasa dengan Kurikulum Merdeka, didukung bimbingan persiapan PTN, riset sains, dan literasi digital.',
+      desc: 'Kurikulum Merdeka dengan fondasi Fase E (Kelas 10) & Peminatan Fase F (Kelas 11-12), didukung bimbingan persiapan PTN dan riset ilmiah.',
       icon: Presentation,
       href: '/jurusan',
     },

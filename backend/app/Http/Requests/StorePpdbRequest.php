@@ -28,7 +28,7 @@ class StorePpdbRequest extends FormRequest
             'gender'          => 'required|in:L,P',
             'address'         => 'required|string',
             'previous_school' => 'required|string|max:255',
-            'major_choice'    => 'required|string|max:255',
+            'major_choice'    => 'nullable|string|max:255',
             'email'           => 'nullable|email|max:255',
             'phone'           => 'nullable|string|max:25',
         ];

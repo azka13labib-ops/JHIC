@@ -13,11 +13,11 @@ import {
 import { getDepartments } from '@/lib/api/school';
 
 export const metadata: Metadata = {
-  title: 'Peminatan | SMA PGRI 1 Lumajang',
-  description: 'Pilihan peminatan/jurusan di SMA PGRI 1 Lumajang: MIPA, IPS, dan Ilmu Bahasa & Budaya.',
+  title: 'Program Peminatan Fase F (Kelas 11-12) | SMA PGRI 1 Lumajang',
+  description: 'Program kelompok mata pelajaran peminatan Fase F (Kelas XI & XII) di SMA PGRI 1 Lumajang: MIPA, IPS, dan Ilmu Bahasa & Budaya.',
   openGraph: {
-    title: 'Peminatan | SMA PGRI 1 Lumajang',
-    description: 'Temukan jurusan yang tepat untuk masa depanmu.',
+    title: 'Program Peminatan Fase F | SMA PGRI 1 Lumajang',
+    description: 'Pilihan mata pelajaran peminatan untuk persiapan studi lanjut ke perguruan tinggi.',
   },
 };
 
@@ -41,11 +41,11 @@ export default async function JurusanPage() {
       <section className="bg-linear-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-20 text-center">
         <div className="container mx-auto px-4">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm mb-6">
-            <GraduationCap className="w-4 h-4 text-amber-300" /> Program Peminatan
+            <GraduationCap className="w-4 h-4 text-amber-300" /> Kurikulum Merdeka • Peminatan Fase F (Kelas XI - XII)
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">Pilih Jalurmu,<br />Raih Impianmu</h1>
-          <p className="text-blue-200 max-w-xl mx-auto text-lg">
-            SMA PGRI 1 Lumajang menawarkan program peminatan berkualitas yang mempersiapkan kamu untuk perguruan tinggi dan dunia kerja.
+          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">Eksplorasi Minat,<br />Raih Masa Depan</h1>
+          <p className="text-blue-200 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+            Sesuai Kurikulum Merdeka, siswa baru Kelas 10 menempuh program umum bersama. Penjurusan dan pemilihan mata pelajaran peminatan (MIPA, IPS, atau Bahasa & Budaya) dilaksanakan pada kenaikan Kelas 11 melalui asesmen minat dan bakat.
           </p>
         </div>
       </section>
@@ -76,9 +76,9 @@ export default async function JurusanPage() {
 
         {/* Info Tambahan */}
         <div className="mt-16 bg-amber-50 border border-amber-100 rounded-2xl p-8 text-center">
-          <h2 className="text-2xl font-bold text-slate-900 mb-3">Bingung Memilih Jurusan?</h2>
-          <p className="text-slate-600 mb-6 max-w-lg mx-auto">
-            Konsultasikan pilihanmu dengan guru BK kami. Kami siap membantu menentukan jurusan terbaik sesuai minat dan bakatmu.
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">Bimbingan Karir & Pemilihan Minat</h2>
+          <p className="text-slate-600 mb-6 max-w-lg mx-auto text-sm leading-relaxed">
+            Konsultasikan pilihan kelompok mata pelajaran peminatanmu bersama tim Bimbingan Konseling (BK) kami untuk persiapan SNBP, SNBT, perguruan tinggi kedinasan, dan karir impian.
           </p>
           <Link
             href="/kontak"

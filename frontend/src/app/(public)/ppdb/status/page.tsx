@@ -13,7 +13,7 @@ const STATUS_MAP = {
 interface RegistrationStatus {
   registration_number: string;
   full_name: string;
-  major_choice: string;
+  major_choice?: string;
   status: keyof typeof STATUS_MAP;
   notes?: string;
   created_at: string;
@@ -88,7 +88,7 @@ export default function PpdbStatusPage() {
                 {[
                   ['No. Pendaftaran', result.registration_number],
                   ['Nama', result.full_name],
-                  ['Pilihan Jurusan', result.major_choice],
+                  ['Program / Jenjang', result.major_choice || 'Kelas 10 (Fase E)'],
                   ['Tanggal Daftar', new Date(result.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })],
                 ].map(([k, v]) => (
                   <div key={k} className="flex justify-between border-b border-slate-50 pb-2">

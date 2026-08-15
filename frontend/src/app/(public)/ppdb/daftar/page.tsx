@@ -22,7 +22,7 @@ interface FormData {
   gender: 'L' | 'P' | '';
   address: string;
   previous_school: string;
-  major_choice: string;
+  major_choice?: string;
   phone: string;
   email: string;
   parent_name: string;
@@ -37,11 +37,9 @@ interface PpdbInfo {
 
 const INITIAL: FormData = {
   full_name: '', nisn: '', date_of_birth: '', gender: '',
-  address: '', previous_school: '', major_choice: '',
+  address: '', previous_school: '', major_choice: 'Fase E (Umum)',
   phone: '', email: '', parent_name: '', parent_phone: '',
 };
-
-const MAJORS = ['MIPA', 'IPS', 'Ilmu Bahasa dan Budaya'];
 
 export default function PpdbDaftarPage() {
   const [step, setStep] = useState<Step>(1);
@@ -208,7 +206,7 @@ export default function PpdbDaftarPage() {
                 {step > s ? '✓' : s}
               </div>
               <span className={`text-xs font-bold hidden sm:inline ${step === s ? 'text-[#1E2B58]' : 'text-slate-400'}`}>
-                {s === 1 ? 'Data Diri' : s === 2 ? 'Peminatan & Sekolah' : 'Data Orang Tua'}
+                {s === 1 ? 'Data Diri' : s === 2 ? 'Sekolah & Kontak' : 'Data Orang Tua'}
               </span>
               {s < 3 && <span className="text-slate-300 mx-1">―</span>}
             </div>
@@ -329,12 +327,12 @@ export default function PpdbDaftarPage() {
             </div>
           )}
 
-          {/* STEP 2: Peminatan & Asal Sekolah */}
+          {/* STEP 2: Asal Sekolah & Kontak */}
           {step === 2 && (
             <div className="space-y-4">
               <h2 className="text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-2">
                 <GraduationCap className="w-5 h-5 text-blue-600" />
-                <span>Langkah 2: Pilihan Peminatan & Asal Sekolah</span>
+                <span>Langkah 2: Asal Sekolah & Kontak Calon Siswa</span>
               </h2>
 
               <div>
@@ -349,27 +347,15 @@ export default function PpdbDaftarPage() {
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">Pilihan Jurusan Peminatan *</label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {MAJORS.map((m) => (
-                    <label key={m} className={`p-4 rounded-xl border flex flex-col items-center justify-center text-center gap-1 cursor-pointer transition-all ${
-                      form.major_choice === m
-                        ? 'bg-blue-50 border-blue-500 text-blue-700 shadow-xs'
-                        : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
-                    }`}>
-                      <input
-                        type="radio"
-                        name="major"
-                        value={m}
-                        checked={form.major_choice === m}
-                        onChange={() => set('major_choice', m)}
-                        className="hidden"
-                      />
-                      <span className="font-extrabold text-xs">{m}</span>
-                    </label>
-                  ))}
+              {/* Kurikulum Merdeka Fase E Information Notice */}
+              <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200/80 text-blue-900 space-y-1">
+                <div className="flex items-center gap-2 font-bold text-xs">
+                  <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+                  <span>Program Kurikulum Merdeka (Fase E - Kelas X)</span>
                 </div>
+                <p className="text-[11px] text-blue-700 leading-relaxed">
+                  Calon peserta didik baru Kelas 10 menempuh program pembelajaran umum secara terpadu. Pemilihan kelompok mata pelajaran peminatan (MIPA, IPS, atau Bahasa & Budaya) akan dilaksanakan pada kenaikan Kelas 11 (Fase F) berdasarkan minat, bakat, dan bimbingan karir.
+                </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -409,7 +395,7 @@ export default function PpdbDaftarPage() {
                 <button
                   type="button"
                   onClick={() => {
-                    if (!form.previous_school || !form.major_choice || !form.phone || !form.email) {
+                    if (!form.previous_school || !form.phone || !form.email) {
                       setError('Mohon lengkapi semua field pada Langkah 2.');
                       return;
                     }
