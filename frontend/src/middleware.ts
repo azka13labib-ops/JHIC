@@ -5,7 +5,7 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Only protect admin routes that are not the login page or auth APIs
+  // 1. Strict Protection for Admin Routes
   if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
     const token = await getToken({
       req,
@@ -26,9 +26,17 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  // 2. Attach Strict Security Headers
+  const response = NextResponse.next();
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("X-XSS-Protection", "1; mode=block");
+  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(self)");
+
+  return response;
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin", "/admin/:path*"],
 };

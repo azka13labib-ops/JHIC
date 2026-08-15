@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Poppins, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -8,18 +9,32 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
 });
 
+const playfair = Playfair_Display({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: ["600", "700", "800", "900"],
+});
+
 export const metadata: Metadata = {
-  title: "SMA PGRI 1 Lumajang",
-  description: "Mencetak generasi unggul siap kerja di industri masa depan",
+  title: "SMA PGRI 1 Lumajang | The Character of Success",
+  description: "Mencetak generasi unggul, religius, cerdas, terampil, dan siap kerja di industri masa depan.",
+  icons: {
+    icon: "/logo-sekolah.jpg",
+  },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="id"
-      className={`${poppins.variable} font-sans h-full antialiased`}
+      suppressHydrationWarning
+      className={`${poppins.variable} ${playfair.variable} font-sans h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans bg-background text-foreground transition-colors duration-300">
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

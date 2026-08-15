@@ -4,16 +4,19 @@ export async function serverFetch<T>(
   endpoint: string,
   options?: { revalidate?: number | false; tags?: string[] }
 ): Promise<T> {
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
-    next: {
-      revalidate: options?.revalidate ?? 3600, 
-      tags: options?.tags,
-    },
+  const fetchOptions: RequestInit = {
+    cache: 'no-store',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     }
-  });
+  };
+
+  if (options?.tags) {
+    (fetchOptions as any).next = { tags: options.tags };
+  }
+
+  const res = await fetch(`${BASE_URL}${endpoint}`, fetchOptions);
   
   if (!res.ok) {
     throw new Error(`API Error: ${res.status} on ${endpoint}`);

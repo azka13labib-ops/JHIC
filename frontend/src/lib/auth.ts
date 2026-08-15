@@ -15,14 +15,15 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+          const res = await fetch(`${apiUrl}/login`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
             },
             body: JSON.stringify({
-              email: credentials.email,
+              email: credentials.email.trim(),
               password: credentials.password,
             }),
           });
@@ -30,7 +31,6 @@ export const authOptions: NextAuthOptions = {
           const data = await res.json();
 
           if (res.ok && data.user && data.access_token) {
-            // Return user object including token
             return {
               id: data.user.id.toString(),
               name: data.user.name,
@@ -39,9 +39,11 @@ export const authOptions: NextAuthOptions = {
               role: data.user.role,
             };
           }
+
+          console.warn("Authorize failed response:", data);
           return null;
         } catch (error) {
-          console.error("Login error:", error);
+          console.error("Login authorization error:", error);
           return null;
         }
       },
@@ -57,7 +59,9 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken as string;
-      session.user.role = token.role as string;
+      if (session.user) {
+        session.user.role = token.role as string;
+      }
       return session;
     },
   },
@@ -66,6 +70,7 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
