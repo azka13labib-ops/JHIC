@@ -1,91 +1,143 @@
-import { GraduationCap, Play, CheckCircle2 } from 'lucide-react';
-import Link from 'next/link';
+import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { GraduationCap, Landmark, Presentation, ChevronRight, ChevronDown, ArrowRight } from 'lucide-react';
 
 export default function HeroSection() {
+  const highlightCards = [
+    {
+      title: 'SCHOLARSHIP',
+      desc: 'Program beasiswa prestasi akademik, non-akademik, tahfidz, dan bantuan pendidikan berkelanjutan bagi siswa berpotensi.',
+      icon: GraduationCap,
+      href: '/prestasi',
+    },
+    {
+      title: 'OUR CAMPUS',
+      desc: 'Fasilitas belajar modern, laboratorium sains & multimedia lengkap, serta lingkungan sekolah yang asri, nyaman, dan berkarakter.',
+      icon: Landmark,
+      href: '/profil/sejarah',
+    },
+    {
+      title: 'PROGRAMS',
+      desc: 'Peminatan MIPA, IPS, dan Bahasa dengan Kurikulum Merdeka, didukung bimbingan persiapan PTN, riset sains, dan literasi digital.',
+      icon: Presentation,
+      href: '/jurusan',
+    },
+  ];
+
   return (
-    <section className="relative overflow-hidden bg-white">
-      {/* Background Decorative Elements */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-50 animate-blob"></div>
-        <div className="absolute top-48 -left-24 w-72 h-72 bg-indigo-100 rounded-full blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
-      </div>
+    <section className="relative w-full bg-[#000000] text-white overflow-hidden">
+      {/* Hero Banner with Full-bleed Background Image */}
+      <div className="relative min-h-[600px] lg:min-h-[660px] flex items-center justify-center pt-20 pb-36 px-4">
+        {/* Background Image (image.png) with natural exposure and central text vignette */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/image.png"
+            alt="SMA PGRI 1 Lumajang"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center brightness-90 contrast-105"
+          />
+          {/* Central dark radial spotlight & gradient to ensure crystal clear readability while showing the campus */}
+          <div className="absolute inset-0 bg-radial-[circle_at_center] from-black/80 via-black/65 to-black/90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
+        </div>
 
-      <div className="container mx-auto px-4 relative z-10 pt-20 pb-24 sm:pt-32 sm:pb-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Bagian Teks (Kiri) */}
-          <div className="text-left max-w-2xl">
-            <div className="inline-flex px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-800 font-semibold text-sm mb-6 items-center gap-2 max-w-fit shadow-sm">
-              <GraduationCap className="w-4 h-4 text-blue-500 inline mr-1" /> Religius, Cerdas, Terampil, Profesional
+        {/* Hero Center Content matching Mockup Seal & Serif Headline */}
+        <div className="relative z-10 container mx-auto max-w-4xl text-center flex flex-col items-center">
+          
+          {/* Official Emblem Circular Seal (Top Center) */}
+          <div className="mb-3 flex flex-col items-center">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/90 p-2 shadow-2xl backdrop-blur-sm border border-white/40 flex items-center justify-center hover:scale-105 transition-transform">
+              <Image
+                src="/logo-sekolah.jpg"
+                alt="Emblem SMA PGRI 1 Lumajang"
+                width={70}
+                height={70}
+                className="object-contain"
+                priority
+              />
             </div>
-            <h1 className="text-5xl sm:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-[1.1]">
-              SMA PGRI 1 Lumajang <span className="text-slate-800">Mencetak Generasi Emas</span> <br className="hidden sm:block" />
-              <span className="text-blue-700">
-                Bersama Kita Bisa!
-              </span>
-            </h1>
-            <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-              SMA PGRI 1 Lumajang hadir sebagai institusi pendidikan terkemuka. Kami berkomitmen untuk mencetak lulusan unggul yang religius, cerdas, terampil, berkarakter, dan siap berinovasi di masa depan.
-            </p>
-            
-            {/* Stats Row */}
-            <div className="flex bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-8 divide-x divide-slate-100">
-              <div className="flex-1 text-center px-4">
-                <div className="text-3xl font-extrabold text-blue-900 mb-1">98%</div>
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">Kelulusan Kerja</div>
-              </div>
-              <div className="flex-1 text-center px-4">
-                <div className="text-3xl font-extrabold text-blue-900 mb-1">50+</div>
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">Prestasi/Tahun</div>
-              </div>
-              <div className="flex-1 text-center px-4">
-                <div className="text-3xl font-extrabold text-blue-900 mb-1">100%</div>
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">Guru Kompeten</div>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-center gap-4">
-              <Link 
-                href="/ppdb" 
-                className="w-full sm:w-auto px-8 py-3.5 bg-[#2B3B6F] hover:bg-[#1E2B58] text-white font-bold rounded-lg shadow-lg transition-all duration-300 text-center"
-              >
-                Daftar Sekarang
-              </Link>
-              <Link 
-                href="/profil/sejarah" 
-                className="w-full sm:w-auto px-8 py-3.5 bg-white border-2 border-amber-400 text-slate-800 font-bold rounded-lg hover:bg-amber-50 transition-all duration-300 text-center flex items-center justify-center gap-2"
-              >
-                <Play className="w-3.5 h-3.5 fill-amber-500 text-amber-500 inline mr-1" /> Profil Sekolah
-              </Link>
-            </div>
+            {/* Contextual Subtitle in Indonesian */}
+            <span className="text-[10px] sm:text-xs font-bold tracking-[0.35em] text-white/90 uppercase mt-3 select-none">
+              SEKOLAH MENENGAH ATAS
+            </span>
           </div>
 
-          {/* Bagian Gambar/Ilustrasi (Kanan) */}
-          <div className="relative mx-auto w-full lg:h-150 flex items-center justify-end">
-            <div className="relative w-full h-100 sm:h-125 lg:h-full rounded-[2rem] overflow-hidden shadow-2xl">
-                 <Image 
-                    src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=800&auto=format&fit=crop" 
-                    alt="Gedung Sekolah JIHC" 
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    priority 
-                    className="object-cover"
-                 />
-            </div>
-              
-            {/* Floating Badge (Pemanis) */}
-            <div className="absolute -bottom-6 left-10 lg:-left-12 bg-white py-4 px-6 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4 z-20">
-              <div className="w-12 h-12 bg-[#2B3B6F] rounded-full flex items-center justify-center text-white">
-                <CheckCircle2 className="w-6 h-6 text-emerald-400" />
-              </div>
-              <div>
-                <div className="text-base font-bold text-[#2B3B6F]">Terakreditasi A</div>
-                <div className="text-sm text-slate-500">Unggul & Berkualitas</div>
-              </div>
-            </div>
+          {/* Main Headline (Playfair / Classical Serif typography) */}
+          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)] mb-3 leading-tight">
+            SMA PGRI 1 Lumajang
+          </h1>
+
+          {/* Subtle gold line accent */}
+          <div className="w-20 sm:w-28 h-[1.5px] bg-[#d4af37] mb-3 opacity-80" />
+
+          {/* Slogan */}
+          <p className="text-[10px] sm:text-xs font-semibold tracking-[0.28em] text-neutral-300 uppercase mb-6 select-none">
+            THE CHARACTER OF SUCCESS
+          </p>
+
+          {/* Primary & Secondary CTA Action Buttons in First Viewport */}
+          <div className="flex flex-wrap items-center justify-center gap-3.5 mb-6">
+            <Link
+              href="/ppdb"
+              className="px-7 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm rounded-xl shadow-[0_0_25px_rgba(37,99,235,0.4)] hover:shadow-[0_0_35px_rgba(37,99,235,0.6)] transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-2"
+            >
+              <span>PENDAFTARAN PPDB 2026</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/profil/sejarah"
+              className="px-7 py-3 bg-black/60 hover:bg-neutral-900 text-neutral-200 hover:text-white border border-white/20 hover:border-white/40 font-bold text-xs sm:text-sm rounded-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5"
+            >
+              JELAJAHI PROFIL SEKOLAH
+            </Link>
+          </div>
+
+        </div>
+      </div>
+
+      {/* 3-Card Strip Section (Matching Mockup: Horizontal Dark Cards with Border) */}
+      <div className="relative z-20 -mt-16 sm:-mt-20 container mx-auto px-4 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+          {highlightCards.map((card, idx) => {
+            const Icon = card.icon;
+            return (
+              <Link
+                key={idx}
+                href={card.href}
+                className="group relative bg-black/80 hover:bg-black/95 border border-white/20 hover:border-white/40 rounded-xl p-5 shadow-2xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 flex items-start gap-4"
+              >
+                <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition-transform">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5 mb-1.5">
+                    <h3 className="text-xs sm:text-sm font-black tracking-wider uppercase text-white group-hover:text-blue-400 transition-colors">
+                      {card.title}
+                    </h3>
+                    <div className="w-3.5 h-3.5 rounded-full border border-white/60 flex items-center justify-center text-[9px] text-white">
+                      <ChevronRight className="w-2.5 h-2.5" />
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-neutral-300 leading-relaxed line-clamp-3">
+                    {card.desc}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Mouse Scroll / Down Indicator Pin */}
+        <div className="flex justify-center mt-6">
+          <div className="w-6 h-10 rounded-full border-2 border-white/40 flex items-center justify-center animate-bounce opacity-70">
+            <ChevronDown className="w-3.5 h-3.5 text-white" />
           </div>
         </div>
       </div>
+
     </section>
   );
 }

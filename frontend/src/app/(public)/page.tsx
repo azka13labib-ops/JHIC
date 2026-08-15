@@ -1,34 +1,27 @@
 import HeroSection from '@/components/sections/HeroSection';
-import FeaturesSection from '@/components/sections/FeaturesSection';
-import AnnouncementBanner from '@/components/sections/AnnouncementBanner';
-import SambutanSection from '@/components/sections/SambutanSection';
-import JurusanSection from '@/components/sections/JurusanSection';
-import PrestasiSection from '@/components/sections/PrestasiSection';
-import PartnersSection from '@/components/sections/PartnersSection';
+import AboutSection from '@/components/sections/AboutSection';
+import NewsMediaSection from '@/components/sections/NewsMediaSection';
 
 import { 
-  getLandingData, 
-  getDepartments,
+  getNews,
 } from '@/lib/api/school';
 
 // Next.js Revalidate untuk ISR (waktu dalam detik)
 export const revalidate = 86400; // 1 Hari
 
 export default async function LandingPage() {
-  const [landingData, departments] = await Promise.all([
-    getLandingData(),
-    getDepartments(),
-  ]);
+  const newsList = await getNews();
 
   return (
-    <>
+    <div className="flex flex-col w-full bg-slate-950">
+      {/* 1. Hero Section with image.png background, emblem, and 3-Card Strip */}
       <HeroSection />
-      <FeaturesSection features={landingData.features} />
-      <AnnouncementBanner announcements={landingData.announcements} />
-      {landingData.profile && <SambutanSection profile={landingData.profile} />}
-      <JurusanSection departments={departments} />
-      <PrestasiSection achievements={landingData.achievements} />
-      <PartnersSection partners={landingData.partners} />
-    </>
+
+      {/* 2. About Section (2-Column narrative & student achievement photo) */}
+      <AboutSection />
+
+      {/* 3. News & Media Center (Grid news, podcast, calendar, agenda, and PPDB CTA) */}
+      <NewsMediaSection initialNews={newsList} />
+    </div>
   );
 }
