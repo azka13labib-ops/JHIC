@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { ArrowLeft, Save, Loader2, Newspaper } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Newspaper, Pin } from 'lucide-react';
 import { ImageUploadPreview } from '@/components/admin/ImageUploadPreview';
 
 export default function EditNewsPage() {
@@ -14,6 +14,7 @@ export default function EditNewsPage() {
   
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [isPinned, setIsPinned] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [currentImageUrl, setCurrentImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -35,13 +36,14 @@ export default function EditNewsPage() {
         const data = await res.json();
         setTitle(data.title || '');
         setContent(data.content || '');
+        setIsPinned(Boolean(data.is_pinned));
         if (data.image_path || data.image) {
           const rawImg = data.image_path || data.image;
           const fullImg = rawImg.startsWith('http') ? rawImg : `http://127.0.0.1:8000/storage/${rawImg}`;
           setCurrentImageUrl(fullImg);
         }
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Terjadi kesalahan.');
       } finally {
         setFetching(false);
       }
@@ -67,6 +69,7 @@ export default function EditNewsPage() {
       formData.append('_method', 'PUT');
       formData.append('title', title);
       formData.append('content', content);
+      formData.append('is_pinned', isPinned ? '1' : '0');
       if (image) {
         formData.append('image', image);
       }
@@ -88,8 +91,8 @@ export default function EditNewsPage() {
 
       router.push('/admin/news');
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Terjadi kesalahan.');
     } finally {
       setLoading(false);
     }
@@ -115,7 +118,7 @@ export default function EditNewsPage() {
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Edit Berita</h1>
-            <p className="text-xs text-slate-500 mt-0.5">Perbarui informasi artikel dan foto dokumentasi kegiatan.</p>
+            <p className="text-xs text-slate-500 mt-0.5">Perbarui informasi artikel, status sematan, dan foto dokumentasi kegiatan.</p>
           </div>
         </div>
 
@@ -152,6 +155,26 @@ export default function EditNewsPage() {
               placeholder="Masukkan judul berita utama..."
               className="w-full px-4 py-3 bg-slate-50 hover:bg-white focus:bg-white border border-slate-300 focus:border-blue-600 rounded-xl text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-500/15 transition-all"
             />
+          </div>
+
+          {/* Opsi Sematkan Berita */}
+          <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 flex items-start gap-3.5">
+            <input
+              type="checkbox"
+              id="is_pinned"
+              checked={isPinned}
+              onChange={(e) => setIsPinned(e.target.checked)}
+              className="mt-0.5 w-4 h-4 rounded border-amber-300 text-amber-600 focus:ring-amber-500 cursor-pointer"
+            />
+            <label htmlFor="is_pinned" className="cursor-pointer select-none">
+              <span className="text-xs font-bold text-amber-900 flex items-center gap-1.5">
+                <Pin className="w-3.5 h-3.5 fill-amber-600 text-amber-700" />
+                Sematkan Berita ini ke Beranda (Headline Utama)
+              </span>
+              <span className="block text-[11px] text-amber-700 mt-0.5 leading-relaxed">
+                Berita yang disematkan akan diprioritaskan tampil pada kartu utama di halaman depan website.
+              </span>
+            </label>
           </div>
 
           {/* Photo Preview Upload Component */}

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { ArrowLeft, Save, Loader2, Newspaper } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Newspaper, Pin } from 'lucide-react';
 import { ImageUploadPreview } from '@/components/admin/ImageUploadPreview';
 
 export default function CreateNewsPage() {
@@ -13,6 +13,7 @@ export default function CreateNewsPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState<File | null>(null);
+  const [isPinned, setIsPinned] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -30,6 +31,7 @@ export default function CreateNewsPage() {
       const formData = new FormData();
       formData.append('title', title);
       formData.append('content', content);
+      formData.append('is_pinned', isPinned ? '1' : '0');
       if (image) {
         formData.append('image', image);
       }
@@ -51,8 +53,8 @@ export default function CreateNewsPage() {
 
       router.push('/admin/news');
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Terjadi kesalahan saat menyimpan berita.');
     } finally {
       setLoading(false);
     }
@@ -106,6 +108,26 @@ export default function CreateNewsPage() {
               placeholder="Masukkan judul berita utama..."
               className="w-full px-4 py-3 bg-slate-50 hover:bg-white focus:bg-white border border-slate-300 focus:border-blue-600 rounded-xl text-sm font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-500/15 transition-all"
             />
+          </div>
+
+          {/* Opsi Sematkan Berita */}
+          <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 flex items-start gap-3.5">
+            <input
+              type="checkbox"
+              id="is_pinned"
+              checked={isPinned}
+              onChange={(e) => setIsPinned(e.target.checked)}
+              className="mt-0.5 w-4 h-4 rounded border-amber-300 text-amber-600 focus:ring-amber-500 cursor-pointer"
+            />
+            <label htmlFor="is_pinned" className="cursor-pointer select-none">
+              <span className="text-xs font-bold text-amber-900 flex items-center gap-1.5">
+                <Pin className="w-3.5 h-3.5 fill-amber-600 text-amber-700" />
+                Sematkan Berita ini ke Beranda (Headline Utama)
+              </span>
+              <span className="block text-[11px] text-amber-700 mt-0.5 leading-relaxed">
+                Berita yang disematkan akan diprioritaskan tampil pada kartu utama di halaman depan website.
+              </span>
+            </label>
           </div>
 
           {/* Photo Preview Upload */}

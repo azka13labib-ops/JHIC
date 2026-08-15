@@ -16,7 +16,11 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::with('author:id,name')->orderBy('created_at', 'desc')->get();
+        $news = News::with('author:id,name')
+            ->orderByDesc('is_pinned')
+            ->orderByDesc('created_at')
+            ->get();
+
         return response()->json($news);
     }
 
@@ -26,9 +30,10 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'image' => 'nullable|image|max:2048', // max 2MB
+            'title'     => 'required|string|max:255',
+            'content'   => 'required|string',
+            'image'     => 'nullable|image|max:2048', // max 2MB
+            'is_pinned' => 'nullable|boolean',
         ]);
 
         $imagePath = null;
@@ -37,12 +42,13 @@ class NewsController extends Controller
         }
 
         $news = News::create([
-            'title' => $request->title,
-            'slug' => Str::slug($request->title) . '-' . uniqid(),
-            'content' => $request->content,
-            'image_path' => $imagePath,
-            'author_id' => $request->user()->id,
-            'published_at' => now(), // for now, auto publish
+            'title'        => $request->title,
+            'slug'         => Str::slug($request->title) . '-' . uniqid(),
+            'content'      => $request->content,
+            'image_path'   => $imagePath,
+            'is_pinned'    => $request->boolean('is_pinned'),
+            'author_id'    => $request->user()->id,
+            'published_at' => now(),
         ]);
 
         Cache::forget('api.news');
@@ -67,9 +73,10 @@ class NewsController extends Controller
         $news = News::findOrFail($id);
 
         $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'image' => 'nullable|image|max:2048',
+            'title'     => 'required|string|max:255',
+            'content'   => 'required|string',
+            'image'     => 'nullable|image|max:2048',
+            'is_pinned' => 'nullable|boolean',
         ]);
 
         $imagePath = $news->image_path;
@@ -82,15 +89,33 @@ class NewsController extends Controller
         }
 
         $news->update([
-            'title' => $request->title,
-            // Only update slug if title changed significantly, but for simplicity we keep old slug or generate new
-            'content' => $request->content,
+            'title'      => $request->title,
+            'content'    => $request->content,
             'image_path' => $imagePath,
+            'is_pinned'  => $request->has('is_pinned') ? $request->boolean('is_pinned') : $news->is_pinned,
         ]);
 
         Cache::forget('api.news');
 
         return response()->json($news);
+    }
+
+    /**
+     * Toggle pinned status of news.
+     */
+    public function togglePin($id)
+    {
+        $news = News::findOrFail($id);
+        $news->is_pinned = !$news->is_pinned;
+        $news->save();
+
+        Cache::forget('api.news');
+
+        return response()->json([
+            'message'   => $news->is_pinned ? 'Berita berhasil disematkan di baris terdepan.' : 'Sematkan berita telah dilepas.',
+            'is_pinned' => $news->is_pinned,
+            'news'      => $news,
+        ]);
     }
 
     /**

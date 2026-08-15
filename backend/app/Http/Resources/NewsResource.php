@@ -20,6 +20,7 @@ class NewsResource extends JsonResource
             'slug' => $this->slug,
             'content' => $this->content,
             'image_path' => $this->image_path ? asset('storage/' . $this->image_path) : null,
+            'is_pinned' => (bool) $this->is_pinned,
             'author' => $this->whenLoaded('author', function () {
                 return ['name' => $this->author->name];
             }),

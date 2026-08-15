@@ -76,7 +76,11 @@ class LandingPageController extends Controller
     public function news()
     {
         $data = Cache::remember('api.news', 86400, function () {
-            return News::with('author')->latest('published_at')->get();
+            return News::with('author')
+                ->orderByDesc('is_pinned')
+                ->latest('published_at')
+                ->latest('id')
+                ->get();
         });
 
         return NewsResource::collection($data);

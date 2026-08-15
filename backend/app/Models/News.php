@@ -13,8 +13,14 @@ class News extends Model
         'slug',
         'content',
         'image_path',
+        'is_pinned',
         'author_id',
         'published_at',
+    ];
+
+    protected $casts = [
+        'is_pinned' => 'boolean',
+        'published_at' => 'datetime',
     ];
 
     public function author()

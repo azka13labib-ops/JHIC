@@ -1,9 +1,24 @@
 import Link from 'next/link';
 import { fetchApi } from '@/lib/api-client';
-import { Plus, Edit, Newspaper, Calendar, User, Eye } from 'lucide-react';
+import { Plus, Edit, Newspaper, Calendar, User, Eye, Pin } from 'lucide-react';
 import { DeleteConfirmButton } from '@/components/admin/DeleteConfirmButton';
+import { PinNewsButton } from '@/components/admin/PinNewsButton';
 
 export const dynamic = 'force-dynamic';
+
+interface AdminNewsItem {
+  id: number;
+  title: string;
+  slug?: string;
+  content: string;
+  image_path?: string;
+  is_pinned?: boolean;
+  author?: {
+    id: number;
+    name: string;
+  };
+  created_at: string;
+}
 
 export default async function NewsPage() {
   const res = await fetchApi('/admin/news', { cache: 'no-store' });
@@ -16,7 +31,7 @@ export default async function NewsPage() {
     );
   }
 
-  const newsList = await res.json();
+  const newsList: AdminNewsItem[] = await res.json();
 
   return (
     <div className="space-y-6">
@@ -29,7 +44,7 @@ export default async function NewsPage() {
           </div>
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Manajemen Berita</h1>
-            <p className="text-xs text-slate-500 mt-0.5">Kelola seluruh publikasi berita dan pengumuman sekolah.</p>
+            <p className="text-xs text-slate-500 mt-0.5">Kelola seluruh publikasi berita, pengumuman, dan sematan berita utama di beranda.</p>
           </div>
         </div>
         
@@ -51,7 +66,7 @@ export default async function NewsPage() {
                 <th className="py-4 px-6">Judul Berita</th>
                 <th className="py-4 px-6">Penulis</th>
                 <th className="py-4 px-6">Tanggal Publikasi</th>
-                <th className="py-4 px-6 text-right">Aksi</th>
+                <th className="py-4 px-6 text-right">Aksi & Sematan</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
@@ -62,10 +77,18 @@ export default async function NewsPage() {
                   </td>
                 </tr>
               ) : (
-                newsList.map((item: any) => (
+                newsList.map((item: AdminNewsItem) => (
                   <tr key={item.id} className="hover:bg-slate-50/80 transition-colors">
                     <td className="py-4 px-6 font-bold text-slate-900 max-w-md">
-                      <div className="line-clamp-1">{item.title}</div>
+                      <div className="flex items-center gap-2">
+                        {item.is_pinned && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-100 text-amber-800 border border-amber-300 shrink-0">
+                            <Pin className="w-2.5 h-2.5 fill-amber-600 text-amber-700" />
+                            Disematkan
+                          </span>
+                        )}
+                        <span className="line-clamp-1">{item.title}</span>
+                      </div>
                     </td>
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-1.5 text-slate-600">
@@ -87,6 +110,8 @@ export default async function NewsPage() {
                     </td>
                     <td className="py-4 px-6 text-right">
                       <div className="flex items-center justify-end gap-2">
+                        <PinNewsButton id={item.id} initialPinned={!!item.is_pinned} title={item.title} />
+
                         {item.slug && (
                           <Link
                             href={`/berita/${item.slug}`}

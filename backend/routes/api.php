@@ -89,6 +89,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/dashboard/stats', [\App\Http\Controllers\Api\Admin\DashboardController::class, 'stats']);
 
         // Modul Konten Sekolah
+        Route::post('news/{id}/toggle-pin', [\App\Http\Controllers\Api\Admin\NewsController::class, 'togglePin']);
         Route::apiResource('news', \App\Http\Controllers\Api\Admin\NewsController::class);
         Route::apiResource('agendas', \App\Http\Controllers\Api\Admin\AgendaController::class);
         Route::apiResource('articles', \App\Http\Controllers\Api\Admin\ArticleController::class);

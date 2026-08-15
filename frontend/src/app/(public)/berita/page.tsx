@@ -1,4 +1,4 @@
-import { Newspaper } from 'lucide-react';
+import { Newspaper, Pin } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
@@ -24,7 +24,13 @@ export default async function BeritaPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {news.map((item) => (
             <Link href={`/berita/${item.slug}`} key={item.id} className="group">
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col relative">
+                {item.is_pinned && (
+                  <div className="absolute top-3 left-3 z-10 bg-amber-500 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-full shadow-md flex items-center gap-1">
+                    <Pin className="w-3 h-3 fill-white" />
+                    <span>Disematkan</span>
+                  </div>
+                )}
                 <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
                   {item.image_path ? (
                     <Image 

@@ -7,7 +7,8 @@ import {
   Play, 
   ChevronLeft, 
   ChevronRight, 
-  Radio
+  Radio,
+  Pin
 } from 'lucide-react';
 import { getImageUrl } from '@/lib/utils';
 
@@ -17,6 +18,7 @@ interface NewsItem {
   slug?: string;
   image?: string;
   image_path?: string;
+  is_pinned?: boolean;
   category?: string;
   created_at?: string;
   content?: string;
@@ -67,11 +69,16 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
     },
   ];
 
-  const newsList = initialNews.length > 0 ? initialNews : defaultNews;
-  const card1 = newsList[0] || defaultNews[0];
-  const card2 = newsList[1] || defaultNews[1];
-  const card3 = newsList[2] || defaultNews[2];
-  const cardTall = newsList[3] || defaultNews[3];
+  // Merge dynamic news from database with fallback defaults if fewer than 4 items
+  const dynamicNews = [...initialNews];
+  while (dynamicNews.length < 4) {
+    dynamicNews.push(defaultNews[dynamicNews.length % defaultNews.length]);
+  }
+
+  const card1 = dynamicNews[0];
+  const card2 = dynamicNews[1];
+  const card3 = dynamicNews[2];
+  const cardTall = dynamicNews[3];
 
   const resolveImage = (item: NewsItem, fallback: string) => {
     const raw = item.image_path || item.image;
@@ -95,19 +102,29 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
       <div className="relative z-10 container mx-auto px-4 max-w-7xl">
         
         {/* Section Header (Matches Mockup • News.) */}
-        <div className="mb-10">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-              News.
-            </h2>
+        <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+                News.
+              </h2>
+            </div>
+            <div className="text-xs font-semibold tracking-wider text-neutral-400 uppercase">
+              Communication Center | For You Page
+            </div>
+            <p className="text-xs text-neutral-400 mt-1 max-w-xl">
+              Pusat berita, informasi akademik, agenda kegiatan, dan siaran prestasi SMA PGRI 1 Lumajang.
+            </p>
           </div>
-          <div className="text-xs font-semibold tracking-wider text-neutral-400 uppercase">
-            Communication Center | For You Page
-          </div>
-          <p className="text-xs text-neutral-400 mt-1 max-w-xl">
-            Pusat berita, informasi akademik, agenda kegiatan, dan siaran prestasi SMA PGRI 1 Lumajang.
-          </p>
+
+          <Link
+            href="/berita"
+            className="inline-flex items-center gap-2 text-xs font-bold text-blue-400 hover:text-blue-300 transition-colors"
+          >
+            <span>Lihat Semua Berita</span>
+            <span>→</span>
+          </Link>
         </div>
 
         {/* 3-Column Grid Matching Mockup */}
@@ -128,9 +145,16 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
               <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
               
               <div className="relative z-10 space-y-2 max-w-xl">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">
-                  {card1.category || 'HOT | TODAY'}
-                </span>
+                {card1.is_pinned ? (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2.5 py-0.5 rounded-full">
+                    <Pin className="w-2.5 h-2.5 fill-amber-400" />
+                    <span>SEMATAN | HEADLINE</span>
+                  </span>
+                ) : (
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">
+                    {card1.category || 'HOT | TODAY'}
+                  </span>
+                )}
                 <h3 className="text-sm sm:text-base font-bold text-white leading-snug line-clamp-2">
                   {card1.title}
                 </h3>
@@ -160,9 +184,16 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent" />
                 <div className="relative z-10 space-y-1.5">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
-                    {card2.category || 'TODAY'}
-                  </span>
+                  {card2.is_pinned ? (
+                    <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded-full">
+                      <Pin className="w-2 h-2 fill-amber-400" />
+                      <span>DISEMATKAN</span>
+                    </span>
+                  ) : (
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
+                      {card2.category || 'TODAY'}
+                    </span>
+                  )}
                   <h4 className="text-xs sm:text-sm font-bold text-white line-clamp-2 leading-snug">
                     {card2.title}
                   </h4>
@@ -189,9 +220,16 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent" />
                 <div className="relative z-10 space-y-1.5">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
-                    {card3.category || 'HOT | TODAY'}
-                  </span>
+                  {card3.is_pinned ? (
+                    <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded-full">
+                      <Pin className="w-2 h-2 fill-amber-400" />
+                      <span>DISEMATKAN</span>
+                    </span>
+                  ) : (
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
+                      {card3.category || 'HOT | TODAY'}
+                    </span>
+                  )}
                   <h4 className="text-xs sm:text-sm font-bold text-white line-clamp-2 leading-snug">
                     {card3.title}
                   </h4>
@@ -224,9 +262,16 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
               <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
               
               <div className="relative z-10 space-y-2.5">
-                <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
-                  HIGHLIGHT
-                </span>
+                {cardTall.is_pinned ? (
+                  <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded-full">
+                    <Pin className="w-2 h-2 fill-amber-400" />
+                    <span>DISEMATKAN</span>
+                  </span>
+                ) : (
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
+                    HIGHLIGHT
+                  </span>
+                )}
                 <h4 className="text-sm font-bold text-white line-clamp-3 leading-snug">
                   {cardTall.title}
                 </h4>
@@ -261,45 +306,39 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
               </div>
             </div>
 
-            {/* 2. Interactive Calendar Widget (White card matching mockup) */}
-            <div className="bg-white text-neutral-900 rounded-xl p-4 shadow-xl border border-neutral-200">
-              <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-neutral-100">
-                <button type="button" aria-label="Bulan Sebelumnya" className="p-0.5 rounded hover:bg-neutral-100 text-neutral-400">
-                  <ChevronLeft className="w-3 h-3" />
+            {/* 2. Calendar Card (White card matching mockup) */}
+            <div className="bg-white text-neutral-900 rounded-2xl p-4 shadow-xl border border-neutral-200 text-center">
+              <div className="flex items-center justify-between mb-3 px-1 text-neutral-500 text-xs">
+                <button type="button" className="p-1 hover:bg-neutral-100 rounded-md transition" aria-label="Previous Month">
+                  <ChevronLeft className="w-3.5 h-3.5" />
                 </button>
-                <div className="font-bold text-xs text-neutral-800">
-                  August 2026
-                </div>
-                <button type="button" aria-label="Bulan Selanjutnya" className="p-0.5 rounded hover:bg-neutral-100 text-neutral-400">
-                  <ChevronRight className="w-3 h-3" />
+                <div className="font-bold text-neutral-800 text-xs tracking-tight">August 2026</div>
+                <button type="button" className="p-1 hover:bg-neutral-100 rounded-md transition" aria-label="Next Month">
+                  <ChevronRight className="w-3.5 h-3.5" />
                 </button>
               </div>
 
-              {/* Days Header */}
-              <div className="grid grid-cols-7 gap-1 text-center text-[9px] font-bold text-neutral-400 mb-1">
-                <div>M</div>
-                <div>T</div>
-                <div>W</div>
-                <div>T</div>
-                <div>F</div>
-                <div>S</div>
-                <div>S</div>
+              {/* Day Labels */}
+              <div className="grid grid-cols-7 text-[10px] font-semibold text-neutral-400 mb-2">
+                <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
               </div>
 
-              {/* Date Cells */}
-              <div className="grid grid-cols-7 gap-1 text-center text-[10px]">
+              {/* Day Grid */}
+              <div className="grid grid-cols-7 gap-y-1.5 text-xs font-medium text-neutral-700">
                 {calendarCells.map((day, idx) => {
                   if (day === null) {
-                    return <div key={`empty-${idx}`} className="h-5" />;
+                    return <div key={`blank-${idx}`} className="h-6 w-6 mx-auto" />;
                   }
-                  const isActive = day === activeDay;
+
+                  const isSelected = day === activeDay;
+
                   return (
                     <div
                       key={`day-${day}`}
-                      className={`h-5 flex items-center justify-center rounded-full text-[10px] font-semibold transition-colors ${
-                        isActive
-                          ? 'bg-blue-600 text-white font-bold'
-                          : 'text-neutral-700 hover:bg-neutral-100'
+                      className={`h-6 w-6 mx-auto flex items-center justify-center rounded-full text-[11px] font-semibold transition-all ${
+                        isSelected
+                          ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-500/40 scale-105'
+                          : 'hover:bg-neutral-100 text-neutral-700 cursor-pointer'
                       }`}
                     >
                       {day}
@@ -309,23 +348,23 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
               </div>
             </div>
 
-            {/* 3. Blue Gradient CTA Card (Matching Mockup JOIN NOW! Banner) */}
-            <div className="rounded-xl p-4 bg-linear-to-br from-blue-600 via-blue-700 to-indigo-800 text-white shadow-xl relative overflow-hidden space-y-2">
-              <div className="text-[9px] font-bold uppercase tracking-wider text-blue-200">
-                INFO | AUGUST 2026
+            {/* 3. Blue Info / Registration Card (Matching Mockup) */}
+            <div className="rounded-2xl p-4.5 bg-linear-to-br from-blue-600 via-blue-700 to-indigo-800 text-white shadow-xl flex flex-col justify-between min-h-36">
+              <div>
+                <span className="text-[9px] font-extrabold uppercase tracking-widest text-blue-200 opacity-90">
+                  INFO | AUGUST 2026
+                </span>
+                <h4 className="text-sm font-extrabold text-white mt-1 leading-snug">
+                  JOIN NOW! | Welcoming new members
+                </h4>
               </div>
-              
-              <h3 className="text-xs sm:text-sm font-black text-white leading-tight">
-                JOIN NOW! | Welcoming new members
-              </h3>
-
-              <div className="pt-1">
+              <div className="pt-3">
                 <Link
-                  href="/ppdb"
-                  className="w-full py-2 px-3 rounded-lg bg-white hover:bg-neutral-100 text-blue-800 font-black text-[10px] shadow transition-all flex items-center justify-between uppercase tracking-wider"
+                  href="/ppdb/daftar"
+                  className="w-full bg-white hover:bg-neutral-100 text-blue-900 rounded-xl py-2 px-3 text-[11px] font-extrabold uppercase tracking-wider flex items-center justify-between shadow-md transition-all group"
                 >
                   <span>REGISTRATION</span>
-                  <span className="text-blue-600 font-bold">»</span>
+                  <span className="group-hover:translate-x-1 transition-transform">»</span>
                 </Link>
               </div>
             </div>
