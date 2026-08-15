@@ -5,7 +5,7 @@ import {
   Compass, 
   GraduationCap, 
   Laptop, 
-  Briefcase, 
+  Sparkles, 
   Sprout, 
   Handshake, 
   Check, 
@@ -41,9 +41,9 @@ export default function VisiMisiPage() {
     },
     {
       no: '04',
-      title: 'Kewirausahaan & Kemandirian (Teaching Factory)',
-      desc: 'Menumbuhkan jiwa kepemimpinan, kreativitas, dan wirausaha mandiri melalui program praktek kerja terapan dan unit bisnis sekolah (BLUD).',
-      icon: Briefcase,
+      title: 'Kepemimpinan, Riset & Kreativitas Mandiri',
+      desc: 'Menumbuhkan karakter kepemimpinan, kemampuan riset ilmiah, dan daya cipta mandiri melalui kegiatan kesiswaan serta Projek Penguatan Profil Pelajar Pancasila (P5).',
+      icon: Sparkles,
     },
     {
       no: '05',

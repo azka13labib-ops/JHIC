@@ -63,11 +63,11 @@ export default function SejarahPage() {
     },
     {
       year: '2020 - Sekarang',
-      title: 'Transformasi Digital, Teaching Factory & BLUD',
+      title: 'Transformasi Digital & Sekolah Unggul Akademik',
       badge: 'Era Modern',
       badgeColor: 'bg-indigo-100 text-indigo-800 border-indigo-200',
       description:
-        'Mengimplementasikan Kurikulum Merdeka dengan penguatan ekosistem Smart School (CBT, E-Rapor, E-Learning), sertifikasi industri, Bursa Kerja Khusus (BKK), serta unit produksi Teaching Factory berbasis Badan Layanan Umum Daerah (BLUD).',
+        'Mengimplementasikan Kurikulum Merdeka dengan penguatan ekosistem Smart School (CBT, E-Rapor, E-Learning), bimbingan intensif masuk Perguruan Tinggi Negeri (SNBP/SNBT), riset karya ilmiah siswa, dan pengembangan kepemimpinan global.',
       icon: Rocket,
       iconBg: 'bg-indigo-50 text-indigo-600 border-indigo-200',
     },
