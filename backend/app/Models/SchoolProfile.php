@@ -16,5 +16,18 @@ class SchoolProfile extends Model
         'email',
         'phone',
         'address',
+        'is_ppdb_open',
+        'ppdb_academic_year',
+        'ppdb_start_date',
+        'ppdb_end_date',
+        'ppdb_announcement_date',
+        'ppdb_closed_message',
+    ];
+
+    protected $casts = [
+        'is_ppdb_open' => 'boolean',
+        'ppdb_start_date' => 'date',
+        'ppdb_end_date' => 'date',
+        'ppdb_announcement_date' => 'date',
     ];
 }
