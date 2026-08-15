@@ -52,7 +52,7 @@ class PpdbService
             throw new \Exception('Silakan isi formulir PPDB terlebih dahulu.');
         }
 
-        $path = $file->store('ppdb_documents', 'public');
+        $path = $file->store('ppdb_documents', 'local');
 
         return $this->registrationRepo->updateOrCreateDocument($registration->id, $data['type'], $path);
     }

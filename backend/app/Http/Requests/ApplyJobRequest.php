@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ApplyJobRequest extends FormRequest
@@ -18,17 +17,12 @@ class ApplyJobRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, mixed>
      */
-        public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [
-            'cv_file' => 'required|file|mimes:pdf|max:5120',
+            'cv_file'      => 'required|file|mimes:pdf|max:5120',
             'cover_letter' => 'nullable|string'
         ];
     }

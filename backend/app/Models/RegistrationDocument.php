@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class RegistrationDocument extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'registration_id',
+        'type',
+        'file_path',
+    ];
 
     public function registration()
     {

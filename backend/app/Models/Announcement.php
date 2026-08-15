@@ -3,21 +3,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
-
+use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Announcement extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'title',
+        'description',
+        'badge_text',
+        'button_text',
+        'button_url',
+        'event_date',
+        'is_active',
+    ];
 
     protected static function booted()
     {
         static::saved(function ($model) {
-            \Spatie\ResponseCache\Facades\ResponseCache::clear();
+            ResponseCache::clear();
         });
 
         static::deleted(function ($model) {
-            \Spatie\ResponseCache\Facades\ResponseCache::clear();
+            ResponseCache::clear();
         });
     }
 }

@@ -6,7 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Registration extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'user_id',
+        'registration_number',
+        'full_name',
+        'nisn',
+        'date_of_birth',
+        'gender',
+        'address',
+        'previous_school',
+        'major_choice',
+        'status',
+        'notes',
+    ];
 
     public function user()
     {

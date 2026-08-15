@@ -44,7 +44,7 @@ class BkkService
             throw new \Exception('Lowongan ini sudah ditutup.');
         }
 
-        $path = $file->store('job_applications/cv', 'public');
+        $path = $file->store('job_applications/cv', 'local');
 
         return $this->vacancyRepo->createApplication([
             'vacancy_id' => $vacancy->id,

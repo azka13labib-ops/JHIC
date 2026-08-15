@@ -3,21 +3,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
-
+use Spatie\ResponseCache\Facades\ResponseCache;
 
 class Feature extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'title',
+        'description',
+        'icon',
+        'link_text',
+        'link_url',
+        'sort_order',
+        'is_active',
+    ];
 
     protected static function booted()
     {
         static::saved(function ($model) {
-            \Spatie\ResponseCache\Facades\ResponseCache::clear();
+            ResponseCache::clear();
         });
 
         static::deleted(function ($model) {
-            \Spatie\ResponseCache\Facades\ResponseCache::clear();
+            ResponseCache::clear();
         });
     }
 }

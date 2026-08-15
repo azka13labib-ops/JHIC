@@ -6,7 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inquiry extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'product_id',
+        'user_id',
+        'name',
+        'email',
+        'phone',
+        'message',
+    ];
 
     public function product()
     {

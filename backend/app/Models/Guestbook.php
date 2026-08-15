@@ -8,5 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Guestbook extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+
+    protected $fillable = [
+        'name',
+        'email',
+        'institution',
+        'message',
+    ];
 }

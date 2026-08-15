@@ -17,11 +17,22 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Admin SMA PGRI 1',
-            'email' => 'admin@smapgri1lmj.sch.id',
-            'password' => bcrypt('password'), // password standar
-            'role' => 'admin',
-        ]);
+        $adminEmail = env('ADMIN_EMAIL', 'admin@smapgri1lmj.sch.id');
+        $adminPassword = env('ADMIN_PASSWORD');
+
+        if (empty($adminPassword) && app()->isLocal()) {
+            $adminPassword = 'admin123456!';
+        }
+
+        if (!empty($adminPassword)) {
+            User::firstOrCreate(
+                ['email' => $adminEmail],
+                [
+                    'name' => env('ADMIN_NAME', 'Admin SMA PGRI 1'),
+                    'password' => bcrypt($adminPassword),
+                    'role' => 'admin',
+                ]
+            );
+        }
     }
 }

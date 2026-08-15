@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'logo_path',
+        'location',
+        'description',
+    ];
 
     public function vacancies()
     {

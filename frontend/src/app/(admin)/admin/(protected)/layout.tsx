@@ -113,15 +113,35 @@ export default function ProtectedAdminLayout({
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/admin/login");
+    } else if (status === "authenticated" && session?.user?.role !== "admin") {
+      router.push("/admin/login?error=AccessDenied");
     }
-  }, [status, router]);
+  }, [status, session, router]);
+
+  const handleLogout = async () => {
+    try {
+      if (session?.accessToken) {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/logout`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`,
+            Accept: "application/json",
+          },
+        });
+      }
+    } catch {
+      // Proceed with NextAuth signOut even if backend network call fails
+    } finally {
+      signOut({ callbackUrl: "/admin/login" });
+    }
+  };
 
   if (status === "loading") {
     return <div className="flex items-center justify-center min-h-screen">Memuat...</div>;
   }
 
-  if (!session) {
-    return null; // Will redirect in useEffect
+  if (!session || session?.user?.role !== "admin") {
+    return null; // Will redirect in useEffect / middleware
   }
 
   return (
@@ -157,7 +177,7 @@ export default function ProtectedAdminLayout({
           <Button
             variant="ghost"
             className="w-full justify-start text-muted-foreground hover:text-destructive"
-            onClick={() => signOut()}
+            onClick={handleLogout}
           >
             <LogOut className="mr-3 h-5 w-5" />
             Logout

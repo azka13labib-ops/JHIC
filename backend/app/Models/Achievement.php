@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Achievement extends Model
 {
-    protected $guarded = [];
-
-    //
+    protected $fillable = [
+        'title',
+        'description',
+        'level',
+        'year',
+        'student_name',
+        'image_path',
+    ];
 }

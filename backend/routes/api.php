@@ -52,6 +52,16 @@ Route::middleware(['throttle:100,1'])->group(function () {
 // PPDB Info publik (no auth needed)
 Route::get('/ppdb/info', [\App\Http\Controllers\Api\PpdbController::class, 'info']);
 
+// Public Status Check
+Route::middleware(['throttle:30,1'])->group(function () {
+    Route::get('/ppdb/check-status', [\App\Http\Controllers\Api\PpdbController::class, 'checkStatus']);
+});
+
+// Public / Candidate PPDB Submit
+Route::middleware(['throttle:10,60'])->group(function () {
+    Route::post('/ppdb/submit', [\App\Http\Controllers\Api\PpdbController::class, 'submit']);
+});
+
 // Guestbook submit (guest, throttled)
 Route::middleware(['throttle:10,60'])->group(function () {
     Route::post('/guestbooks', [\App\Http\Controllers\Api\LandingPageController::class, 'storeGuestbook']);
@@ -73,17 +83,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
     Route::get('/me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
 
-    // PPDB — requires login (#5, #7)
-    Route::middleware(['throttle:10,60'])->group(function () {
-        Route::post('/ppdb/submit', [\App\Http\Controllers\Api\PpdbController::class, 'submit']);
+    // PPDB Document Upload & Authenticated Status & Document Download
+    Route::middleware(['throttle:20,60'])->group(function () {
         Route::post('/ppdb/upload-doc', [\App\Http\Controllers\Api\PpdbController::class, 'uploadDoc']);
-        Route::get('/ppdb/check-status', [\App\Http\Controllers\Api\PpdbController::class, 'checkStatus']);
+        Route::get('/ppdb/status', [\App\Http\Controllers\Api\PpdbController::class, 'status']);
+        Route::get('/ppdb/documents/{id}/download', [\App\Http\Controllers\Api\PpdbController::class, 'downloadDoc']);
     });
 
-    // BKK Job Apply (rate limit 3 per hari)
+    // BKK Job Apply & CV Download
     Route::middleware(['throttle:3,1440'])->group(function () {
         Route::post('/jobs/{id}/apply', [\App\Http\Controllers\Api\JobApplicationController::class, 'apply']);
     });
+    Route::get('/job-applications/{id}/cv', [\App\Http\Controllers\Api\JobApplicationController::class, 'downloadCv']);
 
     // ============================================================
     // Admin Routes — requires auth:sanctum AND role=admin (#1)

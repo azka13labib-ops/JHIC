@@ -3,10 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use Spatie\ResponseCache\Facades\ResponseCache;
 
 class News extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'title',
+        'slug',
+        'content',
+        'image_path',
+        'author_id',
+        'published_at',
+    ];
 
     public function author()
     {
@@ -15,12 +24,18 @@ class News extends Model
 
     protected static function booted()
     {
+        static::saving(function ($model) {
+            if (empty($model->slug) && !empty($model->title)) {
+                $model->slug = Str::slug($model->title);
+            }
+        });
+
         static::saved(function ($model) {
-            \Spatie\ResponseCache\Facades\ResponseCache::clear();
+            ResponseCache::clear();
         });
 
         static::deleted(function ($model) {
-            \Spatie\ResponseCache\Facades\ResponseCache::clear();
+            ResponseCache::clear();
         });
     }
 }

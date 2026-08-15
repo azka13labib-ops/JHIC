@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Alumni extends Model
 {
-    protected $guarded = [];
-
-    //
+    protected $fillable = [
+        'name',
+        'graduation_year',
+        'profession',
+        'company',
+        'testimony',
+        'photo_url',
+    ];
 }
