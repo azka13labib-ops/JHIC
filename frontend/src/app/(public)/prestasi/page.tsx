@@ -1,9 +1,11 @@
-import { Trophy } from 'lucide-react';
+import { Trophy, ArrowRight } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import Image from 'next/image';
 import { getAchievements } from '@/lib/api/school';
 
-export const revalidate = 0; // Force dynamic rendering to bypass persistent cache
+export const revalidate = 3600; // 1 hour ISR
 
 export const metadata: Metadata = {
   title: 'Prestasi | SMA PGRI 1 Lumajang',
@@ -48,19 +50,21 @@ export default async function PrestasiPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {achievements.map((item) => (
               <div key={item.id} className="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all overflow-hidden group">
-                <div className="relative h-56 bg-slate-100">
+                <div className="relative h-56 bg-slate-100 overflow-hidden">
                   {item.image_path ? (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img src={getImageUrl(item.image_path)}
+                    <Image 
+                      src={getImageUrl(item.image_path)}
                       alt={item.title}
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 bg-slate-50">
                       <span className="text-5xl mb-2">🏅</span>
                     </div>
                   )}
-                  <div className="absolute top-4 right-4">
+                  <div className="absolute top-4 right-4 z-10">
                     <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm ${LEVEL_COLORS[item.level] ?? LEVEL_COLORS.sekolah}`}>
                       Tingkat {item.level}
                     </span>
@@ -79,15 +83,13 @@ export default async function PrestasiPage() {
                     </p>
                   )}
                   <div className="mt-auto pt-4 border-t border-slate-100">
-                    <a
+                    <Link
                       href={`/prestasi/${item.id}`}
-                      className="text-blue-600 hover:text-blue-800 font-semibold text-sm flex items-center gap-1 transition-colors"
+                      className="text-blue-600 hover:text-blue-800 font-semibold text-sm flex items-center gap-1 transition-colors group"
                     >
                       Lihat Selengkapnya
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
-                    </a>
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
                   </div>
                 </div>
               </div>

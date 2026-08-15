@@ -9,9 +9,6 @@ import {
   HeartHandshake, 
   Lightbulb, 
   BookOpen, 
-  ArrowRight, 
-  ArrowLeft,
-  Calendar,
   Sparkles
 } from 'lucide-react';
 

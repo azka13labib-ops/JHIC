@@ -1,5 +1,4 @@
 import type { Partner } from '@/types/school';
-import Image from 'next/image';
 
 export default function PartnersSection({ partners }: { partners: Partner[] }) {
   return (

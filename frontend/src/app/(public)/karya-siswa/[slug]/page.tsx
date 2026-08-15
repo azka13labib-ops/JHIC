@@ -1,6 +1,7 @@
 import { getImageUrl } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { getStudentWorkBySlug } from "@/lib/api/school";
 
 export const revalidate = 60;
@@ -32,11 +33,14 @@ export default async function DetailKaryaSiswaPage({ params }: { params: Promise
         </div>
 
         {item.image && (
-          <div className="mb-10 rounded-2xl overflow-hidden shadow-sm">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={getImageUrl(item.image)} 
+          <div className="mb-10 rounded-2xl overflow-hidden shadow-sm relative aspect-video w-full max-h-[600px] bg-slate-100">
+            <Image 
+              src={getImageUrl(item.image)} 
               alt={item.title} 
-              className="w-full h-auto object-cover max-h-[600px]"
+              fill
+              priority
+              sizes="(max-width: 896px) 100vw, 896px"
+              className="object-cover"
             />
           </div>
         )}

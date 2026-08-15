@@ -12,6 +12,7 @@ Route::middleware(['throttle:100,1'])->group(function () {
     // Cached Public API Routes (Landing Page, BKK, BLUD Catalog)
     Route::middleware([CacheResponse::class])->group(function () {
         // Landing Page API
+        Route::get('/landing', [\App\Http\Controllers\Api\LandingPageController::class, 'landing']);
         Route::get('/school-info', [\App\Http\Controllers\Api\LandingPageController::class, 'schoolInfo']);
         Route::get('/features', [\App\Http\Controllers\Api\LandingPageController::class, 'features']);
         Route::get('/announcements', [\App\Http\Controllers\Api\LandingPageController::class, 'announcements']);
@@ -35,6 +36,7 @@ Route::middleware(['throttle:100,1'])->group(function () {
         Route::get('/galleries/{slug}', [\App\Http\Controllers\Api\LandingPageController::class, 'showGallery']);
 
         Route::get('/achievements', [\App\Http\Controllers\Api\LandingPageController::class, 'achievements']);
+        Route::get('/achievements/{id}', [\App\Http\Controllers\Api\LandingPageController::class, 'showAchievement']);
         Route::get('/alumnis', [\App\Http\Controllers\Api\LandingPageController::class, 'alumnis']);
         Route::get('/partners', [\App\Http\Controllers\Api\LandingPageController::class, 'partners']);
         
@@ -58,22 +60,22 @@ Route::middleware(['throttle:30,1'])->group(function () {
 });
 
 // Public / Candidate PPDB Submit
-Route::middleware(['throttle:10,60'])->group(function () {
+Route::middleware(['throttle:20,1'])->group(function () {
     Route::post('/ppdb/submit', [\App\Http\Controllers\Api\PpdbController::class, 'submit']);
 });
 
 // Guestbook submit (guest, throttled)
-Route::middleware(['throttle:10,60'])->group(function () {
+Route::middleware(['throttle:20,1'])->group(function () {
     Route::post('/guestbooks', [\App\Http\Controllers\Api\LandingPageController::class, 'storeGuestbook']);
 });
 
 // BLUD Inquiries (Stricter rate limiting to prevent spam)
-Route::middleware(['throttle:5,60'])->group(function () {
+Route::middleware(['throttle:15,1'])->group(function () {
     Route::post('/inquiries', [InquiryController::class, 'store']);
 });
 
-// Auth Routes — tighter throttle to prevent brute force (#2, #11)
-Route::middleware(['throttle:10,60'])->group(function () {
+// Auth Routes — rate limited per minute to prevent brute force
+Route::middleware(['throttle:15,1'])->group(function () {
     Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
     Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
 });
@@ -84,14 +86,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
 
     // PPDB Document Upload & Authenticated Status & Document Download
-    Route::middleware(['throttle:20,60'])->group(function () {
+    Route::middleware(['throttle:30,1'])->group(function () {
         Route::post('/ppdb/upload-doc', [\App\Http\Controllers\Api\PpdbController::class, 'uploadDoc']);
         Route::get('/ppdb/status', [\App\Http\Controllers\Api\PpdbController::class, 'status']);
         Route::get('/ppdb/documents/{id}/download', [\App\Http\Controllers\Api\PpdbController::class, 'downloadDoc']);
     });
 
     // BKK Job Apply & CV Download
-    Route::middleware(['throttle:3,1440'])->group(function () {
+    Route::middleware(['throttle:10,1'])->group(function () {
         Route::post('/jobs/{id}/apply', [\App\Http\Controllers\Api\JobApplicationController::class, 'apply']);
     });
     Route::get('/job-applications/{id}/cv', [\App\Http\Controllers\Api\JobApplicationController::class, 'downloadCv']);

@@ -2,6 +2,7 @@ import { getImageUrl } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
 import Link from "next/link";
+import Image from "next/image";
 import { getNewsBySlug } from "@/lib/api/school";
 
 export const revalidate = 60; // Revalidate every minute
@@ -25,13 +26,8 @@ export default async function DetailBeritaPage({ params }: { params: Promise<{ s
           {news.title}
         </h1>
         
-        <div className="flex items-center gap-4 text-slate-500 mb-8 pb-8 border-b border-slate-100">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-bold">
-              {news.author?.name?.charAt(0) || 'A'}
-            </div>
-            <span className="font-medium text-slate-700">{news.author?.name || 'Admin'}</span>
-          </div>
+        <div className="flex items-center gap-4 text-slate-500 mb-8 pb-6 border-b border-slate-200">
+          <span className="font-semibold text-slate-700">{news.author?.name || 'Admin'}</span>
           <span className="text-slate-300">|</span>
           <span>
             {new Date(news.published_at || news.created_at).toLocaleDateString('id-ID', { 
@@ -44,11 +40,14 @@ export default async function DetailBeritaPage({ params }: { params: Promise<{ s
         </div>
 
         {news.image_path && (
-          <div className="mb-10 rounded-2xl overflow-hidden shadow-sm">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={getImageUrl(news.image_path)} 
+          <div className="mb-10 rounded-2xl overflow-hidden shadow-sm relative aspect-video w-full max-h-125 bg-slate-100">
+            <Image 
+              src={getImageUrl(news.image_path)} 
               alt={news.title} 
-              className="w-full h-auto object-cover max-h-125"
+              fill
+              priority
+              sizes="(max-width: 896px) 100vw, 896px"
+              className="object-cover"
             />
           </div>
         )}

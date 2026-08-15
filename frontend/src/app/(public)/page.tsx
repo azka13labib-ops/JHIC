@@ -7,37 +7,28 @@ import PrestasiSection from '@/components/sections/PrestasiSection';
 import PartnersSection from '@/components/sections/PartnersSection';
 
 import { 
-  getSchoolProfile, 
-  getDepartments, 
-  getAchievements, 
-  getPartners,
-  getFeatures,
-  getAnnouncements
+  getLandingData, 
+  getDepartments,
 } from '@/lib/api/school';
 
 // Next.js Revalidate untuk ISR (waktu dalam detik)
 export const revalidate = 86400; // 1 Hari
 
 export default async function LandingPage() {
-  // Ambil semua data statis dari backend secara paralel
-  const [profile, departments, achievements, partners, features, announcements] = await Promise.all([
-    getSchoolProfile(),
+  const [landingData, departments] = await Promise.all([
+    getLandingData(),
     getDepartments(),
-    getAchievements(),
-    getPartners(),
-    getFeatures(),
-    getAnnouncements()
   ]);
 
   return (
     <>
       <HeroSection />
-      <FeaturesSection features={features} />
-      <AnnouncementBanner announcements={announcements} />
-      <SambutanSection profile={profile} />
+      <FeaturesSection features={landingData.features} />
+      <AnnouncementBanner announcements={landingData.announcements} />
+      {landingData.profile && <SambutanSection profile={landingData.profile} />}
       <JurusanSection departments={departments} />
-      <PrestasiSection achievements={achievements} />
-      <PartnersSection partners={partners} />
+      <PrestasiSection achievements={landingData.achievements} />
+      <PartnersSection partners={landingData.partners} />
     </>
   );
 }

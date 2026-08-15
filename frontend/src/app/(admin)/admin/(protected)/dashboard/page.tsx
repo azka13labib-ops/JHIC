@@ -44,9 +44,25 @@ export default function DashboardPage() {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/dashboard/stats`, {
       headers: { Authorization: `Bearer ${session.accessToken}`, Accept: 'application/json' },
     })
-      .then((r) => r.json())
-      .then(setStats)
-      .catch(console.error)
+      .then((r) => {
+        if (r.status === 401) {
+          signOut({ callbackUrl: '/admin/login' });
+          return null;
+        }
+        if (!r.ok) {
+          console.warn('Dashboard stats endpoint returned status:', r.status);
+          return null;
+        }
+        return r.json();
+      })
+      .then((data) => {
+        if (data && typeof data === 'object' && 'ppdb' in data) {
+          setStats(data as DashboardStats);
+        }
+      })
+      .catch((err) => {
+        console.warn('Error fetching dashboard stats:', err);
+      })
       .finally(() => setLoading(false));
   }, [session]);
 
@@ -64,10 +80,10 @@ export default function DashboardPage() {
   if (!session) return null;
 
   const statCards = [
-    { label: 'Total Pendaftar PPDB', value: stats?.ppdb.total ?? 0, sub: `${stats?.ppdb.pending ?? 0} menunggu`, href: '/admin/ppdb', color: 'bg-blue-500', icon: GraduationCap },
-    { label: 'Berita Dipublikasi', value: stats?.news.total ?? 0, sub: 'Total artikel', href: '/admin/news', color: 'bg-indigo-500', icon: Newspaper },
-    { label: 'Produk BLUD Aktif', value: stats?.products.active ?? 0, sub: `${stats?.products.total ?? 0} total produk`, href: '/admin/products', color: 'bg-emerald-500', icon: Package },
-    { label: 'Lowongan Aktif', value: stats?.jobs.active ?? 0, sub: `${stats?.applications.pending ?? 0} lamaran baru`, href: '/admin/jobs', color: 'bg-violet-500', icon: Briefcase },
+    { label: 'Total Pendaftar PPDB', value: stats?.ppdb?.total ?? 0, sub: `${stats?.ppdb?.pending ?? 0} menunggu`, href: '/admin/ppdb', color: 'bg-blue-500', icon: GraduationCap },
+    { label: 'Berita Dipublikasi', value: stats?.news?.total ?? 0, sub: 'Total artikel', href: '/admin/news', color: 'bg-indigo-500', icon: Newspaper },
+    { label: 'Produk BLUD Aktif', value: stats?.products?.active ?? 0, sub: `${stats?.products?.total ?? 0} total produk`, href: '/admin/products', color: 'bg-emerald-500', icon: Package },
+    { label: 'Lowongan Aktif', value: stats?.jobs?.active ?? 0, sub: `${stats?.applications?.pending ?? 0} lamaran baru`, href: '/admin/jobs', color: 'bg-violet-500', icon: Briefcase },
   ];
 
   return (

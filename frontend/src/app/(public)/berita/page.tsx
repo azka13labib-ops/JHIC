@@ -27,10 +27,12 @@ export default async function BeritaPage() {
               <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
                 <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
                   {item.image_path ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={getImageUrl(item.image_path)} 
+                    <Image 
+                      src={getImageUrl(item.image_path)} 
                       alt={item.title} 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-slate-400">

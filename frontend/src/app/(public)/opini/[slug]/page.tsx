@@ -2,6 +2,7 @@ import { getImageUrl } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
 import Link from "next/link";
+import Image from "next/image";
 import { getOpinionBySlug } from "@/lib/api/school";
 
 export const revalidate = 60; // Revalidate every minute
@@ -17,7 +18,7 @@ export default async function DetailOpiniPage({ params }: { params: Promise<{ sl
   return (
     <div className="container mx-auto px-4 py-20 min-h-screen">
       <div className="max-w-4xl mx-auto">
-        <Link href="/artikel" className="text-blue-600 hover:underline mb-8 inline-block">
+        <Link href="/opini" className="text-blue-600 hover:underline mb-8 inline-block">
           &larr; Kembali ke Daftar Opini
         </Link>
         
@@ -44,11 +45,14 @@ export default async function DetailOpiniPage({ params }: { params: Promise<{ sl
         </div>
 
         {opinion.image && (
-          <div className="mb-10 rounded-2xl overflow-hidden shadow-sm">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={getImageUrl(opinion.image)} 
+          <div className="mb-10 rounded-2xl overflow-hidden shadow-sm relative aspect-video w-full max-h-125 bg-slate-100">
+            <Image 
+              src={getImageUrl(opinion.image)} 
               alt={opinion.title} 
-              className="w-full h-auto object-cover max-h-125"
+              fill
+              priority
+              sizes="(max-width: 896px) 100vw, 896px"
+              className="object-cover"
             />
           </div>
         )}

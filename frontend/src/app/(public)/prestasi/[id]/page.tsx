@@ -1,14 +1,14 @@
 import { getImageUrl } from "@/lib/utils";
-import { getAchievements } from '@/lib/api/school';
+import { getAchievementById } from '@/lib/api/school';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
-export const revalidate = 0; // Force dynamic to always get latest data
+export const revalidate = 3600; // 1 hour ISR
 
 export default async function AchievementDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const achievements = await getAchievements();
-  const achievement = achievements.find(a => a.id.toString() === id);
+  const achievement = await getAchievementById(id);
 
   if (!achievement) return notFound();
 
@@ -33,10 +33,12 @@ export default async function AchievementDetailPage({ params }: { params: Promis
         <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
           {achievement.image_path ? (
             <div className="relative w-full h-100 sm:h-125 bg-slate-100">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={getImageUrl(achievement.image_path)}
+              <Image 
+                src={getImageUrl(achievement.image_path)}
                 alt={achievement.title}
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 896px) 100vw, 896px"
+                className="object-cover"
               />
             </div>
           ) : (

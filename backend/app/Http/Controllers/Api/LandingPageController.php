@@ -3,26 +3,45 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-
-use App\Models\SchoolProfile;
-use App\Models\News;
-use App\Models\Achievement;
-use App\Models\Alumni;
-use App\Models\Partner;
-
-use App\Http\Resources\SchoolProfileResource;
-use App\Http\Resources\NewsResource;
 use App\Http\Resources\AchievementResource;
 use App\Http\Resources\AlumniResource;
+use App\Http\Resources\NewsResource;
 use App\Http\Resources\PartnerResource;
-
-use App\Models\Feature;
+use App\Http\Resources\SchoolProfileResource;
+use App\Models\Achievement;
+use App\Models\Alumni;
 use App\Models\Announcement;
+use App\Models\Article;
+use App\Models\Feature;
+use App\Models\Gallery;
+use App\Models\Guestbook;
+use App\Models\News;
+use App\Models\Opinion;
+use App\Models\Partner;
+use App\Models\QuickLink;
+use App\Models\SchoolProfile;
+use App\Models\StudentWork;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class LandingPageController extends Controller
 {
+    public function landing()
+    {
+        $data = Cache::remember('api.landing_composite', 86400, function () {
+            return [
+                'profile'       => SchoolProfile::first(),
+                'features'      => Feature::where('is_active', true)->orderBy('sort_order')->get(),
+                'announcements' => Announcement::where('is_active', true)->latest()->get(),
+                'achievements'  => Achievement::orderByDesc('year')->orderByDesc('id')->limit(6)->get(),
+                'partners'      => Partner::latest()->get(),
+            ];
+        });
+
+        return response()->json(['data' => $data], 200);
+    }
+
     public function features()
     {
         $data = Cache::remember('api.features', 86400, function () {
@@ -40,6 +59,7 @@ class LandingPageController extends Controller
 
         return response()->json(['data' => $data], 200);
     }
+
     public function schoolInfo()
     {
         $data = Cache::remember('api.school-info', 86400, function () {
@@ -64,7 +84,11 @@ class LandingPageController extends Controller
 
     public function showNews($slug)
     {
-        $news = News::with('author')->where('slug', $slug)->firstOrFail();
+        $news = News::with('author')
+            ->where('slug', $slug)
+            ->orWhere('id', $slug)
+            ->firstOrFail();
+
         return new NewsResource($news);
     }
 
@@ -75,6 +99,12 @@ class LandingPageController extends Controller
         });
 
         return AchievementResource::collection($data);
+    }
+
+    public function showAchievement($id)
+    {
+        $achievement = Achievement::findOrFail($id);
+        return new AchievementResource($achievement);
     }
 
     public function alumnis()
@@ -105,67 +135,95 @@ class LandingPageController extends Controller
 
     public function showAgenda($slug)
     {
-        $agenda = \App\Models\Agenda::where('slug', $slug)->firstOrFail();
+        $agenda = \App\Models\Agenda::where('slug', $slug)
+            ->orWhere('id', $slug)
+            ->firstOrFail();
         return response()->json(['data' => $agenda], 200);
     }
 
     public function articles()
     {
         $data = Cache::remember('api.articles', 86400, function () {
-            return \App\Models\Article::latest('created_at')->get();
+            return Article::latest('created_at')->get()->map(function ($item) {
+                return [
+                    'id'         => $item->id,
+                    'title'      => $item->title,
+                    'slug'       => $item->slug,
+                    'author'     => $item->author,
+                    'image'      => $item->image,
+                    'content'    => Str::limit(strip_tags($item->content), 200),
+                    'created_at' => $item->created_at,
+                ];
+            });
         });
         return response()->json(['data' => $data], 200);
     }
 
     public function showArticle($id)
     {
-        $article = \App\Models\Article::findOrFail($id);
+        $article = Article::where('slug', $id)
+            ->orWhere('id', $id)
+            ->firstOrFail();
         return response()->json(['data' => $article], 200);
     }
 
     public function galleries()
     {
         $data = Cache::remember('api.galleries', 86400, function () {
-            return \App\Models\Gallery::latest('created_at')->get();
+            return Gallery::latest('created_at')->get();
         });
         return response()->json(['data' => $data], 200);
     }
 
     public function showGallery($slug)
     {
-        $gallery = \App\Models\Gallery::where('slug', $slug)->firstOrFail();
+        $gallery = Gallery::where('slug', $slug)
+            ->orWhere('id', $slug)
+            ->firstOrFail();
         return response()->json(['data' => $gallery], 200);
     }
 
     public function studentWorks()
     {
         $data = Cache::remember('api.student_works', 86400, function () {
-            return \App\Models\StudentWork::latest('created_at')->get();
+            return StudentWork::latest('created_at')->get();
         });
         return response()->json(['data' => $data], 200);
     }
 
     public function showStudentWork($slug)
     {
-        $studentWork = \App\Models\StudentWork::where('slug', $slug)->firstOrFail();
+        $studentWork = StudentWork::where('slug', $slug)
+            ->orWhere('id', $slug)
+            ->firstOrFail();
         return response()->json(['data' => $studentWork], 200);
     }
-
 
     public function opinions()
     {
         $data = Cache::remember('api.opinions', 86400, function () {
-            return \App\Models\Opinion::latest('created_at')->get();
+            return Opinion::latest('created_at')->get()->map(function ($item) {
+                return [
+                    'id'         => $item->id,
+                    'title'      => $item->title,
+                    'slug'       => $item->slug,
+                    'author'     => $item->author,
+                    'image'      => $item->image,
+                    'content'    => Str::limit(strip_tags($item->content), 200),
+                    'created_at' => $item->created_at,
+                ];
+            });
         });
         return response()->json(['data' => $data], 200);
     }
 
     public function showOpinion($id)
     {
-        $opinion = \App\Models\Opinion::findOrFail($id);
+        $opinion = Opinion::where('slug', $id)
+            ->orWhere('id', $id)
+            ->firstOrFail();
         return response()->json(['data' => $opinion], 200);
     }
-
 
     public function blogs()
     {
@@ -175,20 +233,18 @@ class LandingPageController extends Controller
         return response()->json(['data' => $data], 200);
     }
 
-
     public function quickLinks()
     {
         $data = Cache::remember('api.quick_links', 86400, function () {
-            return \App\Models\QuickLink::latest('created_at')->get();
+            return QuickLink::latest('created_at')->get();
         });
         return response()->json(['data' => $data], 200);
     }
 
-
     public function guestbooks()
     {
-        $data = Cache::remember('api.guestbooks', 60, function () { // cache 1 minute for guestbook list
-            return \App\Models\Guestbook::latest('created_at')->limit(50)->get();
+        $data = Cache::remember('api.guestbooks', 60, function () {
+            return Guestbook::latest('created_at')->limit(50)->get();
         });
         return response()->json(['data' => $data], 200);
     }
@@ -196,15 +252,14 @@ class LandingPageController extends Controller
     public function storeGuestbook(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255',
+            'name'        => 'required|string|max:255',
+            'email'       => 'nullable|email|max:255',
             'institution' => 'nullable|string|max:255',
-            'message' => 'required|string|max:2000',
+            'message'     => 'required|string|max:2000',
         ]);
         
-        $guestbook = \App\Models\Guestbook::create($validated);
+        $guestbook = Guestbook::create($validated);
         Cache::forget('api.guestbooks');
         return response()->json(['message' => 'Buku tamu berhasil dikirim.', 'data' => $guestbook], 201);
     }
-
 }

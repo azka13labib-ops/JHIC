@@ -1,4 +1,4 @@
-import { ShoppingBag, Package, Sparkles } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -78,10 +78,12 @@ export default async function ProdukPage({
                 <div className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full flex flex-col">
                   <div className="relative h-48 bg-slate-100 overflow-hidden">
                     {product.image_path ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={getImageUrl(product.image_path)}
+                      <Image 
+                        src={getImageUrl(product.image_path)}
                         alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-4xl bg-linear-to-br from-emerald-50 to-teal-50">

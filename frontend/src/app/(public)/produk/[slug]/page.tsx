@@ -1,14 +1,16 @@
 import { getImageUrl } from "@/lib/utils";
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getProductBySlug } from '@/lib/api/resources';
 import InquiryForm from './InquiryForm';
 
 export const revalidate = 300;
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const product = await getProductBySlug(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
   if (!product) return { title: 'Produk tidak ditemukan' };
   return {
     title: `${product.name} | Produk BLUD SMA PGRI 1 Lumajang`,
@@ -20,13 +22,14 @@ function formatPrice(price: number) {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(price);
 }
 
-export default async function ProdukDetailPage({ params }: { params: { slug: string } }) {
-  const product = await getProductBySlug(params.slug);
+export default async function ProdukDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
   if (!product) notFound();
 
   return (
     <div className="min-h-screen bg-white py-12">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-6xl">
         <Link href="/produk" className="inline-flex items-center gap-1 text-emerald-600 hover:underline mb-8 text-sm">
           ← Kembali ke Katalog
         </Link>
@@ -35,8 +38,14 @@ export default async function ProdukDetailPage({ params }: { params: { slug: str
           {/* Gambar */}
           <div className="relative h-80 lg:h-125 bg-linear-to-br from-emerald-50 to-teal-50 rounded-2xl overflow-hidden shadow-lg">
             {product.image_path ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={getImageUrl(product.image_path)} alt={product.name} className="w-full h-full object-cover" />
+              <Image 
+                src={getImageUrl(product.image_path)} 
+                alt={product.name} 
+                fill 
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover" 
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-6xl">📦</div>
             )}

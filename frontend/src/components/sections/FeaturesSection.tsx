@@ -1,8 +1,23 @@
-'use client';
-
 import React from 'react';
-import * as LucideIcons from 'lucide-react';
 import Link from 'next/link';
+import { 
+  Award, 
+  BookOpen, 
+  Building, 
+  CheckCircle, 
+  CheckCircle2, 
+  Compass, 
+  GraduationCap, 
+  HeartHandshake, 
+  Laptop, 
+  Lightbulb, 
+  ShieldCheck, 
+  Sparkles, 
+  Target, 
+  Trophy, 
+  Users,
+  Globe
+} from 'lucide-react';
 
 interface FeatureItem {
   id: number;
@@ -18,6 +33,25 @@ interface FeaturesSectionProps {
   features: FeatureItem[];
 }
 
+const ICON_MAP: Record<string, React.ElementType> = {
+  Award,
+  BookOpen,
+  Building,
+  CheckCircle,
+  CheckCircle2,
+  Compass,
+  GraduationCap,
+  HeartHandshake,
+  Laptop,
+  Lightbulb,
+  ShieldCheck,
+  Sparkles,
+  Target,
+  Trophy,
+  Users,
+  Globe,
+};
+
 export default function FeaturesSection({ features }: FeaturesSectionProps) {
   if (!features || features.length === 0) return null;
 
@@ -26,13 +60,12 @@ export default function FeaturesSection({ features }: FeaturesSectionProps) {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature, index) => {
-            // Retrieve dynamic icon from lucide-react
-            const IconComponent = (LucideIcons as any)[feature.icon] || LucideIcons.CheckCircle;
+            const IconComponent = ICON_MAP[feature.icon] || CheckCircle2;
             const numberWatermark = String(index + 1).padStart(2, '0');
 
             return (
               <div 
-                key={feature.id}
+                key={feature.id} 
                 className="relative bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow border border-slate-100 overflow-hidden group"
               >
                 {/* Watermark Number */}

@@ -25,10 +25,12 @@ export default async function GalleryPage() {
           {galleries.map((item) => (
             <Link href={`/galeri/${item.slug}`} key={item.id} className="group relative overflow-hidden rounded-2xl bg-slate-100 aspect-square shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300">
                 {item.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={getImageUrl(item.image)} 
+                  <Image 
+                    src={getImageUrl(item.image)} 
                     alt={item.title} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-slate-400">

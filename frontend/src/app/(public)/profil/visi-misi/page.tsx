@@ -9,9 +9,6 @@ import {
   Sprout, 
   Handshake, 
   Check, 
-  CheckCircle2, 
-  Sparkles,
-  Award,
   Heart
 } from 'lucide-react';
 

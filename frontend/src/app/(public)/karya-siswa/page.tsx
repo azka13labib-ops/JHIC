@@ -26,10 +26,12 @@ export default async function StudentWorkPage() {
             <Link href={`/karya-siswa/${item.slug}`} key={item.id} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300 group">
                 {item.image ? (
                   <div className="relative aspect-video w-full overflow-hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={getImageUrl(item.image)} 
+                    <Image 
+                      src={getImageUrl(item.image)} 
                       alt={item.title} 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
                 ) : (

@@ -36,6 +36,36 @@ async function fetchItem<T = any>(endpoint: string, tag: string, revalidate = 60
   }
 }
 
+export interface LandingCompositeData {
+  profile: SchoolProfile | null;
+  features: any[];
+  announcements: any[];
+  achievements: Achievement[];
+  partners: Partner[];
+}
+
+export async function getLandingData(): Promise<LandingCompositeData> {
+  try {
+    const res = await serverFetch<{ data: LandingCompositeData }>('/landing', { revalidate: 86400, tags: ['landing'] });
+    return {
+      profile: res.data?.profile || MOCK_SCHOOL_PROFILE,
+      features: res.data?.features || [],
+      announcements: res.data?.announcements || [],
+      achievements: res.data?.achievements || [],
+      partners: res.data?.partners || [],
+    };
+  } catch (error) {
+    console.warn("Failed to fetch landing composite data, falling back.", error);
+    return {
+      profile: MOCK_SCHOOL_PROFILE,
+      features: [],
+      announcements: [],
+      achievements: [],
+      partners: [],
+    };
+  }
+}
+
 // School Info & Profile
 export async function getSchoolProfile(): Promise<SchoolProfile> {
   try {
@@ -48,16 +78,11 @@ export async function getSchoolProfile(): Promise<SchoolProfile> {
 }
 
 export async function getDepartments(): Promise<Department[]> {
-  try {
-    const res = await serverFetch<{ data: Department[] }>('/departments', { revalidate: 86400 });
-    return res.data;
-  } catch {
-    return [
-      { id: 1, name: "MIPA", description: "Matematika dan Ilmu Pengetahuan Alam. Mempersiapkan siswa di bidang sains, kedokteran, dan teknik.", icon: "Microscope" },
-      { id: 2, name: "IPS", description: "Ilmu Pengetahuan Sosial. Berfokus pada sosiologi, ekonomi, geografi, dan sejarah.", icon: "Globe" },
-      { id: 3, name: "Ilmu Bahasa dan Budaya", description: "Mempelajari linguistik, sastra, dan budaya dari berbagai bahasa dunia.", icon: "BookText" },
-    ];
-  }
+  return [
+    { id: 1, name: "MIPA", description: "Matematika dan Ilmu Pengetahuan Alam. Mempersiapkan siswa di bidang sains, kedokteran, dan teknik.", icon: "Microscope" },
+    { id: 2, name: "IPS", description: "Ilmu Pengetahuan Sosial. Berfokus pada sosiologi, ekonomi, geografi, dan sejarah.", icon: "Globe" },
+    { id: 3, name: "Ilmu Bahasa dan Budaya", description: "Mempelajari linguistik, sastra, dan budaya dari berbagai bahasa dunia.", icon: "BookText" },
+  ];
 }
 
 export async function getAchievements(): Promise<Achievement[]> {
@@ -71,6 +96,8 @@ export async function getAchievements(): Promise<Achievement[]> {
     ];
   }
 }
+
+export const getAchievementById = (id: string) => fetchItem<Achievement>(`/achievements/${id}`, `achievement-${id}`, 3600);
 
 export async function getPartners(): Promise<Partner[]> {
   try {

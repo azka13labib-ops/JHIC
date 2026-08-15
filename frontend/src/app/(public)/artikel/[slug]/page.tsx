@@ -2,6 +2,7 @@ import { getImageUrl } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
 import Link from "next/link";
+import Image from "next/image";
 import { getArticleBySlug } from "@/lib/api/school";
 
 export const revalidate = 60; // Revalidate every minute
@@ -44,11 +45,14 @@ export default async function DetailArtikelPage({ params }: { params: Promise<{ 
         </div>
 
         {article.image && (
-          <div className="mb-10 rounded-2xl overflow-hidden shadow-sm">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={getImageUrl(article.image)} 
+          <div className="mb-10 rounded-2xl overflow-hidden shadow-sm relative aspect-video w-full max-h-125 bg-slate-100">
+            <Image 
+              src={getImageUrl(article.image)} 
               alt={article.title} 
-              className="w-full h-auto object-cover max-h-125"
+              fill
+              priority
+              sizes="(max-width: 896px) 100vw, 896px"
+              className="object-cover"
             />
           </div>
         )}

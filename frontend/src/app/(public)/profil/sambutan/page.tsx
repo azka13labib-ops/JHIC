@@ -7,10 +7,7 @@ import {
   Handshake, 
   Building2, 
   Trophy, 
-  Quote, 
-  Sparkles, 
-  ArrowRight, 
-  ArrowLeft 
+  Quote 
 } from 'lucide-react';
 
 export const metadata: Metadata = {

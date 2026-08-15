@@ -42,6 +42,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   images: {
+    dangerouslyAllowLocalIP: true,
     remotePatterns: [
       // Fix #8: Removed wildcard https://** — only allow known hosts
       {

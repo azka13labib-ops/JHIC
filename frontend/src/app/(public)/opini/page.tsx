@@ -23,13 +23,15 @@ export default async function OpiniPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {opinions.map((item) => (
-            <Link href={`/artikel/${item.slug}`} key={item.id} className="group">
+            <Link href={`/opini/${item.slug}`} key={item.id} className="group">
               <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
                 <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
                   {item.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={getImageUrl(item.image)} 
+                    <Image 
+                      src={getImageUrl(item.image)} 
                       alt={item.title} 
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (

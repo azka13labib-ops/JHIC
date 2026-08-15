@@ -1,16 +1,19 @@
-import { MapPin, Calendar, Clock } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { getAgendaBySlug } from "@/lib/api/school";
 
-export const revalidate = 60;
+export const revalidate = 60; // Revalidate every minute
 
 export default async function DetailAgendaPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const item = await getAgendaBySlug(slug);
 
-  if (!item) notFound();
+  if (!item) {
+    notFound();
+  }
 
   return (
     <div className="container mx-auto px-4 py-20 min-h-screen">
@@ -23,10 +26,15 @@ export default async function DetailAgendaPage({ params }: { params: Promise<{ s
           {item.title}
         </h1>
         
-        <div className="flex items-center gap-4 text-slate-500 mb-8 pb-8 border-b border-slate-100">
+        <div className="flex flex-wrap items-center gap-4 text-slate-500 mb-8 pb-6 border-b border-slate-200">
           <div className="flex items-center gap-2">
-            <span className="font-medium text-slate-700 bg-blue-100 text-blue-700 px-3 py-1 rounded-md">
-                {new Date(item.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+            <span className="bg-blue-100 text-blue-700 font-bold px-3 py-1 rounded-md text-sm">
+                {new Date(item.date).toLocaleDateString('id-ID', { 
+                  weekday: 'long', 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}
             </span>
           </div>
           {item.location && (
@@ -38,11 +46,14 @@ export default async function DetailAgendaPage({ params }: { params: Promise<{ s
         </div>
 
         {item.image && (
-          <div className="mb-10 rounded-2xl overflow-hidden shadow-sm">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={getImageUrl(item.image)} 
+          <div className="mb-10 rounded-2xl overflow-hidden shadow-sm relative aspect-video w-full max-h-125 bg-slate-100">
+            <Image 
+              src={getImageUrl(item.image)} 
               alt={item.title} 
-              className="w-full h-auto object-cover max-h-[500px]"
+              fill
+              priority
+              sizes="(max-width: 896px) 100vw, 896px"
+              className="object-cover"
             />
           </div>
         )}
