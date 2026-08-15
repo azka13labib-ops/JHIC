@@ -6,8 +6,7 @@ import {
   getNews,
 } from '@/lib/api/school';
 
-// Next.js Revalidate untuk ISR (waktu dalam detik)
-export const revalidate = 86400; // 1 Hari
+export const revalidate = 0; // Dynamic real-time revalidation
 
 export default async function LandingPage() {
   const newsList = await getNews();

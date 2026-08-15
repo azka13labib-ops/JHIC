@@ -8,7 +8,9 @@ import {
   ChevronLeft, 
   ChevronRight, 
   Radio,
-  Pin
+  Pin,
+  Newspaper,
+  Calendar as CalendarIcon
 } from 'lucide-react';
 import { getImageUrl } from '@/lib/utils';
 
@@ -19,7 +21,7 @@ interface NewsItem {
   image?: string;
   image_path?: string;
   is_pinned?: boolean;
-  category?: string;
+  published_at?: string;
   created_at?: string;
   content?: string;
 }
@@ -42,47 +44,32 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
     calendarCells.push(i);
   }
 
-  const defaultNews: NewsItem[] = [
-    {
-      title: 'Pelepasan Wisudawan & Penghargaan Prestasi Siswa Berlangsung Khidmat',
-      slug: 'pelepasan-wisudawan-2026',
-      image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1200&auto=format&fit=crop',
-      category: 'HOT | TODAY',
-    },
-    {
-      title: 'Gedung Laboratorium Sains & Komputer Terpadu Resmi Beroperasi',
-      slug: 'gedung-lab-terpadu-resmi',
-      image: 'https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=800&auto=format&fit=crop',
-      category: 'TODAY',
-    },
-    {
-      title: 'Karya Siswa Masuk Nominasi Inovasi Digital Tingkat Jawa Timur',
-      slug: 'karya-siswa-nominasi-inovasi-digital',
-      image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop',
-      category: 'HOT | TODAY',
-    },
-    {
-      title: 'Pekan Olahraga, Seni & Budaya Meriahkan Semester Baru 2026',
-      slug: 'pekan-olahraga-seni-budaya',
-      image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=800&auto=format&fit=crop',
-      category: 'HIGHLIGHT',
-    },
-  ];
+  // Purely use real news from database
+  const newsList = initialNews;
+  const totalNews = newsList.length;
 
-  // Merge dynamic news from database with fallback defaults if fewer than 4 items
-  const dynamicNews = [...initialNews];
-  while (dynamicNews.length < 4) {
-    dynamicNews.push(defaultNews[dynamicNews.length % defaultNews.length]);
-  }
+  const card1 = newsList[0];
+  const card2 = newsList[1];
+  const card3 = newsList[2];
+  const cardTall = newsList[3];
 
-  const card1 = dynamicNews[0];
-  const card2 = dynamicNews[1];
-  const card3 = dynamicNews[2];
-  const cardTall = dynamicNews[3];
+  const hasTallCard = totalNews >= 4;
 
-  const resolveImage = (item: NewsItem, fallback: string) => {
+  const resolveImage = (item: NewsItem) => {
     const raw = item.image_path || item.image;
-    return raw ? getImageUrl(raw) : fallback;
+    if (raw) return getImageUrl(raw);
+    return '/image.png'; // Fallback to school campus backdrop
+  };
+
+  const formatDate = (item?: NewsItem) => {
+    if (!item) return '';
+    const dateStr = item.published_at || item.created_at;
+    if (!dateStr) return 'TERBARU';
+    return new Date(dateStr).toLocaleDateString('id-ID', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
   };
 
   return (
@@ -101,7 +88,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
 
       <div className="relative z-10 container mx-auto px-4 max-w-7xl">
         
-        {/* Section Header (Matches Mockup • News.) */}
+        {/* Section Header */}
         <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -122,176 +109,205 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
             href="/berita"
             className="inline-flex items-center gap-2 text-xs font-bold text-blue-400 hover:text-blue-300 transition-colors"
           >
-            <span>Lihat Semua Berita</span>
+            <span>Lihat Semua Berita ({totalNews})</span>
             <span>→</span>
           </Link>
         </div>
 
-        {/* 3-Column Grid Matching Mockup */}
+        {/* Dynamic Grid Layout based on Real News Count */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
           
-          {/* Column 1 (Left 6 Cols): Top Wide Card + Bottom 2 Cards */}
-          <div className="md:col-span-12 lg:col-span-6 space-y-5">
-            
-            {/* 1. Wide Top News Card */}
-            <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black/60 aspect-video flex flex-col justify-end p-6">
-              <Image
-                src={resolveImage(card1, defaultNews[0].image!)}
-                alt={card1.title}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
-              
-              <div className="relative z-10 space-y-2 max-w-xl">
-                {card1.is_pinned ? (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2.5 py-0.5 rounded-full">
-                    <Pin className="w-2.5 h-2.5 fill-amber-400" />
-                    <span>SEMATAN | HEADLINE</span>
-                  </span>
-                ) : (
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">
-                    {card1.category || 'HOT | TODAY'}
-                  </span>
-                )}
-                <h3 className="text-sm sm:text-base font-bold text-white leading-snug line-clamp-2">
-                  {card1.title}
-                </h3>
-                <div className="pt-1">
-                  <Link
-                    href={card1.slug ? `/berita/${card1.slug}` : '/berita'}
-                    className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold shadow-md transition-all"
-                  >
-                    <span>READ NEWS</span>
-                    <span className="text-[10px]">»</span>
-                  </Link>
-                </div>
+          {/* If No News in Database */}
+          {totalNews === 0 && (
+            <div className="md:col-span-12 lg:col-span-9 rounded-2xl border border-white/10 bg-black/40 p-12 text-center flex flex-col items-center justify-center min-h-90">
+              <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 mb-3">
+                <Newspaper className="w-7 h-7" />
               </div>
+              <h3 className="text-base font-bold text-white">Belum Ada Berita</h3>
+              <p className="text-xs text-neutral-400 mt-1 max-w-md">
+                Publikasi berita dan pengumuman resmi sekolah yang ditambahkan melalui panel admin akan langsung tampil di sini.
+              </p>
             </div>
+          )}
 
-            {/* 2. Bottom Row (2 Cards) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {/* Left Column for Real News: Spans 9 cols if <4 items, or 6 cols if 4+ items */}
+          {totalNews > 0 && (
+            <div className={`md:col-span-12 ${hasTallCard ? 'lg:col-span-6' : 'lg:col-span-9'} space-y-5`}>
               
-              {/* Bottom Card 1 */}
-              <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-black/60 aspect-4/3 flex flex-col justify-end p-4">
+              {/* 1. Main Headline Card (Card 1) */}
+              {card1 && (
+                <div className={`relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black/60 ${totalNews === 1 ? 'aspect-21/9 min-h-75' : 'aspect-video'} flex flex-col justify-end p-6`}>
+                  <Image
+                    src={resolveImage(card1)}
+                    alt={card1.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
+                  
+                  <div className="relative z-10 space-y-2 max-w-xl">
+                    <div className="flex items-center gap-2">
+                      {card1.is_pinned ? (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2.5 py-0.5 rounded-full">
+                          <Pin className="w-2.5 h-2.5 fill-amber-400" />
+                          <span>SEMATAN | HEADLINE</span>
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">
+                          {formatDate(card1)}
+                        </span>
+                      )}
+                    </div>
+
+                    <h3 className="text-base sm:text-lg font-bold text-white leading-snug line-clamp-2">
+                      {card1.title}
+                    </h3>
+                    
+                    <div className="pt-1">
+                      <Link
+                        href={card1.slug ? `/berita/${card1.slug}` : '/berita'}
+                        className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold shadow-md transition-all"
+                      >
+                        <span>BACA BERITA</span>
+                        <span className="text-[10px]">»</span>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 2. Sub-Row for News 2 & 3 (Only rendered if they exist in DB) */}
+              {(card2 || card3) && (
+                <div className={`grid grid-cols-1 ${card2 && card3 ? 'sm:grid-cols-2' : 'grid-cols-1'} gap-5`}>
+                  
+                  {/* Card 2 */}
+                  {card2 && (
+                    <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-black/60 aspect-4/3 flex flex-col justify-end p-4">
+                      <Image
+                        src={resolveImage(card2)}
+                        alt={card2.title}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 25vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
+                      />
+                      <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent" />
+                      <div className="relative z-10 space-y-1.5">
+                        {card2.is_pinned ? (
+                          <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded-full">
+                            <Pin className="w-2 h-2 fill-amber-400" />
+                            <span>DISEMATKAN</span>
+                          </span>
+                        ) : (
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
+                            {formatDate(card2)}
+                          </span>
+                        )}
+                        <h4 className="text-xs sm:text-sm font-bold text-white line-clamp-2 leading-snug">
+                          {card2.title}
+                        </h4>
+                        <div className="pt-0.5">
+                          <Link
+                            href={card2.slug ? `/berita/${card2.slug}` : '/berita'}
+                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold shadow transition-all"
+                          >
+                            <span>BACA BERITA</span>
+                            <span>»</span>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Card 3 */}
+                  {card3 && (
+                    <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-black/60 aspect-4/3 flex flex-col justify-end p-4">
+                      <Image
+                        src={resolveImage(card3)}
+                        alt={card3.title}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 25vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
+                      />
+                      <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent" />
+                      <div className="relative z-10 space-y-1.5">
+                        {card3.is_pinned ? (
+                          <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded-full">
+                            <Pin className="w-2 h-2 fill-amber-400" />
+                            <span>DISEMATKAN</span>
+                          </span>
+                        ) : (
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
+                            {formatDate(card3)}
+                          </span>
+                        )}
+                        <h4 className="text-xs sm:text-sm font-bold text-white line-clamp-2 leading-snug">
+                          {card3.title}
+                        </h4>
+                        <div className="pt-0.5">
+                          <Link
+                            href={card3.slug ? `/berita/${card3.slug}` : '/berita'}
+                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold shadow transition-all"
+                          >
+                            <span>BACA BERITA</span>
+                            <span>»</span>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              )}
+
+            </div>
+          )}
+
+          {/* Middle Column for 4th News: Only rendered if at least 4 items exist */}
+          {hasTallCard && cardTall && (
+            <div className="md:col-span-6 lg:col-span-3">
+              <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black/60 aspect-9/16 min-h-110 flex flex-col justify-end p-5">
                 <Image
-                  src={resolveImage(card2, defaultNews[1].image!)}
-                  alt={card2.title}
+                  src={resolveImage(cardTall)}
+                  alt={cardTall.title}
                   fill
                   sizes="(max-width: 1024px) 100vw, 25vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-65"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent" />
-                <div className="relative z-10 space-y-1.5">
-                  {card2.is_pinned ? (
+                <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
+                
+                <div className="relative z-10 space-y-2.5">
+                  {cardTall.is_pinned ? (
                     <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded-full">
                       <Pin className="w-2 h-2 fill-amber-400" />
                       <span>DISEMATKAN</span>
                     </span>
                   ) : (
                     <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
-                      {card2.category || 'TODAY'}
+                      {formatDate(cardTall)}
                     </span>
                   )}
-                  <h4 className="text-xs sm:text-sm font-bold text-white line-clamp-2 leading-snug">
-                    {card2.title}
+                  <h4 className="text-sm font-bold text-white line-clamp-3 leading-snug">
+                    {cardTall.title}
                   </h4>
-                  <div className="pt-0.5">
+                  <div className="pt-1">
                     <Link
-                      href={card2.slug ? `/berita/${card2.slug}` : '/berita'}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold shadow transition-all"
+                      href={cardTall.slug ? `/berita/${cardTall.slug}` : '/berita'}
+                      className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold shadow transition-all"
                     >
-                      <span>READ NEWS</span>
+                      <span>BACA BERITA</span>
                       <span>»</span>
                     </Link>
                   </div>
                 </div>
               </div>
-
-              {/* Bottom Card 2 */}
-              <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-black/60 aspect-4/3 flex flex-col justify-end p-4">
-                <Image
-                  src={resolveImage(card3, defaultNews[2].image!)}
-                  alt={card3.title}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 25vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent" />
-                <div className="relative z-10 space-y-1.5">
-                  {card3.is_pinned ? (
-                    <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded-full">
-                      <Pin className="w-2 h-2 fill-amber-400" />
-                      <span>DISEMATKAN</span>
-                    </span>
-                  ) : (
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
-                      {card3.category || 'HOT | TODAY'}
-                    </span>
-                  )}
-                  <h4 className="text-xs sm:text-sm font-bold text-white line-clamp-2 leading-snug">
-                    {card3.title}
-                  </h4>
-                  <div className="pt-0.5">
-                    <Link
-                      href={card3.slug ? `/berita/${card3.slug}` : '/berita'}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold shadow transition-all"
-                    >
-                      <span>READ NEWS</span>
-                      <span>»</span>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-
             </div>
+          )}
 
-          </div>
-
-          {/* Column 2 (Middle 3 Cols): Tall Vertical Card */}
-          <div className="md:col-span-6 lg:col-span-3">
-            <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black/60 aspect-9/16 min-h-110 flex flex-col justify-end p-5">
-              <Image
-                src={resolveImage(cardTall, defaultNews[3].image!)}
-                alt={cardTall.title}
-                fill
-                sizes="(max-width: 1024px) 100vw, 25vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-65"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
-              
-              <div className="relative z-10 space-y-2.5">
-                {cardTall.is_pinned ? (
-                  <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded-full">
-                    <Pin className="w-2 h-2 fill-amber-400" />
-                    <span>DISEMATKAN</span>
-                  </span>
-                ) : (
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
-                    HIGHLIGHT
-                  </span>
-                )}
-                <h4 className="text-sm font-bold text-white line-clamp-3 leading-snug">
-                  {cardTall.title}
-                </h4>
-                <div className="pt-1">
-                  <Link
-                    href={cardTall.slug ? `/berita/${cardTall.slug}` : '/berita'}
-                    className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold shadow transition-all"
-                  >
-                    <span>READ NEWS</span>
-                    <span>»</span>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Column 3 (Right 3 Cols): Podcast + Calendar + Blue CTA */}
+          {/* Right Column (Always 3 cols): Podcast + Calendar + Registration CTA */}
           <div className="md:col-span-6 lg:col-span-3 space-y-4">
             
-            {/* 1. Podcast Card (White card matching mockup) */}
+            {/* 1. Podcast Card */}
             <div className="bg-white text-neutral-900 rounded-xl p-3.5 shadow-xl border border-neutral-200 flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-neutral-900 text-white flex items-center justify-center shrink-0 shadow-sm">
                 <Play className="w-3.5 h-3.5 fill-white translate-x-0.5" />
@@ -306,13 +322,16 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
               </div>
             </div>
 
-            {/* 2. Calendar Card (White card matching mockup) */}
+            {/* 2. Calendar Card */}
             <div className="bg-white text-neutral-900 rounded-2xl p-4 shadow-xl border border-neutral-200 text-center">
               <div className="flex items-center justify-between mb-3 px-1 text-neutral-500 text-xs">
                 <button type="button" className="p-1 hover:bg-neutral-100 rounded-md transition" aria-label="Previous Month">
                   <ChevronLeft className="w-3.5 h-3.5" />
                 </button>
-                <div className="font-bold text-neutral-800 text-xs tracking-tight">August 2026</div>
+                <div className="font-bold text-neutral-800 text-xs tracking-tight flex items-center gap-1.5 justify-center">
+                  <CalendarIcon className="w-3.5 h-3.5 text-blue-600" />
+                  <span>Agustus 2026</span>
+                </div>
                 <button type="button" className="p-1 hover:bg-neutral-100 rounded-md transition" aria-label="Next Month">
                   <ChevronRight className="w-3.5 h-3.5" />
                 </button>
@@ -348,14 +367,14 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
               </div>
             </div>
 
-            {/* 3. Blue Info / Registration Card (Matching Mockup) */}
+            {/* 3. Registration CTA Card */}
             <div className="rounded-2xl p-4.5 bg-linear-to-br from-blue-600 via-blue-700 to-indigo-800 text-white shadow-xl flex flex-col justify-between min-h-36">
               <div>
                 <span className="text-[9px] font-extrabold uppercase tracking-widest text-blue-200 opacity-90">
-                  INFO | AUGUST 2026
+                  PPDB 2026/2027
                 </span>
                 <h4 className="text-sm font-extrabold text-white mt-1 leading-snug">
-                  JOIN NOW! | Welcoming new members
+                  Penerimaan Siswa Baru SMA PGRI 1 Lumajang
                 </h4>
               </div>
               <div className="pt-3">
@@ -363,7 +382,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
                   href="/ppdb/daftar"
                   className="w-full bg-white hover:bg-neutral-100 text-blue-900 rounded-xl py-2 px-3 text-[11px] font-extrabold uppercase tracking-wider flex items-center justify-between shadow-md transition-all group"
                 >
-                  <span>REGISTRATION</span>
+                  <span>DAFTAR SEKARANG</span>
                   <span className="group-hover:translate-x-1 transition-transform">»</span>
                 </Link>
               </div>
