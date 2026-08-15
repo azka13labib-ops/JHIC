@@ -201,7 +201,7 @@ export default function PpdbStatusPage() {
                     SMA PGRI 1 LUMAJANG
                   </h2>
                   <p className="text-[10px] sm:text-[11px] font-sans font-semibold text-slate-700">
-                    TERAKREDITASI "A" • NPSN: 20521456
+                    TERAKREDITASI &quot;A&quot; • NPSN: 20521456
                   </p>
                   <p className="text-[9px] sm:text-[10px] font-sans text-slate-500 mt-0.5">
                     Jl. Contoh Alamat No. 123, Lumajang 67316 • Telp: (0334) 881234 • Email: info@smapgri1lmj.sch.id
@@ -340,26 +340,15 @@ export default function PpdbStatusPage() {
                 Butuh konfirmasi jadwal atau informasi lanjutan?
               </span>
               
-              <div className="flex items-center gap-2">
-                <a
-                  href="https://wa.me/6281234567890?text=Halo%20Panitia%20PPDB%20SMA%20PGRI%201%20Lumajang,%20saya%20ingin%20konfirmasi%20daftar%20ulang%20penerimaan%20siswa%20baru"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs rounded-xl font-bold transition"
-                >
-                  <Phone className="w-3.5 h-3.5" />
-                  <span>WhatsApp Panitia</span>
-                </a>
-                
-                <button
-                  type="button"
-                  onClick={handlePrint}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 px-4 py-2 rounded-xl transition cursor-pointer"
-                >
-                  <Printer className="w-3.5 h-3.5" />
-                  <span>Cetak Bukti</span>
-                </button>
-              </div>
+              <a
+                href="https://wa.me/6281234567890?text=Halo%20Panitia%20PPDB%20SMA%20PGRI%201%20Lumajang,%20saya%20ingin%20konfirmasi%20daftar%20ulang%20penerimaan%20siswa%20baru"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs rounded-xl font-bold transition shadow-2xs"
+              >
+                <Phone className="w-3.5 h-3.5" />
+                <span>WhatsApp Panitia</span>
+              </a>
             </div>
 
           </div>
