@@ -11,13 +11,18 @@ import {
   Megaphone, 
   FileText, 
   Trophy, 
-  Handshake 
+  Handshake,
+  AlertTriangle,
+  MessageCircle
 } from 'lucide-react';
 
 interface PpdbInfo {
+  is_open?: boolean;
+  academic_year?: string;
   registration_start?: string;
   registration_end?: string;
   announcement_date?: string;
+  closed_message?: string;
   requirements?: string[];
   tracks?: string[];
 }
@@ -48,16 +53,16 @@ function CountdownTimer({ targetDate }: { targetDate: string }) {
   }, [targetDate]);
 
   return (
-    <div className="flex gap-4 justify-center">
+    <div className="flex gap-3 sm:gap-4 justify-center">
       {[
         { val: timeLeft.days, label: 'Hari' },
         { val: timeLeft.hours, label: 'Jam' },
         { val: timeLeft.minutes, label: 'Menit' },
         { val: timeLeft.seconds, label: 'Detik' },
       ].map(({ val, label }) => (
-        <div key={label} className="bg-white/10 backdrop-blur border border-white/20 rounded-xl px-4 py-3 text-center min-w-17.5">
-          <div className="text-3xl font-extrabold">{String(val).padStart(2, '0')}</div>
-          <div className="text-xs text-blue-200 mt-1">{label}</div>
+        <div key={label} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-3.5 sm:px-5 py-3 text-center min-w-16 sm:min-w-20 shadow-lg">
+          <div className="text-2xl sm:text-3xl font-black text-white">{String(val).padStart(2, '0')}</div>
+          <div className="text-[10px] sm:text-xs font-bold text-amber-300 uppercase tracking-wider mt-0.5">{label}</div>
         </div>
       ))}
     </div>
@@ -65,9 +70,12 @@ function CountdownTimer({ targetDate }: { targetDate: string }) {
 }
 
 const DEFAULT_INFO: PpdbInfo = {
+  is_open: true,
+  academic_year: '2026/2027',
   registration_start: '2026-07-01',
   registration_end: '2026-08-31',
   announcement_date: '2026-09-10',
+  closed_message: 'Pendaftaran PPDB SMA PGRI 1 Lumajang saat ini sedang ditutup. Pantau pengumuman resmi berkala.',
   requirements: [
     'Ijazah / Surat Keterangan Lulus SMP/MTs',
     'Kartu Keluarga (KK)',
@@ -79,74 +87,140 @@ const DEFAULT_INFO: PpdbInfo = {
 };
 
 export default function PpdbPage() {
-  const info = DEFAULT_INFO;
+  const [info, setInfo] = useState<PpdbInfo>(DEFAULT_INFO);
+
+  useEffect(() => {
+    const fetchInfo = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+        const res = await fetch(`${apiUrl}/ppdb/info`, { cache: 'no-store' });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.data) setInfo(json.data);
+        }
+      } catch (e) {
+        console.error('Failed to fetch PPDB info:', e);
+      }
+    };
+    fetchInfo();
+  }, []);
+
+  const isOpen = info.is_open !== false;
 
   const steps = [
-    { num: 1, title: 'Buat Akun', desc: 'Daftar dengan email aktif untuk mendapatkan akun pendaftar.' },
-    { num: 2, title: 'Isi Formulir', desc: 'Lengkapi data diri dan pilihan jurusan peminatan.' },
-    { num: 3, title: 'Upload Dokumen', desc: 'Unggah dokumen yang dipersyaratkan dalam format PDF/JPG.' },
-    { num: 4, title: 'Pantau Status', desc: 'Cek status verifikasi secara real-time di halaman status.' },
+    { num: 1, title: 'Buat Akun & Login', desc: 'Daftar dengan email & data diri calon peserta didik baru.' },
+    { num: 2, title: 'Isi Formulir & Peminatan', desc: 'Pilih jurusan peminatan (MIPA, IPS, Bahasa) dan lengkapi profil.' },
+    { num: 3, title: 'Upload Berkas Persyaratan', desc: 'Unggah berkas KK, Akta, dan Ijazah secara digital.' },
+    { num: 4, title: 'Verifikasi & Pengumuman', desc: 'Pantau status verifikasi dan hasil seleksi secara real-time.' },
   ];
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero dengan countdown */}
-      <section className="relative bg-linear-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-24 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-amber-400 rounded-full blur-3xl" />
+      {/* Hero Section */}
+      <section className="relative bg-linear-to-br from-[#1E2B58] via-[#24356E] to-[#121B38] text-white py-20 sm:py-28 overflow-hidden">
+        <div className="absolute inset-0 opacity-15 pointer-events-none">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-400 rounded-full blur-3xl" />
         </div>
-        <div className="container mx-auto px-4 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 bg-amber-400/20 border border-amber-400/40 rounded-full px-4 py-2 text-amber-300 text-sm font-semibold mb-6">
-            <GraduationCap className="w-4 h-4" /> PPDB 2026 / 2027 Dibuka!
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
+
+        <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl">
+          
+          {/* Open/Close Dynamic Badge */}
+          {isOpen ? (
+            <div className="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/40 rounded-full px-4 py-2 text-emerald-300 text-xs sm:text-sm font-extrabold mb-6 animate-pulse">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+              <span>PPDB {info.academic_year || '2026/2027'} DIBUKA!</span>
+            </div>
+          ) : (
+            <div className="inline-flex items-center gap-2 bg-rose-500/20 border border-rose-400/40 rounded-full px-4 py-2 text-rose-300 text-xs sm:text-sm font-extrabold mb-6">
+              <AlertTriangle className="w-4 h-4 text-rose-400" />
+              <span>PENDAFTARAN PPDB PERIODE INI DITUTUP</span>
+            </div>
+          )}
+
+          <h1 className="text-3xl sm:text-5xl font-black mb-4 tracking-tight leading-tight">
             Penerimaan Peserta Didik Baru
           </h1>
-          <p className="text-blue-200 max-w-xl mx-auto mb-8 text-lg">
-            Daftar sekarang dan jadilah bagian dari keluarga besar SMA PGRI 1 Lumajang
+          <p className="text-blue-200 text-sm sm:text-lg max-w-2xl mx-auto mb-8 font-medium leading-relaxed">
+            {isOpen 
+              ? 'Wujudkan mimpimu meraih prestasi dan sertifikasi industri global bersama SMA PGRI 1 Lumajang.'
+              : (info.closed_message || 'Masa pendaftaran calon siswa baru saat ini telah berakhir. Pantau pengumuman kelulusan di portal status.')}
           </p>
 
-          {/* Countdown */}
-          {info.registration_end && (
-            <div className="mb-8">
-              <p className="text-blue-200 text-sm mb-3">Pendaftaran ditutup dalam:</p>
+          {/* Countdown timer when open */}
+          {isOpen && info.registration_end && (
+            <div className="mb-10">
+              <p className="text-blue-200 text-xs font-semibold uppercase tracking-wider mb-3">Masa Pendaftaran Berakhir Dalam:</p>
               <CountdownTimer targetDate={info.registration_end} />
             </div>
           )}
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/ppdb/daftar"
-              className="px-8 py-4 bg-amber-400 hover:bg-amber-500 text-slate-900 font-extrabold rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-0.5 inline-flex items-center justify-center gap-2"
-            >
-              <Sparkles className="w-5 h-5" /> Daftar Sekarang
-            </Link>
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3.5 justify-center items-center">
+            {isOpen ? (
+              <Link
+                href="/ppdb/daftar"
+                className="w-full sm:w-auto px-8 py-4 bg-amber-400 hover:bg-amber-300 active:bg-amber-500 text-slate-950 font-black rounded-2xl shadow-xl shadow-amber-400/20 transition-all duration-200 hover:-translate-y-0.5 inline-flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer"
+              >
+                <Sparkles className="w-5 h-5" />
+                <span>Daftar Sekarang Online</span>
+              </Link>
+            ) : (
+              <a
+                href="https://wa.me/6281234567890?text=Halo%20Panitia%20PPDB%20SMA%20PGRI%201%20Lumajang,%20saya%20ingin%20bertanya%20mengenai%20pendaftaran"
+                target="_blank"
+                rel="noreferrer"
+                className="w-full sm:w-auto px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-black rounded-2xl shadow-xl transition-all inline-flex items-center justify-center gap-2 text-sm sm:text-base"
+              >
+                <MessageCircle className="w-5 h-5" />
+                <span>Hubungi Panitia PPDB</span>
+              </a>
+            )}
+
             <Link
               href="/ppdb/status"
-              className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold rounded-xl transition-all duration-300 backdrop-blur inline-flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/25 text-white font-bold rounded-2xl transition-all duration-200 backdrop-blur-md inline-flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer"
             >
-              <FileCheck className="w-5 h-5" /> Cek Status Pendaftaran
+              <FileCheck className="w-5 h-5" />
+              <span>Cek Status Pendaftaran</span>
             </Link>
           </div>
+
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-16 max-w-5xl">
+        
+        {/* Closed Announcement Notice */}
+        {!isOpen && (
+          <div className="mb-14 p-6 sm:p-8 bg-amber-50 border border-amber-200 rounded-3xl text-amber-900 flex flex-col sm:flex-row items-start sm:items-center gap-4 shadow-sm">
+            <div className="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center shrink-0 text-amber-700">
+              <Megaphone className="w-6 h-6" />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-extrabold text-base text-amber-950">Informasi Penutupan Pendaftaran</h3>
+              <p className="text-xs sm:text-sm text-amber-800 mt-1 leading-relaxed">
+                {info.closed_message || 'Pendaftaran PPDB periode ini telah resmi ditutup. Peserta yang telah mendaftar dapat memeriksa hasil seleksi berkas melalui menu Cek Status Pendaftaran.'}
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Jadwal PPDB */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center text-slate-900 mb-8">Jadwal PPDB</h2>
+          <h2 className="text-2xl sm:text-3xl font-black text-center text-slate-900 mb-8">Jadwal & Agenda PPDB</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
-              { icon: Calendar, iconColor: 'text-blue-600', label: 'Pembukaan Pendaftaran', date: info.registration_start },
-              { icon: Clock, iconColor: 'text-amber-500', label: 'Penutupan Pendaftaran', date: info.registration_end },
-              { icon: Megaphone, iconColor: 'text-emerald-600', label: 'Pengumuman Hasil', date: info.announcement_date },
-            ].map(({ icon: IconComponent, iconColor, label, date }) => (
-              <div key={label} className="bg-slate-50 rounded-2xl p-6 text-center border border-slate-100">
-                <div className="w-12 h-12 mx-auto rounded-2xl bg-white shadow-xs flex items-center justify-center mb-3">
+              { icon: Calendar, iconColor: 'text-blue-600', iconBg: 'bg-blue-50', label: 'Pembukaan Pendaftaran', date: info.registration_start },
+              { icon: Clock, iconColor: 'text-amber-600', iconBg: 'bg-amber-50', label: 'Batas Penutupan', date: info.registration_end },
+              { icon: Megaphone, iconColor: 'text-emerald-600', iconBg: 'bg-emerald-50', label: 'Pengumuman Hasil Seleksi', date: info.announcement_date },
+            ].map(({ icon: IconComponent, iconColor, iconBg, label, date }) => (
+              <div key={label} className="bg-slate-50/80 rounded-3xl p-6 text-center border border-slate-200/70 shadow-xs hover:border-slate-300 transition-all">
+                <div className={`w-12 h-12 mx-auto rounded-2xl ${iconBg} flex items-center justify-center mb-3`}>
                   <IconComponent className={`w-6 h-6 ${iconColor}`} />
                 </div>
-                <div className="text-sm text-slate-500 mb-1">{label}</div>
-                <div className="text-xl font-bold text-slate-900">
+                <div className="text-xs text-slate-500 font-semibold mb-1 uppercase tracking-wider">{label}</div>
+                <div className="text-base sm:text-lg font-bold text-slate-900">
                   {date ? new Date(date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '—'}
                 </div>
               </div>
@@ -156,18 +230,23 @@ export default function PpdbPage() {
 
         {/* Jalur Penerimaan */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center text-slate-900 mb-8">Jalur Penerimaan</h2>
+          <h2 className="text-2xl sm:text-3xl font-black text-center text-slate-900 mb-8">Jalur Pendaftaran</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {(info.tracks ?? []).map((track, i) => {
               const icons = [FileText, Trophy, Handshake];
-              const colors = ['bg-blue-50 border-blue-100 text-blue-600', 'bg-amber-50 border-amber-100 text-amber-600', 'bg-emerald-50 border-emerald-100 text-emerald-600'];
+              const styles = [
+                { bg: 'bg-blue-50/80 border-blue-200/80 text-blue-700', iconBg: 'bg-blue-500 text-white' },
+                { bg: 'bg-amber-50/80 border-amber-200/80 text-amber-700', iconBg: 'bg-amber-500 text-white' },
+                { bg: 'bg-emerald-50/80 border-emerald-200/80 text-emerald-700', iconBg: 'bg-emerald-500 text-white' },
+              ];
+              const st = styles[i % 3];
               const IconComp = icons[i % 3];
               return (
-                <div key={i} className={`${colors[i % 3].split(' ').slice(0, 2).join(' ')} rounded-2xl p-6 border text-center`}>
-                  <div className="w-12 h-12 mx-auto rounded-2xl bg-white shadow-xs flex items-center justify-center mb-3">
-                    <IconComp className={`w-6 h-6 ${colors[i % 3].split(' ')[2]}`} />
+                <div key={i} className={`${st.bg} rounded-3xl p-6 border text-center shadow-xs`}>
+                  <div className={`w-12 h-12 mx-auto rounded-2xl ${st.iconBg} flex items-center justify-center mb-3 shadow-md`}>
+                    <IconComp className="w-6 h-6" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900">{track}</h3>
+                  <h3 className="text-base font-bold text-slate-900">{track}</h3>
                 </div>
               );
             })}
@@ -176,13 +255,13 @@ export default function PpdbPage() {
 
         {/* Persyaratan */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center text-slate-900 mb-8">Persyaratan Dokumen</h2>
-          <div className="bg-white border border-slate-100 rounded-2xl p-8 shadow-sm max-w-2xl mx-auto">
-            <ul className="space-y-4">
+          <h2 className="text-2xl sm:text-3xl font-black text-center text-slate-900 mb-8">Dokumen Persyaratan</h2>
+          <div className="bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xs max-w-2xl mx-auto">
+            <ul className="space-y-3.5">
               {(info.requirements ?? []).map((req, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <span className="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm font-bold shrink-0 mt-0.5">✓</span>
-                  <span className="text-slate-700">{req}</span>
+                <li key={i} className="flex items-center gap-3">
+                  <span className="w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-xs font-black shrink-0">✓</span>
+                  <span className="text-xs sm:text-sm font-semibold text-slate-700">{req}</span>
                 </li>
               ))}
             </ul>
@@ -191,29 +270,33 @@ export default function PpdbPage() {
 
         {/* Alur Pendaftaran */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center text-slate-900 mb-8">Alur Pendaftaran</h2>
+          <h2 className="text-2xl sm:text-3xl font-black text-center text-slate-900 mb-8">Alur Pendaftaran</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step) => (
-              <div key={step.num} className="relative text-center">
-                <div className="w-14 h-14 bg-linear-to-br from-[#2B3B6F] to-blue-500 rounded-full flex items-center justify-center text-white font-extrabold text-xl mx-auto mb-4 shadow-lg">
+              <div key={step.num} className="bg-slate-50/80 rounded-3xl p-6 border border-slate-200/70 text-center relative shadow-xs">
+                <div className="w-12 h-12 bg-linear-to-br from-[#1E2B58] to-blue-600 rounded-2xl flex items-center justify-center text-white font-black text-lg mx-auto mb-3 shadow-md">
                   {step.num}
                 </div>
-                <h3 className="font-bold text-slate-900 mb-2">{step.title}</h3>
-                <p className="text-slate-600 text-sm">{step.desc}</p>
+                <h3 className="font-bold text-slate-900 text-sm mb-1">{step.title}</h3>
+                <p className="text-slate-500 text-xs leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* CTA */}
-        <div className="text-center">
-          <Link
-            href="/ppdb/daftar"
-            className="inline-flex items-center gap-2 bg-[#2B3B6F] text-white px-10 py-4 rounded-xl font-extrabold text-lg hover:bg-[#1E2B58] transition-colors shadow-xl"
-          >
-            Mulai Pendaftaran Sekarang →
-          </Link>
-        </div>
+        {/* Bottom CTA */}
+        {isOpen && (
+          <div className="text-center pt-4">
+            <Link
+              href="/ppdb/daftar"
+              className="inline-flex items-center gap-2 bg-[#1E2B58] hover:bg-[#2B3B6F] text-white px-10 py-4 rounded-2xl font-black text-base transition-all shadow-xl hover:-translate-y-0.5 cursor-pointer"
+            >
+              <GraduationCap className="w-5 h-5 text-amber-400" />
+              <span>Mulai Pendaftaran Siswa Baru Sekarang →</span>
+            </Link>
+          </div>
+        )}
+
       </div>
     </div>
   );
