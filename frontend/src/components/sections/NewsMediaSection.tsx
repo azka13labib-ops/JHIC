@@ -89,7 +89,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
           sizes="100vw"
           className="object-cover object-center opacity-15 filter blur-[1px]"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#000000] via-[#0b1329]/90 to-[#000000]" />
+        <div className="absolute inset-0 bg-linear-to-b from-[#000000] via-[#0b1329]/90 to-[#000000]" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 max-w-7xl">
@@ -117,7 +117,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
           <div className="md:col-span-12 lg:col-span-6 space-y-5">
             
             {/* 1. Wide Top News Card */}
-            <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black/60 aspect-[16/9] flex flex-col justify-end p-6">
+            <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black/60 aspect-video flex flex-col justify-end p-6">
               <Image
                 src={resolveImage(card1, defaultNews[0].image!)}
                 alt={card1.title}
@@ -125,7 +125,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
               
               <div className="relative z-10 space-y-2 max-w-xl">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">
@@ -150,7 +150,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               
               {/* Bottom Card 1 */}
-              <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-black/60 aspect-[4/3] flex flex-col justify-end p-4">
+              <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-black/60 aspect-4/3 flex flex-col justify-end p-4">
                 <Image
                   src={resolveImage(card2, defaultNews[1].image!)}
                   alt={card2.title}
@@ -158,7 +158,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
                   sizes="(max-width: 1024px) 100vw, 25vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent" />
                 <div className="relative z-10 space-y-1.5">
                   <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
                     {card2.category || 'TODAY'}
@@ -179,7 +179,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
               </div>
 
               {/* Bottom Card 2 */}
-              <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-black/60 aspect-[4/3] flex flex-col justify-end p-4">
+              <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-black/60 aspect-4/3 flex flex-col justify-end p-4">
                 <Image
                   src={resolveImage(card3, defaultNews[2].image!)}
                   alt={card3.title}
@@ -187,7 +187,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
                   sizes="(max-width: 1024px) 100vw, 25vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent" />
                 <div className="relative z-10 space-y-1.5">
                   <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
                     {card3.category || 'HOT | TODAY'}
@@ -213,7 +213,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
 
           {/* Column 2 (Middle 3 Cols): Tall Vertical Card */}
           <div className="md:col-span-6 lg:col-span-3">
-            <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black/60 aspect-[9/16] min-h-[440px] flex flex-col justify-end p-5">
+            <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black/60 aspect-9/16 min-h-110 flex flex-col justify-end p-5">
               <Image
                 src={resolveImage(cardTall, defaultNews[3].image!)}
                 alt={cardTall.title}
@@ -221,7 +221,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
                 sizes="(max-width: 1024px) 100vw, 25vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-65"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
               
               <div className="relative z-10 space-y-2.5">
                 <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
@@ -310,7 +310,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
             </div>
 
             {/* 3. Blue Gradient CTA Card (Matching Mockup JOIN NOW! Banner) */}
-            <div className="rounded-xl p-4 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white shadow-xl relative overflow-hidden space-y-2">
+            <div className="rounded-xl p-4 bg-linear-to-br from-blue-600 via-blue-700 to-indigo-800 text-white shadow-xl relative overflow-hidden space-y-2">
               <div className="text-[9px] font-bold uppercase tracking-wider text-blue-200">
                 INFO | AUGUST 2026
               </div>

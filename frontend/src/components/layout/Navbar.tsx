@@ -94,7 +94,7 @@ export default function Navbar() {
 
         {/* Decorative Top-Right Ribbon */}
         <div className="hidden xl:block absolute top-0 right-10 z-40">
-          <div className="w-9 h-26 bg-gradient-to-b from-blue-600 to-blue-700 shadow-2xl flex flex-col items-center justify-between pb-2.5 clip-path-ribbon">
+          <div className="w-9 h-26 bg-linear-to-b from-blue-600 to-blue-700 shadow-2xl flex flex-col items-center justify-between pb-2.5 clip-path-ribbon">
             <span className="text-[8px] font-black text-white uppercase tracking-widest writing-mode-vertical pt-2 select-none opacity-90">
               PGRI 1
             </span>

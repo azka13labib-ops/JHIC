@@ -204,7 +204,7 @@ export function NavDesktopMenu() {
           <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180 duration-200 opacity-60" />
         </button>
         
-        <div className="absolute top-16 right-0 w-[500px] bg-[#0d0d0d] border border-neutral-800 shadow-2xl rounded-2xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 grid grid-cols-2 gap-4">
+        <div className="absolute top-16 right-0 w-125 bg-[#0d0d0d] border border-neutral-800 shadow-2xl rounded-2xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 grid grid-cols-2 gap-4">
           {/* Kolom 1 */}
           <div className="space-y-1">
             <div className="px-2 pb-1 text-[10px] font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">

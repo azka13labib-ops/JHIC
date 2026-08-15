@@ -32,7 +32,7 @@ export default function AboutSection() {
 
           {/* Right Column: Tall Portrait Graduate Photo */}
           <div className="lg:col-span-6 flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-md aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-neutral-900">
+            <div className="relative w-full max-w-md aspect-3/4 rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-neutral-900">
               <Image
                 src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop"
                 alt="Graduate SMA PGRI 1 Lumajang"

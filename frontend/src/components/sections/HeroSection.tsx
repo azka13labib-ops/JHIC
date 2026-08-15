@@ -28,7 +28,7 @@ export default function HeroSection() {
   return (
     <section className="relative w-full bg-[#000000] text-white overflow-hidden">
       {/* Hero Banner with Full-bleed Background Image */}
-      <div className="relative min-h-[600px] lg:min-h-[660px] flex items-center justify-center pt-20 pb-36 px-4">
+      <div className="relative min-h-150 lg:min-h-165 flex items-center justify-center pt-20 pb-36 px-4">
         {/* Background Image (image.png) with natural exposure and central text vignette */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -41,7 +41,7 @@ export default function HeroSection() {
           />
           {/* Central dark radial spotlight & gradient to ensure crystal clear readability while showing the campus */}
           <div className="absolute inset-0 bg-radial-[circle_at_center] from-black/80 via-black/65 to-black/90" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
+          <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-black/60" />
         </div>
 
         {/* Hero Center Content matching Mockup Seal & Serif Headline */}

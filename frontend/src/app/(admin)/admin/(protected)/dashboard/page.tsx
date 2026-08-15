@@ -134,7 +134,7 @@ export default function DashboardPage() {
     <div className="space-y-8 animate-in fade-in duration-500">
       
       {/* 1. Welcome Greeting Banner */}
-      <div className="relative rounded-3xl bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white p-6 sm:p-8 shadow-xl overflow-hidden">
+      <div className="relative rounded-3xl bg-linear-to-r from-blue-900 via-indigo-900 to-slate-900 text-white p-6 sm:p-8 shadow-xl overflow-hidden">
         {/* Subtle Ambient Backing */}
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl pointer-events-none" />
         
@@ -182,7 +182,7 @@ export default function DashboardPage() {
               className={`relative bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group overflow-hidden ${card.shadow}`}
             >
               <div className="flex items-start justify-between mb-4">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform`}>
+                <div className={`w-12 h-12 rounded-xl bg-linear-to-br ${card.color} flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform`}>
                   <Icon className="w-6 h-6" />
                 </div>
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">

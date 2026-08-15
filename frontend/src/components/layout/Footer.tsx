@@ -171,7 +171,7 @@ export default function Footer() {
 
         {/* Bottom Right Bookmark Ribbon Accent */}
         <div className="hidden xl:block absolute -bottom-12 right-12 z-30 pointer-events-none">
-          <div className="w-8 h-20 bg-gradient-to-b from-blue-600 to-blue-700 shadow-2xl clip-path-ribbon opacity-90" />
+          <div className="w-8 h-20 bg-linear-to-b from-blue-600 to-blue-700 shadow-2xl clip-path-ribbon opacity-90" />
         </div>
 
         {/* Copyright */}
