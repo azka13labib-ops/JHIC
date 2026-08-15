@@ -36,7 +36,7 @@ class AuthService
             ]);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken('admin_auth_token')->plainTextToken;
 
         return ['user' => $user, 'token' => $token];
     }

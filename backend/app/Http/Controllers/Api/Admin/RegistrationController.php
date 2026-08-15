@@ -33,10 +33,11 @@ class RegistrationController extends Controller
         ]);
 
         $registration = Registration::findOrFail($id);
-        $registration->update([
-            'status' => $request->status,
-            'notes'  => $request->notes,
-        ]);
+        $registration->status = $request->status;
+        if ($request->filled('notes')) {
+            $registration->notes = $request->notes;
+        }
+        $registration->save();
 
         return response()->json([
             'message'      => 'Status pendaftaran diperbarui.',

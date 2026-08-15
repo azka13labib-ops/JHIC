@@ -17,6 +17,7 @@ class DashboardController extends Controller
             'ppdb' => [
                 'total'    => Registration::count(),
                 'pending'  => Registration::where('status', 'pending')->count(),
+                'verified' => Registration::where('status', 'verified')->count(),
                 'accepted' => Registration::where('status', 'accepted')->count(),
                 'rejected' => Registration::where('status', 'rejected')->count(),
             ],
@@ -25,7 +26,7 @@ class DashboardController extends Controller
             ],
             'products' => [
                 'total'  => Product::count(),
-                'active' => Product::where('is_active', true)->count(),
+                'active' => Product::count(),
             ],
             'jobs' => [
                 'total'  => Vacancy::count(),

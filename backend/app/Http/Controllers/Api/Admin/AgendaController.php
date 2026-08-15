@@ -16,7 +16,7 @@ class AgendaController extends Controller
      */
     public function index()
     {
-        $agenda = Agenda::with('author:id,name')->orderBy('created_at', 'desc')->get();
+        $agenda = Agenda::orderBy('created_at', 'desc')->get();
         return response()->json($agenda);
     }
 
@@ -30,7 +30,7 @@ class AgendaController extends Controller
             'date' => 'required|date',
             'location' => 'nullable|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:5120',
         ]);
 
         $imagePath = null;
@@ -47,6 +47,7 @@ class AgendaController extends Controller
         ]);
 
         Cache::forget('api.agenda');
+        Cache::forget('api.agendas');
 
         return response()->json($agenda, 201);
     }
@@ -72,7 +73,7 @@ class AgendaController extends Controller
             'date' => 'required|date',
             'location' => 'nullable|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:5120',
         ]);
 
         $imagePath = $agenda->image;
@@ -93,6 +94,7 @@ class AgendaController extends Controller
         ]);
 
         Cache::forget('api.agenda');
+        Cache::forget('api.agendas');
 
         return response()->json($agenda);
     }
@@ -110,8 +112,8 @@ class AgendaController extends Controller
 
         $agenda->delete();
         Cache::forget('api.agenda');
+        Cache::forget('api.agendas');
 
-        \Illuminate\Support\Facades\Cache::forget('api.agendas');
         return response()->json(['message' => 'Agenda berhasil dihapus.']);
     }
 }

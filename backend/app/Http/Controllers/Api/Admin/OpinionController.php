@@ -27,21 +27,28 @@ class OpinionController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'required|string', // max 2MB
+            'content' => 'required|string',
+            'image' => 'nullable|image|max:5120',
         ]);
 
         $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('opinion', 'public');
+        }
+
+        $authorName = $request->user()?->name ?? 'Guru / Penulis SMA PGRI 1';
 
         $opinion = Opinion::create([
             'title' => $request->title,
             'slug' => Str::slug($request->title) . '-' . uniqid(),
             'content' => $request->content,
-            
-            'author' => $request->user()->name,
-            'published_at' => now(), // for now, auto publish
+            'image' => $imagePath,
+            'author' => $authorName,
+            'published_at' => now(),
         ]);
 
         Cache::forget('api.opinion');
+        Cache::forget('api.opinions');
 
         return response()->json($opinion, 201);
     }
@@ -65,16 +72,21 @@ class OpinionController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'image' => 'nullable|image|max:5120',
         ]);
 
-        $imagePath = null;
+        $imagePath = $opinion->image;
         if ($request->hasFile('image')) {
+            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
             $imagePath = $request->file('image')->store('opinion', 'public');
         }
 
         $opinion->update([
             'title'   => $request->title,
             'content' => $request->content,
+            'image'   => $imagePath,
         ]);
 
         Cache::forget('api.opinion');
@@ -90,12 +102,14 @@ class OpinionController extends Controller
     {
         $opinion = Opinion::findOrFail($id);
 
-        
+        if ($opinion->image && Storage::disk('public')->exists($opinion->image)) {
+            Storage::disk('public')->delete($opinion->image);
+        }
 
         $opinion->delete();
         Cache::forget('api.opinion');
+        Cache::forget('api.opinions');
 
-        \Illuminate\Support\Facades\Cache::forget('api.opinions');
         return response()->json(['message' => 'Opini berhasil dihapus.']);
     }
 }

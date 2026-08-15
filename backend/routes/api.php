@@ -136,7 +136,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/school-profile', [\App\Http\Controllers\Api\Admin\SchoolProfileController::class, 'show']);
         Route::put('/school-profile', [\App\Http\Controllers\Api\Admin\SchoolProfileController::class, 'update']);
 
-        // PPDB — Pendaftaran
+        // PPDB — Pendaftaran & Pengaturan
+        Route::get('/ppdb-settings', [\App\Http\Controllers\Api\PpdbController::class, 'getSettings']);
+        Route::post('/ppdb-settings', [\App\Http\Controllers\Api\PpdbController::class, 'updateSettings']);
+        Route::post('/ppdb-settings/toggle', [\App\Http\Controllers\Api\PpdbController::class, 'toggleStatus']);
         Route::get('/registrations', [\App\Http\Controllers\Api\Admin\RegistrationController::class, 'index']);
         Route::get('/registrations/export', [\App\Http\Controllers\Api\Admin\RegistrationController::class, 'exportCsv']);
         Route::get('/registrations/{id}', [\App\Http\Controllers\Api\Admin\RegistrationController::class, 'show']);

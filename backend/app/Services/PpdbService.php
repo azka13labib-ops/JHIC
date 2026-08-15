@@ -29,7 +29,7 @@ class PpdbService
             'user_id' => $user->id,
             'registration_number' => $registrationNumber,
             'full_name' => $data['full_name'],
-            'nisn' => Crypt::encryptString($data['nisn']),
+            'nisn' => $data['nisn'],
             'date_of_birth' => $data['date_of_birth'],
             'gender' => $data['gender'],
             'address' => $data['address'],

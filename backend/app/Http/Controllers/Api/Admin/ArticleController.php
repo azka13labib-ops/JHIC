@@ -28,7 +28,7 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'image' => 'nullable|image|max:2048', // max 2MB
+            'image' => 'nullable|image|max:5120',
         ]);
 
         $imagePath = null;
@@ -36,16 +36,19 @@ class ArticleController extends Controller
             $imagePath = $request->file('image')->store('article', 'public');
         }
 
+        $authorName = $request->user()?->name ?? 'Admin SMA PGRI 1';
+
         $article = Article::create([
             'title' => $request->title,
             'slug' => Str::slug($request->title) . '-' . uniqid(),
             'content' => $request->content,
             'image' => $imagePath,
-            'author' => $request->user()->name,
-            'published_at' => now(), // for now, auto publish
+            'author' => $authorName,
+            'published_at' => now(),
         ]);
 
         Cache::forget('api.article');
+        Cache::forget('api.articles');
 
         return response()->json($article, 201);
     }
@@ -69,7 +72,7 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:5120',
         ]);
 
         $imagePath = $article->image;
@@ -83,12 +86,12 @@ class ArticleController extends Controller
 
         $article->update([
             'title' => $request->title,
-            // Only update slug if title changed significantly, but for simplicity we keep old slug or generate new
             'content' => $request->content,
             'image' => $imagePath,
         ]);
 
         Cache::forget('api.article');
+        Cache::forget('api.articles');
 
         return response()->json($article);
     }
@@ -106,8 +109,8 @@ class ArticleController extends Controller
 
         $article->delete();
         Cache::forget('api.article');
+        Cache::forget('api.articles');
 
-        \Illuminate\Support\Facades\Cache::forget('api.articles');
         return response()->json(['message' => 'Artikel berhasil dihapus.']);
     }
 }
