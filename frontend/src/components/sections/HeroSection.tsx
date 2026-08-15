@@ -1,27 +1,27 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { GraduationCap, Landmark, Presentation, ChevronRight, ChevronDown, ArrowRight } from 'lucide-react';
+import { BookOpen, Building2, Trophy, ChevronRight, ChevronDown, ArrowRight } from 'lucide-react';
 
 export default function HeroSection() {
   const highlightCards = [
     {
-      title: 'SCHOLARSHIP',
-      desc: 'Program beasiswa prestasi akademik, non-akademik, tahfidz, dan bantuan pendidikan berkelanjutan bagi siswa berpotensi.',
-      icon: GraduationCap,
-      href: '/prestasi',
+      title: 'KURIKULUM & PEMINATAN',
+      desc: 'Kurikulum Merdeka dengan fondasi Fase E (Kelas 10) & Peminatan Fase F (Kelas 11-12) MIPA, IPS, Bahasa, didukung bimbingan persiapan PTN.',
+      icon: BookOpen,
+      href: '/jurusan',
     },
     {
-      title: 'OUR CAMPUS',
-      desc: 'Fasilitas belajar modern, laboratorium sains & multimedia lengkap, serta lingkungan sekolah yang asri, nyaman, dan berkarakter.',
-      icon: Landmark,
+      title: 'PROFIL & FASILITAS',
+      desc: 'Gedung representatif, laboratorium sains & komputer multimedia lengkap, serta lingkungan sekolah yang asri, nyaman, dan berkarakter.',
+      icon: Building2,
       href: '/profil/sejarah',
     },
     {
-      title: 'PROGRAMS',
-      desc: 'Kurikulum Merdeka dengan fondasi Fase E (Kelas 10) & Peminatan Fase F (Kelas 11-12), didukung bimbingan persiapan PTN dan riset ilmiah.',
-      icon: Presentation,
-      href: '/jurusan',
+      title: 'PRESTASI & BEASISWA',
+      desc: 'Wadah bakat siswa, raihan juara akademik & non-akademik, serta program beasiswa prestasi dan apresiasi bakat berkelanjutan.',
+      icon: Trophy,
+      href: '/prestasi',
     },
   ];
 
