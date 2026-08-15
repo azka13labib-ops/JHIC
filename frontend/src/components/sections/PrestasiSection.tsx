@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function PrestasiSection({ achievements }: { achievements: Achievement[] }) {
   return (
     <section className="py-20 bg-slate-900 text-white relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600 rounded-full blur-[120px] opacity-20 translate-x-1/2 -translate-y-1/2"></div>
+      <div className="absolute top-0 right-0 w-125 h-125 bg-blue-600 rounded-full blur-[120px] opacity-20 translate-x-1/2 -translate-y-1/2"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12">
@@ -34,7 +34,7 @@ export default function PrestasiSection({ achievements }: { achievements: Achiev
               </div>
               <div>
                 <div className="text-xs font-bold uppercase tracking-wider text-blue-400 mb-1">
-                  {item.level} &bull; {new Date(item.date).getFullYear()}
+                  {item.level} {item.year || (item.date ? `\u2022 ${new Date(item.date).getFullYear()}` : '')}
                 </div>
                 <h3 className="text-xl font-bold mb-2">{item.title}</h3>
                 <p className="text-slate-400 text-sm mb-3">{item.description}</p>

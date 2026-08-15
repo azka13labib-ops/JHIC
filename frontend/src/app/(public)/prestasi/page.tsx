@@ -1,7 +1,7 @@
-import { Trophy, Medal, Award } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import type { Metadata } from 'next';
-import { getAchievements } from '@/lib/api/resources';
+import { getAchievements } from '@/lib/api/school';
 
 export const revalidate = 0; // Force dynamic rendering to bypass persistent cache
 

@@ -18,7 +18,6 @@ import {
   MessageSquare,
   PenTool,
   GraduationCap,
-  Users2,
   FolderOpen,
   Link as LinkIcon
 } from "lucide-react";
@@ -44,16 +43,6 @@ const sidebarNavItems = [
     title: "Artikel",
     href: "/admin/articles",
     icon: <BookOpen className="w-5 h-5 mr-3" />,
-  },
-  {
-    title: "Direktori Guru",
-    href: "/admin/teachers",
-    icon: <Users2 className="w-5 h-5 mr-3" />,
-  },
-  {
-    title: "Ekstrakurikuler",
-    href: "/admin/extracurriculars",
-    icon: <Trophy className="w-5 h-5 mr-3" />,
   },
   {
     title: "Prestasi",

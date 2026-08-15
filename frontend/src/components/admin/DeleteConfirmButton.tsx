@@ -14,7 +14,19 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-export function DeleteAgendaButton({ id, title }: { id: string | number, title: string }) {
+interface DeleteConfirmButtonProps {
+  endpoint: string; // e.g. "/admin/news"
+  id: string | number;
+  title: string;
+  entityName?: string; // e.g. "berita", "agenda", "artikel"
+}
+
+export function DeleteConfirmButton({
+  endpoint,
+  id,
+  title,
+  entityName = "data",
+}: DeleteConfirmButtonProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -23,7 +35,8 @@ export function DeleteAgendaButton({ id, title }: { id: string | number, title: 
   const handleDelete = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/agendas/${id}`, {
+      const url = `${process.env.NEXT_PUBLIC_API_URL}${endpoint}/${id}`;
+      const res = await fetch(url, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${session?.accessToken}`,
@@ -32,13 +45,13 @@ export function DeleteAgendaButton({ id, title }: { id: string | number, title: 
       });
 
       if (!res.ok) {
-        throw new Error("Gagal menghapus berita");
+        throw new Error(`Gagal menghapus ${entityName}`);
       }
 
       setOpen(false);
       router.refresh();
-    } catch (error) {
-      alert("Terjadi kesalahan saat menghapus berita.");
+    } catch {
+      alert(`Terjadi kesalahan saat menghapus ${entityName}.`);
     } finally {
       setLoading(false);
     }
@@ -53,9 +66,9 @@ export function DeleteAgendaButton({ id, title }: { id: string | number, title: 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Hapus Agenda?</DialogTitle>
+            <DialogTitle>Hapus {entityName.charAt(0).toUpperCase() + entityName.slice(1)}?</DialogTitle>
             <DialogDescription>
-              Anda yakin ingin menghapus berita &quot;{title}&quot;? Tindakan ini tidak dapat dibatalkan.
+              Anda yakin ingin menghapus {entityName} &quot;{title}&quot;? Tindakan ini tidak dapat dibatalkan.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

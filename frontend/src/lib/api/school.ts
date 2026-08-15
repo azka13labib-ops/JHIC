@@ -15,13 +15,32 @@ const MOCK_SCHOOL_PROFILE: SchoolProfile = {
   address: "Jl. Contoh Alamat No. 123, Lumajang, Jawa Timur"
 };
 
+// Generic resource fetch helpers
+async function fetchList<T = any>(endpoint: string, tag: string, revalidate = 60): Promise<T[]> {
+  try {
+    const res = await serverFetch<{ data: T[] }>(endpoint, { revalidate, tags: [tag] });
+    return res.data || [];
+  } catch (error) {
+    console.error(`Failed to fetch ${tag}`, error);
+    return [];
+  }
+}
+
+async function fetchItem<T = any>(endpoint: string, tag: string, revalidate = 60): Promise<T | null> {
+  try {
+    const res = await serverFetch<{ data: T }>(endpoint, { revalidate, tags: [tag] });
+    return res.data || null;
+  } catch (error) {
+    console.error(`Failed to fetch ${tag}`, error);
+    return null;
+  }
+}
+
+// School Info & Profile
 export async function getSchoolProfile(): Promise<SchoolProfile> {
   try {
     const res = await serverFetch<{ data: SchoolProfile }>('/school-info', { revalidate: 86400, tags: ['school'] });
-    if (!res.data) {
-      return MOCK_SCHOOL_PROFILE;
-    }
-    return res.data;
+    return res.data || MOCK_SCHOOL_PROFILE;
   } catch (error) {
     console.warn("Failed to fetch school profile from API, using dummy data.", error);
     return MOCK_SCHOOL_PROFILE;
@@ -44,7 +63,7 @@ export async function getDepartments(): Promise<Department[]> {
 export async function getAchievements(): Promise<Achievement[]> {
   try {
     const res = await serverFetch<{ data: Achievement[] }>('/achievements', { revalidate: 86400, tags: ['achievements'] });
-    return res.data;
+    return res.data || [];
   } catch {
     return [
       { id: 1, title: "Juara 1 Web Development", description: "LKS Tingkat Nasional 2025", level: "Nasional", date: "2025-10-12", student_name: "Ahmad Rizky" },
@@ -67,196 +86,41 @@ export async function getPartners(): Promise<Partner[]> {
   }
 }
 
-export async function getNews(): Promise<any[]> {
-  try {
-    const res = await serverFetch<{ data: any[] }>('/news', { revalidate: 60, tags: ['news'] });
-    return res.data || [];
-  } catch (error) {
-    console.error("Failed to fetch news", error);
-    return [];
-  }
-}
+// News
+export const getNews = () => fetchList('/news', 'news');
+export const getNewsBySlug = (slug: string) => fetchItem(`/news/${slug}`, `news-${slug}`);
 
-export async function getNewsBySlug(slug: string): Promise<any> {
-  try {
-    const res = await serverFetch<{ data: any }>(`/news/${slug}`, { revalidate: 60, tags: [`news-${slug}`] });
-    return res.data;
-  } catch (error) {
-    console.error(`Failed to fetch news ${slug}`, error);
-    return null;
-  }
-}
+// Features & Announcements
+export const getFeatures = () => fetchList('/features', 'features');
+export const getAnnouncements = () => fetchList('/announcements', 'announcements');
 
-export async function getFeatures(): Promise<any[]> {
-  try {
-    const res = await serverFetch<{ data: any[] }>('/features', { revalidate: 60, tags: ['features'] });
-    return res.data || [];
-  } catch (error) {
-    console.error("Failed to fetch features", error);
-    return [];
-  }
-}
+// Agendas
+export const getAgendas = () => fetchList('/agendas', 'agendas');
+export const getAgendaBySlug = (slug: string) => fetchItem(`/agendas/${slug}`, `agenda-${slug}`);
 
-export async function getAnnouncements(): Promise<any[]> {
-  try {
-    const res = await serverFetch<{ data: any[] }>('/announcements', { revalidate: 60, tags: ['announcements'] });
-    return res.data || [];
-  } catch (error) {
-    console.error("Failed to fetch announcements", error);
-    return [];
-  }
-}
-
-export async function getAgendas(): Promise<any[]> {
-  try {
-    const res = await serverFetch<{ data: any[] }>('/agendas', { revalidate: 60, tags: ['agendas'] });
-    return res.data || [];
-  } catch (error) {
-    console.error('Failed to fetch agendas', error);
-    return [];
-  }
-}
-
-export async function getAgendaBySlug(slug: string): Promise<any> {
-  try {
-    const res = await serverFetch<{ data: any }>(`/agendas/${slug}`, { revalidate: 60, tags: [`agenda-${slug}`] });
-    return res.data;
-  } catch (error) {
-    console.error(`Failed to fetch agenda ${slug}`, error);
-    return null;
-  }
-}
-
-export async function getArticles(): Promise<any[]> {
-  try {
-    const res = await serverFetch<{ data: any[] }>('/articles', { revalidate: 60, tags: ['articles'] });
-    return res.data || [];
-  } catch (error) {
-    console.error('Failed to fetch articles', error);
-    return [];
-  }
-}
-
+// Articles
+export const getArticles = () => fetchList('/articles', 'articles');
 export const getArticle = getArticles;
+export const getArticleById = (id: string) => fetchItem(`/articles/${id}`, `article-${id}`);
+export const getArticleBySlug = (slug: string) => fetchItem(`/articles/${slug}`, `article-${slug}`);
 
-export async function getArticleById(id: string): Promise<any> {
-  try {
-    const res = await serverFetch<{ data: any }>(`/articles/${id}`, { revalidate: 60, tags: [`article-${id}`] });
-    return res.data;
-  } catch (error) {
-    console.error(`Failed to fetch article ${id}`, error);
-    return null;
-  }
-}
+// Galleries
+export const getGalleries = () => fetchList('/galleries', 'galleries');
+export const getGalleryBySlug = (slug: string) => fetchItem(`/galleries/${slug}`, `gallery-${slug}`);
 
-export async function getArticleBySlug(slug: string): Promise<any> {
-  try {
-    const res = await serverFetch<{ data: any }>(`/articles/${slug}`, { revalidate: 60, tags: [`article-${slug}`] });
-    return res.data;
-  } catch (error) {
-    console.error(`Failed to fetch article ${slug}`, error);
-    return null;
-  }
-}
+// Student Works
+export const getStudentWorks = () => fetchList('/student-works', 'student-works');
+export const getStudentWorkBySlug = (slug: string) => fetchItem(`/student-works/${slug}`, `student-work-${slug}`);
 
-export async function getGalleries(): Promise<any[]> {
-  try {
-    const res = await serverFetch<{ data: any[] }>('/galleries', { revalidate: 60, tags: ['galleries'] });
-    return res.data || [];
-  } catch (error) {
-    console.error('Failed to fetch galleries', error);
-    return [];
-  }
-}
-
-export async function getGalleryBySlug(slug: string): Promise<any> {
-  try {
-    const res = await serverFetch<{ data: any }>(`/galleries/${slug}`, { revalidate: 60, tags: [`gallery-${slug}`] });
-    return res.data;
-  } catch (error) {
-    console.error(`Failed to fetch gallery ${slug}`, error);
-    return null;
-  }
-}
-
-export async function getStudentWorks(): Promise<any[]> {
-  try {
-    const res = await serverFetch<{ data: any[] }>('/student-works', { revalidate: 60, tags: ['student-works'] });
-    return res.data || [];
-  } catch (error) {
-    console.error('Failed to fetch student works', error);
-    return [];
-  }
-}
-
-export async function getStudentWorkBySlug(slug: string): Promise<any> {
-  try {
-    const res = await serverFetch<{ data: any }>(`/student-works/${slug}`, { revalidate: 60, tags: [`student-work-${slug}`] });
-    return res.data;
-  } catch (error) {
-    console.error(`Failed to fetch student work ${slug}`, error);
-    return null;
-  }
-}
-
-export async function getOpinions(): Promise<any[]> {
-  try {
-    const res = await serverFetch<{ data: any[] }>('/opinions', { revalidate: 60, tags: ['opinions'] });
-    return res.data || [];
-  } catch (error) {
-    console.error('Failed to fetch opinions', error);
-    return [];
-  }
-}
-
+// Opinions
+export const getOpinions = () => fetchList('/opinions', 'opinions');
 export const getOpinion = getOpinions;
+export const getOpinionById = (id: string) => fetchItem(`/opinions/${id}`, `opinion-${id}`);
+export const getOpinionBySlug = (slug: string) => fetchItem(`/opinions/${slug}`, `opinion-${slug}`);
 
-export async function getOpinionById(id: string): Promise<any> {
-  try {
-    const res = await serverFetch<{ data: any }>(`/opinions/${id}`, { revalidate: 60, tags: [`opinion-${id}`] });
-    return res.data;
-  } catch (error) {
-    console.error(`Failed to fetch opinion ${id}`, error);
-    return null;
-  }
-}
+// Blogs
+export const getBlogs = () => fetchList('/blogs', 'blogs');
 
-export async function getOpinionBySlug(slug: string): Promise<any> {
-  try {
-    const res = await serverFetch<{ data: any }>(`/opinions/${slug}`, { revalidate: 60, tags: [`opinion-${slug}`] });
-    return res.data;
-  } catch (error) {
-    console.error(`Failed to fetch opinion ${slug}`, error);
-    return null;
-  }
-}
-
-export async function getBlogs(): Promise<any[]> {
-  try {
-    const res = await serverFetch<{ data: any[] }>('/blogs', { revalidate: 60, tags: ['blogs'] });
-    return res.data || [];
-  } catch (error) {
-    console.error('Failed to fetch blogs', error);
-    return [];
-  }
-}
-
-export async function getQuickLinks(): Promise<any[]> {
-  try {
-    const res = await serverFetch<{ data: any[] }>('/quick-links', { revalidate: 60, tags: ['quick-links'] });
-    return res.data || [];
-  } catch (error) {
-    console.error('Failed to fetch quick links', error);
-    return [];
-  }
-}
-
-export async function getGuestbooks(): Promise<any[]> {
-  try {
-    const res = await serverFetch<{ data: any[] }>('/guestbooks', { revalidate: 60, tags: ['guestbooks'] });
-    return res.data || [];
-  } catch (error) {
-    console.error('Failed to fetch guestbooks', error);
-    return [];
-  }
-}
+// Quick Links & Guestbooks
+export const getQuickLinks = () => fetchList('/quick-links', 'quick-links');
+export const getGuestbooks = () => fetchList('/guestbooks', 'guestbooks');

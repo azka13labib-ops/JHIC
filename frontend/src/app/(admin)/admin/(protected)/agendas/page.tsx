@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { fetchApi } from "@/lib/api-client";
 import { Plus, Edit } from "lucide-react";
-import { DeleteAgendaButton } from "@/components/admin/DeleteAgendaButton";
+import { DeleteConfirmButton } from "@/components/admin/DeleteConfirmButton";
 
 export const dynamic = "force-dynamic";
 
@@ -68,7 +68,7 @@ export default async function AgendaPage() {
                         <Edit className="h-4 w-4" />
                       </Button>
                     </Link>
-                    <DeleteAgendaButton id={item.id} title={item.title} />
+                    <DeleteConfirmButton endpoint="/admin/agendas" id={item.id} title={item.title} entityName="agenda" />
                   </td>
                 </tr>
               ))

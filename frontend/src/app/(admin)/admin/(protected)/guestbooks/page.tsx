@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { fetchApi } from "@/lib/api-client";
 import { Plus, Edit } from "lucide-react";
-import { DeleteGuestbookButton } from "@/components/admin/DeleteGuestbookButton";
+import { DeleteConfirmButton } from "@/components/admin/DeleteConfirmButton";
 
 export const dynamic = "force-dynamic";
 
@@ -62,7 +62,7 @@ export default async function GuestbookPage() {
                   </td>
                   <td className="px-6 py-4 text-right space-x-2">
                     
-                    <DeleteGuestbookButton id={item.id} title={item.title} />
+                    <DeleteConfirmButton endpoint="/admin/guestbooks" id={item.id} title={item.title} entityName="buku tamu" />
                   </td>
                 </tr>
               ))

@@ -129,7 +129,7 @@ export default function Navbar() {
                 <Link href="/berita" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">Berita</Link>
                 <Link href="/agenda" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">Agenda</Link>
                 <Link href="/prestasi" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">Prestasi</Link>
-                <Link href="/karya" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">Karya Siswa</Link>
+                <Link href="/karya-siswa" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">Karya Siswa</Link>
                 <Link href="/artikel" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">Artikel</Link>
                 <Link href="/info" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">Info</Link>
                 <Link href="/galeri" className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">Galeri</Link>
@@ -137,8 +137,8 @@ export default function Navbar() {
                 <div className="h-px bg-slate-100 my-1 mx-4"></div>
                 <Link href="/buku-tamu" className="px-4 py-2.5 text-sm font-semibold text-slate-500 hover:bg-slate-50 transition-colors">Buku Tamu</Link>
                 <Link href="/opini" className="px-4 py-2.5 text-sm font-semibold text-slate-500 hover:bg-slate-50 transition-colors">Opini</Link>
-                <Link href="/blog" className="px-4 py-2.5 text-sm font-semibold text-slate-500 hover:bg-slate-50 transition-colors">Daftar Blog</Link>
-                <Link href="/link" className="px-4 py-2.5 text-sm font-semibold text-slate-500 hover:bg-slate-50 transition-colors">Link Penting</Link>
+                <Link href="/blog-siswa" className="px-4 py-2.5 text-sm font-semibold text-slate-500 hover:bg-slate-50 transition-colors">Blog Siswa</Link>
+                <Link href="/link-penting" className="px-4 py-2.5 text-sm font-semibold text-slate-500 hover:bg-slate-50 transition-colors">Link Penting</Link>
                 <Link href="/sitemap" className="px-4 py-2.5 text-sm font-semibold text-slate-500 hover:bg-slate-50 transition-colors">Peta Situs</Link>
                 <Link href="/kontak" className="px-4 py-2.5 text-sm font-semibold text-slate-500 hover:bg-slate-50 transition-colors">Kontak Sekolah</Link>
                 

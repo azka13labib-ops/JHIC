@@ -1,5 +1,5 @@
 import { getImageUrl } from "@/lib/utils";
-import { getAchievements } from '@/lib/api/resources';
+import { getAchievements } from '@/lib/api/school';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 

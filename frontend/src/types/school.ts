@@ -14,10 +14,12 @@ export interface SchoolProfile {
 export interface Achievement {
   id: number;
   title: string;
-  description: string;
+  description?: string;
   level: string;
-  date: string;
-  student_name: string;
+  date?: string;
+  year?: string | number;
+  student_name?: string;
+  image_path?: string;
 }
 
 export interface Department {
