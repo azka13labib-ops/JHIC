@@ -73,7 +73,7 @@ export default function LoginPage() {
       }`}>
         
         {/* Left Half: School Photo & Motto */}
-        <div className="relative hidden md:flex flex-col justify-between p-8 lg:p-10 bg-slate-950 text-white min-h-[540px] overflow-hidden group">
+        <div className="relative hidden md:flex flex-col justify-between p-8 lg:p-10 bg-slate-950 text-white min-h-135 overflow-hidden group">
           <div className="absolute inset-0 z-0 overflow-hidden">
             <Image
               src="/image.png"
@@ -82,7 +82,7 @@ export default function LoginPage() {
               className="object-cover object-center brightness-90 contrast-105 transform group-hover:scale-105 transition-transform duration-700 ease-out"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/65 to-slate-900/40" />
+            <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/65 to-slate-900/40" />
           </div>
 
           {/* School Crest */}

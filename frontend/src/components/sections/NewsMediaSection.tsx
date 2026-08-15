@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { 
@@ -9,6 +9,7 @@ import {
   ChevronRight, 
   Radio
 } from 'lucide-react';
+import { getImageUrl } from '@/lib/utils';
 
 interface NewsItem {
   id?: number;
@@ -72,16 +73,9 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
   const card3 = newsList[2] || defaultNews[2];
   const cardTall = newsList[3] || defaultNews[3];
 
-  const getImageUrl = (item: NewsItem, fallback: string) => {
-    if (item.image_path) {
-      if (item.image_path.startsWith('http')) return item.image_path;
-      return `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/storage/${item.image_path}`;
-    }
-    if (item.image) {
-      if (item.image.startsWith('http')) return item.image;
-      return `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/storage/${item.image}`;
-    }
-    return fallback;
+  const resolveImage = (item: NewsItem, fallback: string) => {
+    const raw = item.image_path || item.image;
+    return raw ? getImageUrl(raw) : fallback;
   };
 
   return (
@@ -125,7 +119,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
             {/* 1. Wide Top News Card */}
             <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black/60 aspect-[16/9] flex flex-col justify-end p-6">
               <Image
-                src={getImageUrl(card1, defaultNews[0].image!)}
+                src={resolveImage(card1, defaultNews[0].image!)}
                 alt={card1.title}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -158,7 +152,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
               {/* Bottom Card 1 */}
               <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-black/60 aspect-[4/3] flex flex-col justify-end p-4">
                 <Image
-                  src={getImageUrl(card2, defaultNews[1].image!)}
+                  src={resolveImage(card2, defaultNews[1].image!)}
                   alt={card2.title}
                   fill
                   sizes="(max-width: 1024px) 100vw, 25vw"
@@ -187,7 +181,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
               {/* Bottom Card 2 */}
               <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-black/60 aspect-[4/3] flex flex-col justify-end p-4">
                 <Image
-                  src={getImageUrl(card3, defaultNews[2].image!)}
+                  src={resolveImage(card3, defaultNews[2].image!)}
                   alt={card3.title}
                   fill
                   sizes="(max-width: 1024px) 100vw, 25vw"
@@ -221,7 +215,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
           <div className="md:col-span-6 lg:col-span-3">
             <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black/60 aspect-[9/16] min-h-[440px] flex flex-col justify-end p-5">
               <Image
-                src={getImageUrl(cardTall, defaultNews[3].image!)}
+                src={resolveImage(cardTall, defaultNews[3].image!)}
                 alt={cardTall.title}
                 fill
                 sizes="(max-width: 1024px) 100vw, 25vw"

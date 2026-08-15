@@ -1,8 +1,17 @@
 import { fetchApi } from '@/lib/api-client';
-import { BookMarked, User, Building, Mail, Calendar } from 'lucide-react';
+import { BookMarked, Mail, Building, Calendar } from 'lucide-react';
 import { DeleteConfirmButton } from '@/components/admin/DeleteConfirmButton';
 
 export const dynamic = 'force-dynamic';
+
+interface GuestbookItem {
+  id: number;
+  name: string;
+  email?: string;
+  institution?: string;
+  message: string;
+  created_at: string;
+}
 
 export default async function GuestbookPage() {
   const res = await fetchApi('/admin/guestbooks', { cache: 'no-store' });
@@ -22,7 +31,11 @@ export default async function GuestbookPage() {
   }
 
   const rawData = await res.json().catch(() => []);
-  const guestbooksList = Array.isArray(rawData) ? rawData : Array.isArray(rawData?.data) ? rawData.data : [rawData].filter(Boolean);
+  const guestbooksList: GuestbookItem[] = Array.isArray(rawData)
+    ? rawData
+    : Array.isArray(rawData?.data)
+    ? rawData.data
+    : [rawData].filter(Boolean);
 
   return (
     <div className="space-y-6">
@@ -61,7 +74,7 @@ export default async function GuestbookPage() {
                   </td>
                 </tr>
               ) : (
-                guestbooksList.map((item: any) => (
+                guestbooksList.map((item: GuestbookItem) => (
                   <tr key={item.id} className="hover:bg-slate-50/80 transition-colors">
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-2">

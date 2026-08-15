@@ -16,6 +16,8 @@ import {
   PlusCircle
 } from 'lucide-react';
 
+import { STATUS_CONFIG } from '@/types/ppdb';
+
 interface DashboardStats {
   ppdb: { total: number; pending: number; verified?: number; accepted: number; rejected: number };
   news: { total: number };
@@ -30,13 +32,6 @@ interface DashboardStats {
     created_at: string;
   }>;
 }
-
-const STATUS_CONFIG: Record<string, { label: string; badge: string; dot: string }> = {
-  pending:  { label: 'Menunggu', badge: 'bg-amber-50 text-amber-800 border-amber-200', dot: 'bg-amber-500' },
-  verified: { label: 'Terverifikasi', badge: 'bg-blue-50 text-blue-800 border-blue-200', dot: 'bg-blue-500' },
-  accepted: { label: 'Diterima', badge: 'bg-emerald-50 text-emerald-800 border-emerald-200', dot: 'bg-emerald-500' },
-  rejected: { label: 'Ditolak', badge: 'bg-rose-50 text-rose-800 border-rose-200', dot: 'bg-rose-500' },
-};
 
 export default function DashboardPage() {
   const { data: session } = useSession();
