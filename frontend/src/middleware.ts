@@ -26,7 +26,7 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  // 2. Attach Strict Security Headers
+  // 2. Attach Strict Security Headers to all requests
   const response = NextResponse.next();
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");
@@ -37,6 +37,9 @@ export async function middleware(req: NextRequest) {
   return response;
 }
 
+// Match all routes except internal Next.js static assets and media files
 export const config = {
-  matcher: ["/admin", "/admin/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
 };

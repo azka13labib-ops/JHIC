@@ -13,8 +13,13 @@ class RegistrationController extends Controller
     {
         $query = Registration::with('documents')
             ->when($request->status, fn($q) => $q->where('status', $request->status))
-            ->when($request->search, fn($q) => $q->where('full_name', 'like', "%{$request->search}%")
-                ->orWhere('registration_number', 'like', "%{$request->search}%"))
+            ->when($request->search, function ($q) use ($request) {
+                $q->where(function ($sub) use ($request) {
+                    $sub->where('full_name', 'like', "%{$request->search}%")
+                        ->orWhere('registration_number', 'like', "%{$request->search}%")
+                        ->orWhere('nisn', 'like', "%{$request->search}%");
+                });
+            })
             ->latest();
 
         return response()->json($query->paginate(20));

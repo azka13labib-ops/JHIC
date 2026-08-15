@@ -244,7 +244,7 @@ class LandingPageController extends Controller
     public function guestbooks()
     {
         $data = Cache::remember('api.guestbooks', 60, function () {
-            return Guestbook::latest('created_at')->limit(50)->get();
+            return Guestbook::where('is_approved', true)->latest('created_at')->limit(50)->get();
         });
         return response()->json(['data' => $data], 200);
     }

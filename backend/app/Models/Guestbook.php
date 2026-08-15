@@ -14,5 +14,10 @@ class Guestbook extends Model
         'email',
         'institution',
         'message',
+        'is_approved',
+    ];
+
+    protected $casts = [
+        'is_approved' => 'boolean',
     ];
 }

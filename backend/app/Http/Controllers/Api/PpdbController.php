@@ -187,14 +187,14 @@ class PpdbController extends Controller
 
             $user = $request->user();
 
-            // If not logged in, auto-link or create student user
+            // If not logged in, auto-link or create student user with secure random credentials
             if (!$user) {
                 $email = $request->input('email') ?: 'student.' . Str::slug($request->input('full_name')) . '.' . uniqid() . '@student.smapgri1lmj.sch.id';
                 $user = User::firstOrCreate(
                     ['email' => $email],
                     [
                         'name'     => $request->input('full_name'),
-                        'password' => Hash::make($request->input('nisn') ?: Str::random(12)),
+                        'password' => Hash::make(Str::random(24)),
                         'role'     => 'student',
                     ]
                 );
@@ -210,7 +210,9 @@ class PpdbController extends Controller
             return response()->json(['message' => $e->getMessage()], 422);
         } catch (\Exception $e) {
             Log::error('PPDB submit error', ['error' => $e->getMessage()]);
-            return response()->json(['message' => $e->getMessage() ?: 'Terjadi kesalahan pada pendaftaran, silakan coba lagi.'], 422);
+            return response()->json([
+                'message' => 'Terjadi kendala saat memproses pendaftaran. Silakan periksa kembali isian Anda atau hubungi panitia PPDB.'
+            ], 422);
         }
     }
 
