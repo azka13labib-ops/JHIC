@@ -165,7 +165,9 @@ class PpdbController extends Controller
             'data' => [
                 'registration_number' => $reg->registration_number,
                 'full_name'           => $reg->full_name,
-                'major_choice'        => $reg->major_choice,
+                'nisn'                => $reg->nisn ? (strlen($reg->nisn) > 6 ? substr($reg->nisn, 0, 4) . '****' . substr($reg->nisn, -2) : $reg->nisn) : null,
+                'previous_school'     => $reg->previous_school,
+                'major_choice'        => $reg->major_choice ?: 'Fase E (Umum)',
                 'status'              => $reg->status,
                 'notes'               => $reg->notes,
                 'created_at'          => $reg->created_at,

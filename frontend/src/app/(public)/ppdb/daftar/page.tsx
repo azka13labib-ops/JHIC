@@ -245,12 +245,17 @@ export default function PpdbDaftarPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">NISN (10 Digit) *</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">NISN (10 Digit Angka) *</label>
                   <input
                     type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     maxLength={10}
                     value={form.nisn}
-                    onChange={(e) => set('nisn', e.target.value)}
+                    onChange={(e) => set('nisn', e.target.value.replace(/\D/g, '').slice(0, 10))}
+                    onKeyDown={(e) => {
+                      if (['e', 'E', '+', '-', '.', ',', ' '].includes(e.key)) e.preventDefault();
+                    }}
                     placeholder="e.g. 0081234567"
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none font-mono"
                     required
@@ -315,6 +320,10 @@ export default function PpdbDaftarPage() {
                       setError('Mohon lengkapi semua field pada Langkah 1.');
                       return;
                     }
+                    if (form.nisn.length !== 10) {
+                      setError('NISN harus tepat berupa 10 digit angka murni.');
+                      return;
+                    }
                     setError('');
                     setStep(2);
                   }}
@@ -363,8 +372,14 @@ export default function PpdbDaftarPage() {
                   <label className="block text-xs font-bold text-slate-700 mb-1.5">Nomor HP / WhatsApp Calon Siswa *</label>
                   <input
                     type="tel"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={15}
                     value={form.phone}
-                    onChange={(e) => set('phone', e.target.value)}
+                    onChange={(e) => set('phone', e.target.value.replace(/\D/g, '').slice(0, 15))}
+                    onKeyDown={(e) => {
+                      if (['e', 'E', '+', '-', '.', ',', ' '].includes(e.key)) e.preventDefault();
+                    }}
                     placeholder="e.g. 08123456789"
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none font-mono"
                     required
@@ -397,6 +412,10 @@ export default function PpdbDaftarPage() {
                   onClick={() => {
                     if (!form.previous_school || !form.phone || !form.email) {
                       setError('Mohon lengkapi semua field pada Langkah 2.');
+                      return;
+                    }
+                    if (form.phone.length < 10) {
+                      setError('Nomor HP/WhatsApp calon siswa minimal 10 digit angka.');
                       return;
                     }
                     setError('');
@@ -435,8 +454,14 @@ export default function PpdbDaftarPage() {
                 <label className="block text-xs font-bold text-slate-700 mb-1.5">No. WhatsApp Orang Tua / Wali *</label>
                 <input
                   type="tel"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  maxLength={15}
                   value={form.parent_phone}
-                  onChange={(e) => set('parent_phone', e.target.value)}
+                  onChange={(e) => set('parent_phone', e.target.value.replace(/\D/g, '').slice(0, 15))}
+                  onKeyDown={(e) => {
+                    if (['e', 'E', '+', '-', '.', ',', ' '].includes(e.key)) e.preventDefault();
+                  }}
                   placeholder="e.g. 08129876543"
                   className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none font-mono"
                   required
@@ -458,7 +483,18 @@ export default function PpdbDaftarPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={handleSubmit}
+                  onClick={() => {
+                    if (!form.parent_name || !form.parent_phone) {
+                      setError('Mohon lengkapi data orang tua / wali.');
+                      return;
+                    }
+                    if (form.parent_phone.length < 10) {
+                      setError('Nomor WhatsApp orang tua/wali minimal 10 digit angka.');
+                      return;
+                    }
+                    setError('');
+                    handleSubmit();
+                  }}
                   disabled={isSubmitting}
                   className="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
                 >

@@ -60,11 +60,13 @@ export function PpdbSettingsModal({
             </label>
             <input
               type="text"
+              inputMode="numeric"
+              maxLength={9}
               value={form.academic_year}
-              onChange={(e) => setForm({ ...form, academic_year: e.target.value })}
+              onChange={(e) => setForm({ ...form, academic_year: e.target.value.replace(/[^0-9/]/g, '').slice(0, 9) })}
               placeholder="Contoh: 2026/2027"
               required
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm font-medium"
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm font-medium font-mono"
             />
           </div>
 

@@ -47,8 +47,8 @@ export default function AdminEditAchievementPage({ params }: { params: Promise<{
           setCurrentImageUrl(fullImg);
         }
       }
-    } catch (err: any) {
-      setError(err.message || 'Gagal memuat data prestasi');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Gagal memuat data prestasi');
     } finally {
       setFetching(false);
     }
@@ -90,8 +90,8 @@ export default function AdminEditAchievementPage({ params }: { params: Promise<{
         const errorData = await res.json().catch(() => ({}));
         throw new Error(errorData.message || 'Gagal mengupdate prestasi');
       }
-    } catch (err: any) {
-      setError(err.message || 'Terjadi kesalahan saat mengupdate');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Terjadi kesalahan saat mengupdate');
     } finally {
       setLoading(false);
     }
@@ -175,12 +175,17 @@ export default function AdminEditAchievementPage({ params }: { params: Promise<{
               </label>
               <input
                 required
-                type="number"
-                min="2000"
-                max="2100"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={4}
                 className="w-full px-4 py-3 bg-slate-50 hover:bg-white focus:bg-white border border-slate-300 focus:border-amber-600 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-4 focus:ring-amber-500/15 transition-all"
                 value={formData.year}
-                onChange={(e) => setFormData({ ...formData, year: e.target.value })}
+                onChange={(e) => setFormData({ ...formData, year: e.target.value.replace(/\D/g, '').slice(0, 4) })}
+                onKeyDown={(e) => {
+                  if (['e', 'E', '+', '-', '.', ',', ' '].includes(e.key)) e.preventDefault();
+                }}
+                placeholder="e.g. 2026"
               />
             </div>
           </div>
