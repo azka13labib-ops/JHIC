@@ -11,8 +11,7 @@ import {
   Landmark, 
   Tv, 
   Trees,
-  CheckCircle2,
-  ArrowRight
+  CheckCircle2
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -186,31 +185,6 @@ export default function FasilitasPage() {
               </div>
             );
           })}
-        </div>
-
-        {/* CTA Section */}
-        <div className="mt-16 p-8 sm:p-12 rounded-3xl bg-linear-to-r from-blue-600 to-indigo-700 text-white text-center shadow-xl">
-          <h2 className="text-2xl sm:text-3xl font-extrabold mb-3">
-            Ingin Melihat Langsung Kampus Kami?
-          </h2>
-          <p className="text-blue-100 text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed">
-            Kunjungi SMA PGRI 1 Lumajang dan rasakan suasana belajar yang asri, nyaman, dan modern.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href="/ppdb"
-              className="px-8 py-3.5 bg-white text-blue-700 font-bold rounded-xl shadow-lg hover:bg-blue-50 transition-all cursor-pointer flex items-center gap-2"
-            >
-              <span>Daftar PPDB Online</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/kontak"
-              className="px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold rounded-xl transition-all cursor-pointer"
-            >
-              Hubungi & Lokasi Kampus
-            </Link>
-          </div>
         </div>
 
       </div>
