@@ -39,11 +39,11 @@ export default function HeroSection() {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-center opacity-35 filter blur-[0.5px]"
+            className="object-cover object-center brightness-95 contrast-105 opacity-90"
           />
-          {/* Radial & linear light overlays */}
-          <div className="absolute inset-0 bg-radial-[circle_at_center] from-white/95 via-white/80 to-slate-100/90" />
-          <div className="absolute inset-0 bg-linear-to-t from-slate-50 via-transparent to-white/70" />
+          {/* Balanced light gradient & radial scrim to keep photo clear while text stays sharp */}
+          <div className="absolute inset-0 bg-radial-[circle_at_center] from-white/80 via-white/45 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-b from-white/60 via-transparent to-slate-50" />
         </div>
 
         {/* Hero Center Content */}
