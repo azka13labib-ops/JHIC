@@ -7,7 +7,7 @@ import { ArrowRight, Award, GraduationCap, Users } from 'lucide-react';
 
 export default function AboutSection() {
   return (
-    <section className="py-20 lg:py-28 bg-white text-slate-900 overflow-hidden relative border-t border-slate-200/60">
+    <section className="pt-8 pb-20 lg:pt-12 lg:pb-28 bg-white text-slate-900 overflow-hidden relative">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           

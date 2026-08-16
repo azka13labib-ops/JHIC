@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { BookOpen, Building2, Trophy, ChevronRight, ChevronDown, ArrowRight } from 'lucide-react';
+import { BookOpen, Building2, Trophy, ChevronRight, ArrowRight } from 'lucide-react';
 
 export default function HeroSection() {
   const highlightCards = [
@@ -28,7 +28,7 @@ export default function HeroSection() {
   ];
 
   return (
-    <section className="relative w-full bg-slate-50 text-slate-900 overflow-hidden">
+    <section className="relative w-full bg-white text-slate-900 overflow-hidden">
       {/* Hero Banner with Clean Light Overlay */}
       <div className="relative min-h-150 lg:min-h-165 flex items-center justify-center pt-16 pb-32 sm:pb-36 px-4">
         {/* Campus Background Image with Clean Light Vignette */}
@@ -43,7 +43,7 @@ export default function HeroSection() {
           />
           {/* Balanced light gradient & radial scrim to keep photo clear while text stays sharp */}
           <div className="absolute inset-0 bg-radial-[circle_at_center] from-white/80 via-white/45 to-transparent" />
-          <div className="absolute inset-0 bg-linear-to-b from-white/60 via-transparent to-slate-50" />
+          <div className="absolute inset-0 bg-linear-to-b from-white/60 via-transparent to-white" />
         </div>
 
         {/* Hero Center Content */}
@@ -101,7 +101,7 @@ export default function HeroSection() {
       </div>
 
       {/* 3-Card Strip Section in Crisp Light Mode */}
-      <div className="relative z-20 -mt-16 sm:-mt-20 container mx-auto px-4 pb-12">
+      <div className="relative z-20 -mt-16 sm:-mt-20 container mx-auto px-4 pb-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
           {highlightCards.map((card, idx) => {
             const Icon = card.icon;
@@ -130,13 +130,6 @@ export default function HeroSection() {
               </Link>
             );
           })}
-        </div>
-
-        {/* Scroll Down Indicator */}
-        <div className="flex justify-center mt-6">
-          <div className="w-6 h-10 rounded-full border-2 border-slate-300 flex items-center justify-center animate-bounce opacity-70">
-            <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
-          </div>
         </div>
       </div>
 
