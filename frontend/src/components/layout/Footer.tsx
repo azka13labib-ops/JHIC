@@ -100,6 +100,7 @@ export default function Footer() {
             <ul className="space-y-1.5 text-xs text-slate-600">
               <li><Link href="/profil/sejarah" className="hover:text-blue-600 transition-colors">Sejarah Sekolah</Link></li>
               <li><Link href="/profil/visi-misi" className="hover:text-blue-600 transition-colors">Visi & Misi</Link></li>
+              <li><Link href="/profil/fasilitas" className="hover:text-blue-600 transition-colors">Fasilitas Sekolah</Link></li>
               <li><Link href="/profil/sambutan" className="hover:text-blue-600 transition-colors">Sambutan Kepala Sekolah</Link></li>
               <li><Link href="/jurusan" className="hover:text-blue-600 transition-colors">Peminatan Jurusan</Link></li>
               <li><Link href="/guru" className="hover:text-blue-600 transition-colors">Direktori Guru</Link></li>

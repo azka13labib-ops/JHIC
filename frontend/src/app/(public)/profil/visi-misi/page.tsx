@@ -9,12 +9,20 @@ import {
   Sprout, 
   Handshake, 
   Check, 
-  Heart
+  Heart,
+  Building2,
+  Microscope,
+  BookOpen,
+  Mic,
+  Trophy,
+  Landmark,
+  Tv,
+  Trees
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Visi & Misi | SMA PGRI 1 Lumajang',
-  description: 'Visi, misi, tujuan pendidikan, dan tata nilai luhur SMA PGRI 1 Lumajang dalam mendidik generasi penerus bangsa.',
+  title: 'Visi, Misi & Fasilitas | SMA PGRI 1 Lumajang',
+  description: 'Visi, misi, tujuan pendidikan, tata nilai luhur, dan fasilitas unggulan SMA PGRI 1 Lumajang dalam mendidik generasi penerus bangsa.',
 };
 
 export const revalidate = 86400;
@@ -94,8 +102,59 @@ export default function VisiMisiPage() {
     { code: 'T', name: 'Tangguh', desc: 'Pantang menyerah, ulet, dan selalu berorientasi pada pencapaian prestasi tertinggi.' },
   ];
 
+  const facilities = [
+    {
+      icon: Laptop,
+      name: 'Laboratorium Komputer & Multimedia',
+      desc: '3 Ruang Lab ber-AC dengan PC Core i7, grafis akselerasi, fiber optic internet 500 Mbps, dan software lisensi industri.',
+      color: 'text-blue-600 bg-blue-50 border-blue-100',
+    },
+    {
+      icon: Microscope,
+      name: 'Laboratorium Sains & Riset Terpadu',
+      desc: 'Peralatan praktikum Fisika, Kimia, dan Biologi lengkap dengan mikroskop digital serta instrumen uji eksperimen analitik.',
+      color: 'text-emerald-600 bg-emerald-50 border-emerald-100',
+    },
+    {
+      icon: BookOpen,
+      name: 'Perpustakaan Digital & Reading Lounge',
+      desc: 'Koleksi ribuan buku referensi fisik, e-library nasional, area baca lesehan nyaman, dan ruang diskusi ber-AC.',
+      color: 'text-amber-600 bg-amber-50 border-amber-100',
+    },
+    {
+      icon: Mic,
+      name: 'Studio Podcast & Broadcasting',
+      desc: 'Studio audio-visual berperedam suara dengan mixer profesional dan kamera 4K untuk produksi konten kreatif siswa.',
+      color: 'text-purple-600 bg-purple-50 border-purple-100',
+    },
+    {
+      icon: Trophy,
+      name: 'Sarana Olahraga Multifungsi',
+      desc: 'Lapangan outdoor & semi-indoor untuk Futsal, Bola Basket, Bola Voli, dan Bulutangkis berstandar kompetisi resmi.',
+      color: 'text-rose-600 bg-rose-50 border-rose-100',
+    },
+    {
+      icon: Landmark,
+      name: 'Masjid & Pusat Ibadah Sekolah',
+      desc: 'Pusat pembinaan spiritual dan sholat berjamaah yang representatif, asri, dan bersih untuk seluruh warga sekolah.',
+      color: 'text-teal-600 bg-teal-50 border-teal-100',
+    },
+    {
+      icon: Tv,
+      name: 'Smart Classroom & Aula Pertemuan',
+      desc: 'Kelas interaktif dengan proyektor laser pintar dan gedung aula serbaguna berkapasitas 500 orang.',
+      color: 'text-indigo-600 bg-indigo-50 border-indigo-100',
+    },
+    {
+      icon: Trees,
+      name: 'Kantin Sehat & Eco-Park Hijau',
+      desc: 'Kantin higienis binaan Dinkes dan area taman hijau ramah lingkungan yang sejuk untuk relaksasi siswa.',
+      color: 'text-lime-600 bg-lime-50 border-lime-100',
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-white">
       {/* Header Banner */}
       <section className="relative bg-linear-to-b from-slate-50 via-white to-slate-50 text-slate-900 border-b border-slate-200 py-16 sm:py-20 overflow-hidden">
         <div className="container mx-auto px-4 relative z-10 text-center">
@@ -103,10 +162,10 @@ export default function VisiMisiPage() {
             <Target className="w-3.5 h-3.5" /> Arah & Panduan Sekolah
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold mb-4 tracking-tight text-slate-900">
-            Visi, Misi & Tata Nilai
+            Visi, Misi & Fasilitas Sekolah
           </h1>
           <p className="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
-            Komitmen dan panduan strategis SMA PGRI 1 Lumajang dalam mendidik generasi unggul yang siap memimpin di masa depan.
+            Komitmen strategis dan sarana prasarana modern SMA PGRI 1 Lumajang dalam mendidik generasi unggul masa depan.
           </p>
 
           {/* Breadcrumb */}
@@ -115,14 +174,15 @@ export default function VisiMisiPage() {
             <span>/</span>
             <span>Profil</span>
             <span>/</span>
-            <span className="text-slate-900 font-semibold">Visi Misi</span>
+            <span className="text-slate-900 font-semibold">Visi, Misi & Fasilitas</span>
           </div>
         </div>
       </section>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-16">
-        {/* Visi Section */}
+        
+        {/* 1. Visi Section */}
         <div className="max-w-5xl mx-auto mb-20">
           <div className="bg-linear-to-br from-blue-600 to-indigo-800 rounded-3xl p-8 sm:p-14 text-white shadow-xl relative overflow-hidden group">
             <Target className="absolute -right-10 -bottom-10 w-72 h-72 opacity-10 group-hover:scale-110 transition-transform duration-500" />
@@ -138,7 +198,7 @@ export default function VisiMisiPage() {
           </div>
         </div>
 
-        {/* Misi Section */}
+        {/* 2. Misi Section */}
         <div className="max-w-5xl mx-auto mb-20">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900">Misi SMA PGRI 1 Lumajang</h2>
@@ -151,7 +211,7 @@ export default function VisiMisiPage() {
               return (
                 <div
                   key={idx}
-                  className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-md hover:border-blue-200 transition-all flex gap-5 items-start group"
+                  className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:shadow-md hover:border-blue-200 transition-all flex gap-5 items-start group"
                 >
                   <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 font-bold group-hover:scale-110 transition-transform">
                     <IconComponent className="w-6 h-6" />
@@ -167,7 +227,7 @@ export default function VisiMisiPage() {
           </div>
         </div>
 
-        {/* Core Values: S-M-A-R-T */}
+        {/* 3. Core Values: S-M-A-R-T */}
         <div className="max-w-5xl mx-auto mb-20">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900">Tata Nilai Budaya (SMAGRISA S-M-A-R-T)</h2>
@@ -176,7 +236,7 @@ export default function VisiMisiPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {coreValues.map((val, idx) => (
-              <div key={idx} className="bg-white rounded-2xl p-6 text-center shadow-sm border border-slate-100 hover:border-amber-400 hover:shadow-lg transition-all group">
+              <div key={idx} className="bg-white rounded-2xl p-6 text-center shadow-sm border border-slate-200 hover:border-amber-400 hover:shadow-lg transition-all group">
                 <div className="w-14 h-14 mx-auto rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center text-2xl font-black mb-4 group-hover:scale-110 transition-transform">
                   {val.code}
                 </div>
@@ -187,8 +247,8 @@ export default function VisiMisiPage() {
           </div>
         </div>
 
-        {/* Tujuan Pendidikan */}
-        <div className="max-w-5xl mx-auto">
+        {/* 4. Tujuan Pendidikan */}
+        <div className="max-w-5xl mx-auto mb-24">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900">Tujuan Strategis Pendidikan</h2>
             <p className="text-slate-500 mt-2">Target pencapaian berjenjang demi kualitas berkelanjutan</p>
@@ -196,7 +256,7 @@ export default function VisiMisiPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {goals.map((g, i) => (
-              <div key={i} className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 flex flex-col justify-between">
+              <div key={i} className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 flex flex-col justify-between">
                 <div>
                   <div className="inline-block bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full mb-4">
                     {g.category}
@@ -215,7 +275,46 @@ export default function VisiMisiPage() {
           </div>
         </div>
 
-        {/* Quick Nav */}
+        {/* 5. Fasilitas & Sarana Prasarana Kampus (Under Visi Misi) */}
+        <div id="fasilitas" className="max-w-5xl mx-auto pt-8 border-t border-slate-200/80 scroll-mt-24">
+          <div className="text-center mb-14">
+            <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider mb-3 text-blue-700">
+              <Building2 className="w-3.5 h-3.5" /> Sarana & Prasarana Unggulan
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Fasilitas Kampus Modern
+            </h2>
+            <p className="text-slate-600 max-w-2xl mx-auto mt-2 text-sm sm:text-base leading-relaxed">
+              Mendukung ekosistem belajar yang nyaman, interaktif, dan berstandar industri demi mencetak lulusan berprestasi.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {facilities.map((fac, idx) => {
+              const Icon = fac.icon;
+              return (
+                <div
+                  key={idx}
+                  className="bg-white rounded-3xl p-6 border border-slate-200/90 hover:border-blue-300 shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group"
+                >
+                  <div>
+                    <div className={`w-12 h-12 rounded-2xl ${fac.color} border flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-2xs`}>
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-base font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
+                      {fac.name}
+                    </h3>
+                    <p className="text-slate-600 text-xs leading-relaxed">
+                      {fac.desc}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Quick Navigation Footer */}
         <div className="max-w-4xl mx-auto mt-20 pt-10 border-t border-slate-200 flex flex-wrap justify-between items-center gap-4">
           <Link href="/profil/sejarah" className="inline-flex items-center gap-2 text-slate-600 font-semibold hover:text-blue-600">
             <span>&larr;</span> Baca Sejarah Singkat
@@ -224,6 +323,7 @@ export default function VisiMisiPage() {
             Lanjut ke Sambutan Kepala Sekolah <span>&rarr;</span>
           </Link>
         </div>
+
       </div>
     </div>
   );

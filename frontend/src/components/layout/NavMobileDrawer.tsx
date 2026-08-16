@@ -63,6 +63,13 @@ export function NavMobileDrawer({ isOpen, onClose }: NavMobileDrawerProps) {
             Visi Misi
           </Link>
           <Link
+            href="/profil/fasilitas"
+            onClick={onClose}
+            className="p-1.5 text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-lg"
+          >
+            Fasilitas Sekolah
+          </Link>
+          <Link
             href="/profil/sambutan"
             onClick={onClose}
             className="p-1.5 text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-lg"

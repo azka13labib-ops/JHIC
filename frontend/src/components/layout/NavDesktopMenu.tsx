@@ -8,6 +8,7 @@ import {
   BarChart3, 
   GraduationCap, 
   Landmark, 
+  Building2,
   Target, 
   Mic, 
   Newspaper, 
@@ -66,6 +67,23 @@ export function NavDesktopMenu() {
               </div>
               <div className="text-[11px] text-slate-500">
                 Fondasi karakter unggul dan religius
+              </div>
+            </div>
+          </Link>
+
+          <Link 
+            href="/profil/fasilitas" 
+            className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item"
+          >
+            <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 border border-indigo-100">
+              <Building2 className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs sm:text-sm font-bold text-slate-900 group-hover/item:text-indigo-600">
+                Fasilitas Sekolah
+              </div>
+              <div className="text-[11px] text-slate-500">
+                Lab komputer, sains, studio & olahraga
               </div>
             </div>
           </Link>
