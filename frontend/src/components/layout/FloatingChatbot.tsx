@@ -8,7 +8,8 @@ import {
   Send, 
   X, 
   RotateCcw, 
-  ChevronRight
+  ChevronRight,
+  User
 } from 'lucide-react';
 
 interface Message {
@@ -23,64 +24,19 @@ const INITIAL_MESSAGES: Message[] = [
   {
     id: 'welcome-1',
     sender: 'bot',
-    text: 'Halo! 👋 Saya SMAGRISA AI Assistant, asisten virtual resmi SMA PGRI 1 Lumajang. Ada yang bisa saya bantu?',
+    text: 'Halo! 👋 Saya **SMAGRISA AI Assistant**, asisten cerdas resmi SMA PGRI 1 Lumajang yang ditenagai oleh **Groq AI (Llama 3.3)**.\n\nAda yang bisa saya bantu terkait **PPDB 2026, Peminatan Jurusan, 13 Ekstrakurikuler, atau Fasilitas Sekolah**?',
     time: 'Baru saja',
     quickActions: [
-      { label: '📝 Syarat & Jadwal PPDB', query: 'ppdb' },
-      { label: '🏆 Pilihan 13 Ekstrakurikuler', query: 'ekskul' },
-      { label: '🏢 Fasilitas Sekolah', query: 'fasilitas' },
-      { label: '📚 Peminatan Jurusan', query: 'jurusan' },
-      { label: '📍 Lokasi & Kontak Sekolah', query: 'kontak' },
+      { label: '📝 Syarat & 2 Jalur PPDB', query: 'Jelaskan syarat dan 2 jalur pendaftaran PPDB 2026 di SMAGRISA' },
+      { label: '🏆 Jadwal 13 Ekstrakurikuler', query: 'Sebutkan 13 ekstrakurikuler pilihan dan ekstrakurikuler wajib beserta jadwalnya' },
+      { label: '📚 Pilihan Jurusan', query: 'Apa saja jurusan peminatan di SMA PGRI 1 Lumajang?' },
+      { label: '🏢 Fasilitas Sekolah', query: 'Ceritakan tentang fasilitas laboratorium dan kampus modern di SMAGRISA' },
+      { label: '🎓 Profil Kepala Sekolah & Guru', query: 'Siapa Kepala Sekolah dan bagaimana kualitas tenaga pendidik di SMAGRISA?' },
     ],
   },
 ];
 
-const BOT_KNOWLEDGE_BASE: { keywords: string[]; answer: string; quickActions?: { label: string; query: string }[] }[] = [
-  {
-    keywords: ['ppdb', 'daftar', 'pendaftaran', 'syarat', 'biaya', 'jalur'],
-    answer: 'Pendaftaran PPDB 2026 SMA PGRI 1 Lumajang membuka 2 Jalur Resmi: Jalur Reguler & Jalur Prestasi. Syarat berkas meliputi SKL/Ijazah, KK, Akta Kelahiran, Pas Foto 3x4 merah, dan NISN. Anda dapat langsung mendaftar secara online di menu PPDB.',
-    quickActions: [
-      { label: '🔗 Buka Halaman PPDB', query: 'buka-ppdb' },
-      { label: '🔍 Cek Status Berkas', query: 'status-ppdb' },
-    ],
-  },
-  {
-    keywords: ['ekskul', 'ekstrakurikuler', 'basket', 'futsal', 'paskibra', 'silat', 'karawitan', 'tari', 'pmr', 'band', 'esport', 'albanjari'],
-    answer: 'SMAGRISA memiliki 1 Ekstrakurikuler Wajib (Pramuka) dan 13 Ekstrakurikuler Pilihan: PASGRISA, Futsal, Basket, Math Study Club, Albanjari, Game Sport (E-Sport), Tari, Volly, PMR, Karawitan, Band, English Study Club, dan Pencak Silat.',
-    quickActions: [
-      { label: '🏆 Lihat Jadwal Semua Ekskul', query: 'buka-ekskul' },
-    ],
-  },
-  {
-    keywords: ['jurusan', 'peminatan', 'mipa', 'ips', 'bahasa', 'kurikulum'],
-    answer: 'SMA PGRI 1 Lumajang menerapkan Kurikulum Merdeka dengan 3 peminatan unggulan di Fase F: 1) MIPA (Matematika & Sains), 2) IPS (Sosial & Humaniora), dan 3) Ilmu Bahasa & Budaya dengan sertifikasi digital industri.',
-    quickActions: [
-      { label: '🔬 Info Jurusan MIPA', query: 'mipa' },
-      { label: '📊 Info Jurusan IPS', query: 'ips' },
-    ],
-  },
-  {
-    keywords: ['fasilitas', 'lab', 'komputer', 'lapangan', 'masjid', 'aula', 'studio'],
-    answer: 'Fasilitas kampus modern kami meliputi 3 Lab Komputer Core i7 (Internet 500 Mbps), Lab Sains Riset Terpadu, Perpustakaan Digital, Studio Podcast & Broadcasting, Lapangan Olahraga Multifungsi, Smart Classroom, Masjid Sekolah, dan Kantin Sehat Eco-Park.',
-    quickActions: [
-      { label: '🏢 Eksplorasi Fasilitas Lengkap', query: 'buka-fasilitas' },
-    ],
-  },
-  {
-    keywords: ['kontak', 'alamat', 'lokasi', 'telepon', 'wa', 'whatsapp', 'nomor'],
-    answer: 'SMA PGRI 1 Lumajang beralamat di Lumajang, Jawa Timur. Anda dapat menghubungi layanan informasi via WhatsApp di +62 812-3456-7890 atau email ke info@smapgri1lumajang.sch.id pada jam kerja.',
-  },
-  {
-    keywords: ['guru', 'kepala sekolah', 'pengajar', 'staf'],
-    answer: 'SMAGRISA didukung oleh 15+ tenaga pendidik profesional berpendidikan S1 dan S2 dari universitas terkemuka (UM, UNAIR, ITS, UB) serta praktisi bersertifikasi industri.',
-  },
-  {
-    keywords: ['prestasi', 'juara', 'lomba', 'olimpiade'],
-    answer: 'Siswa-siswi SMAGRISA rutin meraih medali kejuaraan di tingkat Kabupaten, Provinsi, hingga Nasional pada ajang OSN, O2SN, FLS2N, LKS, serta turnamen DBL Basket.',
-  },
-];
-
-let messageCounter = 1;
+let messageIdCounter = 1;
 
 export function FloatingChatbot() {
   const router = useRouter();
@@ -96,11 +52,11 @@ export function FloatingChatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  const handleSendMessage = (textToSend?: string) => {
+  const handleSendMessage = async (textToSend?: string) => {
     const query = (textToSend || inputMessage).trim();
-    if (!query) return;
+    if (!query || isTyping) return;
 
-    // Handle Quick Navigation Action Commands
+    // Handle Quick Navigation Action Commands if clicked
     if (query === 'buka-ppdb') {
       router.push('/ppdb');
       setIsOpen(false);
@@ -122,56 +78,92 @@ export function FloatingChatbot() {
       return;
     }
 
-    messageCounter += 1;
+    messageIdCounter += 1;
     const userMsg: Message = {
-      id: `user-${messageCounter}`,
+      id: `user-${messageIdCounter}`,
       sender: 'user',
       text: query,
       time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
     };
 
-    setMessages((prev) => [...prev, userMsg]);
+    const newHistory = [...messages, userMsg];
+    setMessages(newHistory);
     setInputMessage('');
     setIsTyping(true);
 
-    // Bot Auto Response matching rule engine
-    setTimeout(() => {
-      const lowerQuery = query.toLowerCase();
-      const matched = BOT_KNOWLEDGE_BASE.find((k) =>
-        k.keywords.some((kw) => lowerQuery.includes(kw))
-      );
+    try {
+      // Send conversation history to Groq AI API route
+      const apiMessages = newHistory.map((m) => ({
+        role: m.sender === 'user' ? 'user' : 'assistant',
+        content: m.text,
+      }));
 
-      let replyText = matched?.answer;
-      let quickActions = matched?.quickActions;
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: apiMessages }),
+      });
 
-      if (!replyText) {
-        replyText =
-          'Terima kasih atas pertanyaannya. Untuk informasi lebih spesifik mengenai "' +
-          query +
-          '", Anda juga dapat membaca menu informasi kami atau menghubungi panitia via halaman Kontak.';
-        quickActions = [
-          { label: '📝 Syarat PPDB', query: 'ppdb' },
-          { label: '🏆 Ekstrakurikuler', query: 'ekskul' },
-          { label: '🏢 Fasilitas Kampus', query: 'fasilitas' },
-        ];
+      let botReply = '';
+      if (res.ok) {
+        const data = await res.json();
+        botReply = data.reply || 'Mohon maaf, saya belum memahami pertanyaan tersebut.';
+      } else {
+        botReply = 'Maaf, terjadi gangguan pada server AI. Silakan tanyakan kembali beberapa saat lagi.';
       }
 
-      messageCounter += 1;
+      messageIdCounter += 1;
       const botMsg: Message = {
-        id: `bot-${messageCounter}`,
+        id: `bot-${messageIdCounter}`,
         sender: 'bot',
-        text: replyText,
+        text: botReply,
         time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
-        quickActions,
+        quickActions: [
+          { label: '📝 Buka PPDB', query: 'buka-ppdb' },
+          { label: '🏆 Cek 13 Ekskul', query: 'buka-ekskul' },
+          { label: '🏢 Lihat Fasilitas', query: 'buka-fasilitas' },
+        ],
       };
 
       setMessages((prev) => [...prev, botMsg]);
+    } catch {
+      messageIdCounter += 1;
+      const errorMsg: Message = {
+        id: `bot-${messageIdCounter}`,
+        sender: 'bot',
+        text: 'Koneksi AI terputus sementara. Anda tetap dapat menjelajahi menu PPDB, Jurusan, dan Ekstrakurikuler di website kami.',
+        time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+      };
+      setMessages((prev) => [...prev, errorMsg]);
+    } finally {
       setIsTyping(false);
-    }, 600);
+    }
   };
 
   const handleResetChat = () => {
     setMessages(INITIAL_MESSAGES);
+  };
+
+  // Simple Markdown text renderer for bold (*text*), lists (- item), and linebreaks
+  const renderFormattedText = (text: string) => {
+    return text.split('\n').map((line, lineIdx) => {
+      // Process bold formatting
+      const parts = line.split(/(\*\*.*?\*\*)/g);
+      return (
+        <span key={lineIdx} className="block min-h-[1.1rem]">
+          {parts.map((part, partIdx) => {
+            if (part.startsWith('**') && part.endsWith('**')) {
+              return (
+                <strong key={partIdx} className="font-extrabold text-slate-900">
+                  {part.slice(2, -2)}
+                </strong>
+              );
+            }
+            return part;
+          })}
+        </span>
+      );
+    });
   };
 
   return (
@@ -191,13 +183,13 @@ export function FloatingChatbot() {
               <div>
                 <div className="flex items-center gap-1.5 font-bold text-sm">
                   <span>SMAGRISA AI</span>
-                  <span className="text-[10px] px-1.5 py-0.2 rounded-md bg-white/20 text-white font-extrabold tracking-wider">
-                    BOT
+                  <span className="text-[10px] px-1.5 py-0.2 rounded-md bg-emerald-500/80 text-white font-extrabold tracking-wider">
+                    GROQ LLM
                   </span>
                 </div>
                 <div className="text-[11px] text-blue-100 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                  <span>Online • Asisten Virtual Sekolah</span>
+                  <span>Real-Time AI Assistant • Online</span>
                 </div>
               </div>
             </div>
@@ -241,7 +233,7 @@ export function FloatingChatbot() {
                         : 'bg-white text-slate-800 border border-slate-200/80 rounded-tl-xs'
                     }`}
                   >
-                    {msg.text}
+                    {renderFormattedText(msg.text)}
                   </div>
 
                   {/* Quick Action Buttons */}
@@ -251,10 +243,10 @@ export function FloatingChatbot() {
                         <button
                           key={idx}
                           onClick={() => handleSendMessage(qa.query)}
-                          className="text-[11px] font-bold px-3 py-1.5 rounded-xl bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-slate-700 hover:text-blue-700 transition shadow-2xs flex items-center gap-1 cursor-pointer"
+                          className="text-[11px] font-bold px-3 py-1.5 rounded-xl bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-slate-700 hover:text-blue-700 transition shadow-2xs flex items-center gap-1 cursor-pointer text-left"
                         >
                           <span>{qa.label}</span>
-                          <ChevronRight className="w-3 h-3 text-slate-400" />
+                          <ChevronRight className="w-3 h-3 text-slate-400 shrink-0" />
                         </button>
                       ))}
                     </div>
@@ -268,6 +260,12 @@ export function FloatingChatbot() {
                     {msg.time}
                   </div>
                 </div>
+
+                {msg.sender === 'user' && (
+                  <div className="w-7 h-7 rounded-xl bg-slate-800 text-white flex items-center justify-center shrink-0 text-xs font-bold mt-1 shadow-xs">
+                    <User className="w-4 h-4" />
+                  </div>
+                )}
               </div>
             ))}
 
@@ -280,6 +278,7 @@ export function FloatingChatbot() {
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-bounce" />
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-bounce [animation-delay:0.2s]" />
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-bounce [animation-delay:0.4s]" />
+                  <span className="text-[11px] text-slate-500 font-medium ml-1">AI sedang berpikir...</span>
                 </div>
               </div>
             )}
@@ -298,14 +297,15 @@ export function FloatingChatbot() {
             >
               <input
                 type="text"
-                placeholder="Ketik pertanyaan (misal: syarat ppdb)..."
+                placeholder="Tanyakan apa saja seputar sekolah..."
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                className="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition"
+                disabled={isTyping}
+                className="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition disabled:opacity-50"
               />
               <button
                 type="submit"
-                disabled={!inputMessage.trim()}
+                disabled={!inputMessage.trim() || isTyping}
                 className="w-10 h-10 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-40 text-white flex items-center justify-center shrink-0 shadow-md transition cursor-pointer"
                 aria-label="Kirim Pesan"
               >
@@ -314,7 +314,7 @@ export function FloatingChatbot() {
             </form>
             <div className="text-[10px] text-center text-slate-400 mt-1.5 font-medium flex items-center justify-center gap-1">
               <Sparkles className="w-3 h-3 text-amber-500" />
-              <span>Didukung SMAGRISA Smart AI Assistant</span>
+              <span>Ditenagai Real AI Engine • Groq Llama 3.3</span>
             </div>
           </div>
 
@@ -331,7 +331,7 @@ export function FloatingChatbot() {
             className="hidden sm:flex items-center gap-2.5 bg-white text-slate-800 text-xs font-semibold px-4 py-2.5 rounded-2xl shadow-xl border border-slate-200/90 cursor-pointer hover:border-blue-300 transition-all hover:scale-102 duration-200"
           >
             <span className="w-2 h-2 rounded-full bg-blue-600 animate-ping" />
-            <span>Tanya Asisten AI Sekolah 🤖</span>
+            <span>Tanya AI Assistant Sekolah 🤖</span>
             <button
               onClick={(e) => {
                 e.stopPropagation();
