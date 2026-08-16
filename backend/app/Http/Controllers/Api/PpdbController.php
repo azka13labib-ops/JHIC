@@ -52,7 +52,7 @@ class PpdbController extends Controller
                     'Pas Foto 3x4 (background merah)',
                     'NISN (Nomor Induk Siswa Nasional)',
                 ],
-                'tracks'             => ['Jalur Reguler', 'Jalur Prestasi', 'Jalur Afirmasi'],
+                'tracks'             => ['Jalur Reguler', 'Jalur Prestasi'],
             ]
         ]);
     }

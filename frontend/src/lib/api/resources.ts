@@ -103,6 +103,6 @@ const MOCK_PPDB_INFO = {
     'Pas Foto 3x4 (background merah)',
     'NISN',
   ],
-  tracks: ['Jalur Reguler', 'Jalur Prestasi', 'Jalur Afirmasi'],
+  tracks: ['Jalur Reguler', 'Jalur Prestasi'],
 };
 

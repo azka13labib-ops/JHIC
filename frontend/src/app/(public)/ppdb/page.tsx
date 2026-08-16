@@ -11,7 +11,6 @@ import {
   Megaphone, 
   FileText, 
   Trophy, 
-  Handshake,
   AlertTriangle,
   MessageCircle
 } from 'lucide-react';
@@ -83,7 +82,7 @@ const DEFAULT_INFO: PpdbInfo = {
     'Pas Foto 3x4 background merah (2 lembar)',
     'NISN (Nomor Induk Siswa Nasional)',
   ],
-  tracks: ['Jalur Reguler', 'Jalur Prestasi', 'Jalur Afirmasi'],
+  tracks: ['Jalur Reguler', 'Jalur Prestasi'],
 };
 
 export default function PpdbPage() {
@@ -226,18 +225,17 @@ export default function PpdbPage() {
         {/* Jalur Penerimaan */}
         <div className="mb-16">
           <h2 className="text-2xl sm:text-3xl font-black text-center text-slate-900 mb-8">Jalur Pendaftaran</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {(info.tracks ?? []).map((track, i) => {
-              const icons = [FileText, Trophy, Handshake];
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            {(info.tracks ?? ['Jalur Reguler', 'Jalur Prestasi']).map((track, i) => {
+              const icons = [FileText, Trophy];
               const styles = [
-                { bg: 'bg-blue-50/80 border-blue-200/80 text-blue-700', iconBg: 'bg-blue-500 text-white' },
+                { bg: 'bg-blue-50/80 border-blue-200/80 text-blue-700', iconBg: 'bg-blue-600 text-white' },
                 { bg: 'bg-amber-50/80 border-amber-200/80 text-amber-700', iconBg: 'bg-amber-500 text-white' },
-                { bg: 'bg-emerald-50/80 border-emerald-200/80 text-emerald-700', iconBg: 'bg-emerald-500 text-white' },
               ];
-              const st = styles[i % 3];
-              const IconComp = icons[i % 3];
+              const st = styles[i % 2];
+              const IconComp = icons[i % 2];
               return (
-                <div key={i} className={`${st.bg} rounded-3xl p-6 border text-center shadow-xs`}>
+                <div key={i} className={`${st.bg} rounded-3xl p-6 border text-center shadow-xs hover:shadow-md transition-all`}>
                   <div className={`w-12 h-12 mx-auto rounded-2xl ${st.iconBg} flex items-center justify-center mb-3 shadow-md`}>
                     <IconComp className="w-6 h-6" />
                   </div>
