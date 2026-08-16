@@ -60,9 +60,9 @@ function CountdownTimer({ targetDate }: { targetDate: string }) {
         { val: timeLeft.minutes, label: 'Menit' },
         { val: timeLeft.seconds, label: 'Detik' },
       ].map(({ val, label }) => (
-        <div key={label} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-3.5 sm:px-5 py-3 text-center min-w-16 sm:min-w-20 shadow-lg">
-          <div className="text-2xl sm:text-3xl font-black text-white">{String(val).padStart(2, '0')}</div>
-          <div className="text-[10px] sm:text-xs font-bold text-amber-300 uppercase tracking-wider mt-0.5">{label}</div>
+        <div key={label} className="bg-white border border-slate-200/90 rounded-2xl px-3.5 sm:px-5 py-3 text-center min-w-16 sm:min-w-20 shadow-md shadow-slate-200/60">
+          <div className="text-2xl sm:text-3xl font-black text-blue-600">{String(val).padStart(2, '0')}</div>
+          <div className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mt-0.5">{label}</div>
         </div>
       ))}
     </div>
