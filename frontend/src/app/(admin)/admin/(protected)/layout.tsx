@@ -24,12 +24,13 @@ import {
   ExternalLink,
   ChevronRight,
   Sparkles,
-  Shield,
   Search,
   Command
 } from 'lucide-react';
 import { AdminCommandPalette } from '@/components/admin/AdminCommandPalette';
 import { LogoutConfirmModal } from '@/components/admin/LogoutConfirmModal';
+import { AdminLiveDate } from '@/components/admin/AdminLiveDate';
+import { AdminUserBadge } from '@/components/admin/AdminUserBadge';
 
 interface NavGroup {
   group: string;
@@ -282,6 +283,9 @@ export default function ProtectedAdminLayout({
               <Search className="w-4 h-4" />
             </button>
 
+            {/* Live Indonesian Date */}
+            <AdminLiveDate />
+
             {/* Visit Public Website */}
             <Link
               href="/"
@@ -292,10 +296,8 @@ export default function ProtectedAdminLayout({
               <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition-colors" />
             </Link>
 
-            <div className="hidden sm:flex items-center gap-2 pl-2 border-l border-slate-200 text-xs font-bold text-slate-700">
-              <Shield className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Superadmin</span>
-            </div>
+            {/* Reusable Dynamic User/Operator Role Badge */}
+            <AdminUserBadge user={session.user} />
           </div>
 
         </header>

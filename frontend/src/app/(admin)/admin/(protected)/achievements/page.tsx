@@ -1,9 +1,12 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { Trophy, Plus, Edit, Eye, Award, Calendar } from 'lucide-react';
+import { Trophy, Edit, Eye, Award, Calendar } from 'lucide-react';
+import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
+import { AdminSearchBar } from '@/components/admin/AdminSearchBar';
+import { AdminPagination } from '@/components/admin/AdminPagination';
 import { DeleteConfirmButton } from '@/components/admin/DeleteConfirmButton';
 import type { Achievement } from '@/types';
 
@@ -11,8 +14,14 @@ export default function AdminAchievementsPage() {
   const { data: session } = useSession();
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
 
-  const authHeaders = { Authorization: `Bearer ${session?.accessToken}`, Accept: 'application/json' };
+  const authHeaders = useMemo(() => ({
+    Authorization: `Bearer ${session?.accessToken}`,
+    Accept: 'application/json',
+  }), [session?.accessToken]);
 
   const fetchData = useCallback(async () => {
     if (!session?.accessToken) return;
@@ -26,8 +35,7 @@ export default function AdminAchievementsPage() {
     } finally {
       setLoading(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session]);
+  }, [session, authHeaders]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
@@ -39,35 +47,56 @@ export default function AdminAchievementsPage() {
     internasional: 'bg-amber-50 text-amber-700 border-amber-200',
   };
 
+  // Filter and pagination
+  const filteredAchievements = useMemo(() => {
+    if (!search.trim()) return achievements;
+    const q = search.toLowerCase();
+    return achievements.filter(
+      (item) =>
+        item.title.toLowerCase().includes(q) ||
+        (item.level && item.level.toLowerCase().includes(q)) ||
+        (item.year && item.year.toString().includes(q))
+    );
+  }, [achievements, search]);
+
+  const totalPages = Math.ceil(filteredAchievements.length / perPage) || 1;
+  const paginatedAchievements = useMemo(() => {
+    const start = (page - 1) * perPage;
+    return filteredAchievements.slice(start, start + perPage);
+  }, [filteredAchievements, page, perPage]);
+
+  // Reset to page 1 on search
+  const handleSearchChange = (val: string) => {
+    setSearch(val);
+    setPage(1);
+  };
+
   return (
     <div className="space-y-6">
-      
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center shrink-0">
-            <Trophy className="w-6 h-6" />
-          </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Manajemen Prestasi Siswa</h1>
-            <p className="text-xs text-slate-500 mt-0.5">Kelola rekam jejak juara lomba akademik, seni, dan olahraga tingkat sekolah s/d internasional.</p>
-          </div>
-        </div>
-        
-        <Link
-          href="/admin/achievements/new"
-          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white text-xs font-bold rounded-xl shadow-xs transition-all cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Tambah Prestasi Baru</span>
-        </Link>
-      </div>
+      {/* Reusable Header Operator */}
+      <AdminPageHeader
+        icon={Trophy}
+        title="Manajemen Prestasi Siswa"
+        description="Kelola rekam jejak juara lomba akademik, seni, dan olahraga tingkat sekolah s/d internasional."
+        actionButton={{
+          label: 'Tambah Prestasi Baru',
+          href: '/admin/achievements/new',
+        }}
+      />
 
-      {/* Table Container */}
+      {/* Table Container with Reusable Search & Pagination */}
       <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
+        {/* Reusable Search Bar */}
+        <AdminSearchBar
+          value={search}
+          onChange={handleSearchChange}
+          placeholder="Cari nama kejuaraan, tingkat kompetisi, atau tahun..."
+          totalResults={filteredAchievements.length}
+        />
+
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -81,14 +110,14 @@ export default function AdminAchievementsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
-                {achievements.length === 0 ? (
+                {paginatedAchievements.length === 0 ? (
                   <tr>
                     <td colSpan={4} className="py-12 text-center text-slate-400">
-                      Belum ada rekam prestasi yang terdaftar.
+                      {search ? 'Tidak ada prestasi yang cocok dengan pencarian.' : 'Belum ada rekam prestasi yang terdaftar.'}
                     </td>
                   </tr>
                 ) : (
-                  achievements.map((item) => (
+                  paginatedAchievements.map((item) => (
                     <tr key={item.id} className="hover:bg-slate-50/80 transition-colors">
                       <td className="py-4 px-6 font-bold text-slate-900 max-w-md">
                         <div className="line-clamp-1">{item.title}</div>
@@ -110,14 +139,14 @@ export default function AdminAchievementsPage() {
                           <Link
                             href={`/prestasi/${item.id}`}
                             target="_blank"
-                            className="p-2 text-slate-500 hover:text-amber-600 hover:bg-amber-50 border border-slate-200 rounded-lg transition-colors"
+                            className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 border border-slate-200 rounded-lg transition-colors"
                             title="Pratinjau Publik"
                           >
                             <Eye className="w-3.5 h-3.5" />
                           </Link>
                           <Link
                             href={`/admin/achievements/${item.id}/edit`}
-                            className="p-2 text-slate-700 hover:text-amber-600 hover:bg-amber-50 border border-slate-200 rounded-lg transition-colors"
+                            className="p-2 text-slate-700 hover:text-blue-600 hover:bg-blue-50 border border-slate-200 rounded-lg transition-colors"
                             title="Edit Prestasi"
                           >
                             <Edit className="w-3.5 h-3.5" />
@@ -138,8 +167,20 @@ export default function AdminAchievementsPage() {
             </table>
           </div>
         )}
-      </div>
 
+        {/* Reusable Pagination */}
+        <AdminPagination
+          currentPage={page}
+          totalPages={totalPages}
+          totalItems={filteredAchievements.length}
+          itemsPerPage={perPage}
+          onPageChange={setPage}
+          onItemsPerPageChange={(newPerPage) => {
+            setPerPage(newPerPage);
+            setPage(1);
+          }}
+        />
+      </div>
     </div>
   );
 }

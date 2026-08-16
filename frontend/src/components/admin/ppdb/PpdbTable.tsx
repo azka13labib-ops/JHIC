@@ -12,6 +12,7 @@ import {
   GraduationCap
 } from 'lucide-react';
 import { Registration, STATUS_CONFIG, STATUS_OPTIONS } from '@/types/ppdb';
+import { AdminPagination } from '@/components/admin/AdminPagination';
 
 interface PpdbTableProps {
   registrations: Registration[];
@@ -32,6 +33,8 @@ export function PpdbTable({
   const [statusFilter, setStatusFilter] = useState('all');
   const [copiedId, setCopiedId] = useState<number | null>(null);
   const [updatingId, setUpdatingId] = useState<number | null>(null);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
 
   const handleCopy = (id: number, text: string) => {
     navigator.clipboard.writeText(text);
@@ -48,6 +51,9 @@ export function PpdbTable({
     const matchStatus = statusFilter === 'all' || r.status === statusFilter;
     return matchSearch && matchStatus;
   });
+
+  const totalPages = Math.ceil(filtered.length / perPage) || 1;
+  const paginated = filtered.slice((page - 1) * perPage, page * perPage);
 
   return (
     <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
@@ -136,7 +142,7 @@ export function PpdbTable({
                 </td>
               </tr>
             ) : (
-              filtered.map((reg) => {
+              paginated.map((reg) => {
                 const conf = STATUS_CONFIG[reg.status] || STATUS_CONFIG.pending;
                 return (
                   <tr key={reg.id} className="hover:bg-slate-50/70 transition">
@@ -234,6 +240,19 @@ export function PpdbTable({
           </tbody>
         </table>
       </div>
+
+      {/* Reusable Pagination for PPDB Table */}
+      <AdminPagination
+        currentPage={page}
+        totalPages={totalPages}
+        totalItems={filtered.length}
+        itemsPerPage={perPage}
+        onPageChange={setPage}
+        onItemsPerPageChange={(newPerPage) => {
+          setPerPage(newPerPage);
+          setPage(1);
+        }}
+      />
     </div>
   );
 }
