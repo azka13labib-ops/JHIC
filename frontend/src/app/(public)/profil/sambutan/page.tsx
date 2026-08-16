@@ -44,29 +44,25 @@ export default function SambutanPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header Banner */}
-      <section className="relative bg-linear-to-br from-[#1E2B58] via-[#2B3B6F] to-blue-900 text-white py-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute top-10 left-10 w-96 h-96 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-10 w-80 h-80 bg-amber-400 rounded-full blur-3xl" />
-        </div>
+      <section className="relative bg-linear-to-b from-slate-50 via-white to-slate-50 text-slate-900 border-b border-slate-200 py-16 sm:py-20 overflow-hidden">
         <div className="container mx-auto px-4 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/20 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider mb-6 text-amber-300">
+          <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider mb-4 text-blue-700">
             <Mic className="w-3.5 h-3.5" /> Pesan Pimpinan
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-extrabold mb-4 tracking-tight text-slate-900">
             Sambutan Kepala Sekolah
           </h1>
-          <p className="text-blue-100 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
+          <p className="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
             Menyambut generasi baru dengan penuh kehangatan, komitmen mutu, dan visi masa depan yang gemilang.
           </p>
 
           {/* Breadcrumb */}
-          <div className="flex justify-center items-center gap-2 text-sm text-blue-200 mt-8">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+          <div className="flex justify-center items-center gap-2 text-xs sm:text-sm text-slate-500 mt-6">
+            <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
             <span>/</span>
-            <span className="text-blue-200">Profil</span>
+            <span>Profil</span>
             <span>/</span>
-            <span className="text-white font-medium">Sambutan Kepala Sekolah</span>
+            <span className="text-slate-900 font-semibold">Sambutan Kepala Sekolah</span>
           </div>
         </div>
       </section>

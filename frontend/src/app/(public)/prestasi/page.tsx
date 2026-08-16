@@ -26,13 +26,13 @@ export default async function PrestasiPage() {
   return (
     <div className="min-h-screen bg-white pb-20">
       {/* Hero */}
-      <section className="bg-linear-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-20 text-center">
+      <section className="bg-linear-to-b from-slate-50 via-white to-slate-50 text-slate-900 border-b border-slate-200 py-16 sm:py-20 text-center">
         <div className="container mx-auto px-4">
-          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm mb-6">
-            <Trophy className="w-3.5 h-3.5 inline mr-1 text-amber-500" /> Prestasi Siswa
+          <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider mb-4 text-amber-700">
+            <Trophy className="w-3.5 h-3.5 inline mr-1 text-amber-600" /> Prestasi Siswa
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">Kebanggaan Kami</h1>
-          <p className="text-blue-200 max-w-xl mx-auto text-lg">
+          <h1 className="text-3xl sm:text-5xl font-extrabold mb-4 text-slate-900 tracking-tight">Kebanggaan Kami</h1>
+          <p className="text-slate-600 max-w-xl mx-auto text-base sm:text-lg leading-relaxed">
             Daftar pencapaian dan prestasi gemilang siswa-siswi SMA PGRI 1 Lumajang dari tingkat kota hingga internasional.
           </p>
         </div>

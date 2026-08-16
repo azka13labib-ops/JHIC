@@ -38,13 +38,13 @@ export default async function JurusanPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="bg-linear-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-20 text-center">
+      <section className="bg-linear-to-b from-slate-50 via-white to-slate-50 text-slate-900 border-b border-slate-200 py-16 sm:py-20 text-center">
         <div className="container mx-auto px-4">
-          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm mb-6">
-            <GraduationCap className="w-4 h-4 text-amber-300" /> Kurikulum Merdeka • Peminatan Fase F (Kelas XI - XII)
+          <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider mb-4 text-blue-700">
+            <GraduationCap className="w-4 h-4 text-blue-600" /> Kurikulum Merdeka • Peminatan Fase F (Kelas XI - XII)
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">Eksplorasi Minat,<br />Raih Masa Depan</h1>
-          <p className="text-blue-200 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+          <h1 className="text-3xl sm:text-5xl font-extrabold mb-4 text-slate-900 tracking-tight">Eksplorasi Minat,<br />Raih Masa Depan</h1>
+          <p className="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
             Sesuai Kurikulum Merdeka, siswa baru Kelas 10 menempuh program umum bersama. Penjurusan dan pemilihan mata pelajaran peminatan (MIPA, IPS, atau Bahasa & Budaya) dilaksanakan pada kenaikan Kelas 11 melalui asesmen minat dan bakat.
           </p>
         </div>

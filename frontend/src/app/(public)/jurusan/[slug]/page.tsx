@@ -87,16 +87,16 @@ export default async function JurusanDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="min-h-screen bg-white">
-      <section className={`bg-linear-to-br ${details.color} text-white py-20`}>
+      <section className="bg-linear-to-b from-slate-50 via-white to-slate-50 text-slate-900 border-b border-slate-200 py-16">
         <div className="container mx-auto px-4">
-          <Link href="/jurusan" className="inline-flex items-center gap-2 text-white/70 hover:text-white mb-6 transition-colors font-medium">
+          <Link href="/jurusan" className="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 mb-6 transition-colors font-semibold text-xs sm:text-sm">
             <ArrowLeft className="w-4 h-4" /> Semua Peminatan
           </Link>
-          <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center mb-6 shadow-inner">
-            <IconComp className="w-8 h-8 text-white" />
+          <div className="w-16 h-16 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center mb-4 shadow-xs">
+            <IconComp className="w-8 h-8 text-blue-600" />
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">{dept.name}</h1>
-          <p className="text-white/80 max-w-2xl text-lg">{dept.description}</p>
+          <h1 className="text-3xl sm:text-5xl font-extrabold mb-3 text-slate-900 tracking-tight">{dept.name}</h1>
+          <p className="text-slate-600 max-w-2xl text-base sm:text-lg leading-relaxed">{dept.description}</p>
         </div>
       </section>
 

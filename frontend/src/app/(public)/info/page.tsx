@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 export default function InfoPage() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      <section className="bg-linear-to-br from-[#1E2B58] to-[#2B3B6F] text-white py-16 text-center">
+      <section className="bg-linear-to-b from-slate-50 via-white to-slate-50 text-slate-900 border-b border-slate-200 py-16 text-center">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">Pusat Informasi</h1>
-          <p className="text-blue-200">Informasi pengumuman dan edaran resmi sekolah</p>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Pusat Informasi</h1>
+          <p className="text-slate-600 max-w-xl mx-auto text-base">Informasi pengumuman dan edaran resmi sekolah</p>
         </div>
       </section>
       

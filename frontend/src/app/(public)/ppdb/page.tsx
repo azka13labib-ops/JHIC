@@ -117,31 +117,26 @@ export default function PpdbPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-linear-to-br from-[#1E2B58] via-[#24356E] to-[#121B38] text-white py-20 sm:py-28 overflow-hidden">
-        <div className="absolute inset-0 opacity-15 pointer-events-none">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-400 rounded-full blur-3xl" />
-        </div>
-
+      <section className="relative bg-linear-to-b from-slate-50 via-white to-slate-50 text-slate-900 border-b border-slate-200 py-16 sm:py-24 overflow-hidden">
         <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl">
           
           {/* Open/Close Dynamic Badge */}
           {isOpen ? (
-            <div className="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/40 rounded-full px-4 py-2 text-emerald-300 text-xs sm:text-sm font-extrabold mb-6 animate-pulse">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+            <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 rounded-full px-4 py-2 text-emerald-700 text-xs sm:text-sm font-extrabold mb-6 shadow-xs">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
               <span>PPDB {info.academic_year || '2026/2027'} DIBUKA!</span>
             </div>
           ) : (
-            <div className="inline-flex items-center gap-2 bg-rose-500/20 border border-rose-400/40 rounded-full px-4 py-2 text-rose-300 text-xs sm:text-sm font-extrabold mb-6">
-              <AlertTriangle className="w-4 h-4 text-rose-400" />
+            <div className="inline-flex items-center gap-2 bg-rose-50 border border-rose-200 rounded-full px-4 py-2 text-rose-700 text-xs sm:text-sm font-extrabold mb-6">
+              <AlertTriangle className="w-4 h-4 text-rose-500" />
               <span>PENDAFTARAN PPDB PERIODE INI DITUTUP</span>
             </div>
           )}
 
-          <h1 className="text-3xl sm:text-5xl font-black mb-4 tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-5xl font-black mb-4 tracking-tight leading-tight text-slate-900">
             Penerimaan Peserta Didik Baru
           </h1>
-          <p className="text-blue-200 text-sm sm:text-lg max-w-2xl mx-auto mb-8 font-medium leading-relaxed">
+          <p className="text-slate-600 text-sm sm:text-lg max-w-2xl mx-auto mb-8 font-medium leading-relaxed">
             {isOpen 
               ? 'Wujudkan mimpimu meraih prestasi dan sertifikasi industri global bersama SMA PGRI 1 Lumajang.'
               : (info.closed_message || 'Masa pendaftaran calon siswa baru saat ini telah berakhir. Pantau pengumuman kelulusan di portal status.')}
@@ -150,7 +145,7 @@ export default function PpdbPage() {
           {/* Countdown timer when open */}
           {isOpen && info.registration_end && (
             <div className="mb-10">
-              <p className="text-blue-200 text-xs font-semibold uppercase tracking-wider mb-3">Masa Pendaftaran Berakhir Dalam:</p>
+              <p className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-3">Masa Pendaftaran Berakhir Dalam:</p>
               <CountdownTimer targetDate={info.registration_end} />
             </div>
           )}
@@ -160,7 +155,7 @@ export default function PpdbPage() {
             {isOpen ? (
               <Link
                 href="/ppdb/daftar"
-                className="w-full sm:w-auto px-8 py-4 bg-amber-400 hover:bg-amber-300 active:bg-amber-500 text-slate-950 font-black rounded-2xl shadow-xl shadow-amber-400/20 transition-all duration-200 hover:-translate-y-0.5 inline-flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer"
+                className="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-black rounded-2xl shadow-xl shadow-blue-600/25 transition-all duration-200 hover:-translate-y-0.5 inline-flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer"
               >
                 <Sparkles className="w-5 h-5" />
                 <span>Daftar Sekarang Online</span>
@@ -170,7 +165,7 @@ export default function PpdbPage() {
                 href="https://wa.me/6281234567890?text=Halo%20Panitia%20PPDB%20SMA%20PGRI%201%20Lumajang,%20saya%20ingin%20bertanya%20mengenai%20pendaftaran"
                 target="_blank"
                 rel="noreferrer"
-                className="w-full sm:w-auto px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-black rounded-2xl shadow-xl transition-all inline-flex items-center justify-center gap-2 text-sm sm:text-base"
+                className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-2xl shadow-xl shadow-emerald-600/25 transition-all inline-flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 <MessageCircle className="w-5 h-5" />
                 <span>Hubungi Panitia PPDB</span>
@@ -179,9 +174,9 @@ export default function PpdbPage() {
 
             <Link
               href="/ppdb/status"
-              className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/25 text-white font-bold rounded-2xl transition-all duration-200 backdrop-blur-md inline-flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer"
+              className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold rounded-2xl shadow-xs transition-all duration-200 inline-flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer"
             >
-              <FileCheck className="w-5 h-5" />
+              <FileCheck className="w-5 h-5 text-blue-600" />
               <span>Cek Status Pendaftaran</span>
             </Link>
           </div>
