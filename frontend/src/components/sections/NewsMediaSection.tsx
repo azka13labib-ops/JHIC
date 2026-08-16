@@ -10,7 +10,8 @@ import {
   Radio,
   Pin,
   Newspaper,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
+  ArrowRight
 } from 'lucide-react';
 import { getImageUrl } from '@/lib/utils';
 
@@ -73,17 +74,17 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
   };
 
   return (
-    <section className="relative py-24 bg-[#0a0f1d] text-white overflow-hidden">
+    <section className="relative py-20 lg:py-24 bg-slate-50/70 text-slate-900 overflow-hidden border-t border-slate-200/60">
       {/* Background with subtle architectural campus depth */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <Image
           src="/image.png"
           alt="Campus Backdrop"
           fill
           sizes="100vw"
-          className="object-cover object-center opacity-15 filter blur-[1px]"
+          className="object-cover object-center opacity-10 filter blur-[1px]"
         />
-        <div className="absolute inset-0 bg-linear-to-b from-[#000000] via-[#0b1329]/90 to-[#000000]" />
+        <div className="absolute inset-0 bg-linear-to-b from-white via-slate-50/80 to-white" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 max-w-7xl">
@@ -92,25 +93,25 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
         <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-                News.
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+                News & Media.
               </h2>
             </div>
-            <div className="text-xs font-semibold tracking-wider text-neutral-400 uppercase">
-              Communication Center | For You Page
+            <div className="text-xs font-bold tracking-wider text-slate-400 uppercase">
+              Pusat Informasi, Pengumuman & Media Sekolah
             </div>
-            <p className="text-xs text-neutral-400 mt-1 max-w-xl">
-              Pusat berita, informasi akademik, agenda kegiatan, dan siaran prestasi SMA PGRI 1 Lumajang.
+            <p className="text-xs text-slate-500 mt-1 max-w-xl">
+              Publikasi berita terkini, agenda kegiatan akademik, dan dokumentasi prestasi SMA PGRI 1 Lumajang.
             </p>
           </div>
 
           <Link
             href="/berita"
-            className="inline-flex items-center gap-2 text-xs font-bold text-blue-400 hover:text-blue-300 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-2xs hover:shadow-xs transition-all"
           >
             <span>Lihat Semua Berita ({totalNews})</span>
-            <span>→</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
@@ -119,12 +120,12 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
           
           {/* If No News in Database */}
           {totalNews === 0 && (
-            <div className="md:col-span-12 lg:col-span-9 rounded-2xl border border-white/10 bg-black/40 p-12 text-center flex flex-col items-center justify-center min-h-90">
-              <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 mb-3">
+            <div className="md:col-span-12 lg:col-span-9 rounded-2xl border border-slate-200 bg-white p-12 text-center flex flex-col items-center justify-center min-h-90 shadow-sm">
+              <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 mb-3">
                 <Newspaper className="w-7 h-7" />
               </div>
-              <h3 className="text-base font-bold text-white">Belum Ada Berita</h3>
-              <p className="text-xs text-neutral-400 mt-1 max-w-md">
+              <h3 className="text-base font-bold text-slate-900">Belum Ada Berita</h3>
+              <p className="text-xs text-slate-500 mt-1 max-w-md">
                 Publikasi berita dan pengumuman resmi sekolah yang ditambahkan melalui panel admin akan langsung tampil di sini.
               </p>
             </div>
@@ -136,38 +137,38 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
               
               {/* 1. Main Headline Card (Card 1) */}
               {card1 && (
-                <div className={`relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black/60 ${totalNews === 1 ? 'aspect-21/9 min-h-75' : 'aspect-video'} flex flex-col justify-end p-6`}>
+                <div className={`relative group rounded-3xl overflow-hidden border border-slate-200 shadow-xl bg-slate-950 ${totalNews === 1 ? 'aspect-21/9 min-h-75' : 'aspect-video'} flex flex-col justify-end p-6 sm:p-7`}>
                   <Image
                     src={resolveImage(card1)}
                     alt={card1.title}
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-65"
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/50 to-transparent" />
                   
-                  <div className="relative z-10 space-y-2 max-w-xl">
+                  <div className="relative z-10 space-y-2.5 max-w-xl">
                     <div className="flex items-center gap-2">
                       {card1.is_pinned ? (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2.5 py-0.5 rounded-full">
+                        <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2.5 py-0.5 rounded-full backdrop-blur-md">
                           <Pin className="w-2.5 h-2.5 fill-amber-400" />
                           <span>SEMATAN | HEADLINE</span>
                         </span>
                       ) : (
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300">
                           {formatDate(card1)}
                         </span>
                       )}
                     </div>
 
-                    <h3 className="text-base sm:text-lg font-bold text-white leading-snug line-clamp-2">
+                    <h3 className="text-base sm:text-xl font-bold text-white leading-snug line-clamp-2 drop-shadow-xs">
                       {card1.title}
                     </h3>
                     
                     <div className="pt-1">
                       <Link
                         href={card1.slug ? `/berita/${card1.slug}` : '/berita'}
-                        className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold shadow-md transition-all"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md transition-all cursor-pointer"
                       >
                         <span>BACA BERITA</span>
                         <span className="text-[10px]">»</span>
@@ -183,23 +184,23 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
                   
                   {/* Card 2 */}
                   {card2 && (
-                    <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-black/60 aspect-4/3 flex flex-col justify-end p-4">
+                    <div className="relative group rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-slate-950 aspect-4/3 flex flex-col justify-end p-4 hover:shadow-xl transition-all">
                       <Image
                         src={resolveImage(card2)}
                         alt={card2.title}
                         fill
                         sizes="(max-width: 1024px) 100vw, 25vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-65"
                       />
-                      <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent" />
+                      <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/60 to-transparent" />
                       <div className="relative z-10 space-y-1.5">
                         {card2.is_pinned ? (
-                          <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded-full">
+                          <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded-full backdrop-blur-md">
                             <Pin className="w-2 h-2 fill-amber-400" />
                             <span>DISEMATKAN</span>
                           </span>
                         ) : (
-                          <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-amber-300">
                             {formatDate(card2)}
                           </span>
                         )}
@@ -209,7 +210,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
                         <div className="pt-0.5">
                           <Link
                             href={card2.slug ? `/berita/${card2.slug}` : '/berita'}
-                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold shadow transition-all"
+                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold shadow transition-all"
                           >
                             <span>BACA BERITA</span>
                             <span>»</span>
@@ -221,23 +222,23 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
 
                   {/* Card 3 */}
                   {card3 && (
-                    <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-xl bg-black/60 aspect-4/3 flex flex-col justify-end p-4">
+                    <div className="relative group rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-slate-950 aspect-4/3 flex flex-col justify-end p-4 hover:shadow-xl transition-all">
                       <Image
                         src={resolveImage(card3)}
                         alt={card3.title}
                         fill
                         sizes="(max-width: 1024px) 100vw, 25vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-65"
                       />
-                      <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent" />
+                      <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/60 to-transparent" />
                       <div className="relative z-10 space-y-1.5">
                         {card3.is_pinned ? (
-                          <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded-full">
+                          <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded-full backdrop-blur-md">
                             <Pin className="w-2 h-2 fill-amber-400" />
                             <span>DISEMATKAN</span>
                           </span>
                         ) : (
-                          <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-amber-300">
                             {formatDate(card3)}
                           </span>
                         )}
@@ -247,7 +248,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
                         <div className="pt-0.5">
                           <Link
                             href={card3.slug ? `/berita/${card3.slug}` : '/berita'}
-                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold shadow transition-all"
+                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold shadow transition-all"
                           >
                             <span>BACA BERITA</span>
                             <span>»</span>
@@ -266,7 +267,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
           {/* Middle Column for 4th News: Only rendered if at least 4 items exist */}
           {hasTallCard && cardTall && (
             <div className="md:col-span-6 lg:col-span-3">
-              <div className="relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black/60 aspect-9/16 min-h-110 flex flex-col justify-end p-5">
+              <div className="relative group rounded-3xl overflow-hidden border border-slate-200 shadow-xl bg-slate-950 aspect-9/16 min-h-110 flex flex-col justify-end p-5">
                 <Image
                   src={resolveImage(cardTall)}
                   alt={cardTall.title}
@@ -274,16 +275,16 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
                   sizes="(max-width: 1024px) 100vw, 25vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-65"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/40 to-transparent" />
                 
                 <div className="relative z-10 space-y-2.5">
                   {cardTall.is_pinned ? (
-                    <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded-full">
+                    <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded-full backdrop-blur-md">
                       <Pin className="w-2 h-2 fill-amber-400" />
                       <span>DISEMATKAN</span>
                     </span>
                   ) : (
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-amber-400">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-amber-300">
                       {formatDate(cardTall)}
                     </span>
                   )}
@@ -293,7 +294,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
                   <div className="pt-1">
                     <Link
                       href={cardTall.slug ? `/berita/${cardTall.slug}` : '/berita'}
-                      className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold shadow transition-all"
+                      className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold shadow transition-all"
                     >
                       <span>BACA BERITA</span>
                       <span>»</span>
@@ -308,42 +309,42 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
           <div className="md:col-span-6 lg:col-span-3 space-y-4">
             
             {/* 1. Podcast Card */}
-            <div className="bg-white text-neutral-900 rounded-xl p-3.5 shadow-xl border border-neutral-200 flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-neutral-900 text-white flex items-center justify-center shrink-0 shadow-sm">
-                <Play className="w-3.5 h-3.5 fill-white translate-x-0.5" />
+            <div className="bg-white text-slate-900 rounded-2xl p-4 shadow-sm border border-slate-200/90 flex items-center gap-3.5 hover:shadow-md transition-shadow">
+              <div className="w-9 h-9 rounded-xl bg-slate-900 text-white flex items-center justify-center shrink-0 shadow-xs">
+                <Play className="w-4 h-4 fill-white translate-x-0.5" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1 text-[9px] font-bold text-blue-600 uppercase tracking-wider">
                   <Radio className="w-2.5 h-2.5 text-red-500 animate-pulse" /> Podcast Streaming
                 </div>
-                <div className="text-xs font-bold text-neutral-900 truncate">
+                <div className="text-xs font-bold text-slate-900 truncate">
                   Suara PGRI 1 Lumajang
                 </div>
               </div>
             </div>
 
             {/* 2. Calendar Card */}
-            <div className="bg-white text-neutral-900 rounded-2xl p-4 shadow-xl border border-neutral-200 text-center">
-              <div className="flex items-center justify-between mb-3 px-1 text-neutral-500 text-xs">
-                <button type="button" className="p-1 hover:bg-neutral-100 rounded-md transition" aria-label="Previous Month">
+            <div className="bg-white text-slate-900 rounded-2xl p-4 shadow-sm border border-slate-200/90 text-center hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-between mb-3 px-1 text-slate-600 text-xs">
+                <button type="button" className="p-1 hover:bg-slate-100 rounded-md transition cursor-pointer" aria-label="Previous Month">
                   <ChevronLeft className="w-3.5 h-3.5" />
                 </button>
-                <div className="font-bold text-neutral-800 text-xs tracking-tight flex items-center gap-1.5 justify-center">
+                <div className="font-bold text-slate-900 text-xs tracking-tight flex items-center gap-1.5 justify-center">
                   <CalendarIcon className="w-3.5 h-3.5 text-blue-600" />
                   <span>Agustus 2026</span>
                 </div>
-                <button type="button" className="p-1 hover:bg-neutral-100 rounded-md transition" aria-label="Next Month">
+                <button type="button" className="p-1 hover:bg-slate-100 rounded-md transition cursor-pointer" aria-label="Next Month">
                   <ChevronRight className="w-3.5 h-3.5" />
                 </button>
               </div>
 
               {/* Day Labels */}
-              <div className="grid grid-cols-7 text-[10px] font-semibold text-neutral-400 mb-2">
+              <div className="grid grid-cols-7 text-[10px] font-bold text-slate-400 mb-2">
                 <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
               </div>
 
               {/* Day Grid */}
-              <div className="grid grid-cols-7 gap-y-1.5 text-xs font-medium text-neutral-700">
+              <div className="grid grid-cols-7 gap-y-1.5 text-xs font-medium text-slate-700">
                 {calendarCells.map((day, idx) => {
                   if (day === null) {
                     return <div key={`blank-${idx}`} className="h-6 w-6 mx-auto" />;
@@ -356,8 +357,8 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
                       key={`day-${day}`}
                       className={`h-6 w-6 mx-auto flex items-center justify-center rounded-full text-[11px] font-semibold transition-all ${
                         isSelected
-                          ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-500/40 scale-105'
-                          : 'hover:bg-neutral-100 text-neutral-700 cursor-pointer'
+                          ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-500/30 scale-105'
+                          : 'hover:bg-slate-100 text-slate-700 cursor-pointer'
                       }`}
                     >
                       {day}
@@ -368,9 +369,9 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
             </div>
 
             {/* 3. Registration CTA Card */}
-            <div className="rounded-2xl p-4.5 bg-linear-to-br from-blue-600 via-blue-700 to-indigo-800 text-white shadow-xl flex flex-col justify-between min-h-36">
+            <div className="rounded-2xl p-5 bg-linear-to-br from-blue-600 via-blue-700 to-indigo-800 text-white shadow-xl shadow-blue-600/20 flex flex-col justify-between min-h-36">
               <div>
-                <span className="text-[9px] font-extrabold uppercase tracking-widest text-blue-200 opacity-90">
+                <span className="text-[9px] font-extrabold uppercase tracking-widest text-blue-200">
                   PPDB 2026/2027
                 </span>
                 <h4 className="text-sm font-extrabold text-white mt-1 leading-snug">
@@ -380,7 +381,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
               <div className="pt-3">
                 <Link
                   href="/ppdb/daftar"
-                  className="w-full bg-white hover:bg-neutral-100 text-blue-900 rounded-xl py-2 px-3 text-[11px] font-extrabold uppercase tracking-wider flex items-center justify-between shadow-md transition-all group"
+                  className="w-full bg-white hover:bg-slate-100 text-blue-900 rounded-xl py-2 px-3 text-[11px] font-extrabold uppercase tracking-wider flex items-center justify-between shadow-md transition-all group"
                 >
                   <span>DAFTAR SEKARANG</span>
                   <span className="group-hover:translate-x-1 transition-transform">»</span>

@@ -12,7 +12,7 @@ export default async function LandingPage() {
   const newsList = await getNews();
 
   return (
-    <div className="flex flex-col w-full bg-slate-950">
+    <div className="flex flex-col w-full bg-white">
       {/* 1. Hero Section with image.png background, emblem, and 3-Card Strip */}
       <HeroSection />
 

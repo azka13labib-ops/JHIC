@@ -18,19 +18,20 @@ function subscribe(callback: () => void) {
 }
 
 function getThemeSnapshot(): Theme {
-  if (typeof window === 'undefined') return 'dark';
+  if (typeof window === 'undefined') return 'light';
   const saved = localStorage.getItem('smapgri1-theme') as Theme | null;
-  return saved || 'dark';
+  return saved || 'light';
 }
 
 function getServerSnapshot(): Theme {
-  return 'dark';
+  return 'light';
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const theme = useSyncExternalStore(subscribe, getThemeSnapshot, getServerSnapshot);
 
   useEffect(() => {
+    // Pure light theme by default
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
