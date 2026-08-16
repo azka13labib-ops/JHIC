@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Target, 
   Compass, 
@@ -17,7 +18,8 @@ import {
   Trophy,
   Landmark,
   Tv,
-  Trees
+  Trees,
+  ArrowRight
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -106,49 +108,57 @@ export default function VisiMisiPage() {
     {
       icon: Laptop,
       name: 'Laboratorium Komputer & Multimedia',
-      desc: '3 Ruang Lab ber-AC dengan PC Core i7, grafis akselerasi, fiber optic internet 500 Mbps, dan software lisensi industri.',
+      desc: '3 Lab ber-AC dengan PC Core i7, GPU grafis, fiber optic 500 Mbps, dan lisensi industri.',
+      image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop',
       color: 'text-blue-600 bg-blue-50 border-blue-100',
     },
     {
       icon: Microscope,
       name: 'Laboratorium Sains & Riset Terpadu',
-      desc: 'Peralatan praktikum Fisika, Kimia, dan Biologi lengkap dengan mikroskop digital serta instrumen uji eksperimen analitik.',
+      desc: 'Peralatan praktikum Fisika, Kimia, & Biologi lengkap dengan mikroskop digital modern.',
+      image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800&auto=format&fit=crop',
       color: 'text-emerald-600 bg-emerald-50 border-emerald-100',
     },
     {
       icon: BookOpen,
       name: 'Perpustakaan Digital & Reading Lounge',
-      desc: 'Koleksi ribuan buku referensi fisik, e-library nasional, area baca lesehan nyaman, dan ruang diskusi ber-AC.',
+      desc: 'Ribuan koleksi buku fisik, e-library nasional, area baca lesehan nyaman & ruang diskusi.',
+      image: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=800&auto=format&fit=crop',
       color: 'text-amber-600 bg-amber-50 border-amber-100',
     },
     {
       icon: Mic,
       name: 'Studio Podcast & Broadcasting',
-      desc: 'Studio audio-visual berperedam suara dengan mixer profesional dan kamera 4K untuk produksi konten kreatif siswa.',
+      desc: 'Studio audio-visual peredam suara, mixer pro & kamera 4K untuk konten kreatif.',
+      image: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=800&auto=format&fit=crop',
       color: 'text-purple-600 bg-purple-50 border-purple-100',
     },
     {
       icon: Trophy,
       name: 'Sarana Olahraga Multifungsi',
-      desc: 'Lapangan outdoor & semi-indoor untuk Futsal, Bola Basket, Bola Voli, dan Bulutangkis berstandar kompetisi resmi.',
+      desc: 'Lapangan outdoor & semi-indoor untuk Futsal, Basket, Voli & Bulutangkis standar resmi.',
+      image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=800&auto=format&fit=crop',
       color: 'text-rose-600 bg-rose-50 border-rose-100',
     },
     {
       icon: Landmark,
       name: 'Masjid & Pusat Ibadah Sekolah',
-      desc: 'Pusat pembinaan spiritual dan sholat berjamaah yang representatif, asri, dan bersih untuk seluruh warga sekolah.',
+      desc: 'Sarana pembinaan spiritual dan sholat berjamaah yang representatif, asri & sejuk.',
+      image: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=800&auto=format&fit=crop',
       color: 'text-teal-600 bg-teal-50 border-teal-100',
     },
     {
       icon: Tv,
       name: 'Smart Classroom & Aula Pertemuan',
-      desc: 'Kelas interaktif dengan proyektor laser pintar dan gedung aula serbaguna berkapasitas 500 orang.',
+      desc: 'Kelas proyektor laser pintar & gedung aula serbaguna kapasitas 500 orang.',
+      image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop',
       color: 'text-indigo-600 bg-indigo-50 border-indigo-100',
     },
     {
       icon: Trees,
       name: 'Kantin Sehat & Eco-Park Hijau',
-      desc: 'Kantin higienis binaan Dinkes dan area taman hijau ramah lingkungan yang sejuk untuk relaksasi siswa.',
+      desc: 'Kantin higienis binaan Dinkes dan taman hijau asri untuk relaksasi dan istirahat siswa.',
+      image: 'https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?q=80&w=800&auto=format&fit=crop',
       color: 'text-lime-600 bg-lime-50 border-lime-100',
     },
   ];
@@ -275,8 +285,8 @@ export default function VisiMisiPage() {
           </div>
         </div>
 
-        {/* 5. Fasilitas & Sarana Prasarana Kampus (Under Visi Misi) */}
-        <div id="fasilitas" className="max-w-5xl mx-auto pt-8 border-t border-slate-200/80 scroll-mt-24">
+        {/* 5. Fasilitas & Sarana Prasarana Kampus (Under Visi Misi with Photos) */}
+        <div id="fasilitas" className="max-w-6xl mx-auto pt-10 border-t border-slate-200/80 scroll-mt-24">
           <div className="text-center mb-14">
             <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider mb-3 text-blue-700">
               <Building2 className="w-3.5 h-3.5" /> Sarana & Prasarana Unggulan
@@ -289,28 +299,55 @@ export default function VisiMisiPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {facilities.map((fac, idx) => {
               const Icon = fac.icon;
               return (
                 <div
                   key={idx}
-                  className="bg-white rounded-3xl p-6 border border-slate-200/90 hover:border-blue-300 shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group"
+                  className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 hover:border-blue-300 shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group"
                 >
                   <div>
-                    <div className={`w-12 h-12 rounded-2xl ${fac.color} border flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-2xs`}>
-                      <Icon className="w-6 h-6" />
+                    {/* Facility Image with Hover Zoom */}
+                    <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+                      <Image
+                        src={fac.image}
+                        alt={fac.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                        className="object-cover group-hover:scale-108 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                      <div className="absolute top-3 left-3">
+                        <div className={`w-9 h-9 rounded-xl ${fac.color} backdrop-blur-md bg-white/90 flex items-center justify-center shadow-md`}>
+                          <Icon className="w-5 h-5" />
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="text-base font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
-                      {fac.name}
-                    </h3>
-                    <p className="text-slate-600 text-xs leading-relaxed">
-                      {fac.desc}
-                    </p>
+
+                    <div className="p-5">
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors leading-snug">
+                        {fac.name}
+                      </h3>
+                      <p className="text-slate-600 text-xs leading-relaxed">
+                        {fac.desc}
+                      </p>
+                    </div>
                   </div>
                 </div>
               );
             })}
+          </div>
+
+          {/* Dedicated Page Link CTA */}
+          <div className="text-center mt-10">
+            <Link
+              href="/profil/fasilitas"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-200 text-slate-700 hover:text-blue-700 font-bold rounded-2xl text-xs sm:text-sm transition-all shadow-2xs group cursor-pointer"
+            >
+              <span>Lihat Detail Spesifikasi Semua Fasilitas Lengkap</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </div>
 
