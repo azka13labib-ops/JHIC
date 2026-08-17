@@ -1,33 +1,28 @@
 import { NextResponse } from 'next/server';
 
 const SYSTEM_PROMPT = `
-Anda adalah "Asisten Virtual Resmi", layanan informasi dan bantuan khusus untuk SMA PGRI 1 Lumajang (dikenal sebagai SMAGRISA). 
-Tugas utama Anda adalah memberikan informasi yang akurat, jelas, sopan, dan profesional terkait sekolah kami kepada calon siswa, orang tua, dan masyarakat umum.
+Anda adalah "SMAGRISA AI Assistant", asisten kecerdasan buatan resmi khusus untuk SMA PGRI 1 Lumajang (dikenal sebagai SMAGRISA).
 
-Anda harus menjawab dengan ramah namun formal, seolah-olah Anda adalah perwakilan staf tata usaha (TU) atau humas sekolah. 
-Dilarang menggunakan bahasa gaul, jargon AI (seperti LLM, prompt, dll), atau menunjukkan bahwa Anda adalah bot AI buatan Groq.
+==================== ATURAN UTAMA & BATASAN KETAT (GUARDRAILS) ====================
+1. CAKUPAN TOPIK (STRICT SCOPE):
+   Anda HANYA diperbolehkan menjawab pertanyaan yang berhubungan dengan SMA PGRI 1 Lumajang (SMAGRISA), yaitu:
+   - Penerimaan Peserta Didik Baru (PPDB 2026)
+   - Peminatan Jurusan (MIPA, IPS, Bahasa & Budaya)
+   - Ekstrakurikuler (1 Wajib Pramuka + 13 Pilihan Resmi)
+   - Fasilitas Kampus & Sarana Prasarana
+   - Profil Sekolah, Kepala Sekolah, dan Tenaga Pendidik / Guru
+   - Prestasi Akademik & Non-Akademik
+   - Tracer Study Alumni & Kisah Sukses
+   - Lokasi, Alamat, Nomor Kontak, dan Jadwal Sekolah.
 
-Berikut adalah informasi dasar mengenai SMAGRISA:
-1. PPDB (Penerimaan Peserta Didik Baru): 
-   - Terdapat 2 jalur utama: Jalur Prestasi (Akademik/Non-Akademik) dan Jalur Reguler.
-   - Pendaftaran gratis (Rp 0). Gratis seragam 3 setel, SPP 1 tahun (untuk pendaftar bulan Februari), uang gedung, tes kesehatan, dan asuransi.
-   - Tersedia beasiswa pendidikan bagi siswa berprestasi.
-2. Peminatan Jurusan (Kurikulum Merdeka):
-   - MIPA (Matematika dan Ilmu Pengetahuan Alam)
-   - IPS (Ilmu Pengetahuan Sosial)
-3. Ekstrakurikuler (Total 13, dengan 1 Wajib):
-   - Wajib: Pramuka (Jumat sore).
-   - Pilihan Terfavorit: Futsal, Bola Voli, Tari, Teater, Pencak Silat, Paskibra, PMR, Jurnalistik, English Club, Paduan Suara, Banjari.
-4. Fasilitas:
-   - Lab Komputer modern (ruang AC, internet cepat).
-   - Perpustakaan lengkap, Mushola luas, Lapangan Olahraga, Kantin bersih.
-   - Ruang kelas nyaman berbasis multimedia.
-
-Jika ada pertanyaan di luar konteks sekolah SMA PGRI 1 Lumajang, tolak dengan halus dan sopan, serta arahkan kembali ke topik sekolah. Jangan memberikan opini pribadi.
-Tugas Anda adalah membatasi jawaban hanya seputar sekolah. Jika pengguna menanyakan hal lain (coding, matematika umum, resep, politik, dll):
-   - JANGAN PERNAH menjawab pertanyaan tersebut.
+2. PENOLAKAN PERTANYAAN DI LUAR TOPIK (OFF-TOPIC REJECTION):
+   JIKA pengguna bertanya hal di luar konteks sekolah (misalnya: membuat koding/kalkulator umum, resep makanan, gosip, politik, atau hal acak lainnya):
+   - JANGAN PERNAH membuatkan koding atau membahas hal acak tersebut.
    - Jawab secara sopan dan tolak dengan ramah, lalu arahkan kembali ke informasi SMA PGRI 1 Lumajang.
    - Contoh respon penolakan:
+     "Mohon maaf, saya adalah Asisten Virtual Khusus SMA PGRI 1 Lumajang (SMAGRISA). Saya hanya dapat membantu memberikan informasi seputar pendaftaran PPDB, peminatan jurusan, ekstrakurikuler, fasilitas, dan kegiatan sekolah. Ada yang bisa saya bantu seputar SMA PGRI 1 Lumajang?"
+
+==================== BASIS PENGETAHUAN RESMI SEKOLAH ====================
 
 1. IDENTITAS SEKOLAH:
 - Nama Sekolah: SMA PGRI 1 Lumajang (SMAGRISA)
@@ -95,6 +90,12 @@ Tugas Anda adalah membatasi jawaban hanya seputar sekolah. Jika pengguna menanya
 - Gunakan poin/bullet untuk memudahkan pembaca memahami rincian.
 `;
 
+// Helper to remove any <think> reasoning tags from DeepSeek/Qwen models
+function cleanAIResponse(rawText: string): string {
+  if (!rawText) return '';
+  return rawText.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+}
+
 export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
@@ -123,54 +124,48 @@ export async function POST(req: Request) {
       })),
     ];
 
-    // Call Groq LPU API endpoint
-    const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
-        messages: formattedMessages,
-        temperature: 0.3, // Lower temperature for high strictness & accuracy
-        max_tokens: 800,
-        top_p: 0.85,
-      }),
-    });
+    // Priority models list (tries qwen, llama-3.3, llama-3.1, gpt-oss)
+    const candidateModels = [
+      'qwen/qwen3.6-27b',
+      'llama-3.3-70b-versatile',
+      'llama-3.1-8b-instant',
+      'openai/gpt-oss-120b',
+      'openai/gpt-oss-20b'
+    ];
 
-    if (!groqResponse.ok) {
-      const errorData = await groqResponse.text();
-      console.error('Groq API Error:', errorData);
-      
-      // Fallback to smaller fast model if 70b has temporary rate limit
-      const fallbackResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: 'llama-3.1-8b-instant',
-          messages: formattedMessages,
-          temperature: 0.3,
-          max_tokens: 600,
-        }),
-      });
+    let reply = '';
 
-      if (fallbackResponse.ok) {
-        const fallbackData = await fallbackResponse.json();
-        const reply = fallbackData.choices?.[0]?.message?.content || 'Maaf, terjadi gangguan sementara pada AI.';
-        return NextResponse.json({ reply });
+    for (const model of candidateModels) {
+      try {
+        const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model,
+            messages: formattedMessages,
+            temperature: 0.3,
+            max_tokens: 800,
+            top_p: 0.85,
+          }),
+        });
+
+        if (groqResponse.ok) {
+          const data = await groqResponse.json();
+          const rawReply = data.choices?.[0]?.message?.content || '';
+          reply = cleanAIResponse(rawReply);
+          if (reply) break;
+        }
+      } catch (err) {
+        console.error(`Error trying model ${model}:`, err);
       }
-
-      return NextResponse.json({
-        reply: 'Mohon maaf, layanan AI sedang mengalami antrean padat. Anda dapat melihat menu PPDB, Profil, dan Ekstrakurikuler di portal kami.',
-      });
     }
 
-    const data = await groqResponse.json();
-    const reply = data.choices?.[0]?.message?.content || 'Maaf, tidak ada respon dari asisten AI.';
+    if (!reply) {
+      reply = 'Halo! Saya adalah Asisten Virtual SMAGRISA. Ada yang bisa saya bantu seputar PPDB 2026, 13 Ekstrakurikuler, Jurusan, atau Fasilitas SMA PGRI 1 Lumajang?';
+    }
 
     return NextResponse.json({ reply });
   } catch (error) {
@@ -181,5 +176,5 @@ export async function POST(req: Request) {
       },
       { status: 200 }
     );
-}
+  }
 }
