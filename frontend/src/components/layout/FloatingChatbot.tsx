@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   Bot, 
-  Sparkles, 
   Send, 
   X, 
   RotateCcw, 
@@ -24,19 +23,17 @@ const INITIAL_MESSAGES: Message[] = [
   {
     id: 'welcome-1',
     sender: 'bot',
-    text: 'Halo! 👋 Saya **SMAGRISA AI Assistant**, asisten cerdas resmi SMA PGRI 1 Lumajang yang ditenagai oleh **Groq AI (Llama 3.3)**.\n\nAda yang bisa saya bantu terkait **PPDB 2026, Peminatan Jurusan, 13 Ekstrakurikuler, atau Fasilitas Sekolah**?',
+    text: 'Halo! 👋 Selamat datang di Layanan Informasi SMA PGRI 1 Lumajang.\n\nAda yang bisa kami bantu terkait informasi **PPDB, Jurusan, Ekstrakurikuler, atau Fasilitas Sekolah**?',
     time: 'Baru saja',
     quickActions: [
-      { label: '📝 Syarat & 2 Jalur PPDB', query: 'Jelaskan syarat dan 2 jalur pendaftaran PPDB 2026 di SMAGRISA' },
-      { label: '🏆 Jadwal 13 Ekstrakurikuler', query: 'Sebutkan 13 ekstrakurikuler pilihan dan ekstrakurikuler wajib beserta jadwalnya' },
+      { label: '📝 Syarat & Jalur PPDB', query: 'Jelaskan syarat dan jalur pendaftaran PPDB di SMAGRISA' },
+      { label: '🏆 Jadwal Ekstrakurikuler', query: 'Sebutkan pilihan ekstrakurikuler beserta jadwalnya' },
       { label: '📚 Pilihan Jurusan', query: 'Apa saja jurusan peminatan di SMA PGRI 1 Lumajang?' },
-      { label: '🏢 Fasilitas Sekolah', query: 'Ceritakan tentang fasilitas laboratorium dan kampus modern di SMAGRISA' },
+      { label: '🏢 Fasilitas Sekolah', query: 'Ceritakan tentang fasilitas laboratorium dan sekolah di SMAGRISA' },
       { label: '🎓 Profil Kepala Sekolah & Guru', query: 'Siapa Kepala Sekolah dan bagaimana kualitas tenaga pendidik di SMAGRISA?' },
     ],
   },
 ];
-
-let messageIdCounter = 1;
 
 export function FloatingChatbot() {
   const router = useRouter();
@@ -47,6 +44,8 @@ export function FloatingChatbot() {
   const [showNotificationBadge, setShowNotificationBadge] = useState(true);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const messageIdCounter = useRef(1);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -78,9 +77,9 @@ export function FloatingChatbot() {
       return;
     }
 
-    messageIdCounter += 1;
+    messageIdCounter.current += 1;
     const userMsg: Message = {
-      id: `user-${messageIdCounter}`,
+      id: `user-${messageIdCounter.current}`,
       sender: 'user',
       text: query,
       time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
@@ -112,9 +111,9 @@ export function FloatingChatbot() {
         botReply = 'Maaf, terjadi gangguan pada server AI. Silakan tanyakan kembali beberapa saat lagi.';
       }
 
-      messageIdCounter += 1;
+      messageIdCounter.current += 1;
       const botMsg: Message = {
-        id: `bot-${messageIdCounter}`,
+        id: `bot-${messageIdCounter.current}`,
         sender: 'bot',
         text: botReply,
         time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
@@ -127,9 +126,9 @@ export function FloatingChatbot() {
 
       setMessages((prev) => [...prev, botMsg]);
     } catch {
-      messageIdCounter += 1;
+      messageIdCounter.current += 1;
       const errorMsg: Message = {
-        id: `bot-${messageIdCounter}`,
+        id: `bot-${messageIdCounter.current}`,
         sender: 'bot',
         text: 'Koneksi AI terputus sementara. Anda tetap dapat menjelajahi menu PPDB, Jurusan, dan Ekstrakurikuler di website kami.',
         time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
@@ -182,14 +181,11 @@ export function FloatingChatbot() {
               </div>
               <div>
                 <div className="flex items-center gap-1.5 font-bold text-sm">
-                  <span>SMAGRISA AI</span>
-                  <span className="text-[10px] px-1.5 py-0.2 rounded-md bg-emerald-500/80 text-white font-extrabold tracking-wider">
-                    GROQ LLM
-                  </span>
+                  <span>Pusat Bantuan</span>
                 </div>
                 <div className="text-[11px] text-blue-100 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                  <span>Real-Time AI Assistant • Online</span>
+                  <span>Layanan Informasi SMAGRISA</span>
                 </div>
               </div>
             </div>
@@ -278,7 +274,7 @@ export function FloatingChatbot() {
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-bounce" />
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-bounce [animation-delay:0.2s]" />
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-bounce [animation-delay:0.4s]" />
-                  <span className="text-[11px] text-slate-500 font-medium ml-1">AI sedang berpikir...</span>
+                  <span className="text-[11px] text-slate-500 font-medium ml-1">Sedang mengetik...</span>
                 </div>
               </div>
             )}
@@ -312,10 +308,6 @@ export function FloatingChatbot() {
                 <Send className="w-4 h-4" />
               </button>
             </form>
-            <div className="text-[10px] text-center text-slate-400 mt-1.5 font-medium flex items-center justify-center gap-1">
-              <Sparkles className="w-3 h-3 text-amber-500" />
-              <span>Ditenagai Real AI Engine • Groq Llama 3.3</span>
-            </div>
           </div>
 
         </div>
@@ -331,7 +323,7 @@ export function FloatingChatbot() {
             className="hidden sm:flex items-center gap-2.5 bg-white text-slate-800 text-xs font-semibold px-4 py-2.5 rounded-2xl shadow-xl border border-slate-200/90 cursor-pointer hover:border-blue-300 transition-all hover:scale-102 duration-200"
           >
             <span className="w-2 h-2 rounded-full bg-blue-600 animate-ping" />
-            <span>Tanya AI Assistant Sekolah 🤖</span>
+            <span>Butuh Bantuan? Tanya Kami 💬</span>
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -357,9 +349,7 @@ export function FloatingChatbot() {
           {/* Online Pulsing Glow */}
           <span className="absolute -top-1 -right-1 flex h-4 w-4">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 text-[9px] font-black text-white items-center justify-center">
-              AI
-            </span>
+            <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 text-[9px] font-black text-white items-center justify-center" />
           </span>
 
           {isOpen ? (

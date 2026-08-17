@@ -5,58 +5,21 @@ import {
   MapPin, 
   Mail, 
   Phone, 
-  BookMarked,
-  ArrowUpRight
+  BookMarked
 } from 'lucide-react';
 
 export default function Footer() {
   const sponsors = [
-    { name: 'JIHC', desc: 'Jagoan Indonesia Hub & Center', tag: 'Technology Partner' },
-    { name: 'Jagoan Hosting', desc: 'Cloud & Infrastructure', tag: 'Web Hosting' },
-    { name: 'Komdigi RI', desc: 'Kementerian Komunikasi & Digital', tag: 'Government' },
-    { name: 'Garuda Spark', desc: 'Digital Innovation Hub', tag: 'Industry Partner' },
-    { name: 'Ngalup.co', desc: 'Talent & Startup Ecosystem', tag: 'Community Partner' },
+    { name: 'Jagoan Hosting', desc: 'Cloud & Infrastructure', tag: 'Web Hosting', image: '/images/sponsors/images.jpg' },
+    { name: 'Komdigi RI', desc: 'Kementerian Komunikasi & Digital', tag: 'Government', image: '/images/sponsors/komdigi.jpeg' },
+    { name: 'Garuda Spark', desc: 'Digital Innovation Hub', tag: 'Industry Partner', image: '/images/sponsors/garudaspark.jpg' },
+    { name: 'Ngalup.co', desc: 'Talent & Startup Ecosystem', tag: 'Community Partner', image: '/images/sponsors/ngalup1.png' },
   ];
 
   return (
     <footer className="bg-slate-50 text-slate-600 border-t border-slate-200 pt-16 pb-12 relative overflow-hidden">
       
-      {/* 1. Sponsor / Industrial Partners Showcase Section */}
-      <div className="container mx-auto px-4 max-w-7xl pb-12 border-b border-slate-200">
-        <div className="text-center mb-6">
-          <span className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-blue-900">
-            MITRA INDUSTRI & SPONSOR UTAMA
-          </span>
-          <h3 className="text-lg sm:text-xl font-bold text-slate-900 mt-1">
-            Didukung Oleh Ekosistem Teknologi & Pendidikan Terkemuka
-          </h3>
-        </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
-          {sponsors.map((s, idx) => (
-            <div
-              key={idx}
-              className="p-4 rounded-2xl bg-white border border-slate-200/90 hover:border-blue-300 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col justify-between"
-            >
-              <div>
-                <span className="text-[8px] font-bold uppercase tracking-wider text-blue-600 block mb-0.5">
-                  {s.tag}
-                </span>
-                <div className="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600 transition-colors">
-                  {s.name}
-                </div>
-                <div className="text-[10px] text-slate-500 mt-0.5 leading-snug">
-                  {s.desc}
-                </div>
-              </div>
-              <div className="mt-3 pt-2 border-t border-slate-100 flex items-center text-[9px] font-semibold text-slate-400 group-hover:text-blue-600 transition-colors gap-1">
-                <span>Terverifikasi</span>
-                <ArrowUpRight className="w-2.5 h-2.5" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* 2. Main Multi-Column Footer Grid */}
       <div className="container mx-auto px-4 max-w-7xl pt-12 relative">
@@ -82,13 +45,28 @@ export default function Footer() {
               </span>
             </div>
 
-            {/* 5 Social Media Icon Dots */}
+            {/* 3 Social Media Icons (YT, IG, TikTok) */}
             <div className="flex items-center gap-2 pt-2">
-              <a href="https://facebook.com" target="_blank" rel="noreferrer" className="w-7 h-7 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-[10px] text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:bg-slate-50 shadow-2xs transition-colors">f</a>
-              <a href="https://twitter.com" target="_blank" rel="noreferrer" className="w-7 h-7 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-[10px] text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:bg-slate-50 shadow-2xs transition-colors">𝕏</a>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="w-7 h-7 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-[10px] text-slate-600 hover:text-pink-600 hover:border-pink-300 hover:bg-slate-50 shadow-2xs transition-colors">ig</a>
-              <a href="https://youtube.com" target="_blank" rel="noreferrer" className="w-7 h-7 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-[10px] text-slate-600 hover:text-red-600 hover:border-red-300 hover:bg-slate-50 shadow-2xs transition-colors">yt</a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="w-7 h-7 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-[10px] text-slate-600 hover:text-blue-600 hover:border-blue-300 hover:bg-slate-50 shadow-2xs transition-colors">in</a>
+              <a href="https://youtube.com" target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-red-600 hover:border-red-300 hover:bg-slate-50 shadow-sm transition-colors">
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-pink-600 hover:border-pink-300 hover:bg-slate-50 shadow-sm transition-colors">
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+                </svg>
+              </a>
+              <a href="https://tiktok.com" target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:border-slate-400 hover:bg-slate-50 shadow-sm transition-colors">
+                <svg
+                  className="w-4 h-4"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.01.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.24-1.7.06-3.45.96-4.94 1.06-1.78 2.97-2.93 5.04-3.15v4.06c-1.12.16-2.18.84-2.73 1.83-.56 1.01-.61 2.27-.12 3.3.49 1.02 1.48 1.77 2.61 2.01 1.13.25 2.37-.02 3.23-.76.86-.74 1.34-1.87 1.34-3.03V.02z" />
+                </svg>
+              </a>
             </div>
           </div>
 
@@ -170,18 +148,38 @@ export default function Footer() {
 
         </div>
 
-        {/* Bottom Right Bookmark Ribbon Accent */}
-        <div className="hidden xl:block absolute -bottom-12 right-12 z-30 pointer-events-none">
-          <div className="w-8 h-20 bg-linear-to-b from-blue-600 to-blue-700 shadow-xl clip-path-ribbon opacity-90" />
+
+        {/* Sponsors - Small Logos */}
+        <div className="mt-12 pt-6 border-t border-slate-200 flex flex-col md:flex-row items-center justify-start gap-4 sm:gap-8">
+          <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 whitespace-nowrap">
+            Didukung Oleh:
+          </span>
+          <div className="flex flex-wrap items-center justify-start gap-3">
+            {sponsors.map((s, idx) => (
+              <div 
+                key={idx} 
+                title={s.desc} 
+                className="w-8 h-8 rounded-full overflow-hidden border border-slate-200 bg-white shadow-sm hover:border-blue-300 hover:shadow-md transition-all cursor-pointer flex items-center justify-center"
+              >
+                <Image 
+                  src={s.image || '/logo-sekolah.jpg'} 
+                  alt={s.name} 
+                  width={32} 
+                  height={32} 
+                  className="object-cover w-full h-full" 
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Copyright */}
-        <div className="mt-12 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-3">
+        <div className="mt-6 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-3">
           <p>© {new Date().getFullYear()} SMA PGRI 1 Lumajang. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <Link href="/profil/visi-misi" className="hover:text-blue-600 transition-colors">Visi Misi</Link>
             <Link href="/kontak" className="hover:text-blue-600 transition-colors">Kontak</Link>
-            <Link href="/admin/login" className="hover:text-blue-600 transition-colors">Portal Admin</Link>
+            <Link href="/x9j2k4m7/login" className="hover:text-blue-600 transition-colors">Portal Admin</Link>
           </div>
         </div>
 

@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, BookMarked } from 'lucide-react';
-import { TopHeaderBar } from './TopHeaderBar';
+import { Menu, X } from 'lucide-react';
 import { NavDesktopMenu } from './NavDesktopMenu';
 import { NavMobileDrawer } from './NavMobileDrawer';
 
@@ -26,8 +25,6 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full transition-all duration-300">
-      {/* 1. Top Header Bar */}
-      <TopHeaderBar />
 
       {/* 2. Main Navigation Bar */}
       <nav
@@ -95,15 +92,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Decorative Top-Right Ribbon */}
-        <div className="hidden xl:block absolute top-0 right-10 z-40">
-          <div className="w-9 h-26 bg-linear-to-b from-blue-600 to-blue-800 shadow-xl flex flex-col items-center justify-between pb-2.5 clip-path-ribbon">
-            <span className="text-[8px] font-black text-white uppercase tracking-widest writing-mode-vertical pt-2 select-none opacity-95">
-              PGRI 1
-            </span>
-            <BookMarked className="w-3.5 h-3.5 text-blue-100" />
-          </div>
-        </div>
 
         {/* 3. Mobile Navigation Drawer */}
         <NavMobileDrawer
