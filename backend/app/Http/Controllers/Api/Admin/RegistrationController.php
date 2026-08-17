@@ -65,11 +65,14 @@ class RegistrationController extends Controller
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
             foreach ($registrations as $reg) {
+                $sanitize = function($val) {
+                    return preg_match('/^[=\-\+@]/', (string)$val) ? "'" . $val : $val;
+                };
                 fputcsv($file, [
                     $reg->registration_number,
-                    $reg->full_name,
+                    $sanitize($reg->full_name),
                     $reg->nisn,
-                    $reg->previous_school,
+                    $sanitize($reg->previous_school),
                     $reg->major_choice,
                     $reg->status,
                     $reg->created_at->format('d/m/Y'),

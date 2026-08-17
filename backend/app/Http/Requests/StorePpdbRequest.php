@@ -41,7 +41,7 @@ class StorePpdbRequest extends FormRequest
             'address'         => 'required|string',
             'previous_school' => 'required|string|max:255',
             'major_choice'    => 'nullable|string|max:255',
-            'email'           => 'nullable|email|max:255',
+            'email'           => 'nullable|email|max:255|unique:users,email',
             'phone'           => ['nullable', 'string', 'regex:/^[0-9]{9,15}$/'],
             'parent_name'     => 'nullable|string|max:255',
             'parent_phone'    => ['nullable', 'string', 'regex:/^[0-9]{9,15}$/'],
