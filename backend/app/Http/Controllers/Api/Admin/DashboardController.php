@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Registration;
 use App\Models\News;
-use App\Models\Product;
-use App\Models\Vacancy;
-use App\Models\JobApplication;
+use App\Models\Agenda;
+use App\Models\Achievement;
 
 class DashboardController extends Controller
 {
@@ -24,17 +23,11 @@ class DashboardController extends Controller
             'news' => [
                 'total' => News::count(),
             ],
-            'products' => [
-                'total'  => Product::count(),
-                'active' => Product::count(),
+            'agendas' => [
+                'total' => Agenda::count(),
             ],
-            'jobs' => [
-                'total'  => Vacancy::count(),
-                'active' => Vacancy::where('is_active', true)->count(),
-            ],
-            'applications' => [
-                'total'   => JobApplication::count(),
-                'pending' => JobApplication::where('status', 'pending')->count(),
+            'achievements' => [
+                'total' => Achievement::count(),
             ],
             'recent_registrations' => Registration::latest()->limit(5)->get([
                 'id', 'registration_number', 'full_name', 'major_choice', 'status', 'created_at',
