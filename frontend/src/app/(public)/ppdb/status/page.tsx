@@ -186,7 +186,7 @@ export default function PpdbStatusPage() {
               <div className="flex items-center gap-4 pb-3 border-b-2 border-black">
                 <div className="relative w-16 h-16 sm:w-20 sm:h-20 shrink-0">
                   <Image 
-                    src="/logo-sekolah.jpg" 
+                    src="/logo-sekolah.png" 
                     alt="Logo SMA PGRI 1 Lumajang" 
                     fill 
                     className="object-contain"

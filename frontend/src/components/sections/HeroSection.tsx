@@ -51,13 +51,13 @@ export default function HeroSection() {
           
           {/* Official Emblem Circular Seal */}
           <div className="mb-3 flex flex-col items-center">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white p-2 shadow-xl border border-slate-200 flex items-center justify-center hover:scale-105 transition-transform">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white p-2 shadow-xl border border-slate-200 flex items-center justify-center hover:scale-105 transition-transform overflow-hidden">
               <Image
-                src="/logo-sekolah.jpg"
+                src="/logo-sekolah.png"
                 alt="Emblem SMA PGRI 1 Lumajang"
                 width={70}
                 height={70}
-                className="object-contain"
+                className="object-contain rounded-full"
                 priority
               />
             </div>

@@ -19,9 +19,16 @@ return [
 
     'allowed_origins' => array_filter([
         env('FRONTEND_URL', 'http://localhost:3000'),
+        'http://localhost:3000',
+        'http://cp.localhost:3000',
+        'https://smaspgri1lumajang.sch.id',
+        'https://cp.smaspgri1lumajang.sch.id',
     ]),
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [
+        '#^https?://.*\.localhost(:[0-9]+)?$#',
+        '#^https?://.*\.smaspgri1lumajang\.sch\.id$#',
+    ],
 
     'allowed_headers' => ['Content-Type', 'X-Requested-With', 'Authorization', 'Accept', 'Origin'],
 

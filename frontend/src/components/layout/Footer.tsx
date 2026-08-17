@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { CP_SITE_URL } from '@/lib/site';
 import { 
   MapPin, 
   Mail, 
@@ -27,13 +28,13 @@ export default function Footer() {
           
           {/* Col 1 (3 cols): Circular Seal + School Title in Serif + 5 Social Dots */}
           <div className="lg:col-span-3 space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-white p-1.5 flex items-center justify-center shadow-xs border border-slate-200">
+            <div className="w-12 h-12 rounded-xl bg-white p-1.5 flex items-center justify-center shadow-xs border border-slate-200 overflow-hidden">
               <Image
-                src="/logo-sekolah.jpg"
+                src="/logo-sekolah.png"
                 alt="Logo SMA PGRI 1 Lumajang"
                 width={40}
                 height={40}
-                className="object-contain"
+                className="object-contain rounded-lg"
               />
             </div>
             <div>
@@ -179,7 +180,12 @@ export default function Footer() {
           <div className="flex items-center gap-4">
             <Link href="/profil/visi-misi" className="hover:text-blue-600 transition-colors">Visi Misi</Link>
             <Link href="/kontak" className="hover:text-blue-600 transition-colors">Kontak</Link>
-            <Link href="/x9j2k4m7/login" className="hover:text-blue-600 transition-colors">Portal Admin</Link>
+            <a 
+              href={CP_SITE_URL} 
+              className="hover:text-blue-600 transition-colors"
+            >
+              Portal Admin
+            </a>
           </div>
         </div>
 

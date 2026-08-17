@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: "SMA PGRI 1 Lumajang | The Character of Success",
   description: "Mencetak generasi unggul, religius, cerdas, terampil, dan siap kerja di industri masa depan.",
   icons: {
-    icon: "/logo-sekolah.jpg",
+    icon: "/logo-sekolah.png",
   },
 };
 

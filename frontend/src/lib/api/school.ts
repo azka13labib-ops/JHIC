@@ -56,6 +56,8 @@ export const getAgendas = () => fetchList('/agendas', 'agendas');
 export const getAgendaBySlug = (slug: string) => fetchItem(`/agendas/${slug}`, `agenda-${slug}`);
 
 // Articles
+export const getArticles = () => fetchList('/articles', 'articles');
+export const getArticle = getArticles;
 export const getArticleBySlug = (slug: string) => fetchItem(`/articles/${slug}`, `article-${slug}`);
 
 // Galleries
@@ -67,6 +69,8 @@ export const getStudentWorks = () => fetchList('/student-works', 'student-works'
 export const getStudentWorkBySlug = (slug: string) => fetchItem(`/student-works/${slug}`, `student-work-${slug}`);
 
 // Opinions
+export const getOpinions = () => fetchList('/opinions', 'opinions');
+export const getOpinion = getOpinions;
 export const getOpinionBySlug = (slug: string) => fetchItem(`/opinions/${slug}`, `opinion-${slug}`);
 
 // Blogs

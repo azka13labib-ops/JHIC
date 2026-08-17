@@ -39,11 +39,11 @@ export default function Navbar() {
           <Link href="/" className="flex items-center gap-3 group shrink-0">
             <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-white p-0.5 flex items-center justify-center border border-slate-200 shadow-xs group-hover:scale-105 transition-transform">
               <Image
-                src="/logo-sekolah.jpg"
+                src="/logo-sekolah.png"
                 alt="Logo SMA PGRI 1"
                 width={40}
                 height={40}
-                className="object-contain"
+                className="object-contain rounded-lg"
                 priority
               />
             </div>

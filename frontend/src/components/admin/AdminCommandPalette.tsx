@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { PUBLIC_SITE_URL } from '@/lib/site';
 import { 
   Search, 
   X, 
@@ -41,24 +42,27 @@ export function AdminCommandPalette({
 
   const commands: CommandItem[] = [
     // Navigation
-    { title: 'Dashboard Utama', category: 'Navigasi', href: '/x9j2k4m7/dashboard', icon: LayoutDashboard, keywords: 'home beranda status' },
-    { title: 'Pendaftaran PPDB', category: 'Navigasi', href: '/x9j2k4m7/ppdb', icon: Users, keywords: 'siswa pendaftar calon murid daftar' },
-    { title: 'Manajemen Berita', category: 'Navigasi', href: '/x9j2k4m7/news', icon: Newspaper, keywords: 'artikel pengumuman info warta' },
-    { title: 'Jadwal Agenda', category: 'Navigasi', href: '/x9j2k4m7/agendas', icon: Calendar, keywords: 'kalender rapat kegiatan event' },
-    { title: 'Artikel Edukasi', category: 'Navigasi', href: '/x9j2k4m7/articles', icon: BookOpen, keywords: 'tulisan esai artikel' },
-    { title: 'Direktori Prestasi', category: 'Navigasi', href: '/x9j2k4m7/achievements', icon: Trophy, keywords: 'juara lomba medali piala' },
-    { title: 'Karya Siswa', category: 'Navigasi', href: '/x9j2k4m7/student-works', icon: PenTool, keywords: 'portofolio kreasi gambar' },
-    { title: 'Galeri Foto', category: 'Navigasi', href: '/x9j2k4m7/galleries', icon: ImageIcon, keywords: 'dokumentasi album foto' },
+    { title: 'Dashboard Utama', category: 'Navigasi', href: '/dashboard', icon: LayoutDashboard, keywords: 'home beranda status' },
+    { title: 'Pendaftaran PPDB', category: 'Navigasi', href: '/ppdb', icon: Users, keywords: 'siswa pendaftar calon murid daftar' },
+    { title: 'Manajemen Berita', category: 'Navigasi', href: '/news', icon: Newspaper, keywords: 'artikel pengumuman info warta' },
+    { title: 'Jadwal Agenda', category: 'Navigasi', href: '/agendas', icon: Calendar, keywords: 'kalender rapat kegiatan event' },
+    { title: 'Artikel Edukasi', category: 'Navigasi', href: '/articles', icon: BookOpen, keywords: 'tulisan esai artikel' },
+    { title: 'Direktori Prestasi', category: 'Navigasi', href: '/achievements', icon: Trophy, keywords: 'juara lomba medali piala' },
+    { title: 'Tracer Alumni', category: 'Navigasi', href: '/alumni', icon: Users, keywords: 'alumni lulusan tracer' },
+    { title: 'Karya Siswa', category: 'Navigasi', href: '/student-works', icon: PenTool, keywords: 'portofolio kreasi gambar' },
+    { title: 'Galeri Foto', category: 'Navigasi', href: '/galleries', icon: ImageIcon, keywords: 'dokumentasi album foto' },
     
     // Quick Actions
-    { title: 'Tulis Berita Baru', category: 'Aksi Cepat', href: '/x9j2k4m7/news/create', icon: PlusCircle, keywords: 'buat post posting baru' },
-    { title: 'Tambah Agenda Baru', category: 'Aksi Cepat', href: '/x9j2k4m7/agendas/create', icon: PlusCircle, keywords: 'jadwal buat baru' },
-    { title: 'Input Prestasi Siswa', category: 'Aksi Cepat', href: '/x9j2k4m7/achievements/new', icon: PlusCircle, keywords: 'input juara baru' },
-    { title: 'Upload Karya Siswa', category: 'Aksi Cepat', href: '/x9j2k4m7/student-works/create', icon: PlusCircle, keywords: 'upload karya kreasi' },
+    { title: 'Tulis Berita Baru', category: 'Aksi Cepat', href: '/news/create', icon: PlusCircle, keywords: 'buat post posting baru' },
+    { title: 'Tambah Agenda Baru', category: 'Aksi Cepat', href: '/agendas/create', icon: PlusCircle, keywords: 'jadwal buat baru' },
+    { title: 'Input Prestasi Siswa', category: 'Aksi Cepat', href: '/achievements/new', icon: PlusCircle, keywords: 'input juara baru' },
+    { title: 'Upload Karya Siswa', category: 'Aksi Cepat', href: '/student-works/create', icon: PlusCircle, keywords: 'upload karya kreasi' },
+    { title: 'Tambah Galeri Foto', category: 'Aksi Cepat', href: '/galleries/create', icon: PlusCircle, keywords: 'upload album foto' },
+    { title: 'Tulis Artikel Edukasi', category: 'Aksi Cepat', href: '/articles/create', icon: PlusCircle, keywords: 'buat artikel tulisan' },
 
     // System
-    { title: 'Lihat Website Publik', category: 'Sistem', action: () => window.open('/', '_blank'), icon: ExternalLink, keywords: 'preview website live' },
-    { title: 'Keluar Sesi (Logout)', category: 'Sistem', action: () => signOut({ callbackUrl: '/x9j2k4m7/login' }), icon: LogOut, keywords: 'logout exit sign out' },
+    { title: 'Lihat Website Publik', category: 'Sistem', action: () => window.open(PUBLIC_SITE_URL, '_blank'), icon: ExternalLink, keywords: 'preview website live' },
+    { title: 'Keluar Sesi (Logout)', category: 'Sistem', action: () => signOut({ callbackUrl: '/login' }), icon: LogOut, keywords: 'logout exit sign out' },
   ];
 
   // Listen for Ctrl+K / Cmd+K
