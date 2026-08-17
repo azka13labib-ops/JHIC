@@ -110,9 +110,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/school-profile', [\App\Http\Controllers\Api\Admin\SchoolProfileController::class, 'update']);
 
         // PPDB — Pendaftaran & Pengaturan Jadwal
-        Route::get('/ppdb-settings', [PpdbController::class, 'getSettings']);
-        Route::post('/ppdb-settings', [PpdbController::class, 'updateSettings']);
-        Route::post('/ppdb-settings/toggle', [PpdbController::class, 'toggleStatus']);
+        Route::get('/ppdb-settings', [\App\Http\Controllers\Api\Admin\PpdbSettingsController::class, 'getSettings']);
+        Route::post('/ppdb-settings', [\App\Http\Controllers\Api\Admin\PpdbSettingsController::class, 'updateSettings']);
+        Route::post('/ppdb-settings/toggle', [\App\Http\Controllers\Api\Admin\PpdbSettingsController::class, 'toggleStatus']);
         Route::get('/registrations', [\App\Http\Controllers\Api\Admin\RegistrationController::class, 'index']);
         Route::get('/registrations/export', [\App\Http\Controllers\Api\Admin\RegistrationController::class, 'exportCsv']);
         Route::get('/registrations/{id}', [\App\Http\Controllers\Api\Admin\RegistrationController::class, 'show']);
