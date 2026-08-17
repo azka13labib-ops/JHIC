@@ -19,14 +19,6 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Contracts\Interfaces\Eloquent\RegistrationRepositoryInterface::class,
             \App\Repositories\RegistrationRepository::class
         );
-        $this->app->bind(
-            \App\Contracts\Interfaces\Eloquent\VacancyRepositoryInterface::class,
-            \App\Repositories\VacancyRepository::class
-        );
-        $this->app->bind(
-            \App\Contracts\Interfaces\Eloquent\ProductRepositoryInterface::class,
-            \App\Repositories\ProductRepository::class
-        );
     }
 
     /**

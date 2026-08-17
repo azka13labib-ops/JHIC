@@ -30,8 +30,6 @@ class AppServiceProvider extends ServiceProvider
             \App\Models\Gallery::class,
             \App\Models\StudentWork::class,
             \App\Models\Opinion::class,
-            \App\Models\Product::class,
-            \App\Models\Vacancy::class,
             \App\Models\Partner::class,
             \App\Models\Alumni::class,
             \App\Models\Announcement::class,
