@@ -17,13 +17,7 @@ return [
 
     'allowed_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 
-    'allowed_origins' => array_filter([
-        env('FRONTEND_URL', 'http://localhost:3000'),
-        'http://localhost:3000',
-        'http://cp.localhost:3000',
-        'https://smaspgri1lumajang.sch.id',
-        'https://cp.smaspgri1lumajang.sch.id',
-    ]),
+    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:3000'), 'http://localhost:3000', 'http://cp.localhost:3000', 'https://smaspgri1lumajang.sch.id', 'https://cp.smaspgri1lumajang.sch.id', 'http://192.168.1.25:3001'],
 
     'allowed_origins_patterns' => [
         '#^https?://.*\.localhost(:[0-9]+)?$#',
