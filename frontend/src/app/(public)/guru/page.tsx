@@ -4,12 +4,9 @@ import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { 
-  GraduationCap, 
   Search, 
   BookOpen, 
-  Award, 
-  Users,
-  Filter
+  GraduationCap
 } from 'lucide-react';
 
 interface Teacher {
@@ -17,7 +14,7 @@ interface Teacher {
   name: string;
   role: string;
   subject: string;
-  category: 'Pimpinan' | 'MIPA & Komputer' | 'Sosial & Humaniora' | 'Bahasa & Seni' | 'BK & Kesiswaan';
+  category: 'Semua' | 'Pimpinan' | 'MIPA & Komputer' | 'Sosial & Humaniora' | 'Bahasa & Seni' | 'BK & Kesiswaan';
   education: string;
   quote?: string;
   image: string;
@@ -37,7 +34,7 @@ const TEACHERS: Teacher[] = [
   {
     id: '2',
     name: 'Siti Rahmawati, S.Pd., M.Si.',
-    role: 'Wakil Kepala Sekolah Bidang Kurikulum',
+    role: 'Waka Bidang Kurikulum',
     subject: 'Matematika Peminatan & Logika',
     category: 'Pimpinan',
     education: 'S2 Matematika Murni - Institut Teknologi Sepuluh Nopember (ITS)',
@@ -47,8 +44,8 @@ const TEACHERS: Teacher[] = [
   {
     id: '3',
     name: 'Ahmad Faisal, S.Pd.',
-    role: 'Wakil Kepala Sekolah Bidang Kesiswaan',
-    subject: 'Pendidikan Jasmani, Olahraga & Kesehatan (PJOK)',
+    role: 'Waka Bidang Kesiswaan',
+    subject: 'Pendidikan Jasmani & Kesehatan (PJOK)',
     category: 'Pimpinan',
     education: 'S1 Pendidikan Kepelatihan Olahraga - Universitas Negeri Surabaya',
     quote: 'Disiplin dan sportivitas di lapangan mencerminkan integritas dalam kehidupan nyata.',
@@ -57,7 +54,7 @@ const TEACHERS: Teacher[] = [
   {
     id: '4',
     name: 'Ir. Hendra Gunawan, M.Kom.',
-    role: 'Guru TIK & Pembina E-Sport',
+    role: 'Guru Informatika & Komputer',
     subject: 'Informatika & Pemrograman Web',
     category: 'MIPA & Komputer',
     education: 'S2 Teknik Informatika - Universitas Brawijaya',
@@ -67,7 +64,7 @@ const TEACHERS: Teacher[] = [
   {
     id: '5',
     name: 'Dewi Lestari, S.Si., M.Pd.',
-    role: 'Guru Sains & Pembina OSN Fisika',
+    role: 'Guru Fisika & Pembina OSN',
     subject: 'Fisika Terapan & Robotika',
     category: 'MIPA & Komputer',
     education: 'S2 Pendidikan Sains - Universitas Jember',
@@ -87,7 +84,7 @@ const TEACHERS: Teacher[] = [
   {
     id: '7',
     name: 'Nurlaila Fitri, S.Pd.',
-    role: 'Guru Biologi & Pembina Adiwiyata',
+    role: 'Guru Biologi & Lingkungan',
     subject: 'Biologi Lingkungan & Bioteknologi',
     category: 'MIPA & Komputer',
     education: 'S1 Pendidikan Biologi - Universitas Airlangga',
@@ -97,265 +94,222 @@ const TEACHERS: Teacher[] = [
   {
     id: '8',
     name: 'Rudi Hermawan, S.Pd.',
-    role: 'Guru Sejarah & Pembina Pasgrisa',
-    subject: 'Sejarah Indonesia & Dunia',
+    role: 'Guru Sejarah Indonesia',
+    subject: 'Sejarah Nasional & Kebudayaan',
     category: 'Sosial & Humaniora',
     education: 'S1 Pendidikan Sejarah - Universitas Negeri Malang',
-    quote: 'Bangsa yang besar adalah bangsa yang menghargai dan belajar dari sejarahnya.',
-    image: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=600&auto=format&fit=crop',
+    quote: 'Bangsa yang besar adalah bangsa yang memahami dan menghargai akar sejarahnya.',
+    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=600&auto=format&fit=crop',
   },
   {
     id: '9',
-    name: 'Ratna Wulandari, S.E., M.M.',
-    role: 'Guru Ekonomi & Kewirausahaan',
-    subject: 'Ekonomi, Akuntansi & Bisnis Kreatif',
+    name: 'Dra. Sri Wahyuni',
+    role: 'Guru Sosiologi & Riset Sosial',
+    subject: 'Sosiologi & Antropologi Terapan',
     category: 'Sosial & Humaniora',
-    education: 'S2 Magister Manajemen - Universitas Brawijaya',
-    quote: 'Kreativitas kewirausahaan adalah bekal kemandirian finansial generasi muda.',
+    education: 'S1 Sosiologi - Universitas Gadjah Mada (UGM)',
+    quote: 'Empati sosial dan berpikir kritis adalah fondasi masyarakat yang berkeadilan.',
     image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=600&auto=format&fit=crop',
   },
   {
     id: '10',
-    name: 'Drs. Supriyadi, M.Pd.',
-    role: 'Guru Sosiologi & Geografi',
-    subject: 'Sosiologi & Dinamika Masyarakat',
+    name: 'Agus Purnomo, S.E., M.M.',
+    role: 'Guru Ekonomi & Akuntansi',
+    subject: 'Ekonomi Manajerial & Literasi Finansial',
     category: 'Sosial & Humaniora',
-    education: 'S2 Pendidikan Ilmu Pengetahuan Sosial - UM',
-    quote: 'Pahami keberagaman sosial untuk menumbuhkan empati dan kerukunan bersama.',
-    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=600&auto=format&fit=crop',
+    education: 'S2 Magister Manajemen - Universitas Brawijaya',
+    quote: 'Kecerdasan finansial dan wirausaha kreatif memerdekakan masa depan generasi muda.',
+    image: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=600&auto=format&fit=crop',
   },
   {
     id: '11',
-    name: 'Sarah Stephanie, S.Pd., M.Ed.',
-    role: 'Guru Bahasa Inggris & Pembina English Club',
-    subject: 'Bahasa & Sastra Inggris',
+    name: 'Nurul Hidayati, S.Pd.',
+    role: 'Guru Bahasa Inggris',
+    subject: 'English Literacy, Debate & TOEFL Prep',
     category: 'Bahasa & Seni',
-    education: 'S2 Master of Education - Monash University Australia',
-    quote: 'Language is the bridge that connects your dreams to the international stage.',
-    image: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?q=80&w=600&auto=format&fit=crop',
-  },
-  {
-    id: '12',
-    name: 'Tri Wahyuni, S.Pd.',
-    role: 'Guru Bahasa Indonesia & Pembina Jurnalistik',
-    subject: 'Bahasa Indonesia & Penulisan Kreatif',
-    category: 'Bahasa & Seni',
-    education: 'S1 Pendidikan Bahasa dan Sastra Indonesia - UNEJ',
-    quote: 'Bahasa menunjukkan bangsa, kata-kata adalah jendela gagasan dan peradaban.',
-    image: 'https://images.unsplash.com/photo-1598550874175-4d0ef436c909?q=80&w=600&auto=format&fit=crop',
-  },
-  {
-    id: '13',
-    name: 'Ki Joko Prabowo, S.Sn.',
-    role: 'Guru Seni Budaya & Pembina Karawitan',
-    subject: 'Seni Rupa, Musik & Karawitan Jawa',
-    category: 'Bahasa & Seni',
-    education: 'S1 Seni Pertunjukan - Institut Seni Indonesia (ISI) Surakarta',
-    quote: 'Seni menghaluskan budi pekerti dan mengabadikan keluhuran budaya leluhur.',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=600&auto=format&fit=crop',
-  },
-  {
-    id: '14',
-    name: 'Nur Aini Khodijah, S.Psi., M.Psi., Psikolog',
-    role: 'Koordinator Bimbingan Konseling (BK)',
-    subject: 'Psikologi Pendidikan & Konseling Karir',
-    category: 'BK & Kesiswaan',
-    education: 'S2 Profesi Psikologi Pendidikan - Universitas Airlangga',
-    quote: 'Setiap anak memiliki bintangnya masing-masing, tugas kami mendampingi agar mereka bersinar.',
+    education: 'S1 Pendidikan Bahasa Inggris - Universitas Negeri Surabaya',
+    quote: 'Language connects diverse minds; fluency gives you wings to explore the world.',
     image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop',
   },
   {
-    id: '15',
-    name: 'Ustadz M. Zainal Arifin, S.Pd.I.',
-    role: 'Guru PAI & Pembina Al-Banjari',
-    subject: 'Pendidikan Agama Islam & Budi Pekerti',
+    id: '12',
+    name: 'Bayu Wicaksono, S.Sn.',
+    role: 'Guru Seni Rupa & Karawitan',
+    subject: 'Seni Musik Tradisional & Desain Grafis',
+    category: 'Bahasa & Seni',
+    education: 'S1 Seni Pertunjukan - Institut Seni Indonesia (ISI) Yogyakarta',
+    quote: 'Seni mengasah kepekaan rasa dan menjaga keluhuran warisan adiluhung nusantara.',
+    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=600&auto=format&fit=crop',
+  },
+  {
+    id: '13',
+    name: 'Eka Pratiwi, S.Pd.',
+    role: 'Guru Bahasa Indonesia',
+    subject: 'Sastra Indonesia, Jurnalistik & Literasi',
+    category: 'Bahasa & Seni',
+    education: 'S1 Pendidikan Bahasa & Sastra Indonesia - Universitas Jember',
+    quote: 'Kata adalah cermin pemikiran; menulis adalah cara kita meninggalkan jejak abadi.',
+    image: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?q=80&w=600&auto=format&fit=crop',
+  },
+  {
+    id: '14',
+    name: 'Drs. H. M. Mansyur, M.Pd.I.',
+    role: 'Guru Pendidikan Agama Islam',
+    subject: 'Pendidikan Agama Islam, Fiqih & Akhlak',
     category: 'BK & Kesiswaan',
-    education: 'S1 Pendidikan Agama Islam - UIN Kiai Haji Achmad Siddiq',
-    quote: 'Ilmu tanpa adab bagaikan pohon tanpa buah, jadikan taqwa lentera setiap langkah.',
-    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=600&auto=format&fit=crop',
+    education: 'S2 Pendidikan Agama Islam - UIN Maulana Malik Ibrahim Malang',
+    quote: 'Ilmu tanpa adab bagaikan pohon tanpa buah; kejujuran adalah mahkota sejati.',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=600&auto=format&fit=crop',
+  },
+  {
+    id: '15',
+    name: 'Rina Anggraini, S.Psi., M.Psi.',
+    role: 'Koordinator Bimbingan Konseling',
+    subject: 'Konseling Akademik, Karier & Minat Bakat PTN',
+    category: 'BK & Kesiswaan',
+    education: 'S2 Psikologi Pendidikan - Universitas Airlangga',
+    quote: 'Setiap anak istimewa; tugas kami membimbing mereka menemukan jalan terbaiknya.',
+    image: 'https://images.unsplash.com/photo-1580894732488-824f2b963177?q=80&w=600&auto=format&fit=crop',
   },
 ];
 
 const CATEGORIES = [
-  'Semua Bidang',
+  'Semua',
   'Pimpinan',
   'MIPA & Komputer',
   'Sosial & Humaniora',
   'Bahasa & Seni',
   'BK & Kesiswaan',
-];
+] as const;
 
 export default function GuruPage() {
-  const [selectedCategory, setSelectedCategory] = useState('Semua Bidang');
+  const [activeCategory, setActiveCategory] = useState<typeof CATEGORIES[number]>('Semua');
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredTeachers = useMemo(() => {
-    return TEACHERS.filter((t) => {
-      const matchCategory = selectedCategory === 'Semua Bidang' || t.category === selectedCategory;
+    return TEACHERS.filter((teacher) => {
+      const matchCategory = activeCategory === 'Semua' || teacher.category === activeCategory;
       const matchSearch =
-        t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        t.role.toLowerCase().includes(searchQuery.toLowerCase());
+        teacher.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        teacher.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        teacher.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        teacher.education.toLowerCase().includes(searchQuery.toLowerCase());
       return matchCategory && matchSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [activeCategory, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header Banner */}
-      <section className="relative bg-linear-to-b from-slate-50 via-white to-slate-50 text-slate-900 border-b border-slate-200 py-16 sm:py-20 overflow-hidden text-center">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider mb-4 text-blue-700">
-            <GraduationCap className="w-3.5 h-3.5" /> Tenaga Pendidik Profesional
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      
+      {/* Editorial Header */}
+      <div className="bg-white border-b border-slate-200 py-10 sm:py-14">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="max-w-2xl">
+            <span className="text-xs font-bold tracking-widest text-blue-900 uppercase block mb-1">
+              Direktori Tenaga Pendidik
+            </span>
+            <h1 className="font-serif text-3xl sm:text-4xl font-normal text-slate-900 tracking-tight">
+              Dewan Guru & Tenaga Kependidikan
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              Profil tenaga pendidik profesional dan berdedikasi SMA PGRI 1 Lumajang yang mendampingi siswa meraih prestasi akademik dan keluhuran budi pekerti.
+            </p>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold mb-4 tracking-tight text-slate-900">
-            Direktori Guru & Staf
-          </h1>
-          <p className="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
-            Mengenal lebih dekat jajaran pendidik berdedikasi tinggi, berpendidikan magister, dan berpengalaman di SMA PGRI 1 Lumajang.
-          </p>
 
-          {/* Breadcrumb */}
-          <div className="flex justify-center items-center gap-2 text-xs sm:text-sm text-slate-500 mt-6">
-            <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
-            <span>/</span>
-            <span>Profil</span>
-            <span>/</span>
-            <span className="text-slate-900 font-semibold">Direktori Guru</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
-        
-        {/* Search & Category Filter Controls */}
-        <div className="mb-10 space-y-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            
+          {/* Search & Filter Bar */}
+          <div className="mt-8 flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
             {/* Search Input */}
-            <div className="relative w-full md:w-96">
-              <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+            <div className="relative flex-1 max-w-md">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Cari nama guru atau mata pelajaran..."
+                placeholder="Cari nama guru, mata pelajaran, atau gelar..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition"
+                className="w-full pl-9.5 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors"
               />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 hover:text-slate-600 p-1"
-                >
-                  ✕
-                </button>
-              )}
             </div>
 
-            {/* Results Count Badge */}
-            <div className="text-xs font-bold text-slate-500 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200">
-              Menampilkan <span className="font-black text-blue-600">{filteredTeachers.length}</span> dari {TEACHERS.length} guru
-            </div>
-          </div>
-
-          {/* Category Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1 shrink-0 mr-1">
-              <Filter className="w-3.5 h-3.5" /> Bidang:
-            </span>
-            {CATEGORIES.map((cat) => {
-              const active = selectedCategory === cat;
-              return (
+            {/* Department Filter Tabs */}
+            <div className="flex flex-wrap gap-1.5">
+              {CATEGORIES.map((cat) => (
                 <button
                   key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition cursor-pointer ${
-                    active
-                      ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
-                      : 'bg-slate-100/80 hover:bg-slate-200 text-slate-700'
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
+                    activeCategory === cat
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                   }`}
                 >
                   {cat}
                 </button>
-              );
-            })}
+              ))}
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Teachers Grid */}
+      {/* Directory Content List */}
+      <div className="container mx-auto px-4 max-w-6xl py-8 sm:py-12">
+        <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-200">
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+            Menampilkan {filteredTeachers.length} Tenaga Pendidik
+          </span>
+          {activeCategory !== 'Semua' && (
+            <span className="text-xs font-semibold text-blue-700">
+              Kategori: {activeCategory}
+            </span>
+          )}
+        </div>
+
         {filteredTeachers.length === 0 ? (
-          <div className="text-center py-16 bg-slate-50 rounded-3xl border border-dashed border-slate-200">
-            <Users className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-            <h3 className="text-base font-bold text-slate-700">Data guru tidak ditemukan</h3>
-            <p className="text-xs text-slate-500 mt-1">Coba gunakan nama guru atau bidang studi lainnya.</p>
-            <button
-              onClick={() => { setSelectedCategory('Semua Bidang'); setSearchQuery(''); }}
-              className="mt-4 px-4 py-2 bg-blue-600 text-white text-xs font-bold rounded-xl hover:bg-blue-700 transition cursor-pointer"
-            >
-              Reset Filter
-            </button>
+          <div className="bg-white border border-slate-200 rounded-xl p-10 text-center">
+            <BookOpen className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+            <h3 className="text-sm font-bold text-slate-800">Tidak ada guru yang sesuai</h3>
+            <p className="text-xs text-slate-500 mt-1">Coba gunakan kata kunci pencarian yang lain.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredTeachers.map((teacher) => (
               <div
                 key={teacher.id}
-                className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group"
+                className="bg-white border border-slate-200 rounded-xl p-4 shadow-2xs hover:border-blue-300 transition-colors flex gap-4 items-start"
               >
-                <div>
-                  {/* Photo & Role Container */}
-                  <div className="relative h-64 w-full overflow-hidden bg-slate-100">
-                    <Image
-                      src={teacher.image}
-                      alt={teacher.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-70 group-hover:opacity-50 transition-opacity" />
-                    
-                    <div className="absolute top-3.5 left-3.5">
-                      <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/90 backdrop-blur-md text-blue-700 shadow-xs">
-                        {teacher.category}
-                      </span>
-                    </div>
+                {/* Photo */}
+                <div className="relative w-18 h-22 rounded-lg overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
+                  <Image
+                    src={teacher.image}
+                    alt={teacher.name}
+                    fill
+                    sizes="80px"
+                    className="object-cover object-top"
+                  />
+                </div>
 
-                    <div className="absolute bottom-3 left-4 right-4 text-white">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-amber-300 block">
-                        {teacher.role}
-                      </span>
-                      <h2 className="text-base sm:text-lg font-extrabold text-white leading-snug drop-shadow-xs">
-                        {teacher.name}
-                      </h2>
-                    </div>
+                {/* Details */}
+                <div className="flex-1 min-w-0 space-y-1.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-100">
+                      {teacher.category}
+                    </span>
                   </div>
 
-                  {/* Details Body */}
-                  <div className="p-6 space-y-4">
-                    <div className="space-y-2 text-xs">
-                      <div className="flex items-start gap-2">
-                        <BookOpen className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-                        <div>
-                          <span className="font-bold text-slate-900 block">Mata Pelajaran:</span>
-                          <span className="text-slate-600 font-medium">{teacher.subject}</span>
-                        </div>
-                      </div>
+                  <h2 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
+                    {teacher.name}
+                  </h2>
 
-                      <div className="flex items-start gap-2 pt-1 border-t border-slate-100">
-                        <Award className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                        <div>
-                          <span className="font-bold text-slate-900 block">Latar Belakang Pendidikan:</span>
-                          <span className="text-slate-600 font-medium">{teacher.education}</span>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="text-[11px] font-medium text-slate-600">
+                    {teacher.role}
+                  </div>
 
-                    {teacher.quote && (
-                      <div className="pt-3 border-t border-slate-100 text-xs italic text-slate-500 bg-slate-50/70 p-3 rounded-xl">
-                        &ldquo;{teacher.quote}&rdquo;
-                      </div>
-                    )}
+                  <div className="text-[11px] text-slate-500 line-clamp-1">
+                    <span className="font-semibold text-slate-700">Bidang:</span> {teacher.subject}
+                  </div>
+
+                  <div className="pt-1 flex items-center gap-1 text-[10px] text-slate-500 border-t border-slate-100">
+                    <GraduationCap className="w-3 h-3 text-slate-400 shrink-0" />
+                    <span className="truncate">{teacher.education}</span>
                   </div>
                 </div>
               </div>
@@ -363,7 +317,26 @@ export default function GuruPage() {
           </div>
         )}
 
+        {/* Footer Guidance */}
+        <div className="mt-10 p-5 bg-white border border-slate-200 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          <div>
+            <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+              Ingin berkonsultasi dengan Guru Bimbingan Konseling atau Wali Kelas?
+            </h3>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Layanan konsultasi terbuka untuk siswa dan wali murid pada jam kerja sekolah (08.00–15.00 WIB).
+            </p>
+          </div>
+          <Link
+            href="/kontak"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shrink-0 transition-colors"
+          >
+            Hubungi Sekolah
+          </Link>
+        </div>
+
       </div>
+
     </div>
   );
 }

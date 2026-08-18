@@ -1,11 +1,10 @@
 import { getImageUrl } from "@/lib/utils";
 import { notFound } from "next/navigation";
-
 import Link from "next/link";
-import Image from "next/image";
+import { ArrowLeft, Calendar, User } from "lucide-react";
 import { getArticleBySlug } from "@/lib/api/school";
 
-export const revalidate = 60; // Revalidate every minute
+export const revalidate = 60;
 
 export default async function DetailArtikelPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -16,50 +15,60 @@ export default async function DetailArtikelPage({ params }: { params: Promise<{ 
   }
 
   return (
-    <div className="container mx-auto px-4 py-20 min-h-screen">
-      <div className="max-w-4xl mx-auto">
-        <Link href="/artikel" className="text-blue-600 hover:underline mb-8 inline-block">
-          &larr; Kembali ke Daftar Artikel
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-8 sm:py-12">
+      <div className="container mx-auto px-4 max-w-4xl">
+        
+        {/* Back Link */}
+        <Link
+          href="/artikel"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-blue-700 mb-6 bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-2xs transition-colors"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Kembali ke Daftar Artikel</span>
         </Link>
-        
-        <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-          {article.title}
-        </h1>
-        
-        <div className="flex items-center gap-4 text-slate-500 mb-8 pb-8 border-b border-slate-100">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-bold">
-              {article.author?.charAt(0) || 'A'}
+
+        {/* Article Box */}
+        <article className="bg-white border border-slate-200 rounded-xl p-6 sm:p-10 shadow-2xs">
+          
+          <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 leading-tight mb-4">
+            {article.title}
+          </h1>
+
+          <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 pb-6 mb-6 border-b border-slate-100">
+            <div className="flex items-center gap-1 text-blue-700 font-semibold">
+              <User className="w-3.5 h-3.5 text-slate-400" />
+              <span>{article.author || 'Admin SMAGRISA'}</span>
             </div>
-            <span className="font-medium text-slate-700">{article.author || 'Admin'}</span>
+            <div className="flex items-center gap-1">
+              <Calendar className="w-3.5 h-3.5 text-slate-400" />
+              <span>
+                {new Date(article.published_at || article.created_at).toLocaleDateString('id-ID', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </span>
+            </div>
           </div>
-          <span className="text-slate-300">|</span>
-          <span>
-            {new Date(article.published_at || article.created_at).toLocaleDateString('id-ID', { 
-              weekday: 'long', 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}
-          </span>
-        </div>
 
-        {article.image && (
-          <div className="mb-10 rounded-2xl overflow-hidden shadow-sm relative aspect-video w-full max-h-125 bg-slate-100">
-            <Image 
-              src={getImageUrl(article.image)} 
-              alt={article.title} 
-              fill
-              priority
-              sizes="(max-width: 896px) 100vw, 896px"
-              className="object-cover"
-            />
+          {/* Natural Uncropped Image Display */}
+          {article.image && (
+            <div className="mb-8 flex justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src={getImageUrl(article.image)} 
+                alt={article.title} 
+                className="max-h-[600px] w-full sm:w-auto h-auto object-contain rounded-xl border border-slate-200 shadow-2xs"
+              />
+            </div>
+          )}
+
+          <div className="text-sm sm:text-base text-slate-800 leading-relaxed space-y-4 whitespace-pre-wrap">
+            {article.content}
           </div>
-        )}
+        </article>
 
-        <div className="prose prose-lg max-w-none text-slate-700 leading-relaxed whitespace-pre-wrap">
-          {article.content}
-        </div>
       </div>
     </div>
   );

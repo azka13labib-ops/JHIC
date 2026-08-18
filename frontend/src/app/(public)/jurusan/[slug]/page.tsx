@@ -8,7 +8,7 @@ import {
   Briefcase, 
   Trophy, 
   ArrowLeft, 
-  ArrowRight 
+  CheckCircle2 
 } from 'lucide-react';
 import { getDepartments } from '@/lib/api/school';
 
@@ -32,25 +32,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 const DEPT_DETAILS: Record<string, {
-  color: string;
   icon: React.ElementType;
   prospects: string[];
   subjects: string[];
   activities: string[];
 }> = {
   mipa: {
-    color: 'from-blue-600 to-indigo-700',
     icon: Microscope,
-    prospects: ['Kedokteran', 'Teknik Informatika', 'Farmasi', 'Teknik Sipil', 'Biologi', 'Matematika'],
-    subjects: ['Matematika Peminatan', 'Biologi', 'Fisika', 'Kimia'],
-    activities: ['Olimpiade Sains Nasional', 'Robotik Club', 'Penelitian Ilmiah', 'Science Fair'],
+    prospects: ['Kedokteran & Kesehatan', 'Teknik Informatika & Robotika', 'Farmasi & Bioteknologi', 'Teknik Sipil & Arsitektur', 'Matematika & Sains Terapan'],
+    subjects: ['Matematika Lanjut / Peminatan', 'Biologi Terapan & Riset', 'Fisika Eksperimental', 'Kimia Laboratorium'],
+    activities: ['Olimpiade Sains Nasional (OSN)', 'Mathematics Study Club', 'PMR & Medis Dasar', 'Penelitian Karya Ilmiah Remaja (KIR)'],
   },
   ips: {
-    color: 'from-emerald-600 to-teal-700',
     icon: Globe,
-    prospects: ['Ekonomi', 'Hukum', 'Ilmu Komunikasi', 'Hubungan Internasional', 'Sosiologi'],
-    subjects: ['Ekonomi', 'Geografi', 'Sejarah', 'Sosiologi'],
-    activities: ['Debat Bahasa Indonesia', 'Simulasi PBB', 'Ekonomi Bisnis Club', 'KIR Sosial'],
+    prospects: ['Ilmu Hukum & Hubungan Internasional', 'Ekonomi, Bisnis & Manajemen', 'Perbankan & Akuntansi', 'Ilmu Komunikasi & Jurnalistik', 'Sosiologi & Diplomasi'],
+    subjects: ['Ekonomi & Analisis Pasar', 'Geografi Spasial', 'Sosiologi Masyarakat Modern', 'Sejarah Tingkat Lanjut'],
+    activities: ['Debat Bahasa & Diplomasi Pelajar', 'Simulasi Perdagangan & Pasar Modal', 'Ekonomi Kreatif Club', 'KIR Sosial Humaniora'],
   },
 };
 
@@ -63,11 +60,13 @@ export default async function JurusanDetailPage({ params }: { params: Promise<{ 
 
   if (!dept) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-slate-800 mb-4">Jurusan tidak ditemukan</h1>
-          <Link href="/jurusan" className="text-blue-600 underline inline-flex items-center gap-2">
-            <ArrowLeft className="w-4 h-4" /> Kembali ke Peminatan
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+        <div className="bg-white border border-slate-200 rounded-xl p-8 text-center max-w-md shadow-2xs">
+          <h1 className="text-base font-bold text-slate-900 mb-2">Program Peminatan Tidak Ditemukan</h1>
+          <p className="text-xs text-slate-600 mb-4">Halaman kelompok peminatan yang Anda tuju belum terdaftar.</p>
+          <Link href="/jurusan" className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition-colors">
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Kembali ke Daftar Peminatan</span>
           </Link>
         </div>
       </div>
@@ -76,86 +75,98 @@ export default async function JurusanDetailPage({ params }: { params: Promise<{ 
 
   const key = dept.name.toLowerCase().split('/')[0].trim().toLowerCase();
   const details = DEPT_DETAILS[key] ?? {
-    color: 'from-slate-600 to-slate-800',
     icon: BookOpen,
-    prospects: ['Perguruan Tinggi Negeri', 'Karir Profesional'],
-    subjects: ['Mata Pelajaran Khusus'],
-    activities: ['Ekstrakurikuler Terkait'],
+    prospects: ['Perguruan Tinggi Negeri Unggulan', 'Pendidikan Karakter & Kedinasan', 'Industri Kreatif & Profesional'],
+    subjects: ['Mata Pelajaran Kelompok Peminatan Terpadu'],
+    activities: ['Ekstrakurikuler Pilihan & Pembinaan Prestasi'],
   };
 
   const IconComp = details.icon;
 
   return (
-    <div className="min-h-screen bg-white">
-      <section className="bg-linear-to-b from-slate-50 via-white to-slate-50 text-slate-900 border-b border-slate-200 py-16">
-        <div className="container mx-auto px-4">
-          <Link href="/jurusan" className="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 mb-6 transition-colors font-semibold text-xs sm:text-sm">
-            <ArrowLeft className="w-4 h-4" /> Semua Peminatan
-          </Link>
-          <div className="w-16 h-16 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center mb-4 shadow-xs">
-            <IconComp className="w-8 h-8 text-blue-600" />
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold mb-3 text-slate-900 tracking-tight">{dept.name}</h1>
-          <p className="text-slate-600 max-w-2xl text-base sm:text-lg leading-relaxed">{dept.description}</p>
-        </div>
-      </section>
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-8 sm:py-12">
+      <div className="container mx-auto px-4 max-w-5xl space-y-6">
+        
+        {/* Back Link */}
+        <Link
+          href="/jurusan"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-blue-700 bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-2xs transition-colors"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Kembali ke Daftar Peminatan</span>
+        </Link>
 
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Mata Pelajaran */}
-          <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
-            <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <ClipboardList className="w-5 h-5 text-blue-600" /> Mata Pelajaran
-            </h2>
-            <ul className="space-y-2">
-              {details.subjects.map((s, i) => (
-                <li key={i} className="flex items-center gap-2 text-slate-700">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full shrink-0" />
-                  {s}
+        {/* Header Hero Card */}
+        <div className="bg-white border border-slate-200 rounded-xl p-6 sm:p-8 shadow-2xs flex flex-col sm:flex-row items-start gap-5">
+          <div className="w-14 h-14 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-700 shrink-0">
+            <IconComp className="w-7 h-7" />
+          </div>
+          <div>
+            <span className="text-[11px] font-bold text-blue-900 uppercase tracking-wider block mb-1">
+              Fase F (Kelas XI - XII) • Kurikulum Merdeka
+            </span>
+            <h1 className="font-serif text-2xl sm:text-3xl font-normal text-slate-900 leading-tight">
+              {dept.name}
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              {dept.description}
+            </p>
+          </div>
+        </div>
+
+        {/* 3 Structured Breakdown Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          
+          {/* 1. Subjects */}
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-2xs space-y-3">
+            <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+              <ClipboardList className="w-4 h-4 text-blue-700" />
+              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900">Mata Pelajaran Pilihan</h2>
+            </div>
+            <ul className="space-y-2 text-xs text-slate-700">
+              {details.subjects.map((subj, idx) => (
+                <li key={idx} className="flex items-start gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                  <span>{subj}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Prospek Karir */}
-          <div className="bg-blue-50 rounded-2xl p-6 border border-blue-100">
-            <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <Briefcase className="w-5 h-5 text-blue-600" /> Prospek Karir
-            </h2>
-            <ul className="space-y-2">
-              {details.prospects.map((p, i) => (
-                <li key={i} className="flex items-center gap-2 text-slate-700">
-                  <span className="w-2 h-2 bg-emerald-500 rounded-full shrink-0" />
-                  {p}
+          {/* 2. Prospects */}
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-2xs space-y-3">
+            <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+              <Briefcase className="w-4 h-4 text-blue-700" />
+              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900">Prospek Studi & Karier</h2>
+            </div>
+            <ul className="space-y-2 text-xs text-slate-700">
+              {details.prospects.map((pros, idx) => (
+                <li key={idx} className="flex items-start gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
+                  <span>{pros}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Kegiatan */}
-          <div className="bg-amber-50 rounded-2xl p-6 border border-amber-100">
-            <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <Trophy className="w-5 h-5 text-amber-500" /> Kegiatan Unggulan
-            </h2>
-            <ul className="space-y-2">
-              {details.activities.map((a, i) => (
-                <li key={i} className="flex items-center gap-2 text-slate-700">
-                  <span className="w-2 h-2 bg-amber-500 rounded-full shrink-0" />
-                  {a}
+          {/* 3. Activities */}
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-2xs space-y-3">
+            <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+              <Trophy className="w-4 h-4 text-blue-700" />
+              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900">Klub & Prestasi Terkait</h2>
+            </div>
+            <ul className="space-y-2 text-xs text-slate-700">
+              {details.activities.map((act, idx) => (
+                <li key={idx} className="flex items-start gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                  <span>{act}</span>
                 </li>
               ))}
             </ul>
           </div>
+
         </div>
 
-        <div className="mt-12 text-center">
-          <Link
-            href="/ppdb"
-            className="inline-flex items-center gap-2 bg-[#2B3B6F] text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-[#1E2B58] transition-colors shadow-lg"
-          >
-            Daftar Sekarang via PPDB Online <ArrowRight className="w-5 h-5" />
-          </Link>
-        </div>
       </div>
     </div>
   );

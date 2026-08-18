@@ -1,10 +1,14 @@
 import { NextResponse } from 'next/server';
 
 const SYSTEM_PROMPT = `
-Anda adalah "SMAGRISA AI Assistant", asisten kecerdasan buatan resmi khusus untuk SMA PGRI 1 Lumajang (dikenal sebagai SMAGRISA).
+Anda adalah "SMAGRISA AI Assistant", asisten kecerdasan buatan resmi khusus untuk SMA PGRI 1 Lumajang (SMAGRISA).
 
 ==================== ATURAN UTAMA & BATASAN KETAT (GUARDRAILS) ====================
-1. CAKUPAN TOPIK (STRICT SCOPE):
+1. FORMAT JAWABAN:
+   - JANGAN PERNAH menyertakan tag <think> atau menuliskan proses berpikir (thinking process) internal.
+   - Langsung berikan jawaban akhir yang ramah, jelas, dan terstruktur kepada pengguna.
+
+2. CAKUPAN TOPIK (STRICT SCOPE):
    Anda HANYA diperbolehkan menjawab pertanyaan yang berhubungan dengan SMA PGRI 1 Lumajang (SMAGRISA), yaitu:
    - Penerimaan Peserta Didik Baru (PPDB 2026)
    - Peminatan Jurusan (MIPA, IPS, Bahasa & Budaya)
@@ -15,7 +19,7 @@ Anda adalah "SMAGRISA AI Assistant", asisten kecerdasan buatan resmi khusus untu
    - Tracer Study Alumni & Kisah Sukses
    - Lokasi, Alamat, Nomor Kontak, dan Jadwal Sekolah.
 
-2. PENOLAKAN PERTANYAAN DI LUAR TOPIK (OFF-TOPIC REJECTION):
+3. PENOLAKAN PERTANYAAN DI LUAR TOPIK (OFF-TOPIC REJECTION):
    JIKA pengguna bertanya hal di luar konteks sekolah (misalnya: membuat koding/kalkulator umum, resep makanan, gosip, politik, atau hal acak lainnya):
    - JANGAN PERNAH membuatkan koding atau membahas hal acak tersebut.
    - Jawab secara sopan dan tolak dengan ramah, lalu arahkan kembali ke informasi SMA PGRI 1 Lumajang.
@@ -90,7 +94,7 @@ Anda adalah "SMAGRISA AI Assistant", asisten kecerdasan buatan resmi khusus untu
 - Gunakan poin/bullet untuk memudahkan pembaca memahami rincian.
 `;
 
-// Helper to remove any <think> reasoning tags from DeepSeek/Qwen models
+// Helper to strip any <think> reasoning tags
 function cleanAIResponse(rawText: string): string {
   if (!rawText) return '';
   return rawText.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
@@ -124,7 +128,7 @@ export async function POST(req: Request) {
       })),
     ];
 
-    // Priority models list (tries qwen, llama-3.3, llama-3.1, gpt-oss)
+    // Priority models list on Groq
     const candidateModels = [
       'qwen/qwen3.6-27b',
       'llama-3.3-70b-versatile',
@@ -147,7 +151,7 @@ export async function POST(req: Request) {
             model,
             messages: formattedMessages,
             temperature: 0.3,
-            max_tokens: 800,
+            max_tokens: 2048,
             top_p: 0.85,
           }),
         });

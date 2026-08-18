@@ -9,8 +9,8 @@ import {
   Clock, 
   UserCheck, 
   Calendar,
-  Sparkles,
-  Compass
+  Compass,
+  ArrowRight
 } from 'lucide-react';
 
 interface Extracurricular {
@@ -208,10 +208,10 @@ const ELECTIVE_CLUBS: Extracurricular[] = [
   },
 ];
 
-const DAYS = ['Semua Hari', 'Senin', 'Selasa', 'Rabu', 'Kamis'];
+const DAYS = ['Semua Hari', 'Senin', 'Selasa', 'Rabu', 'Kamis'] as const;
 
 export default function EkstrakurikulerPage() {
-  const [selectedDay, setSelectedDay] = useState('Semua Hari');
+  const [selectedDay, setSelectedDay] = useState<typeof DAYS[number]>('Semua Hari');
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredItems = useMemo(() => {
@@ -227,236 +227,171 @@ export default function EkstrakurikulerPage() {
   }, [selectedDay, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header Banner */}
-      <section className="relative bg-linear-to-b from-slate-50 via-white to-slate-50 text-slate-900 border-b border-slate-200 py-16 sm:py-20 overflow-hidden text-center">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider mb-4 text-blue-700">
-            <Trophy className="w-3.5 h-3.5" /> Program Minat & Bakat Siswa
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      
+      {/* Editorial Header */}
+      <section className="bg-white border-b border-slate-200 py-10 sm:py-14">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="max-w-2xl">
+            <span className="text-xs font-bold tracking-widest text-blue-900 uppercase block mb-1">
+              Pengembangan Diri & Karakter
+            </span>
+            <h1 className="font-serif text-3xl sm:text-4xl font-normal text-slate-900 tracking-tight">
+              Ekstrakurikuler SMAGRISA
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              Program pembinaan bakat, kepemimpinan, sains, seni budaya, dan olahraga prestasi yang resmi diselenggarakan di SMA PGRI 1 Lumajang.
+            </p>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold mb-4 tracking-tight text-slate-900">
-            Ekstrakurikuler Sekolah
-          </h1>
-          <p className="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
-            Wadah pengembangan karakter, kepemimpinan, kreativitas seni, sains, dan prestasi olahraga SMA PGRI 1 Lumajang.
-          </p>
 
-          {/* Breadcrumb */}
-          <div className="flex justify-center items-center gap-2 text-xs sm:text-sm text-slate-500 mt-6">
-            <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
-            <span>/</span>
-            <span className="text-slate-900 font-semibold">Ekstrakurikuler</span>
+          {/* Search & Day Filters */}
+          <div className="mt-8 flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+            <div className="relative flex-1 max-w-md">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Cari ekstrakurikuler, cabang olahraga, seni..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9.5 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors"
+              />
+            </div>
+
+            <div className="flex flex-wrap gap-1.5">
+              {DAYS.map((day) => (
+                <button
+                  key={day}
+                  onClick={() => setSelectedDay(day)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
+                    selectedDay === day
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                  }`}
+                >
+                  {day}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
-
-        {/* 1. Ekstrakurikuler Wajib Section */}
-        <div className="mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-amber-50 border border-amber-200 text-amber-800 mb-4">
-            <Compass className="w-3.5 h-3.5" /> Ekstrakurikuler Wajib Nasional
+      <div className="container mx-auto px-4 py-8 sm:py-12 max-w-6xl space-y-10">
+        
+        {/* Mandatory Club Section */}
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xs font-bold text-blue-900 uppercase tracking-wider">
+              1. Ekstrakurikuler Wajib
+            </span>
           </div>
-          
-          <div className="bg-linear-to-br from-amber-500/10 via-white to-orange-500/10 border border-amber-200/80 rounded-3xl p-6 sm:p-8 shadow-xs flex flex-col lg:flex-row items-center gap-8 group">
-            <div className="relative h-64 w-full lg:w-96 rounded-2xl overflow-hidden shrink-0 shadow-md">
+
+          <div className="bg-white border border-blue-200 rounded-xl p-5 sm:p-6 shadow-2xs grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+            <div className="relative md:col-span-4 h-44 rounded-lg overflow-hidden bg-slate-100 border border-slate-200">
               <Image
                 src={MANDATORY_CLUB.image}
                 alt={MANDATORY_CLUB.name}
                 fill
-                sizes="(max-width: 1024px) 100vw, 400px"
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="object-cover"
               />
-              <div className="absolute top-3 left-3">
-                <span className="px-3 py-1 rounded-full text-xs font-black bg-amber-500 text-white shadow-md">
-                  WAJIB KELAS X & XI
-                </span>
-              </div>
             </div>
 
-            <div className="flex-1 space-y-4">
-              <div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">
-                  {MANDATORY_CLUB.name}
-                </h2>
-                <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-                  {MANDATORY_CLUB.desc}
-                </p>
+            <div className="md:col-span-8 space-y-2.5">
+              <div className="flex items-center gap-2">
+                <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200">
+                  {MANDATORY_CLUB.badge}
+                </span>
+                <span className="text-xs font-semibold text-slate-500">Wajib Seluruh Siswa Kelas X & XI</span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs sm:text-sm">
-                <div className="flex items-center gap-2 text-slate-700 bg-white p-3 rounded-xl border border-slate-200/80 shadow-2xs">
-                  <Clock className="w-4 h-4 text-amber-600 shrink-0" />
-                  <div>
-                    <span className="font-bold block text-slate-900">Jadwal Latihan:</span>
-                    <span className="text-slate-500">{MANDATORY_CLUB.schedule}</span>
-                  </div>
+              <h2 className="text-base sm:text-lg font-bold text-slate-900">
+                {MANDATORY_CLUB.name}
+              </h2>
+
+              <p className="text-xs text-slate-600 leading-relaxed">
+                {MANDATORY_CLUB.desc}
+              </p>
+
+              <div className="pt-2 flex flex-wrap gap-4 text-xs text-slate-700 border-t border-slate-100">
+                <div className="flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-blue-700 shrink-0" />
+                  <span className="font-semibold">{MANDATORY_CLUB.schedule}</span>
                 </div>
-                <div className="flex items-center gap-2 text-slate-700 bg-white p-3 rounded-xl border border-slate-200/80 shadow-2xs">
-                  <UserCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <div>
-                    <span className="font-bold block text-slate-900">Pembina:</span>
-                    <span className="text-slate-500">{MANDATORY_CLUB.mentor}</span>
-                  </div>
+                <div className="flex items-center gap-1.5 text-slate-600">
+                  <UserCheck className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  <span>{MANDATORY_CLUB.mentor}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* 2. Ekstrakurikuler Pilihan Section */}
-        <div className="pt-8 border-t border-slate-200/80">
-          
-          <div className="text-center md:text-left mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-blue-50 border border-blue-200 text-blue-700 mb-2">
-                <Sparkles className="w-3.5 h-3.5" /> 13 Cabang Ekstrakurikuler Pilihan
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-                Pilihan Minat, Bakat & Prestasi
-              </h2>
-              <p className="text-slate-500 text-xs sm:text-sm mt-1">
-                Setiap siswa wajib memilih minimal 1 ekstrakurikuler pilihan sesuai minat dan potensi diri.
-              </p>
-            </div>
-
-            {/* Results Count Badge */}
-            <div className="text-xs font-bold text-slate-500 self-center md:self-end bg-slate-50 px-4 py-2 rounded-xl border border-slate-200">
-              Menampilkan <span className="text-blue-600 font-black">{filteredItems.length}</span> dari {ELECTIVE_CLUBS.length} ekstrakurikuler
-            </div>
+        {/* 13 Elective Clubs */}
+        <div>
+          <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-200">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+              2. 13 Ekstrakurikuler Pilihan (Menampilkan {filteredItems.length} Klub)
+            </span>
+            {selectedDay !== 'Semua Hari' && (
+              <span className="text-xs font-semibold text-blue-700">Hari: {selectedDay}</span>
+            )}
           </div>
 
-          {/* Search & Day Filters */}
-          <div className="mb-8 space-y-4">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              
-              {/* Search Bar */}
-              <div className="relative w-full md:w-96">
-                <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
-                <input
-                  type="text"
-                  placeholder="Cari ekstrakurikuler (futsal, basket, tari, silat)..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 hover:text-slate-600 p-1"
-                  >
-                    ✕
-                  </button>
-                )}
-              </div>
-
-              {/* Day Filter Tabs */}
-              <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 scrollbar-none">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1 shrink-0 mr-1">
-                  <Calendar className="w-3.5 h-3.5" /> Hari Latihan:
-                </span>
-                {DAYS.map((day) => {
-                  const active = selectedDay === day;
-                  return (
-                    <button
-                      key={day}
-                      onClick={() => setSelectedDay(day)}
-                      className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition cursor-pointer ${
-                        active
-                          ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
-                          : 'bg-slate-100/80 hover:bg-slate-200 text-slate-700'
-                      }`}
-                    >
-                      {day}
-                    </button>
-                  );
-                })}
-              </div>
-
-            </div>
-          </div>
-
-          {/* Cards Grid */}
-          {filteredItems.length === 0 ? (
-            <div className="text-center py-16 bg-slate-50 rounded-3xl border border-dashed border-slate-200">
-              <Trophy className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-              <h3 className="text-base font-bold text-slate-700">Tidak ada ekstrakurikuler ditemukan</h3>
-              <p className="text-xs text-slate-500 mt-1">Coba sesuaikan kata kunci pencarian atau pilih filter hari yang lain.</p>
-              <button
-                onClick={() => { setSelectedDay('Semua Hari'); setSearchQuery(''); }}
-                className="mt-4 px-4 py-2 bg-blue-600 text-white text-xs font-bold rounded-xl hover:bg-blue-700 transition cursor-pointer"
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredItems.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-2xs hover:border-blue-300 transition-colors flex flex-col justify-between"
               >
-                Reset Filter
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-              {filteredItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group"
-                >
-                  <div>
-                    {/* Photo Cover with Badge */}
-                    <div className="relative h-52 w-full overflow-hidden bg-slate-100">
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover group-hover:scale-108 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-                      
-                      <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5">
-                        <span className="w-6 h-6 rounded-full bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-black flex items-center justify-center">
-                          {item.no}
-                        </span>
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold border backdrop-blur-md bg-white/95 shadow-xs ${item.tagColor}`}>
-                          {item.badge}
-                        </span>
-                      </div>
-
-                      <div className="absolute bottom-3 right-3">
-                        <span className="px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-blue-600/90 text-white backdrop-blur-md shadow-xs">
-                          {item.day}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Card Content */}
-                    <div className="p-6">
-                      <h3 className="text-lg font-extrabold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
-                        {item.name}
-                      </h3>
-
-                      <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5">
-                        {item.desc}
-                      </p>
-
-                      <div className="space-y-2 pt-4 border-t border-slate-100 text-xs text-slate-600">
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-blue-600 shrink-0" />
-                          <span className="font-semibold text-slate-700">Jadwal:</span>
-                          <span className="text-slate-500 font-medium">{item.schedule}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <UserCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                          <span className="font-semibold text-slate-700">Pembina:</span>
-                          <span className="text-slate-500 font-medium">{item.mentor}</span>
-                        </div>
-                      </div>
+                <div>
+                  <div className="relative h-40 w-full bg-slate-100 border-b border-slate-200">
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover"
+                    />
+                    <div className="absolute top-2.5 left-2.5">
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-white/95 text-slate-800 border border-slate-200 shadow-2xs">
+                        {item.category}
+                      </span>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
 
+                  <div className="p-4 space-y-2">
+                    <div className="text-[10px] font-bold text-blue-700 uppercase tracking-wider">
+                      {item.day} • {item.badge}
+                    </div>
+
+                    <h3 className="text-sm font-bold text-slate-900 leading-snug">
+                      {item.name}
+                    </h3>
+
+                    <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 pt-2 border-t border-slate-100 space-y-1 text-[11px] text-slate-500">
+                  <div className="flex items-center gap-1.5 text-slate-700 font-medium">
+                    <Clock className="w-3 h-3 text-blue-600 shrink-0" />
+                    <span>{item.schedule}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-slate-500">
+                    <UserCheck className="w-3 h-3 text-slate-400 shrink-0" />
+                    <span className="truncate">{item.mentor}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
       </div>
+
     </div>
   );
 }

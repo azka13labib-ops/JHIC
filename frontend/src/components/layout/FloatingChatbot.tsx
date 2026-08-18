@@ -23,17 +23,25 @@ const INITIAL_MESSAGES: Message[] = [
   {
     id: 'welcome-1',
     sender: 'bot',
-    text: 'Halo! 👋 Selamat datang di Layanan Informasi SMA PGRI 1 Lumajang.\n\nAda yang bisa kami bantu terkait informasi **PPDB, Jurusan, Ekstrakurikuler, atau Fasilitas Sekolah**?',
+    text: 'Halo! 👋 Saya **SMAGRISA AI Assistant**, asisten cerdas resmi SMA PGRI 1 Lumajang.\n\nAda yang bisa saya bantu terkait **PPDB 2026, Peminatan Jurusan, 13 Ekstrakurikuler, atau Fasilitas Sekolah**?',
     time: 'Baru saja',
     quickActions: [
-      { label: '📝 Syarat & Jalur PPDB', query: 'Jelaskan syarat dan jalur pendaftaran PPDB di SMAGRISA' },
-      { label: '🏆 Jadwal Ekstrakurikuler', query: 'Sebutkan pilihan ekstrakurikuler beserta jadwalnya' },
+      { label: '📝 Syarat & 2 Jalur PPDB', query: 'Jelaskan syarat dan 2 jalur pendaftaran PPDB 2026 di SMAGRISA' },
+      { label: '🏆 Jadwal 13 Ekstrakurikuler', query: 'Sebutkan 13 ekstrakurikuler pilihan dan ekstrakurikuler wajib beserta jadwalnya' },
       { label: '📚 Pilihan Jurusan', query: 'Apa saja jurusan peminatan di SMA PGRI 1 Lumajang?' },
-      { label: '🏢 Fasilitas Sekolah', query: 'Ceritakan tentang fasilitas laboratorium dan sekolah di SMAGRISA' },
+      { label: '🏢 Fasilitas Sekolah', query: 'Ceritakan tentang fasilitas laboratorium dan kampus modern di SMAGRISA' },
       { label: '🎓 Profil Kepala Sekolah & Guru', query: 'Siapa Kepala Sekolah dan bagaimana kualitas tenaga pendidik di SMAGRISA?' },
     ],
   },
 ];
+
+function sanitizeText(raw: string): string {
+  if (!raw) return '';
+  let cleaned = raw.replace(/<think>[\s\S]*?<\/think>/gi, '');
+  cleaned = cleaned.replace(/<think>[\s\S]*/gi, '');
+  cleaned = cleaned.replace(/<\/?think>/gi, '');
+  return cleaned.trim();
+}
 
 export function FloatingChatbot() {
   const router = useRouter();
@@ -41,11 +49,9 @@ export function FloatingChatbot() {
   const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [showNotificationBadge, setShowNotificationBadge] = useState(true);
-
-  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const messageIdCounter = useRef(1);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -55,7 +61,6 @@ export function FloatingChatbot() {
     const query = (textToSend || inputMessage).trim();
     if (!query || isTyping) return;
 
-    // Handle Quick Navigation Action Commands if clicked
     if (query === 'buka-ppdb') {
       router.push('/ppdb');
       setIsOpen(false);
@@ -91,10 +96,9 @@ export function FloatingChatbot() {
     setIsTyping(true);
 
     try {
-      // Send conversation history to Groq AI API route
       const apiMessages = newHistory.map((m) => ({
         role: m.sender === 'user' ? 'user' : 'assistant',
-        content: m.text,
+        content: sanitizeText(m.text),
       }));
 
       const res = await fetch('/api/chat', {
@@ -106,9 +110,9 @@ export function FloatingChatbot() {
       let botReply = '';
       if (res.ok) {
         const data = await res.json();
-        botReply = data.reply || 'Mohon maaf, saya belum memahami pertanyaan tersebut.';
+        botReply = sanitizeText(data.reply) || 'Mohon maaf, saya belum memahami pertanyaan tersebut.';
       } else {
-        botReply = 'Maaf, terjadi gangguan pada server AI. Silakan tanyakan kembali beberapa saat lagi.';
+        botReply = 'Maaf, terjadi kendala saat menghubungi server AI. Silakan tanyakan kembali beberapa saat lagi.';
       }
 
       messageIdCounter.current += 1;
@@ -143,17 +147,16 @@ export function FloatingChatbot() {
     setMessages(INITIAL_MESSAGES);
   };
 
-  // Simple Markdown text renderer for bold (*text*), lists (- item), and linebreaks
   const renderFormattedText = (text: string) => {
-    return text.split('\n').map((line, lineIdx) => {
-      // Process bold formatting
+    const safeText = sanitizeText(text);
+    return safeText.split('\n').map((line, lineIdx) => {
       const parts = line.split(/(\*\*.*?\*\*)/g);
       return (
         <span key={lineIdx} className="block min-h-[1.1rem]">
           {parts.map((part, partIdx) => {
             if (part.startsWith('**') && part.endsWith('**')) {
               return (
-                <strong key={partIdx} className="font-extrabold text-slate-900">
+                <strong key={partIdx} className="font-bold text-slate-900">
                   {part.slice(2, -2)}
                 </strong>
               );
@@ -166,26 +169,23 @@ export function FloatingChatbot() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end">
       
-      {/* 1. Interactive Chat Window Modal */}
+      {/* Interactive Chat Window Modal */}
       {isOpen && (
-        <div className="mb-3 w-[92vw] sm:w-100 h-135 max-h-[82vh] bg-white rounded-3xl shadow-2xl border border-slate-200/90 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-200">
+        <div className="mb-3 w-[92vw] sm:w-96 h-130 max-h-[80vh] bg-white rounded-2xl shadow-xl border border-slate-200 flex flex-col overflow-hidden animate-in fade-in duration-200">
           
           {/* Header */}
-          <div className="bg-linear-to-r from-blue-600 via-indigo-600 to-indigo-700 p-4 text-white flex items-center justify-between shadow-md">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-inner relative">
-                <Bot className="w-6 h-6 text-white" />
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-indigo-700 absolute -top-0.5 -right-0.5 animate-pulse" />
+          <div className="bg-blue-900 px-4 py-3 text-white flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center border border-white/20">
+                <Bot className="w-4.5 h-4.5 text-white" />
               </div>
               <div>
-                <div className="flex items-center gap-1.5 font-bold text-sm">
-                  <span>Pusat Bantuan</span>
-                </div>
-                <div className="text-[11px] text-blue-100 flex items-center gap-1">
+                <div className="font-bold text-xs">SMAGRISA Virtual Assistant</div>
+                <div className="text-[10px] text-blue-200 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                  <span>Layanan Informasi SMAGRISA</span>
+                  <span>Layanan Informasi Otomatis</span>
                 </div>
               </div>
             </div>
@@ -194,39 +194,39 @@ export function FloatingChatbot() {
               <button
                 onClick={handleResetChat}
                 title="Mulai Ulang Percakapan"
-                className="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/15 transition cursor-pointer"
+                className="p-1.5 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               >
-                <RotateCcw className="w-4 h-4" />
+                <RotateCcw className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
                 title="Tutup Chat"
-                className="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/15 transition cursor-pointer"
+                className="p-1.5 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
 
           {/* Message List Body */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50/70">
+          <div className="flex-1 overflow-y-auto p-3.5 space-y-3.5 bg-slate-50">
             {messages.map((msg) => (
               <div
                 key={msg.id}
-                className={`flex gap-2.5 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                className={`flex gap-2 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.sender === 'bot' && (
-                  <div className="w-7 h-7 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 text-xs font-bold mt-1 shadow-xs">
-                    <Bot className="w-4 h-4" />
+                  <div className="w-6 h-6 rounded-md bg-blue-700 text-white flex items-center justify-center shrink-0 text-xs font-bold mt-1">
+                    <Bot className="w-3.5 h-3.5" />
                   </div>
                 )}
 
-                <div className="max-w-[82%] space-y-2">
+                <div className="max-w-[85%] space-y-1.5">
                   <div
-                    className={`p-3.5 rounded-2xl text-xs sm:text-[13px] leading-relaxed shadow-2xs ${
+                    className={`p-3 rounded-xl text-xs leading-relaxed ${
                       msg.sender === 'user'
-                        ? 'bg-blue-600 text-white rounded-tr-xs'
-                        : 'bg-white text-slate-800 border border-slate-200/80 rounded-tl-xs'
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-white text-slate-800 border border-slate-200 shadow-2xs'
                     }`}
                   >
                     {renderFormattedText(msg.text)}
@@ -234,22 +234,22 @@ export function FloatingChatbot() {
 
                   {/* Quick Action Buttons */}
                   {msg.quickActions && msg.quickActions.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 pt-1">
+                    <div className="flex flex-wrap gap-1 pt-0.5">
                       {msg.quickActions.map((qa, idx) => (
                         <button
                           key={idx}
                           onClick={() => handleSendMessage(qa.query)}
-                          className="text-[11px] font-bold px-3 py-1.5 rounded-xl bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-slate-700 hover:text-blue-700 transition shadow-2xs flex items-center gap-1 cursor-pointer text-left"
+                          className="text-[10px] font-semibold px-2.5 py-1 rounded-md bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-slate-700 hover:text-blue-700 transition-colors flex items-center gap-1 cursor-pointer text-left shadow-2xs"
                         >
                           <span>{qa.label}</span>
-                          <ChevronRight className="w-3 h-3 text-slate-400 shrink-0" />
+                          <ChevronRight className="w-2.5 h-2.5 text-slate-400 shrink-0" />
                         </button>
                       ))}
                     </div>
                   )}
 
                   <div
-                    className={`text-[10px] text-slate-400 ${
+                    className={`text-[9px] text-slate-400 ${
                       msg.sender === 'user' ? 'text-right' : 'text-left'
                     }`}
                   >
@@ -258,23 +258,20 @@ export function FloatingChatbot() {
                 </div>
 
                 {msg.sender === 'user' && (
-                  <div className="w-7 h-7 rounded-xl bg-slate-800 text-white flex items-center justify-center shrink-0 text-xs font-bold mt-1 shadow-xs">
-                    <User className="w-4 h-4" />
+                  <div className="w-6 h-6 rounded-md bg-slate-800 text-white flex items-center justify-center shrink-0 text-xs font-bold mt-1">
+                    <User className="w-3.5 h-3.5" />
                   </div>
                 )}
               </div>
             ))}
 
             {isTyping && (
-              <div className="flex items-center gap-2 text-slate-400 text-xs">
-                <div className="w-7 h-7 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0">
-                  <Bot className="w-4 h-4" />
+              <div className="flex items-center gap-2 text-slate-500 text-xs">
+                <div className="w-6 h-6 rounded-md bg-blue-700 text-white flex items-center justify-center shrink-0">
+                  <Bot className="w-3.5 h-3.5" />
                 </div>
-                <div className="bg-white border border-slate-200 p-3 rounded-2xl flex items-center gap-1.5 shadow-2xs">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-bounce" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-bounce [animation-delay:0.2s]" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-bounce [animation-delay:0.4s]" />
-                  <span className="text-[11px] text-slate-500 font-medium ml-1">Sedang mengetik...</span>
+                <div className="bg-white border border-slate-200 px-3 py-2 rounded-xl text-[11px] shadow-2xs">
+                  AI sedang menyusun jawaban...
                 </div>
               </div>
             )}
@@ -283,29 +280,29 @@ export function FloatingChatbot() {
           </div>
 
           {/* Input Area */}
-          <div className="p-3 bg-white border-t border-slate-200">
+          <div className="p-2.5 bg-white border-t border-slate-200">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSendMessage();
               }}
-              className="flex items-center gap-2"
+              className="flex items-center gap-1.5"
             >
               <input
                 type="text"
-                placeholder="Tanyakan apa saja seputar sekolah..."
+                placeholder="Ketik pertanyaan seputar sekolah..."
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 disabled={isTyping}
-                className="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition disabled:opacity-50"
+                className="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors disabled:opacity-50"
               />
               <button
                 type="submit"
                 disabled={!inputMessage.trim() || isTyping}
-                className="w-10 h-10 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-40 text-white flex items-center justify-center shrink-0 shadow-md transition cursor-pointer"
+                className="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-40 text-white font-bold text-xs transition-colors shrink-0 cursor-pointer"
                 aria-label="Kirim Pesan"
               >
-                <Send className="w-4 h-4" />
+                <Send className="w-3.5 h-3.5" />
               </button>
             </form>
           </div>
@@ -313,52 +310,18 @@ export function FloatingChatbot() {
         </div>
       )}
 
-      {/* 2. Floating Chatbot Trigger Button */}
-      <div className="flex items-center gap-3">
-        
-        {/* Floating Greeting Tooltip */}
-        {!isOpen && showNotificationBadge && (
-          <div 
-            onClick={() => { setIsOpen(true); setShowNotificationBadge(false); }}
-            className="hidden sm:flex items-center gap-2.5 bg-white text-slate-800 text-xs font-semibold px-4 py-2.5 rounded-2xl shadow-xl border border-slate-200/90 cursor-pointer hover:border-blue-300 transition-all hover:scale-102 duration-200"
-          >
-            <span className="w-2 h-2 rounded-full bg-blue-600 animate-ping" />
-            <span>Butuh Bantuan? Tanya Kami 💬</span>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowNotificationBadge(false);
-              }}
-              className="text-slate-400 hover:text-slate-600 ml-1 p-0.5"
-              aria-label="Tutup pesan bantuan"
-            >
-              <X className="w-3 h-3" />
-            </button>
-          </div>
+      {/* Floating Chat Trigger Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label={isOpen ? 'Tutup Asisten AI' : 'Buka Asisten AI Sekolah'}
+        className="w-12 h-12 rounded-xl bg-blue-900 hover:bg-blue-800 text-white flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+      >
+        {isOpen ? (
+          <X className="w-5 h-5 text-white" />
+        ) : (
+          <Bot className="w-5 h-5 text-white" />
         )}
-
-        {/* Chatbot Floating Circle Button */}
-        <button
-          onClick={() => {
-            setIsOpen(!isOpen);
-            if (!isOpen) setShowNotificationBadge(false);
-          }}
-          aria-label={isOpen ? 'Tutup Asisten AI' : 'Buka Asisten AI Sekolah'}
-          className="w-14 h-14 rounded-full bg-linear-to-br from-blue-600 via-indigo-600 to-indigo-800 hover:from-blue-700 hover:to-indigo-900 text-white flex items-center justify-center shadow-xl shadow-blue-600/35 hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer relative"
-        >
-          {/* Online Pulsing Glow */}
-          <span className="absolute -top-1 -right-1 flex h-4 w-4">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 text-[9px] font-black text-white items-center justify-center" />
-          </span>
-
-          {isOpen ? (
-            <X className="w-6 h-6 text-white" />
-          ) : (
-            <Bot className="w-7 h-7 text-white animate-pulse" />
-          )}
-        </button>
-      </div>
+      </button>
 
     </div>
   );

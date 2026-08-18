@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { 
-  GraduationCap, 
   Building, 
   Briefcase, 
   Send, 
@@ -96,7 +95,6 @@ const FEATURED_ALUMNI: AlumniStory[] = [
 export default function AlumniPage() {
   const [activeTab, setActiveTab] = useState<'stories' | 'tracer'>('stories');
   
-  // Tracer Form State
   const [formData, setFormData] = useState({
     fullName: '',
     gradYear: '2024',
@@ -115,314 +113,268 @@ export default function AlumniPage() {
     setTimeout(() => {
       setSubmitting(false);
       setSubmitted(true);
-    }, 1000);
+    }, 800);
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      
       {/* Header Banner */}
-      <section className="relative bg-linear-to-b from-slate-50 via-white to-slate-50 text-slate-900 border-b border-slate-200 py-16 sm:py-20 overflow-hidden text-center">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider mb-4 text-blue-700">
-            <GraduationCap className="w-3.5 h-3.5" /> Jejak Alumni & Tracer Study
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold mb-4 tracking-tight text-slate-900">
-            Portal Alumni SMAGRISA
-          </h1>
-          <p className="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
-            Menghubungkan ribuan alumni SMA PGRI 1 Lumajang yang telah berkiprah di Perguruan Tinggi Negeri unggulan, BUMN, instansi pemerintah, dan dunia profesional.
-          </p>
-
-          {/* Breadcrumb */}
-          <div className="flex justify-center items-center gap-2 text-xs sm:text-sm text-slate-500 mt-6">
-            <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
-            <span>/</span>
-            <span className="text-slate-900 font-semibold">Alumni</span>
+      <section className="bg-white border-b border-slate-200 py-10 sm:py-14">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="max-w-2xl">
+            <span className="text-xs font-bold tracking-widest text-blue-900 uppercase block mb-1">
+              Jejak Lulusan & Tracer Study
+            </span>
+            <h1 className="font-serif text-3xl sm:text-4xl font-normal text-slate-900 tracking-tight">
+              Portal Alumni SMA PGRI 1 Lumajang
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              Dokumentasi kiprah ribuan alumni SMAGRISA di perguruan tinggi negeri unggulan, badan usaha milik negara, instansi pemerintah, dan dunia profesional.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
+      <div className="container mx-auto px-4 py-8 sm:py-12 max-w-6xl space-y-8">
         
-        {/* Statistics Bar */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
-          <div className="bg-blue-50/80 border border-blue-100 rounded-3xl p-6 text-center">
-            <div className="text-3xl sm:text-4xl font-black text-blue-700 mb-1">78%</div>
-            <div className="text-xs font-bold uppercase tracking-wider text-blue-900">Lolos PTN Favorit</div>
-            <div className="text-[11px] text-blue-600 mt-1">UB, UNAIR, ITS, UM, UNEJ, UGM</div>
+        {/* Statistics Metric Bar */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-2xs">
+            <div className="text-2xl sm:text-3xl font-bold text-blue-700 mb-1">78%</div>
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-900">Lolos PTN Favorit</div>
+            <div className="text-[11px] text-slate-500 mt-0.5">UB, UNAIR, ITS, UM, UNEJ, UGM</div>
           </div>
-          <div className="bg-emerald-50/80 border border-emerald-100 rounded-3xl p-6 text-center">
-            <div className="text-3xl sm:text-4xl font-black text-emerald-700 mb-1">15%</div>
-            <div className="text-xs font-bold uppercase tracking-wider text-emerald-900">Karier Profesional & BUMN</div>
-            <div className="text-[11px] text-emerald-600 mt-1">Perbankan, Medis, IT & Industri</div>
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-2xs">
+            <div className="text-2xl sm:text-3xl font-bold text-blue-700 mb-1">15%</div>
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-900">Karier Profesional & BUMN</div>
+            <div className="text-[11px] text-slate-500 mt-0.5">Perbankan, Medis, IT & Industri</div>
           </div>
-          <div className="bg-amber-50/80 border border-amber-100 rounded-3xl p-6 text-center">
-            <div className="text-3xl sm:text-4xl font-black text-amber-700 mb-1">7%</div>
-            <div className="text-xs font-bold uppercase tracking-wider text-amber-900">Wirausaha & Start-up</div>
-            <div className="text-[11px] text-amber-600 mt-1">Bisnis Kreatif & Agrobisnis</div>
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-2xs">
+            <div className="text-2xl sm:text-3xl font-bold text-blue-700 mb-1">7%</div>
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-900">Wirausaha Kreatif</div>
+            <div className="text-[11px] text-slate-500 mt-0.5">Industri Digital & Startup</div>
           </div>
         </div>
 
-        {/* Tab Navigation */}
-        <div className="flex justify-center mb-10">
-          <div className="bg-slate-100 p-1.5 rounded-2xl inline-flex gap-1.5 border border-slate-200">
+        {/* Tab Selection */}
+        <div className="flex justify-center">
+          <div className="bg-slate-200/80 p-1 rounded-lg inline-flex gap-1">
             <button
               onClick={() => setActiveTab('stories')}
-              className={`px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-md text-xs font-bold transition-colors cursor-pointer ${
                 activeTab === 'stories'
-                  ? 'bg-white text-blue-700 shadow-sm'
+                  ? 'bg-white text-blue-800 shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              ⭐ Kisah Sukses & Testimoni Alumni
+              Kisah Sukses Alumni
             </button>
             <button
               onClick={() => setActiveTab('tracer')}
-              className={`px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-md text-xs font-bold transition-colors cursor-pointer ${
                 activeTab === 'tracer'
-                  ? 'bg-white text-blue-700 shadow-sm'
+                  ? 'bg-white text-blue-800 shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              📝 Form Tracer Study Alumni
+              Formulir Tracer Study
             </button>
           </div>
         </div>
 
         {/* TAB 1: Featured Alumni Stories */}
         {activeTab === 'stories' && (
-          <div className="space-y-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-              {FEATURED_ALUMNI.map((alumni) => (
-                <div
-                  key={alumni.id}
-                  className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group"
-                >
-                  <div>
-                    {/* Image Header */}
-                    <div className="relative h-56 w-full overflow-hidden bg-slate-100">
-                      <Image
-                        src={alumni.image}
-                        alt={alumni.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-70 group-hover:opacity-50 transition-opacity" />
-                      
-                      <div className="absolute top-3.5 left-3.5">
-                        <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/90 backdrop-blur-md text-blue-700 shadow-xs">
-                          {alumni.badge}
-                        </span>
-                      </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {FEATURED_ALUMNI.map((alumni) => (
+              <div
+                key={alumni.id}
+                className="bg-white rounded-xl overflow-hidden border border-slate-200 shadow-2xs flex flex-col justify-between"
+              >
+                <div>
+                  <div className="relative h-48 w-full bg-slate-100 border-b border-slate-200">
+                    <Image
+                      src={alumni.image}
+                      alt={alumni.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover object-top"
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-white/95 text-blue-800 border border-slate-200 shadow-2xs">
+                        {alumni.badge}
+                      </span>
+                    </div>
+                  </div>
 
-                      <div className="absolute bottom-3 left-4 right-4 text-white">
-                        <span className="text-[11px] font-bold text-amber-300 block">
-                          {alumni.gradYear}
-                        </span>
-                        <h2 className="text-base sm:text-lg font-extrabold text-white leading-snug drop-shadow-xs">
-                          {alumni.name}
-                        </h2>
+                  <div className="p-4 space-y-3">
+                    <div>
+                      <span className="text-[11px] font-semibold text-blue-700 block">
+                        {alumni.gradYear}
+                      </span>
+                      <h2 className="text-sm font-bold text-slate-900 leading-snug">
+                        {alumni.name}
+                      </h2>
+                    </div>
+
+                    <div className="space-y-1.5 text-xs text-slate-600 pt-1 border-t border-slate-100">
+                      <div className="flex items-start gap-2">
+                        <Briefcase className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" />
+                        <div>
+                          <span className="font-semibold text-slate-800">{alumni.currentRole}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <Building className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" />
+                        <div>
+                          <span className="text-slate-700">{alumni.institution}</span>
+                          <div className="text-[10px] text-slate-500">{alumni.majorOrDept}</div>
+                        </div>
                       </div>
                     </div>
 
-                    {/* Content */}
-                    <div className="p-6 space-y-4">
-                      <div className="space-y-2 text-xs">
-                        <div className="flex items-start gap-2">
-                          <Briefcase className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-                          <div>
-                            <span className="font-bold text-slate-900 block">Profesi / Posisi:</span>
-                            <span className="text-slate-600 font-medium">{alumni.currentRole}</span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start gap-2 pt-1 border-t border-slate-100">
-                          <Building className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                          <div>
-                            <span className="font-bold text-slate-900 block">Instansi / Kampus:</span>
-                            <span className="text-slate-600 font-medium">{alumni.institution}</span>
-                            <div className="text-[11px] text-slate-400 mt-0.5">{alumni.majorOrDept}</div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Quote */}
-                      <div className="pt-3 border-t border-slate-100 text-xs italic text-slate-600 bg-slate-50/70 p-3.5 rounded-2xl flex items-start gap-2">
-                        <Quote className="w-4 h-4 text-blue-500 shrink-0 mt-0.5 opacity-60" />
-                        <span>&ldquo;{alumni.quote}&rdquo;</span>
-                      </div>
+                    <div className="pt-2 text-xs italic text-slate-600 border-t border-slate-100 flex gap-2 items-start">
+                      <Quote className="w-4 h-4 text-slate-300 shrink-0 mt-0.5" />
+                      <p className="line-clamp-3">"{alumni.quote}"</p>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-
-            {/* Bottom Call to Action for Alumni */}
-            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 text-center max-w-2xl mx-auto">
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Apakah Anda Alumni SMA PGRI 1 Lumajang?</h3>
-              <p className="text-xs sm:text-sm text-slate-600 mb-4">
-                Bantu adik-adik tingkatmu dengan membagikan jejak perkuliahan atau karier profesional Anda melalui pendataan Tracer Study resmi.
-              </p>
-              <button
-                onClick={() => setActiveTab('tracer')}
-                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition-all cursor-pointer"
-              >
-                Isi Formulir Tracer Study Sekarang →
-              </button>
-            </div>
+              </div>
+            ))}
           </div>
         )}
 
         {/* TAB 2: Tracer Study Form */}
         {activeTab === 'tracer' && (
-          <div className="max-w-2xl mx-auto">
-            <div className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-10 shadow-sm">
-              <div className="text-center mb-8">
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-3 border border-blue-100">
-                  <Send className="w-6 h-6" />
-                </div>
-                <h2 className="text-2xl font-bold text-slate-900">Formulir Tracer Study Alumni</h2>
-                <p className="text-slate-500 text-xs sm:text-sm mt-1">
-                  Data Anda akan membantu almamater dalam meningkatkan mutu kurikulum dan akreditasi sekolah.
+          <div className="bg-white rounded-xl border border-slate-200 p-6 sm:p-8 shadow-2xs max-w-2xl mx-auto">
+            {submitted ? (
+              <div className="text-center py-8 space-y-3">
+                <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
+                <h3 className="text-base font-bold text-slate-900">Data Tracer Study Berhasil Dikirim</h3>
+                <p className="text-xs text-slate-600 max-w-md mx-auto">
+                  Terima kasih atas partisipasi Anda dalam memperbarui data alumni SMA PGRI 1 Lumajang.
                 </p>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition-colors"
+                >
+                  Kirim Data Lainnya
+                </button>
               </div>
-
-              {submitted ? (
-                <div className="text-center py-10 space-y-4">
-                  <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
-                    <CheckCircle2 className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900">Terima Kasih, Sahabat Alumni!</h3>
-                  <p className="text-slate-600 text-sm max-w-md mx-auto leading-relaxed">
-                    Data Tracer Study Anda telah berhasil terkirim dan tersimpan di database alumni SMA PGRI 1 Lumajang.
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <h3 className="text-base font-bold text-slate-900 mb-1">Formulir Pemutakhiran Data Alumni</h3>
+                  <p className="text-xs text-slate-500">
+                    Bantu sekolah dalam pemetaan karier dan re-akreditasi dengan mengisi data terkini Anda.
                   </p>
-                  <button
-                    onClick={() => { setSubmitted(false); setActiveTab('stories'); }}
-                    className="px-6 py-2.5 bg-blue-600 text-white text-xs font-bold rounded-xl hover:bg-blue-700 transition"
-                  >
-                    Kembali ke Direktori Alumni
-                  </button>
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
+
+                <div className="space-y-3 pt-2">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                      Nama Lengkap & Gelar (Jika Ada) *
-                    </label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap & Gelar</label>
                     <input
                       type="text"
                       required
-                      placeholder="Contoh: Muhammad Ilham Maulana, S.Kom."
+                      placeholder="Contoh: Ahmad Faisal, S.T."
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-blue-500 transition-colors"
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                        Tahun Kelulusan *
-                      </label>
-                      <select
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Tahun Kelulusan</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="Contoh: 2022"
                         value={formData.gradYear}
                         onChange={(e) => setFormData({ ...formData, gradYear: e.target.value })}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white transition"
-                      >
-                        {Array.from({ length: 15 }, (_, i) => 2026 - i).map((yr) => (
-                          <option key={yr} value={String(yr)}>
-                            Tahun {yr}
-                          </option>
-                        ))}
-                      </select>
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-blue-500 transition-colors"
+                      />
                     </div>
-
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                        Aktivitas Saat Ini *
-                      </label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Aktivitas Utama Saat Ini</label>
                       <select
                         value={formData.activityType}
                         onChange={(e) => setFormData({ ...formData, activityType: e.target.value })}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white transition"
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-blue-500 transition-colors"
                       >
-                        <option value="kuliah">Kuliah di Perguruan Tinggi</option>
-                        <option value="kerja">Bekerja / Profesional</option>
-                        <option value="wirausaha">Wirausaha / Bisnis Mandiri</option>
-                        <option value="lainnya">Lainnya / Studi Lanjut</option>
+                        <option value="kuliah">Melanjutkan Studi (Kuliah)</option>
+                        <option value="kerja">Bekerja / Berkarier</option>
+                        <option value="wirausaha">Wirausaha / Usaha Mandiri</option>
+                        <option value="lainnya">Lainnya</option>
                       </select>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                      Nama Kampus / Tempat Kerja / Perusahaan *
-                    </label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">Nama Universitas / Perusahaan / Tempat Usaha</label>
                     <input
                       type="text"
                       required
-                      placeholder="Contoh: Universitas Brawijaya / PT Telkom Indonesia"
+                      placeholder="Contoh: Universitas Brawijaya / PT Bank Mandiri"
                       value={formData.institution}
                       onChange={(e) => setFormData({ ...formData, institution: e.target.value })}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-blue-500 transition-colors"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                      Program Studi / Jabatan Pekerjaan
-                    </label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">Program Studi / Posisi Jabatan</label>
                     <input
                       type="text"
-                      placeholder="Contoh: Teknik Informatika / Software Engineer"
+                      required
+                      placeholder="Contoh: S1 Teknik Elektro / Relationship Manager"
                       value={formData.majorOrRole}
                       onChange={(e) => setFormData({ ...formData, majorOrRole: e.target.value })}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-blue-500 transition-colors"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                      Nomor WhatsApp Aktif (Untuk Jaringan Alumni)
-                    </label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">Nomor WhatsApp Aktif</label>
                     <input
-                      type="tel"
+                      type="text"
+                      required
                       placeholder="Contoh: 081234567890"
                       value={formData.whatsapp}
                       onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-blue-500 transition-colors"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                      Pesan, Kesan, atau Motivasi untuk Adik Tingkat di SMAGRISA
-                    </label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">Pesan / Kesan untuk Almamater SMAGRISA</label>
                     <textarea
                       rows={3}
-                      placeholder="Tuliskan pengalaman berharga atau tips sukses belajar di SMA PGRI 1 Lumajang..."
+                      placeholder="Tuliskan pengalaman atau pesan inspiratif Anda..."
                       value={formData.testimonial}
                       onChange={(e) => setFormData({ ...formData, testimonial: e.target.value })}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition resize-none"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-blue-500 transition-colors resize-none"
                     />
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs sm:text-sm font-extrabold rounded-xl shadow-lg shadow-blue-600/25 transition flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    {submitting ? 'Sedang Mengirim Data...' : 'Kirim Data Tracer Study Alumni →'}
-                  </button>
-                </form>
-              )}
-            </div>
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50 text-white font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <Send className="w-3.5 h-3.5" />
+                      <span>{submitting ? 'Mengirim Data...' : 'Kirim Data Tracer Study'}</span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            )}
           </div>
         )}
 
       </div>
+
     </div>
   );
 }

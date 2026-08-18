@@ -1,71 +1,97 @@
-import { Newspaper, Pin } from 'lucide-react';
+import { Newspaper, Pin, ArrowRight } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { getNews } from "@/lib/api/school";
 
-export const revalidate = 60; // Revalidate every minute
+export const revalidate = 60;
 
 export default async function BeritaPage() {
   const news = await getNews();
 
   return (
-    <div className="container mx-auto px-4 py-20 min-h-screen">
-      <h1 className="text-4xl font-bold mb-8 text-center">Berita & Informasi</h1>
-      <p className="text-slate-600 text-center mb-12 max-w-2xl mx-auto">
-        Kumpulan berita terbaru, pengumuman, dan informasi seputar kegiatan SMA PGRI 1 Lumajang.
-      </p>
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      
+      {/* Editorial Header */}
+      <section className="bg-white border-b border-slate-200 py-10 sm:py-14">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="max-w-2xl">
+            <span className="text-xs font-bold tracking-widest text-blue-900 uppercase block mb-1">
+              Warta & Publikasi Resmi
+            </span>
+            <h1 className="font-serif text-3xl sm:text-4xl font-normal text-slate-900 tracking-tight">
+              Berita & Informasi Terkini
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              Kumpulan warta kegiatan sekolah, pengumuman akademik, dan kabar prestasi siswa SMA PGRI 1 Lumajang.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      {news.length === 0 ? (
-        <div className="text-center py-20 bg-slate-50 rounded-xl border border-dashed border-slate-300">
-          <p className="text-slate-500 text-lg">Belum ada berita yang dipublikasikan.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {news.map((item) => (
-            <Link href={`/berita/${item.slug}`} key={item.id} className="group">
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col relative">
-                {item.is_pinned && (
-                  <div className="absolute top-3 left-3 z-10 bg-amber-500 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-full shadow-md flex items-center gap-1">
-                    <Pin className="w-3 h-3 fill-white" />
-                    <span>Disematkan</span>
-                  </div>
-                )}
-                <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
-                  {item.image_path ? (
-                    <Image 
-                      src={getImageUrl(item.image_path)} 
-                      alt={item.title} 
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-400">
-                      <Newspaper className="w-12 h-12 text-slate-300" />
+      {/* Main Listing Body */}
+      <div className="container mx-auto px-4 py-8 sm:py-12 max-w-6xl">
+        {news.length === 0 ? (
+          <div className="bg-white border border-slate-200 rounded-xl p-12 text-center max-w-md mx-auto shadow-2xs">
+            <Newspaper className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+            <h3 className="text-sm font-bold text-slate-900">Belum Ada Berita</h3>
+            <p className="text-xs text-slate-500 mt-1">Publikasi berita terbaru akan segera hadir di sini.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {news.map((item) => (
+              <Link href={`/berita/${item.slug}`} key={item.id} className="group">
+                <div className="bg-white rounded-xl border border-slate-200 shadow-2xs hover:border-blue-300 transition-colors h-full flex flex-col justify-between overflow-hidden">
+                  <div>
+                    <div className="relative h-48 w-full bg-slate-100 border-b border-slate-200">
+                      {item.is_pinned && (
+                        <div className="absolute top-2.5 left-2.5 z-10 bg-amber-500 text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded shadow-xs flex items-center gap-1">
+                          <Pin className="w-2.5 h-2.5 fill-white" />
+                          <span>Disematkan</span>
+                        </div>
+                      )}
+                      {item.image_path ? (
+                        <Image 
+                          src={getImageUrl(item.image_path)} 
+                          alt={item.title} 
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-slate-400">
+                          <Newspaper className="w-8 h-8 text-slate-300" />
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="p-6 flex flex-col grow">
-                  <div className="flex justify-between items-center text-xs text-slate-500 mb-3">
-                    <span>{new Date(item.published_at || item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-                    <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-md">{item.author?.name || 'Admin'}</span>
+
+                    <div className="p-4 space-y-2">
+                      <div className="flex items-center justify-between text-[11px] text-slate-500">
+                        <span>{new Date(item.published_at || item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                        <span className="text-blue-700 font-semibold">{item.author?.name || 'Admin SMAGRISA'}</span>
+                      </div>
+
+                      <h2 className="text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2 leading-snug">
+                        {item.title}
+                      </h2>
+
+                      <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                        {item.content}
+                      </p>
+                    </div>
                   </div>
-                  <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
-                    {item.title}
-                  </h2>
-                  <p className="text-slate-600 line-clamp-3 grow">
-                    {item.content}
-                  </p>
-                  <div className="mt-4 pt-4 border-t border-slate-100 font-semibold text-blue-600 flex items-center gap-2">
-                    Baca selengkapnya <span className="group-hover:translate-x-1 transition-transform">→</span>
+
+                  <div className="p-4 pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-blue-600 group-hover:text-blue-700">
+                    <span>Baca Selengkapnya</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+
     </div>
   );
 }

@@ -1,66 +1,98 @@
-import { Calendar, MapPin } from 'lucide-react';
+import { Calendar, MapPin, ArrowRight } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { getAgendas } from "@/lib/api/school";
 
-export const revalidate = 60; // Revalidate every minute
+export const revalidate = 60;
 
 export default async function AgendaPage() {
   const agendas = await getAgendas();
 
   return (
-    <div className="container mx-auto px-4 py-20 min-h-screen">
-      <h1 className="text-4xl font-bold mb-8 text-center">Agenda Sekolah</h1>
-      <p className="text-slate-600 text-center mb-12 max-w-2xl mx-auto">
-        Jadwal kegiatan dan acara penting seputar SMA PGRI 1 Lumajang.
-      </p>
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      
+      {/* Header */}
+      <section className="bg-white border-b border-slate-200 py-10 sm:py-14">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="max-w-2xl">
+            <span className="text-xs font-bold tracking-widest text-blue-900 uppercase block mb-1">
+              Kalender & Jadwal Kegiatan
+            </span>
+            <h1 className="font-serif text-3xl sm:text-4xl font-normal text-slate-900 tracking-tight">
+              Agenda Akademik Sekolah
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              Jadwal pelaksanaan upacara, ujian, kegiatan kesiswaan, dan agenda resmi SMA PGRI 1 Lumajang.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      {agendas.length === 0 ? (
-        <div className="text-center py-20 bg-slate-50 rounded-xl border border-dashed border-slate-300">
-          <p className="text-slate-500 text-lg">Belum ada agenda yang dijadwalkan.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {agendas.map((item) => (
-            <Link href={`/agenda/${item.slug}`} key={item.id} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
-              <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
-                {item.image ? (
-                  <Image 
-                    src={getImageUrl(item.image)} 
-                    alt={item.title} 
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-slate-400">
-                    <Calendar className="w-12 h-12 text-slate-300" />
+      {/* Main Listing */}
+      <div className="container mx-auto px-4 py-8 sm:py-12 max-w-6xl">
+        {agendas.length === 0 ? (
+          <div className="bg-white border border-slate-200 rounded-xl p-12 text-center max-w-md mx-auto shadow-2xs">
+            <Calendar className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+            <h3 className="text-sm font-bold text-slate-900">Belum Ada Agenda</h3>
+            <p className="text-xs text-slate-500 mt-1">Jadwal kegiatan akademik berikutnya akan segera diperbarui.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {agendas.map((item) => (
+              <Link href={`/agenda/${item.slug}`} key={item.id} className="group">
+                <div className="bg-white rounded-xl border border-slate-200 shadow-2xs hover:border-blue-300 transition-colors h-full flex flex-col justify-between overflow-hidden">
+                  <div>
+                    <div className="relative h-44 w-full bg-slate-100 border-b border-slate-200">
+                      {item.image ? (
+                        <Image 
+                          src={getImageUrl(item.image)} 
+                          alt={item.title} 
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-slate-400">
+                          <Calendar className="w-8 h-8 text-slate-300" />
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="p-4 space-y-2">
+                      <div className="flex items-center gap-1.5 text-[11px] font-bold text-blue-700">
+                        <Calendar className="w-3.5 h-3.5" />
+                        <span>{new Date(item.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                      </div>
+
+                      <h2 className="text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2 leading-snug">
+                        {item.title}
+                      </h2>
+
+                      {item.location && (
+                        <p className="text-[11px] text-slate-500 flex items-center gap-1">
+                          <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
+                          <span>{item.location}</span>
+                        </p>
+                      )}
+
+                      <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
-                )}
-              </div>
-              <div className="p-6 flex flex-col grow">
-                <div className="flex justify-between items-center text-xs text-slate-500 mb-3">
-                  <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-md font-bold">
-                    {new Date(item.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
-                  </span>
+
+                  <div className="p-4 pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-blue-600 group-hover:text-blue-700">
+                    <span>Rincian Acara</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  </div>
                 </div>
-                <h2 className="text-xl font-bold text-slate-900 mb-2">
-                  {item.title}
-                </h2>
-                {item.location && (
-                  <p className="text-sm text-slate-500 mb-3 flex items-center gap-1.5">
-                    <MapPin className="w-3.5 h-3.5 text-blue-500 shrink-0" /> {item.location}
-                  </p>
-                )}
-                <p className="text-slate-600 line-clamp-3 grow">
-                  {item.description}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+
     </div>
   );
 }

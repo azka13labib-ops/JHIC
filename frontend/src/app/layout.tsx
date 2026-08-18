@@ -28,9 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="id"
       suppressHydrationWarning
-      className={`${poppins.variable} ${playfair.variable} font-sans h-full antialiased dark`}
+      className={`${poppins.variable} ${playfair.variable} font-sans h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans bg-background text-foreground transition-colors duration-300">
+      <body className="min-h-full flex flex-col font-sans bg-slate-50 text-slate-900 antialiased">
         <ThemeProvider>
           {children}
         </ThemeProvider>

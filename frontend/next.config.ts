@@ -26,25 +26,24 @@ const securityHeaders = [
     value: 'camera=(), microphone=(), geolocation=(self)',
   },
   {
-    // Fix #9: Content-Security-Policy
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
-      "img-src 'self' data: blob: http://localhost:8000 http://127.0.0.1:8000 https://images.unsplash.com",
-      "connect-src 'self' http://localhost:8000 http://127.0.0.1:8000",
+      "img-src 'self' data: blob: http: https:",
+      "connect-src 'self' http: https:",
       "frame-ancestors 'none'",
     ].join('; '),
   },
 ];
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   images: {
     dangerouslyAllowLocalIP: true,
     remotePatterns: [
-      // Fix #8: Removed wildcard https://** — only allow known hosts
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
@@ -57,8 +56,14 @@ const nextConfig: NextConfig = {
         protocol: 'http',
         hostname: '127.0.0.1',
       },
-      // Add your production storage hostname here when deploying:
-      // { protocol: 'https', hostname: 'your-cdn-or-storage.com' },
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
     ],
   },
   async headers() {
@@ -69,7 +74,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // Redirect www → non-www (if needed in production)
   async redirects() {
     return [];
   },

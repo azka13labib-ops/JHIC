@@ -11,109 +11,130 @@ export default function KontakPage() {
   const contactInfo = [
     {
       icon: MapPin,
-      title: 'Alamat',
+      title: 'Alamat Kampus',
       content: 'Jl. Contoh Alamat No. 123, Lumajang, Jawa Timur 67316',
       link: 'https://maps.google.com/?q=Lumajang+Jawa+Timur',
-      linkText: 'Lihat di Google Maps →',
+      linkText: 'Buka di Google Maps →',
     },
     {
       icon: Phone,
-      title: 'Telepon',
-      content: '(0334) 881234',
+      title: 'Layanan Telepon & WhatsApp',
+      content: '(0334) 881234 / 0812-3456-7890',
       link: 'tel:+62334881234',
-      linkText: 'Hubungi sekarang',
+      linkText: 'Hubungi via Telepon',
     },
     {
       icon: Mail,
-      title: 'Email',
+      title: 'Surat Elektronik (Email)',
       content: 'info@smapgri1lmj.sch.id',
       link: 'mailto:info@smapgri1lmj.sch.id',
-      linkText: 'Kirim email',
+      linkText: 'Kirim Email Resmi',
     },
     {
       icon: Clock,
-      title: 'Jam Operasional',
+      title: 'Jam Pelayanan Tata Usaha',
       content: 'Senin – Jumat: 07.00 – 15.00 WIB\nSabtu: 07.00 – 12.00 WIB',
     },
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero */}
-      <section className="bg-linear-to-b from-slate-50 via-white to-slate-50 text-slate-900 border-b border-slate-200 py-16 sm:py-20 text-center">
-        <div className="container mx-auto px-4">
-          <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider mb-4 text-blue-700">
-            <MailQuestion className="w-4 h-4 text-blue-600" /> Hubungi Kami
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      
+      {/* Header */}
+      <section className="bg-white border-b border-slate-200 py-10 sm:py-14">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="max-w-2xl">
+            <span className="text-xs font-bold tracking-widest text-blue-900 uppercase block mb-1">
+              Pusat Komunikasi & Informasi
+            </span>
+            <h1 className="font-serif text-3xl sm:text-4xl font-normal text-slate-900 tracking-tight">
+              Hubungi SMA PGRI 1 Lumajang
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              Tim sekretariat dan panitia PPDB siap melayani pertanyaan seputar pendaftaran, kerjasama, dan administrasi sekolah.
+            </p>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold mb-4 text-slate-900 tracking-tight">Ada Pertanyaan?</h1>
-          <p className="text-slate-600 max-w-xl mx-auto text-base sm:text-lg leading-relaxed">
-            Tim layanan dan panitia sekolah kami siap membantu Anda. Kirim pesan atau kunjungi langsung kampus kami.
-          </p>
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Formulir Kontak */}
-          <div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-              <Send className="w-5 h-5 text-blue-600" /> Kirim Pesan
-            </h2>
+      <div className="container mx-auto px-4 py-8 sm:py-12 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Formulir Kontak (7 cols) */}
+          <div className="lg:col-span-7 bg-white border border-slate-200 rounded-xl p-6 sm:p-8 shadow-2xs">
+            <div className="mb-6">
+              <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <Send className="w-4 h-4 text-blue-700" />
+                <span>Kirim Pesan Resmi</span>
+              </h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Sampaikan pertanyaan atau permohonan informasi Anda melalui formulir di bawah ini.
+              </p>
+            </div>
             <ContactForm />
           </div>
 
-          {/* Info Kontak */}
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-slate-900 mb-6">Informasi Kontak</h2>
-            {contactInfo.map(({ icon: IconComponent, title, content, link, linkText }) => (
-              <div key={title} className="flex gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-100 items-start">
-                <div className="w-12 h-12 bg-[#2B3B6F] rounded-xl flex items-center justify-center text-white shrink-0 shadow-sm">
-                  <IconComponent className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-900 mb-1">{title}</h3>
-                  <p className="text-slate-600 text-sm whitespace-pre-line">{content}</p>
-                  {link && linkText && (
-                    <a href={link} target="_blank" rel="noopener noreferrer"
-                      className="text-blue-600 text-sm hover:underline mt-1 inline-block font-medium">
-                      {linkText}
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
+          {/* Info Kontak & Sosmed (5 cols) */}
+          <div className="lg:col-span-5 space-y-4">
+            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-2xs space-y-4">
+              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-900">
+                Informasi Kontak Langsung
+              </h2>
 
-            {/* Sosmed */}
-            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-              <h3 className="font-bold text-slate-900 mb-3">Media Sosial</h3>
-              <div className="flex gap-3">
+              <div className="space-y-3">
+                {contactInfo.map(({ icon: IconComponent, title, content, link, linkText }) => (
+                  <div key={title} className="flex gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100 items-start">
+                    <div className="w-8 h-8 bg-blue-50 border border-blue-100 rounded-md flex items-center justify-center text-blue-700 shrink-0 mt-0.5">
+                      <IconComponent className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-xs text-slate-900">{title}</h3>
+                      <p className="text-slate-600 text-xs whitespace-pre-line mt-0.5">{content}</p>
+                      {link && linkText && (
+                        <a
+                          href={link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 text-[11px] font-semibold hover:text-blue-700 mt-1 inline-block"
+                        >
+                          {linkText}
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Media Sosial */}
+            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-2xs">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-900 mb-3">
+                Saluran Media Sosial Resmi
+              </h3>
+              <div className="flex flex-wrap gap-2">
                 {[
-                  { name: 'Facebook', url: '#' },
-                  { name: 'Instagram', url: '#' },
-                  { name: 'YouTube', url: '#' },
+                  { name: 'Facebook SMAGRISA', url: '#' },
+                  { name: 'Instagram @smapgri1lmj', url: '#' },
+                  { name: 'YouTube Official', url: '#' },
                 ].map(({ name, url }) => (
-                  <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:shadow-md transition-shadow hover:text-blue-600">
+                  <a
+                    key={name}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 bg-slate-50 hover:bg-blue-50 border border-slate-200 text-xs font-semibold text-slate-700 hover:text-blue-700 rounded-lg transition-colors"
+                  >
                     {name}
                   </a>
                 ))}
               </div>
             </div>
 
-            {/* Google Maps Embed */}
-            <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm h-48">
-              <iframe
-                src="https://maps.google.com/maps?q=Lumajang+Jawa+Timur&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                className="w-full h-full border-0"
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Lokasi SMA PGRI 1 Lumajang"
-              />
-            </div>
           </div>
+
         </div>
       </div>
+
     </div>
   );
 }

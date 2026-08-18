@@ -2,9 +2,17 @@ import { getImageUrl } from "@/lib/utils";
 import { getAchievementById } from '@/lib/api/school';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
+import { ArrowLeft, Trophy, Calendar } from 'lucide-react';
 
 export const revalidate = 3600; // 1 hour ISR
+
+const LEVEL_CONFIG: Record<string, { label: string; badge: string }> = {
+  sekolah: { label: 'Tingkat Sekolah', badge: 'bg-slate-100 text-slate-800 border-slate-200' },
+  kota: { label: 'Tingkat Kabupaten', badge: 'bg-blue-50 text-blue-800 border-blue-200' },
+  provinsi: { label: 'Tingkat Provinsi', badge: 'bg-purple-50 text-purple-800 border-purple-200' },
+  nasional: { label: 'Tingkat Nasional', badge: 'bg-emerald-50 text-emerald-800 border-emerald-200' },
+  internasional: { label: 'Tingkat Internasional', badge: 'bg-amber-50 text-amber-900 border-amber-300' },
+};
 
 export default async function AchievementDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,64 +20,61 @@ export default async function AchievementDetailPage({ params }: { params: Promis
 
   if (!achievement) return notFound();
 
-  const LEVEL_COLORS: Record<string, string> = {
-    sekolah: 'bg-slate-100 text-slate-700',
-    kota: 'bg-blue-100 text-blue-700',
-    provinsi: 'bg-purple-100 text-purple-700',
-    nasional: 'bg-emerald-100 text-emerald-700',
-    internasional: 'bg-amber-100 text-amber-700',
-  };
+  const levelObj = LEVEL_CONFIG[achievement.level] || LEVEL_CONFIG.sekolah;
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20 pt-10">
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-8 sm:py-12">
       <div className="container mx-auto px-4 max-w-4xl">
-        <Link href="/prestasi" className="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 mb-8 font-medium transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
-          </svg>
-          Kembali ke Daftar Prestasi
+        
+        {/* Back Link */}
+        <Link
+          href="/prestasi"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-blue-700 mb-6 bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-2xs transition-colors"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Kembali ke Prestasi Siswa</span>
         </Link>
 
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+        {/* Detail Box */}
+        <article className="bg-white border border-slate-200 rounded-xl p-6 sm:p-10 shadow-2xs">
+          
+          <div className="flex flex-wrap items-center gap-3 mb-4">
+            <span className={`px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase border ${levelObj.badge}`}>
+              {levelObj.label}
+            </span>
+            <span className="text-xs font-semibold text-slate-500 flex items-center gap-1">
+              <Calendar className="w-3.5 h-3.5 text-slate-400" />
+              <span>Tahun {achievement.year}</span>
+            </span>
+          </div>
+
+          <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-900 leading-tight mb-6">
+            {achievement.title}
+          </h1>
+
+          {/* Natural Uncropped Image Display */}
           {achievement.image_path ? (
-            <div className="relative w-full h-100 sm:h-125 bg-slate-100">
-              <Image 
+            <div className="mb-8 flex justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
                 src={getImageUrl(achievement.image_path)}
                 alt={achievement.title}
-                fill
-                sizes="(max-width: 896px) 100vw, 896px"
-                className="object-cover"
+                className="max-h-[600px] w-full sm:w-auto h-auto object-contain rounded-xl border border-slate-200 shadow-2xs"
               />
             </div>
           ) : (
-            <div className="relative w-full h-75 bg-slate-100 flex items-center justify-center">
-              <span className="text-8xl">🏅</span>
+            <div className="mb-8 rounded-lg border border-slate-200 w-full h-56 bg-slate-50 flex items-center justify-center">
+              <Trophy className="w-16 h-16 text-amber-500" />
             </div>
           )}
 
-          <div className="p-8 sm:p-12">
-            <div className="flex flex-wrap items-center gap-4 mb-6">
-              <span className={`px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider ${LEVEL_COLORS[achievement.level] ?? LEVEL_COLORS.sekolah}`}>
-                Tingkat {achievement.level}
-              </span>
-              <span className="text-slate-500 font-semibold flex items-center gap-2">
-                📅 Tahun {achievement.year}
-              </span>
+          {achievement.description && (
+            <div className="text-sm sm:text-base text-slate-800 leading-relaxed whitespace-pre-wrap space-y-4">
+              {achievement.description}
             </div>
-            
-            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6 leading-tight">
-              {achievement.title}
-            </h1>
-            
-            {achievement.description && (
-              <div className="prose prose-slate max-w-none prose-lg">
-                <p className="whitespace-pre-wrap text-slate-700 leading-relaxed">
-                  {achievement.description}
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
+          )}
+        </article>
+
       </div>
     </div>
   );
