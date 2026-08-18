@@ -13,17 +13,17 @@ export default withAuth(
     // 1. CP Subdomain Routing
     if (isCpHost) {
       // 1.1. Login Route on CP Subdomain
-      if (pathname === "/login" || pathname === "/cp/login") {
+      if (pathname === "/login" || pathname === "/admin/login") {
         if (token && token.role === "admin") {
           return NextResponse.redirect(new URL("/dashboard", req.url));
         }
-        const rewriteRes = NextResponse.rewrite(new URL(`/cp/login${search}`, req.url));
+        const rewriteRes = NextResponse.rewrite(new URL(`/admin/login${search}`, req.url));
         addSecurityHeaders(rewriteRes, true);
         return rewriteRes;
       }
 
       // 1.2. Root '/' on CP Subdomain
-      if (pathname === "/" || pathname === "/cp") {
+      if (pathname === "/" || pathname === "/admin") {
         if (token && token.role === "admin") {
           return NextResponse.redirect(new URL("/dashboard", req.url));
         } else {
@@ -39,36 +39,29 @@ export default withAuth(
       }
 
       // 1.4. Authenticated admin routes on CP Subdomain
-      const cleanPath = pathname.replace(/^\/cp/, "");
-      const targetUrl = new URL(`/cp${cleanPath}${search}`, req.url);
+      const cleanPath = pathname.replace(/^\/admin/, "");
+      const targetUrl = new URL(`/admin${cleanPath}${search}`, req.url);
       const response = NextResponse.rewrite(targetUrl);
       addSecurityHeaders(response, true);
       return response;
     }
 
-    // 2. Legacy / Admin Routes accessed on Main Domain -> Redirect to CP domain
-    if (pathname.startsWith("/x9j2k4m7") || pathname.startsWith("/admin")) {
-      const isLocal = host.includes("localhost") || host.includes("127.0.0.1");
-      const targetDomain = isLocal ? "http://cp.localhost:3000" : "https://cp.smaspgri1lumajang.sch.id";
-      return NextResponse.redirect(new URL(`${targetDomain}/login`));
-    }
-
-    // 3. Fallback /cp direct path on main domain (useful for dev and fallback)
-    if (pathname.startsWith("/cp")) {
-      if (pathname !== "/cp/login" && token?.role !== "admin") {
-        const loginUrl = new URL("/cp/login", req.url);
+    // 2. Fallback /admin direct path on main domain (useful for dev and fallback)
+    if (pathname.startsWith("/admin")) {
+      if (pathname !== "/admin/login" && token?.role !== "admin") {
+        const loginUrl = new URL("/admin/login", req.url);
         loginUrl.searchParams.set("error", "AccessDenied");
         return NextResponse.redirect(loginUrl);
       }
-      if (pathname === "/cp/login" && token && token.role === "admin") {
-        return NextResponse.redirect(new URL("/cp/dashboard", req.url));
+      if (pathname === "/admin/login" && token && token.role === "admin") {
+        return NextResponse.redirect(new URL("/admin/dashboard", req.url));
       }
       const response = NextResponse.next();
       addSecurityHeaders(response, true);
       return response;
     }
 
-    // 4. Public Web Pages
+    // 3. Public Web Pages
     const response = NextResponse.next();
     addSecurityHeaders(response, false);
     return response;
@@ -87,15 +80,15 @@ export default withAuth(
 
         // On CP Subdomain: /login and / are handled in middleware function
         if (isCpHost) {
-          if (pathname === "/login" || pathname === "/cp/login" || pathname === "/" || pathname === "/cp") {
+          if (pathname === "/login" || pathname === "/admin/login" || pathname === "/" || pathname === "/admin") {
             return true;
           }
           return !!token;
         }
 
-        // On Main domain: /cp/login is public, other /cp routes require auth
-        if (pathname.startsWith("/cp")) {
-          if (pathname === "/cp/login") {
+        // On Main domain: /admin/login is public, other /admin routes require auth
+        if (pathname.startsWith("/admin")) {
+          if (pathname === "/admin/login") {
             return true;
           }
           return !!token;

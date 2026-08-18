@@ -27,29 +27,29 @@ export const navigationGroups: NavGroup[] = [
   {
     group: 'UTAMA',
     items: [
-      { title: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-      { title: 'Pendaftaran PPDB', href: '/ppdb', icon: Users, badge: 'PPDB 2026' },
+      { title: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+      { title: 'Pendaftaran PPDB', href: '/admin/ppdb', icon: Users, badge: 'PPDB 2026' },
     ],
   },
   {
     group: 'KONTEN & PUBLIKASI',
     items: [
-      { title: 'Berita & Pengumuman', href: '/news', icon: Newspaper },
-      { title: 'Agenda Kegiatan', href: '/agendas', icon: Calendar },
-      { title: 'Artikel Edukasi', href: '/articles', icon: BookOpen },
-      { title: 'Galeri Foto', href: '/galleries', icon: ImageIcon },
-      { title: 'Karya Siswa', href: '/student-works', icon: PenTool },
-      { title: 'Opini & Gagasan', href: '/opinions', icon: MessageSquare },
-      { title: 'Blog Siswa', href: '/blogs', icon: FolderOpen },
+      { title: 'Berita & Pengumuman', href: '/admin/news', icon: Newspaper },
+      { title: 'Agenda Kegiatan', href: '/admin/agendas', icon: Calendar },
+      { title: 'Artikel Edukasi', href: '/admin/articles', icon: BookOpen },
+      { title: 'Galeri Foto', href: '/admin/galleries', icon: ImageIcon },
+      { title: 'Karya Siswa', href: '/admin/student-works', icon: PenTool },
+      { title: 'Opini & Gagasan', href: '/admin/opinions', icon: MessageSquare },
+      { title: 'Blog Siswa', href: '/admin/blogs', icon: FolderOpen },
     ],
   },
   {
     group: 'AKADEMIK & KESISWAAN',
     items: [
-      { title: 'Prestasi Siswa', href: '/achievements', icon: Trophy },
-      { title: 'Tracer Alumni', href: '/alumni', icon: GraduationCap },
-      { title: 'Buku Tamu Publik', href: '/guestbooks', icon: MessageSquare },
-      { title: 'Tautan Cepat', href: '/quick-links', icon: LinkIcon },
+      { title: 'Prestasi Siswa', href: '/admin/achievements', icon: Trophy },
+      { title: 'Tracer Alumni', href: '/admin/alumni', icon: GraduationCap },
+      { title: 'Buku Tamu Publik', href: '/admin/guestbooks', icon: MessageSquare },
+      { title: 'Tautan Cepat', href: '/admin/quick-links', icon: LinkIcon },
     ],
   },
 ];
