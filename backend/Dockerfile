@@ -35,8 +35,8 @@ COPY --from=vite-builder /app/public/build public/build
 # Copy the rest of the application
 COPY . .
 
-# Re-run autoload
-RUN composer dump-autoload --optimize
+# Re-run autoload (skip scripts that need DB)
+RUN composer dump-autoload --optimize --no-scripts
 
 # Set permissions
 RUN chown -R www-data:www-data storage bootstrap/cache \
