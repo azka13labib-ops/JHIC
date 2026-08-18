@@ -14,6 +14,9 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
     depends_on:
       - app
+      - nextjs
+    networks:
+      - jihc_network
 
   # Laravel Backend (PHP-FPM)
   app:
@@ -25,11 +28,35 @@ services:
     working_dir: /var/www/html
     volumes:
       - ./backend:/var/www/html
-      # Jangan override vendor dan node_modules agar pakai dari image docker
       - /var/www/html/vendor
     depends_on:
       - db
       - redis
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+    networks:
+      - jihc_network
+
+  # Frontend Next.js
+  nextjs:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: jihc_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost/api}
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-kNGN+hQpB3S4ELzKlFcEgc1aLEBedSo9aD5T+7NY2A8=}
+      - GROQ_API_KEY=${GROQ_API_KEY:-your_groq_api_key_here}
+    depends_on:
+      - app
+    networks:
+      - jihc_network
 
   # MySQL Database
   db:
@@ -45,6 +72,8 @@ services:
       - "3306:3306"
     volumes:
       - dbdata:/var/lib/mysql
+    networks:
+      - jihc_network
 
   # Redis Cache & Queue
   redis:
@@ -55,19 +84,13 @@ services:
       - "6379:6379"
     volumes:
       - redisdata:/data
-
-  # --- FRONTEND NEXT.JS (Akan diaktifkan nanti di fase Frontend) ---
-  # nextjs:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   container_name: jihc_frontend
-  #   restart: unless-stopped
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - app
+    networks:
+      - jihc_network
 
 volumes:
   dbdata:
   redisdata:
+
+networks:
+  jihc_network:
+    driver: bridge
