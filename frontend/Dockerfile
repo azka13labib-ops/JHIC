@@ -7,7 +7,7 @@ RUN corepack enable && corepack prepare pnpm@9 --activate
 FROM base AS deps
 WORKDIR /app
 COPY package.json pnpm-lock.yaml .npmrc ./
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 # 2. Rebuild the source code only when needed
 FROM base AS builder
