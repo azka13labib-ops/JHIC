@@ -1,7 +1,7 @@
 # Multi-stage Dockerfile for Next.js Standalone
-FROM node:20-alpine AS base
+FROM node:22-alpine AS base
 WORKDIR /app
-RUN npm install -g pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
 # 1. Install dependencies based on the preferred package manager
 FROM base AS deps
@@ -22,7 +22,7 @@ ENV NODE_ENV=production
 RUN pnpm build
 
 # 3. Production image, copy all the files and run next
-FROM node:20-alpine AS runner
+FROM node:22-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
