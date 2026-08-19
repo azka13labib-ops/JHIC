@@ -1,4 +1,14 @@
-const BASE_URL = process.env.NEXT_SERVER_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'; 
+const isServer = typeof window === 'undefined';
+
+// Gunakan URL internal Docker untuk komunikasi antar container di server,
+// fallback ke public URL untuk client-side.
+let BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+
+if (isServer) {
+  // Di Next.js Server Components, paksa menggunakan internal backend URL
+  // jika berjalan di Easypanel (Docker).
+  BASE_URL = process.env.NEXT_SERVER_API_URL || 'http://jhic_be:8080/api';
+}
 
 export async function serverFetch<T>(
   endpoint: string,
