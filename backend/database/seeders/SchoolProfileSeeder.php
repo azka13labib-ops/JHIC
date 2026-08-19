@@ -13,16 +13,19 @@ class SchoolProfileSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('school_profiles')->insert([
-            'name' => 'SMAS PGRI 1 LUMAJANG',
-            'tagline' => 'Terdepan dalam Prestasi dan Budi Pekerti',
-            'vision' => 'Menjadi institusi pendidikan yang unggul, berbudaya, dan berwawasan global.',
-            'mission' => '1. Menyelenggarakan pembelajaran yang aktif, inovatif, kreatif, efektif, dan menyenangkan.\n2. Mengembangkan potensi peserta didik secara optimal.',
-            'phone' => '+6281234567890',
-            'email' => 'smaspgri1lumajang@sch.id',
-            'address' => 'Jl. Pendidikan No. 1, Lumajang, Jawa Timur',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        DB::table('school_profiles')->updateOrInsert(
+            ['id' => 1],
+            [
+                'name' => 'SMAS PGRI 1 LUMAJANG',
+                'tagline' => 'Terdepan dalam Prestasi dan Budi Pekerti',
+                'vision' => 'Menjadi institusi pendidikan yang unggul, berbudaya, dan berwawasan global.',
+                'mission' => "1. Menyelenggarakan pembelajaran yang aktif, inovatif, kreatif, efektif, dan menyenangkan.\n2. Mengembangkan potensi peserta didik secara optimal.",
+                'phone' => '+6281234567890',
+                'email' => 'smaspgri1lumajang@sch.id',
+                'address' => 'Jl. Pendidikan No. 1, Lumajang, Jawa Timur',
+                'updated_at' => now(),
+                'created_at' => now(),
+            ]
+        );
     }
 }
