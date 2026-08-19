@@ -75,7 +75,7 @@ export default function AdminGalleriesPage() {
         description="Kelola dokumentasi foto kegiatan, momen penting, dan arsip sekolah."
         actionButton={{
           label: 'Tambah Galeri Baru',
-          href: '/galleries/create',
+          href: '/admin/galleries/create',
         }}
       />
 

@@ -78,7 +78,7 @@ export default function AdminOpinionsPage() {
         description="Kelola artikel pemikiran kritis, esai guru, dan kolom opini sekolah."
         actionButton={{
           label: 'Tambah Opini Baru',
-          href: '/opinions/create',
+          href: '/admin/opinions/create',
         }}
       />
 

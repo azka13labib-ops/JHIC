@@ -76,7 +76,7 @@ export default function AdminQuickLinksPage() {
         description="Kelola pintasan situs eksternal, portal Kemdikbud, E-Rapor, dan LMS sekolah."
         actionButton={{
           label: 'Tambah Tautan Baru',
-          href: '/quick-links/create',
+          href: '/admin/quick-links/create',
         }}
       />
 

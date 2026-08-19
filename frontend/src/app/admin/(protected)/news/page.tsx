@@ -85,7 +85,7 @@ export default function AdminNewsPage() {
         description="Kelola seluruh publikasi berita, pengumuman, dan sematan berita utama di beranda."
         actionButton={{
           label: 'Tambah Berita Baru',
-          href: '/news/create',
+          href: '/admin/news/create',
         }}
       />
 

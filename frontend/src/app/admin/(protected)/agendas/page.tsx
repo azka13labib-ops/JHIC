@@ -81,7 +81,7 @@ export default function AdminAgendasPage() {
         description="Kelola jadwal kegiatan, rapat, dan kalender akademik sekolah."
         actionButton={{
           label: 'Tambah Agenda Baru',
-          href: '/agendas/create',
+          href: '/admin/agendas/create',
         }}
       />
 

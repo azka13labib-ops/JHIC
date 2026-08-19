@@ -76,7 +76,7 @@ export default function AdminBlogsPage() {
         description="Kelola direktori blog pribadi, portofolio digital, dan website siswa."
         actionButton={{
           label: 'Tambah Blog Siswa',
-          href: '/blogs/create',
+          href: '/admin/blogs/create',
         }}
       />
 

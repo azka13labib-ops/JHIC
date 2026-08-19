@@ -81,7 +81,7 @@ export default function AdminAchievementsPage() {
         description="Kelola rekam jejak juara lomba akademik, seni, dan olahraga tingkat sekolah s/d internasional."
         actionButton={{
           label: 'Tambah Prestasi Baru',
-          href: '/achievements/new',
+          href: '/admin/achievements/new',
         }}
       />
 

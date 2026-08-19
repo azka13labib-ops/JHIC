@@ -78,7 +78,7 @@ export default function AdminArticlesPage() {
         description="Kelola artikel edukasi, literasi ilmiah, dan wawasan guru."
         actionButton={{
           label: 'Tambah Artikel Baru',
-          href: '/articles/create',
+          href: '/admin/articles/create',
         }}
       />
 
