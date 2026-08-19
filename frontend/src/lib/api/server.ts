@@ -5,15 +5,25 @@ export async function serverFetch<T>(
   options?: { revalidate?: number | false; tags?: string[] }
 ): Promise<T> {
   const fetchOptions: RequestInit = {
-    cache: 'no-store',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     }
   };
 
+  const nextOptions: any = {};
+  if (options?.revalidate !== undefined) {
+    nextOptions.revalidate = options.revalidate;
+  } else {
+    fetchOptions.cache = 'no-store';
+  }
+
   if (options?.tags) {
-    (fetchOptions as any).next = { tags: options.tags };
+    nextOptions.tags = options.tags;
+  }
+
+  if (Object.keys(nextOptions).length > 0) {
+    (fetchOptions as any).next = nextOptions;
   }
 
   const res = await fetch(`${BASE_URL}${endpoint}`, fetchOptions);
