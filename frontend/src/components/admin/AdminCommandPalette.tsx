@@ -53,12 +53,12 @@ export function AdminCommandPalette({
     { title: 'Galeri Foto', category: 'Navigasi', href: '/galleries', icon: ImageIcon, keywords: 'dokumentasi album foto' },
     
     // Quick Actions
-    { title: 'Tulis Berita Baru', category: 'Aksi Cepat', href: '/news/create', icon: PlusCircle, keywords: 'buat post posting baru' },
-    { title: 'Tambah Agenda Baru', category: 'Aksi Cepat', href: '/agendas/create', icon: PlusCircle, keywords: 'jadwal buat baru' },
-    { title: 'Input Prestasi Siswa', category: 'Aksi Cepat', href: '/achievements/new', icon: PlusCircle, keywords: 'input juara baru' },
-    { title: 'Upload Karya Siswa', category: 'Aksi Cepat', href: '/student-works/create', icon: PlusCircle, keywords: 'upload karya kreasi' },
-    { title: 'Tambah Galeri Foto', category: 'Aksi Cepat', href: '/galleries/create', icon: PlusCircle, keywords: 'upload album foto' },
-    { title: 'Tulis Artikel Edukasi', category: 'Aksi Cepat', href: '/articles/create', icon: PlusCircle, keywords: 'buat artikel tulisan' },
+    { title: 'Tulis Berita Baru', category: 'Aksi Cepat', href: '/admin/news/create', icon: PlusCircle, keywords: 'buat post posting baru' },
+    { title: 'Tambah Agenda Baru', category: 'Aksi Cepat', href: '/admin/agendas/create', icon: PlusCircle, keywords: 'jadwal buat baru' },
+    { title: 'Input Prestasi Siswa', category: 'Aksi Cepat', href: '/admin/achievements/new', icon: PlusCircle, keywords: 'input juara baru' },
+    { title: 'Upload Karya Siswa', category: 'Aksi Cepat', href: '/admin/student-works/create', icon: PlusCircle, keywords: 'upload karya kreasi' },
+    { title: 'Tambah Galeri Foto', category: 'Aksi Cepat', href: '/admin/galleries/create', icon: PlusCircle, keywords: 'upload album foto' },
+    { title: 'Tulis Artikel Edukasi', category: 'Aksi Cepat', href: '/admin/articles/create', icon: PlusCircle, keywords: 'buat artikel tulisan' },
 
     // System
     { title: 'Lihat Website Publik', category: 'Sistem', action: () => window.open(PUBLIC_SITE_URL, '_blank'), icon: ExternalLink, keywords: 'preview website live' },

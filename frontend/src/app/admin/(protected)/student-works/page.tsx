@@ -78,7 +78,7 @@ export default function AdminStudentWorksPage() {
         description="Kelola portofolio inovasi, karya seni, dan produk kreatif siswa."
         actionButton={{
           label: 'Tambah Karya Baru',
-          href: '/student-works/create',
+          href: '/admin/student-works/create',
         }}
       />
 
