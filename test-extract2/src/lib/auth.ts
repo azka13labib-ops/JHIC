@@ -15,7 +15,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          const apiUrl = process.env.NEXT_SERVER_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
           const res = await fetch(`${apiUrl}/login`, {
             method: "POST",
             headers: {
@@ -66,7 +66,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: "/admin/login",
+    signIn: "/login",
   },
   session: {
     strategy: "jwt",

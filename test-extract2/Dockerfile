@@ -1,13 +1,13 @@
 # Multi-stage Dockerfile for Next.js Standalone
-FROM node:22-alpine AS base
+FROM node:20-alpine AS base
 WORKDIR /app
-RUN corepack enable && corepack prepare pnpm@9 --activate
+RUN npm install -g pnpm
 
 # 1. Install dependencies based on the preferred package manager
 FROM base AS deps
 WORKDIR /app
-COPY package.json pnpm-lock.yaml .npmrc ./
-RUN pnpm install --frozen-lockfile --ignore-scripts
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 # 2. Rebuild the source code only when needed
 FROM base AS builder
@@ -19,19 +19,10 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
-ARG NEXT_PUBLIC_API_URL
-ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
-
-ARG NEXT_SERVER_API_URL
-ENV NEXT_SERVER_API_URL=$NEXT_SERVER_API_URL
-
-ARG NEXTAUTH_URL
-ENV NEXTAUTH_URL=$NEXTAUTH_URL
-
 RUN pnpm build
 
 # 3. Production image, copy all the files and run next
-FROM node:22-alpine AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production

@@ -1,0 +1,276 @@
+'use client';
+
+import Link from 'next/link';
+import { 
+  ChevronDown, 
+  Laptop, 
+  FileText, 
+  BarChart3, 
+  GraduationCap, 
+  Landmark, 
+  Building2,
+  Target, 
+  Mic, 
+  Newspaper, 
+  Users, 
+  Sparkles 
+} from 'lucide-react';
+
+export function NavDesktopMenu() {
+  return (
+    <div className="hidden lg:flex items-center gap-1 xl:gap-2">
+      <Link 
+        href="/" 
+        className="px-3 py-1.5 text-xs sm:text-sm font-bold tracking-wider text-slate-700 hover:text-blue-700 hover:bg-slate-100/80 rounded-xl transition-colors"
+      >
+        HOME
+      </Link>
+      
+      {/* Profil Dropdown */}
+      <div className="relative group py-4">
+        <button className="px-3 py-1.5 text-xs sm:text-sm font-bold tracking-wider text-slate-700 hover:text-blue-700 hover:bg-slate-100/80 rounded-xl transition-colors flex items-center gap-1 cursor-pointer">
+          PROFIL
+          <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180 duration-200 opacity-60" />
+        </button>
+        
+        <div className="absolute top-16 left-0 w-80 bg-white border border-slate-200 shadow-2xl rounded-2xl p-2.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+          <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+            Tentang Sekolah
+          </div>
+          <Link 
+            href="/profil/sejarah" 
+            className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item"
+          >
+            <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-100">
+              <Landmark className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs sm:text-sm font-bold text-slate-900 group-hover/item:text-blue-600">
+                Sejarah Sekolah
+              </div>
+              <div className="text-[11px] text-slate-500">
+                Perjalanan sejak 1985 hingga era digital
+              </div>
+            </div>
+          </Link>
+
+          <Link 
+            href="/profil/visi-misi" 
+            className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item"
+          >
+            <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-100">
+              <Target className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs sm:text-sm font-bold text-slate-900 group-hover/item:text-amber-600">
+                Visi & Misi
+              </div>
+              <div className="text-[11px] text-slate-500">
+                Fondasi karakter unggul dan religius
+              </div>
+            </div>
+          </Link>
+
+          <Link 
+            href="/profil/fasilitas" 
+            className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item"
+          >
+            <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 border border-indigo-100">
+              <Building2 className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs sm:text-sm font-bold text-slate-900 group-hover/item:text-indigo-600">
+                Fasilitas Sekolah
+              </div>
+              <div className="text-[11px] text-slate-500">
+                Lab komputer, sains, studio & olahraga
+              </div>
+            </div>
+          </Link>
+
+          <Link 
+            href="/profil/sambutan" 
+            className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item"
+          >
+            <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100">
+              <Mic className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs sm:text-sm font-bold text-slate-900 group-hover/item:text-emerald-600">
+                Sambutan Kepala Sekolah
+              </div>
+              <div className="text-[11px] text-slate-500">
+                Pesan kepemimpinan & masa depan
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+      
+      {/* Akademik Dropdown */}
+      <div className="relative group py-4">
+        <button className="px-3 py-1.5 text-xs sm:text-sm font-bold tracking-wider text-slate-700 hover:text-blue-700 hover:bg-slate-100/80 rounded-xl transition-colors flex items-center gap-1 cursor-pointer">
+          AKADEMIK
+          <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180 duration-200 opacity-60" />
+        </button>
+        
+        <div className="absolute top-16 left-0 w-72 bg-white border border-slate-200 shadow-2xl rounded-2xl p-2.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+          <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+            Program Belajar
+          </div>
+          <Link 
+            href="/jurusan" 
+            className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item"
+          >
+            <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-100">
+              <GraduationCap className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs sm:text-sm font-bold text-slate-900 group-hover/item:text-blue-600">
+                Peminatan & Jurusan
+              </div>
+              <div className="text-[11px] text-slate-500">
+                MIPA, IPS, & Bahasa Budaya
+              </div>
+            </div>
+          </Link>
+
+          <Link 
+            href="/guru" 
+            className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item"
+          >
+            <div className="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 border border-purple-100">
+              <Users className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs sm:text-sm font-bold text-slate-900 group-hover/item:text-purple-600">
+                Direktori Guru & Staf
+              </div>
+              <div className="text-[11px] text-slate-500">
+                Tenaga pendidik profesional
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+
+      <Link 
+        href="/ekstrakurikuler" 
+        className="px-3 py-1.5 text-xs sm:text-sm font-bold tracking-wider text-slate-700 hover:text-blue-700 hover:bg-slate-100/80 rounded-xl transition-colors"
+      >
+        EKSTRAKURIKULER
+      </Link>
+
+      <Link 
+        href="/prestasi" 
+        className="px-3 py-1.5 text-xs sm:text-sm font-bold tracking-wider text-slate-700 hover:text-blue-700 hover:bg-slate-100/80 rounded-xl transition-colors"
+      >
+        PRESTASI
+      </Link>
+      
+      {/* Portal Layanan Dropdown */}
+      <div className="relative group py-4">
+        <button className="px-3 py-1.5 text-xs sm:text-sm font-bold tracking-wider text-slate-700 hover:text-blue-700 hover:bg-slate-100/80 rounded-xl transition-colors flex items-center gap-1 cursor-pointer">
+          PORTAL
+          <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180 duration-200 opacity-60" />
+        </button>
+        
+        <div className="absolute top-16 left-0 w-72 bg-white border border-slate-200 shadow-2xl rounded-2xl p-2.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+          <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+            Layanan Digital
+          </div>
+          <a 
+            href="#" 
+            className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item"
+          >
+            <div className="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-100">
+              <Laptop className="w-3.5 h-3.5" />
+            </div>
+            <span className="text-xs sm:text-sm font-semibold text-slate-800 group-hover/item:text-blue-600">
+              E-Learning Siswa
+            </span>
+          </a>
+          <a 
+            href="#" 
+            className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item"
+          >
+            <div className="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-100">
+              <FileText className="w-3.5 h-3.5" />
+            </div>
+            <span className="text-xs sm:text-sm font-semibold text-slate-800 group-hover/item:text-amber-600">
+              Ujian CBT Online
+            </span>
+          </a>
+          <a 
+            href="#" 
+            className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item"
+          >
+            <div className="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100">
+              <BarChart3 className="w-3.5 h-3.5" />
+            </div>
+            <span className="text-xs sm:text-sm font-semibold text-slate-800 group-hover/item:text-emerald-600">
+              E-Rapor Digital
+            </span>
+          </a>
+        </div>
+      </div>
+
+      {/* Megamenu / Dropdown Lainnya */}
+      <div className="relative group py-4">
+        <button className="px-3 py-1.5 text-xs sm:text-sm font-bold tracking-wider text-slate-700 hover:text-blue-700 hover:bg-slate-100/80 rounded-xl transition-colors flex items-center gap-1 cursor-pointer">
+          LAINNYA
+          <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180 duration-200 opacity-60" />
+        </button>
+        
+        <div className="absolute top-16 right-0 w-125 bg-white border border-slate-200 shadow-2xl rounded-2xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 grid grid-cols-2 gap-4">
+          {/* Kolom 1 */}
+          <div className="space-y-1">
+            <div className="px-2 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+              <Newspaper className="w-3.5 h-3.5 text-blue-600" /> Informasi & Karya
+            </div>
+            <Link href="/berita" className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+              Berita Sekolah
+            </Link>
+            <Link href="/agenda" className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+              Agenda & Event
+            </Link>
+            <Link href="/artikel" className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+              Artikel & Edukasi
+            </Link>
+            <Link href="/karya-siswa" className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+              Karya Kreatif Siswa
+            </Link>
+            <Link href="/galeri" className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+              Galeri Dokumentasi
+            </Link>
+            <Link href="/opini" className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+              Opini & Gagasan
+            </Link>
+          </div>
+
+          {/* Kolom 2 */}
+          <div className="space-y-1">
+            <div className="px-2 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-amber-500" /> Komunitas & Layanan
+            </div>
+            <Link href="/blog-siswa" className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+              Blog Siswa
+            </Link>
+            <Link href="/alumni" className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+              Tracer Alumni
+            </Link>
+            <Link href="/buku-tamu" className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+              Buku Tamu Publik
+            </Link>
+            <Link href="/link-penting" className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+              Tautan Cepat
+            </Link>
+            <Link href="/kontak" className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors">
+              Kontak & Alamat
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
