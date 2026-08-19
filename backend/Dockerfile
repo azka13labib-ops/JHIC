@@ -1,13 +1,3 @@
-# Stage 1: Build Vite assets
-FROM node:20-alpine AS vite-builder
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
-COPY resources/ resources/
-COPY vite.config.js ./
-RUN npm run build
-
-# Stage 2: PHP application
 FROM php:8.4-cli
 
 RUN apt-get update && apt-get install -y \
@@ -29,9 +19,6 @@ WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts --ignore-platform-reqs
 
-# Copy built Vite assets from stage 1
-COPY --from=vite-builder /app/public/build public/build
-
 # Copy the rest of the application
 COPY . .
 
@@ -45,3 +32,4 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
 EXPOSE 8080
 
 CMD php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8080
+
