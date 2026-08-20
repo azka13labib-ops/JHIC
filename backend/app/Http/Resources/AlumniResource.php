@@ -21,7 +21,7 @@ class AlumniResource extends JsonResource
             'current_job' => $this->current_job,
             'company' => $this->company,
             'testimonial' => $this->testimonial,
-            'image_path' => $this->image_path ? asset('storage/' . $this->image_path) : null,
+            'image_path' => $this->image_path,
         ];
     }
 }

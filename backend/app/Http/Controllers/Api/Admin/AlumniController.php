@@ -23,12 +23,19 @@ class AlumniController extends Controller
             'major'           => 'nullable|string|max:255',
             'current_job'     => 'nullable|string|max:255',
             'company'         => 'nullable|string|max:255',
-            'photo_url'       => 'nullable|url|max:500',
+            'photo'           => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'testimonial'     => 'nullable|string',
         ]);
 
-        $alumni = Alumni::create($request->only(['name', 'graduation_year', 'major', 'current_job', 'company', 'photo_url', 'testimonial']));
-        Cache::forget('api.alumnis');
+        $data = $request->only(['name', 'graduation_year', 'major', 'current_job', 'company', 'testimonial']);
+
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('alumni', 'public');
+            $data['image_path'] = url('storage/' . $path);
+        }
+
+        $alumni = Alumni::create($data);
+        \Illuminate\Support\Facades\Cache::forget('api.alumnis');
 
         return response()->json($alumni, 201);
     }
@@ -47,12 +54,24 @@ class AlumniController extends Controller
             'major'           => 'nullable|string|max:255',
             'current_job'     => 'nullable|string|max:255',
             'company'         => 'nullable|string|max:255',
-            'photo_url'       => 'nullable|url|max:500',
+            'photo'           => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'testimonial'     => 'nullable|string',
         ]);
 
-        $alumni->update($request->only(['name', 'graduation_year', 'major', 'current_job', 'company', 'photo_url', 'testimonial']));
-        Cache::forget('api.alumnis');
+        $data = $request->only(['name', 'graduation_year', 'major', 'current_job', 'company', 'testimonial']);
+
+        if ($request->hasFile('photo')) {
+            // Delete old photo if exists
+            if ($alumni->image_path) {
+                $oldPath = str_replace(url('storage') . '/', '', $alumni->image_path);
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPath);
+            }
+            $path = $request->file('photo')->store('alumni', 'public');
+            $data['image_path'] = url('storage/' . $path);
+        }
+
+        $alumni->update($data);
+        \Illuminate\Support\Facades\Cache::forget('api.alumnis');
 
         return response()->json($alumni);
     }

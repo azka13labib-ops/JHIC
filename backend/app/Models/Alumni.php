@@ -9,9 +9,10 @@ class Alumni extends Model
     protected $fillable = [
         'name',
         'graduation_year',
-        'profession',
+        'major',
+        'current_job',
         'company',
-        'testimony',
-        'photo_url',
+        'testimonial',
+        'image_path',
     ];
 }
