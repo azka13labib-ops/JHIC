@@ -24,17 +24,31 @@ interface NewsItem {
   content?: string;
 }
 
-interface NewsMediaSectionProps {
-  initialNews?: NewsItem[];
+interface AgendaItem {
+  id?: number;
+  title: string;
+  slug?: string;
+  date: string;
+  location?: string;
+  is_pinned?: boolean;
+  image?: string;
+  image_path?: string;
 }
 
-export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionProps) {
-  const newsList = initialNews;
-  const totalNews = newsList.length;
+interface NewsMediaSectionProps {
+  initialNews?: NewsItem[];
+  initialAgendas?: AgendaItem[];
+}
 
-  const card1 = newsList[0];
-  const card2 = newsList[1];
-  const card3 = newsList[2];
+export default function NewsMediaSection({ initialNews = [], initialAgendas = [] }: NewsMediaSectionProps) {
+  // Only show pinned news
+  const pinnedNews = initialNews.filter(n => n.is_pinned);
+  const totalNews = pinnedNews.length;
+
+  // Only show pinned agendas (max 3)
+  const pinnedAgendas = initialAgendas.filter(a => a.is_pinned).slice(0, 3);
+
+  const card1 = pinnedNews[0];
 
   const resolveImage = (item: NewsItem) => {
     const raw = item.image_path || item.image;
@@ -61,10 +75,10 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
         <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="text-xs font-bold tracking-wider text-blue-900 uppercase mb-1">
-              Warta & Agenda Kampus
+              Warta & Agenda Sekolah
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl font-normal text-slate-900">
-              Kabar Terbaru SMAGRISA
+              Berita Terbaru SMAGRISA
             </h2>
             <p className="text-xs text-slate-600 mt-1 max-w-xl">
               Publikasi resmi kegiatan akademik, prestasi siswa, dan informasi terkini SMA PGRI 1 Lumajang.
@@ -75,7 +89,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
             href="/berita"
             className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 hover:text-blue-800 bg-white border border-slate-200 px-4 py-2 rounded-lg shadow-2xs transition-colors self-start sm:self-auto"
           >
-            <span>Semua Berita ({totalNews})</span>
+            <span>Semua Berita</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -98,7 +112,7 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
 
           {/* Left Column for Real News */}
           {totalNews > 0 && (
-            <div className={`md:col-span-12 ${totalNews >= 4 ? 'lg:col-span-6' : 'lg:col-span-8'} space-y-4`}>
+            <div className="md:col-span-12 lg:col-span-8 space-y-4">
               
               {/* 1. Main Headline Card */}
               {card1 && (
@@ -143,48 +157,48 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
                 </div>
               )}
 
-              {/* 2. Sub-Row for News 2 & 3 */}
-              {(card2 || card3) && (
+              {/* 2. Sub-Row for Remaining News (Up to 4 items) */}
+              {totalNews > 1 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {card2 && (
+                  {pinnedNews.slice(1, 5).map((item, idx) => (
                     <Link
-                      href={card2.slug ? `/berita/${card2.slug}` : '/berita'}
-                      className="group bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:border-blue-300 transition-colors flex flex-col justify-between"
+                      key={item.id || idx}
+                      href={item.slug ? `/berita/${item.slug}` : '/berita'}
+                      className="group bg-white rounded-xl border border-slate-200 shadow-2xs hover:border-blue-300 transition-colors flex flex-col overflow-hidden"
                     >
-                      <div className="space-y-2">
-                        <div className="text-[11px] font-semibold text-blue-700">
-                          {formatDate(card2)}
-                        </div>
-                        <h4 className="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2">
-                          {card2.title}
-                        </h4>
+                      {/* Thumbnail Image */}
+                      <div className="relative aspect-[21/9] bg-slate-100 overflow-hidden">
+                        <Image
+                          src={resolveImage(item)}
+                          alt={item.title}
+                          fill
+                          sizes="(max-width: 640px) 100vw, 33vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        {item.is_pinned && (
+                          <div className="absolute top-2 right-2 bg-amber-500/90 text-white rounded-md p-1 shadow-sm backdrop-blur-md">
+                            <Pin className="w-3 h-3" />
+                          </div>
+                        )}
                       </div>
-                      <div className="pt-3 flex items-center text-[11px] font-semibold text-slate-500 group-hover:text-blue-600 transition-colors">
-                        <span>Baca Berita</span>
-                        <ChevronRight className="w-3 h-3 ml-0.5" />
+                      
+                      {/* Content */}
+                      <div className="p-4 flex-1 flex flex-col justify-between">
+                        <div className="space-y-2">
+                          <div className="text-[11px] font-semibold text-blue-700">
+                            {formatDate(item)}
+                          </div>
+                          <h4 className="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2">
+                            {item.title}
+                          </h4>
+                        </div>
+                        <div className="pt-3 flex items-center text-[11px] font-semibold text-slate-500 group-hover:text-blue-600 transition-colors">
+                          <span>Baca Berita</span>
+                          <ChevronRight className="w-3 h-3 ml-0.5" />
+                        </div>
                       </div>
                     </Link>
-                  )}
-
-                  {card3 && (
-                    <Link
-                      href={card3.slug ? `/berita/${card3.slug}` : '/berita'}
-                      className="group bg-white rounded-xl border border-slate-200 p-4 shadow-2xs hover:border-blue-300 transition-colors flex flex-col justify-between"
-                    >
-                      <div className="space-y-2">
-                        <div className="text-[11px] font-semibold text-blue-700">
-                          {formatDate(card3)}
-                        </div>
-                        <h4 className="text-xs sm:text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2">
-                          {card3.title}
-                        </h4>
-                      </div>
-                      <div className="pt-3 flex items-center text-[11px] font-semibold text-slate-500 group-hover:text-blue-600 transition-colors">
-                        <span>Baca Berita</span>
-                        <ChevronRight className="w-3 h-3 ml-0.5" />
-                      </div>
-                    </Link>
-                  )}
+                  ))}
                 </div>
               )}
             </div>
@@ -208,27 +222,46 @@ export default function NewsMediaSection({ initialNews = [] }: NewsMediaSectionP
               </div>
 
               <div className="space-y-3">
-                <div className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex gap-3 items-start">
-                  <div className="w-10 h-10 rounded-md bg-blue-600 text-white flex flex-col items-center justify-center shrink-0">
-                    <span className="text-[9px] font-bold uppercase">Agu</span>
-                    <span className="text-sm font-black leading-none">17</span>
+                {pinnedAgendas.length > 0 ? (
+                  pinnedAgendas.map((agenda, idx) => {
+                    const agendaDate = new Date(agenda.date);
+                    const month = agendaDate.toLocaleDateString('id-ID', { month: 'short' });
+                    const day = agendaDate.toLocaleDateString('id-ID', { day: '2-digit' });
+                    return (
+                      <div key={agenda.id || idx} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex gap-3 items-start">
+                        {agenda.image ? (
+                          <div className="w-12 h-12 rounded-md overflow-hidden relative shrink-0 shadow-sm border border-slate-200">
+                            <Image
+                              src={resolveImage(agenda)}
+                              alt={agenda.title}
+                              fill
+                              sizes="48px"
+                              className="object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-10 h-10 rounded-md bg-blue-600 text-white flex flex-col items-center justify-center shrink-0 shadow-sm">
+                            <span className="text-[9px] font-bold uppercase">{month}</span>
+                            <span className="text-sm font-black leading-none">{day}</span>
+                          </div>
+                        )}
+                        <div className="flex-1">
+                          <h4 className="text-xs font-bold text-slate-900 line-clamp-2">{agenda.title}</h4>
+                          <p className="text-[10px] font-semibold text-blue-700 mt-1">
+                            {day} {month}
+                          </p>
+                          <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-1">
+                            {agenda.location || 'Kampus SMA PGRI 1'}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="p-4 text-center text-xs text-slate-500 bg-slate-50 rounded-lg border border-slate-100 border-dashed">
+                    Belum ada agenda yang disematkan.
                   </div>
-                  <div>
-                    <h4 className="text-xs font-bold text-slate-900">Upacara HUT RI ke-81</h4>
-                    <p className="text-[11px] text-slate-500 mt-0.5">Lapangan Utama Kampus • 07.00 WIB</p>
-                  </div>
-                </div>
-
-                <div className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex gap-3 items-start">
-                  <div className="w-10 h-10 rounded-md bg-slate-700 text-white flex flex-col items-center justify-center shrink-0">
-                    <span className="text-[9px] font-bold uppercase">Sep</span>
-                    <span className="text-sm font-black leading-none">10</span>
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-bold text-slate-900">Pengumuman Hasil PPDB 2026</h4>
-                    <p className="text-[11px] text-slate-500 mt-0.5">Portal Online & Papan Pengumuman</p>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
 

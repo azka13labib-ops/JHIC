@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { ArrowLeft, Save, Loader2, Calendar } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Calendar, Pin } from 'lucide-react';
 import { ImageUploadPreview } from '@/components/admin/ImageUploadPreview';
+import LimitModal from '@/components/ui/LimitModal';
 
 export default function EditAgendaPage() {
   const router = useRouter();
@@ -18,9 +19,16 @@ export default function EditAgendaPage() {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [currentImageUrl, setCurrentImageUrl] = useState<string | null>(null);
+  const [isPinned, setIsPinned] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState('');
+
+  const [modalData, setModalData] = useState<{isOpen: boolean, title: string, message: string}>({
+    isOpen: false,
+    title: '',
+    message: ''
+  });
 
   useEffect(() => {
     const fetchAgenda = async () => {
@@ -39,6 +47,7 @@ export default function EditAgendaPage() {
         setDate(data.date ? data.date.split('T')[0] : '');
         setLocation(data.location || '');
         setDescription(data.description || '');
+        setIsPinned(!!data.is_pinned);
         if (data.image_path || data.image) {
           const rawImg = data.image_path || data.image;
           const fullImg = rawImg.startsWith('http') ? rawImg : `http://127.0.0.1:8000/storage/${rawImg}`;
@@ -73,6 +82,7 @@ export default function EditAgendaPage() {
       formData.append('date', date);
       formData.append('location', location);
       formData.append('description', description);
+      formData.append('is_pinned', isPinned ? '1' : '0');
       if (image) {
         formData.append('image', image);
       }
@@ -89,6 +99,14 @@ export default function EditAgendaPage() {
 
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
+        if (res.status === 400 && errorData.error === 'Batas Maksimal Tercapai') {
+          setModalData({
+            isOpen: true,
+            title: errorData.error,
+            message: errorData.message
+          });
+          return;
+        }
         throw new Error(errorData.message || 'Gagal mengubah agenda.');
       }
 
@@ -183,6 +201,25 @@ export default function EditAgendaPage() {
             </div>
           </div>
 
+          <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 flex items-start gap-3.5">
+            <input
+              type="checkbox"
+              id="is_pinned"
+              checked={isPinned}
+              onChange={(e) => setIsPinned(e.target.checked)}
+              className="mt-0.5 w-4 h-4 rounded border-amber-300 text-amber-600 focus:ring-amber-500 cursor-pointer"
+            />
+            <label htmlFor="is_pinned" className="cursor-pointer select-none">
+              <span className="text-xs font-bold text-amber-900 flex items-center gap-1.5">
+                <Pin className="w-3.5 h-3.5 fill-amber-600 text-amber-700" />
+                Sematkan Agenda ini ke Beranda
+              </span>
+              <span className="block text-[11px] text-amber-700 mt-0.5 leading-relaxed">
+                Agenda yang disematkan akan selalu terlihat di sidebar halaman depan website.
+              </span>
+            </label>
+          </div>
+
           <ImageUploadPreview
             currentImageUrl={currentImageUrl}
             onChange={(file) => setImage(file)}
@@ -233,6 +270,13 @@ export default function EditAgendaPage() {
           </div>
         </form>
       </div>
+
+      <LimitModal
+        isOpen={modalData.isOpen}
+        onClose={() => setModalData({ ...modalData, isOpen: false })}
+        title={modalData.title}
+        message={modalData.message}
+      />
     </div>
   );
 }

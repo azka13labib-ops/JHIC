@@ -5,10 +5,9 @@ const isServer = typeof window === 'undefined';
 let BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
 
 if (isServer) {
-  // PAKSA MENGGUNAKAN INTERNAL URL (Mengabaikan env variables apapun)
-  // Ini untuk membuktikan apakah kode terbaru sudah ditarik oleh Easypanel.
-  BASE_URL = 'http://jhic_be:8080/api';
-  console.log("HARDCODED BASE_URL ACTIVE:", BASE_URL);
+  // Gunakan internal URL jika di-define di environment (untuk Docker), jika tidak fallback ke public URL / localhost
+  BASE_URL = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+  console.log("SERVER FETCH BASE_URL ACTIVE:", BASE_URL);
 }
 
 export async function serverFetch<T>(

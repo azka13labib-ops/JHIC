@@ -17,6 +17,7 @@ class Agenda extends Model
         'location',
         'description',
         'image',
+        'is_pinned',
     ];
 
     protected static function booted()

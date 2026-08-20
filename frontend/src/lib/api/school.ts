@@ -78,3 +78,47 @@ export const getBlogs = () => fetchList('/blogs', 'blogs');
 
 // Quick Links
 export const getQuickLinks = () => fetchList('/quick-links', 'quick-links');
+
+// Products (BLUD)
+export const getProducts = () => fetchList('/products', 'products');
+export const getProductBySlug = (slug: string) => fetchItem(`/products/${slug}`, `product-${slug}`);
+export const inquireProduct = async (productId: number, data: any) => {
+    const url = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+    const res = await fetch(`${url}/products/${productId}/inquire`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    
+    if (!res.ok) {
+        throw new Error('Failed to send inquiry');
+    }
+    
+    return res.json();
+};
+
+// Jobs (BKK)
+export const getJobs = () => fetchList('/jobs', 'jobs');
+export const getJobBySlug = (slug: string) => fetchItem(`/jobs/${slug}`, `job-${slug}`);
+export const applyJob = async (jobId: number, data: FormData) => {
+    const url = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+    const res = await fetch(`${url}/jobs/${jobId}/apply`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: data // FormData handles multipart automatically
+    });
+    
+    if (!res.ok) {
+        throw new Error('Failed to submit application');
+    }
+    
+    return res.json();
+};
+
+// Alumni
+export const getAlumni = () => fetchList('/alumnis', 'alumnis');

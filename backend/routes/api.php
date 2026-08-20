@@ -41,6 +41,10 @@ Route::middleware(['throttle:100,1'])->group(function () {
         
         // Buku Tamu Publik
         Route::get('/guestbooks', [LandingPageController::class, 'guestbooks']);
+
+        // Produk Unggulan / BLUD
+        Route::get('/products', [\App\Http\Controllers\Api\ProductController::class, 'index']);
+        Route::get('/products/{slug}', [\App\Http\Controllers\Api\ProductController::class, 'show']);
     });
 });
 
@@ -60,6 +64,11 @@ Route::middleware(['throttle:20,1'])->group(function () {
 // Guestbook Submit (Throttled)
 Route::middleware(['throttle:20,1'])->group(function () {
     Route::post('/guestbooks', [LandingPageController::class, 'storeGuestbook']);
+    Route::post('/products/{id}/inquire', [\App\Http\Controllers\Api\ProductController::class, 'inquire']);
+    
+    // Kotak Suara Aman (Public)
+    Route::post('/reports', [\App\Http\Controllers\Api\Public\ReportController::class, 'store']);
+    Route::get('/reports/status/{ticket_id}', [\App\Http\Controllers\Api\Public\ReportController::class, 'status']);
 });
 
 // Auth Routes (Rate Limited)
@@ -91,6 +100,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // Modul Konten Sekolah
         Route::post('news/{id}/toggle-pin', [\App\Http\Controllers\Api\Admin\NewsController::class, 'togglePin']);
         Route::apiResource('news', \App\Http\Controllers\Api\Admin\NewsController::class);
+        Route::post('agendas/{id}/toggle-pin', [\App\Http\Controllers\Api\Admin\AgendaController::class, 'togglePin']);
         Route::apiResource('agendas', \App\Http\Controllers\Api\Admin\AgendaController::class);
         Route::apiResource('articles', \App\Http\Controllers\Api\Admin\ArticleController::class);
         Route::apiResource('opinions', \App\Http\Controllers\Api\Admin\OpinionController::class);
@@ -104,10 +114,20 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('achievements', \App\Http\Controllers\Api\Admin\AchievementController::class);
         Route::apiResource('alumni', \App\Http\Controllers\Api\Admin\AlumniController::class);
         Route::apiResource('partners', \App\Http\Controllers\Api\Admin\PartnerController::class);
+        
+        // Produk Unggulan / BLUD (Admin)
+        Route::apiResource('products', \App\Http\Controllers\Api\Admin\ProductController::class);
+        Route::apiResource('product-inquiries', \App\Http\Controllers\Api\Admin\ProductInquiryController::class)->except(['store']);
+        Route::patch('product-inquiries/{id}/status', [\App\Http\Controllers\Api\Admin\ProductInquiryController::class, 'updateStatus']);
 
         // Profil Sekolah
         Route::get('/school-profile', [\App\Http\Controllers\Api\Admin\SchoolProfileController::class, 'show']);
         Route::put('/school-profile', [\App\Http\Controllers\Api\Admin\SchoolProfileController::class, 'update']);
+
+        // Kotak Suara Aman (Laporan)
+        Route::get('/reports', [\App\Http\Controllers\Api\Admin\ReportController::class, 'index']);
+        Route::patch('/reports/{id}/status', [\App\Http\Controllers\Api\Admin\ReportController::class, 'updateStatus']);
+        Route::delete('/reports/{id}', [\App\Http\Controllers\Api\Admin\ReportController::class, 'destroy']);
 
         // PPDB — Pendaftaran & Pengaturan Jadwal
         Route::get('/ppdb-settings', [\App\Http\Controllers\Api\Admin\PpdbSettingsController::class, 'getSettings']);

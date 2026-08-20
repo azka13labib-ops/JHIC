@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { ArrowLeft, Save, Loader2, Newspaper, Pin } from 'lucide-react';
 import { ImageUploadPreview } from '@/components/admin/ImageUploadPreview';
+import LimitModal from '@/components/ui/LimitModal';
 
 export default function EditNewsPage() {
   const router = useRouter();
@@ -20,6 +21,12 @@ export default function EditNewsPage() {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState('');
+
+  const [modalData, setModalData] = useState<{isOpen: boolean, title: string, message: string}>({
+    isOpen: false,
+    title: '',
+    message: ''
+  });
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -86,6 +93,14 @@ export default function EditNewsPage() {
 
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
+        if (res.status === 400 && errorData.error === 'Batas Maksimal Tercapai') {
+          setModalData({
+            isOpen: true,
+            title: errorData.error,
+            message: errorData.message
+          });
+          return;
+        }
         throw new Error(errorData.message || 'Gagal menyimpan perubahan berita.');
       }
 
@@ -228,10 +243,15 @@ export default function EditNewsPage() {
               )}
             </button>
           </div>
-
         </form>
       </div>
 
+      <LimitModal
+        isOpen={modalData.isOpen}
+        onClose={() => setModalData({ ...modalData, isOpen: false })}
+        title={modalData.title}
+        message={modalData.message}
+      />
     </div>
   );
 }

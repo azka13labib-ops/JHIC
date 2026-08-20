@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { ArrowLeft, Save, Loader2, Newspaper, Pin } from 'lucide-react';
 import { ImageUploadPreview } from '@/components/admin/ImageUploadPreview';
+import LimitModal from '@/components/ui/LimitModal';
 
 export default function CreateNewsPage() {
   const router = useRouter();
@@ -16,6 +17,12 @@ export default function CreateNewsPage() {
   const [isPinned, setIsPinned] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const [modalData, setModalData] = useState<{isOpen: boolean, title: string, message: string}>({
+    isOpen: false,
+    title: '',
+    message: ''
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,6 +55,14 @@ export default function CreateNewsPage() {
 
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
+        if (res.status === 400 && errorData.error === 'Batas Maksimal Tercapai') {
+          setModalData({
+            isOpen: true,
+            title: errorData.error,
+            message: errorData.message
+          });
+          return;
+        }
         throw new Error(errorData.message || 'Gagal menyimpan berita baru.');
       }
 
@@ -180,10 +195,15 @@ export default function CreateNewsPage() {
               )}
             </button>
           </div>
-
         </form>
       </div>
-
+      
+      <LimitModal
+        isOpen={modalData.isOpen}
+        onClose={() => setModalData({ ...modalData, isOpen: false })}
+        title={modalData.title}
+        message={modalData.message}
+      />
     </div>
   );
 }

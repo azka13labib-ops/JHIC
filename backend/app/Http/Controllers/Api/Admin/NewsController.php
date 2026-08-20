@@ -36,6 +36,16 @@ class NewsController extends Controller
             'is_pinned' => 'nullable|boolean',
         ]);
 
+        if ($request->boolean('is_pinned')) {
+            $pinnedCount = News::where('is_pinned', true)->count();
+            if ($pinnedCount >= 5) {
+                return response()->json([
+                    'error' => 'Batas Maksimal Tercapai',
+                    'message' => 'Anda hanya dapat menyematkan maksimal 5 berita. Silakan lepas sematan pada berita lain terlebih dahulu.'
+                ], 400);
+            }
+        }
+
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('news', 'public');
@@ -79,6 +89,18 @@ class NewsController extends Controller
             'is_pinned' => 'nullable|boolean',
         ]);
 
+        $isPinning = $request->has('is_pinned') ? $request->boolean('is_pinned') : $news->is_pinned;
+
+        if ($isPinning && !$news->is_pinned) {
+            $pinnedCount = News::where('is_pinned', true)->count();
+            if ($pinnedCount >= 5) {
+                return response()->json([
+                    'error' => 'Batas Maksimal Tercapai',
+                    'message' => 'Anda hanya dapat menyematkan maksimal 5 berita. Silakan lepas sematan pada berita lain terlebih dahulu.'
+                ], 400);
+            }
+        }
+
         $imagePath = $news->image_path;
         if ($request->hasFile('image')) {
             // Delete old image if exists
@@ -106,6 +128,17 @@ class NewsController extends Controller
     public function togglePin($id)
     {
         $news = News::findOrFail($id);
+        
+        if (!$news->is_pinned) {
+            $pinnedCount = News::where('is_pinned', true)->count();
+            if ($pinnedCount >= 5) {
+                return response()->json([
+                    'error' => 'Batas Maksimal Tercapai',
+                    'message' => 'Anda hanya dapat menyematkan maksimal 5 berita. Silakan lepas sematan pada berita lain terlebih dahulu.'
+                ], 400);
+            }
+        }
+
         $news->is_pinned = !$news->is_pinned;
         $news->save();
 

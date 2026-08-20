@@ -16,7 +16,7 @@ class AgendaController extends Controller
      */
     public function index()
     {
-        $agenda = Agenda::orderBy('created_at', 'desc')->get();
+        $agenda = Agenda::orderByDesc('is_pinned')->orderBy('created_at', 'desc')->get();
         return response()->json($agenda);
     }
 
@@ -31,7 +31,18 @@ class AgendaController extends Controller
             'location' => 'nullable|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|image|max:5120',
+            'is_pinned' => 'nullable|boolean',
         ]);
+
+        if ($request->boolean('is_pinned')) {
+            $pinnedCount = Agenda::where('is_pinned', true)->count();
+            if ($pinnedCount >= 3) {
+                return response()->json([
+                    'error' => 'Batas Maksimal Tercapai',
+                    'message' => 'Anda hanya dapat menyematkan maksimal 3 agenda. Silakan lepas sematan pada agenda lain terlebih dahulu.'
+                ], 400);
+            }
+        }
 
         $imagePath = null;
         if ($request->hasFile('image')) {
@@ -44,6 +55,7 @@ class AgendaController extends Controller
             'location' => $request->location,
             'description' => $request->description,
             'image' => $imagePath,
+            'is_pinned' => $request->boolean('is_pinned'),
         ]);
 
         Cache::forget('api.agenda');
@@ -74,7 +86,20 @@ class AgendaController extends Controller
             'location' => 'nullable|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|image|max:5120',
+            'is_pinned' => 'nullable|boolean',
         ]);
+
+        $isPinning = $request->has('is_pinned') ? $request->boolean('is_pinned') : $agenda->is_pinned;
+
+        if ($isPinning && !$agenda->is_pinned) {
+            $pinnedCount = Agenda::where('is_pinned', true)->count();
+            if ($pinnedCount >= 3) {
+                return response()->json([
+                    'error' => 'Batas Maksimal Tercapai',
+                    'message' => 'Anda hanya dapat menyematkan maksimal 3 agenda. Silakan lepas sematan pada agenda lain terlebih dahulu.'
+                ], 400);
+            }
+        }
 
         $imagePath = $agenda->image;
         if ($request->hasFile('image')) {
@@ -91,12 +116,43 @@ class AgendaController extends Controller
             'location' => $request->location,
             'description' => $request->description,
             'image' => $imagePath,
+            'is_pinned' => $request->has('is_pinned') ? $request->boolean('is_pinned') : $agenda->is_pinned,
         ]);
 
         Cache::forget('api.agenda');
         Cache::forget('api.agendas');
 
         return response()->json($agenda);
+    }
+
+    /**
+     * Toggle pinned status of agenda.
+     */
+    public function togglePin($id)
+    {
+        $agenda = Agenda::findOrFail($id);
+        
+        if (!$agenda->is_pinned) {
+            $pinnedCount = Agenda::where('is_pinned', true)->count();
+            if ($pinnedCount >= 3) {
+                return response()->json([
+                    'error' => 'Batas Maksimal Tercapai',
+                    'message' => 'Anda hanya dapat menyematkan maksimal 3 agenda. Silakan lepas sematan pada agenda lain terlebih dahulu.'
+                ], 400);
+            }
+        }
+
+        $agenda->is_pinned = !$agenda->is_pinned;
+        $agenda->save();
+
+        Cache::forget('api.agenda');
+        Cache::forget('api.agendas');
+
+        return response()->json([
+            'message'   => $agenda->is_pinned ? 'Agenda berhasil disematkan.' : 'Sematkan agenda telah dilepas.',
+            'is_pinned' => $agenda->is_pinned,
+            'agenda'    => $agenda,
+        ]);
     }
 
     /**

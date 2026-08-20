@@ -4,12 +4,14 @@ import NewsMediaSection from '@/components/sections/NewsMediaSection';
 
 import { 
   getNews,
+  getAgendas
 } from '@/lib/api/school';
 
 export const revalidate = 0; // Dynamic real-time revalidation
 
 export default async function LandingPage() {
   const newsList = await getNews();
+  const agendas = await getAgendas(); // Need to import this
 
   return (
     <div className="flex flex-col w-full bg-white">
@@ -20,7 +22,7 @@ export default async function LandingPage() {
       <AboutSection />
 
       {/* 3. News & Media Center (Grid news, podcast, calendar, agenda, and PPDB CTA) */}
-      <NewsMediaSection initialNews={newsList} />
+      <NewsMediaSection initialNews={newsList} initialAgendas={agendas} />
     </div>
   );
 }

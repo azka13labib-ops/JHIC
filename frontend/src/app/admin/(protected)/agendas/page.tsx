@@ -9,6 +9,8 @@ import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { AdminSearchBar } from '@/components/admin/AdminSearchBar';
 import { AdminPagination } from '@/components/admin/AdminPagination';
 import { DeleteConfirmButton } from '@/components/admin/DeleteConfirmButton';
+import { PinAgendaButton } from '@/components/admin/PinAgendaButton';
+import { Pin } from 'lucide-react';
 
 interface AdminAgendaItem {
   id: number;
@@ -19,6 +21,7 @@ interface AdminAgendaItem {
   date: string;
   image?: string;
   created_at?: string;
+  is_pinned?: boolean;
 }
 
 export default function AdminAgendasPage() {
@@ -121,7 +124,15 @@ export default function AdminAgendasPage() {
                   paginatedAgendas.map((item: AdminAgendaItem) => (
                     <tr key={item.id} className="hover:bg-slate-50/80 transition-colors">
                       <td className="py-4 px-6 font-bold text-slate-900 max-w-md">
-                        <div className="line-clamp-1">{item.title}</div>
+                        <div className="flex items-center gap-2">
+                          {item.is_pinned && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-100 text-amber-800 border border-amber-300 shrink-0">
+                              <Pin className="w-2.5 h-2.5 fill-amber-600 text-amber-700" />
+                              Disematkan
+                            </span>
+                          )}
+                          <span className="line-clamp-1">{item.title}</span>
+                        </div>
                       </td>
                       <td className="py-4 px-6">
                         <div className="flex items-center gap-1.5 text-slate-600">
@@ -143,6 +154,8 @@ export default function AdminAgendasPage() {
                       </td>
                       <td className="py-4 px-6 text-right">
                         <div className="flex items-center justify-end gap-2">
+                          <PinAgendaButton id={item.id} initialPinned={!!item.is_pinned} title={item.title} />
+
                           {item.slug && (
                             <a
                               href={getPublicUrl(`/agenda/${item.slug}`)}
