@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, Clock, Send, MailQuestion } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 import type { Metadata } from 'next';
 import ContactForm from './ContactForm';
 
@@ -11,9 +11,9 @@ export default function KontakPage() {
   const contactInfo = [
     {
       icon: MapPin,
-      title: 'Alamat Kampus',
-      content: 'Jl. Contoh Alamat No. 123, Lumajang, Jawa Timur 67316',
-      link: 'https://maps.google.com/?q=Lumajang+Jawa+Timur',
+      title: 'Alamat Sekolah',
+      content: 'Jl. Gatot Subroto No. 11, Tompokersan, Kec. Lumajang, Kab. Lumajang, Prov. Jawa Timur, Indonesia',
+      link: 'https://maps.google.com/?q=SMAS+PGRI+1+Lumajang',
       linkText: 'Buka di Google Maps →',
     },
     {
@@ -113,9 +113,9 @@ export default function KontakPage() {
               </h3>
               <div className="flex flex-wrap gap-2">
                 {[
-                  { name: 'Facebook SMAGRISA', url: '#' },
-                  { name: 'Instagram @smapgri1lmj', url: '#' },
-                  { name: 'YouTube Official', url: '#' },
+                  { name: 'Facebook SMAGRISA', url: 'https://www.facebook.com/profile.php?id=100086591771887' },
+                  { name: 'Instagram', url: 'https://www.instagram.com/smagrisalumajang/' },
+                  { name: 'YouTube Official', url: 'https://www.youtube.com/@smapgri1lumajangchannel867' },
                 ].map(({ name, url }) => (
                   <a
                     key={name}
@@ -134,6 +134,28 @@ export default function KontakPage() {
 
         </div>
       </div>
+
+      {/* Peta Lokasi */}
+      <section className="container mx-auto px-4 pb-12 max-w-6xl">
+        <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-2xs">
+          <h2 className="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <MapPin className="w-5 h-5 text-blue-700" />
+            Peta Lokasi Sekolah
+          </h2>
+          <div className="w-full h-80 sm:h-96 rounded-lg overflow-hidden border border-slate-200 bg-slate-100">
+            <iframe 
+              src="https://maps.google.com/maps?q=SMA%20PGRI%201%20Lumajang&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Peta Lokasi SMA PGRI 1 Lumajang"
+            ></iframe>
+          </div>
+        </div>
+      </section>
 
     </div>
   );

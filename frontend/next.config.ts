@@ -31,6 +31,7 @@ const securityHeaders = [
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: http: https:",
       "connect-src 'self' http: https:",
+      "frame-src 'self' https://maps.google.com https://www.google.com",
       "frame-ancestors 'none'",
     ].join('; '),
   },
@@ -48,10 +49,12 @@ const nextConfig: NextConfig = {
       {
         protocol: 'http',
         hostname: 'localhost',
+        port: '8000',
       },
       {
         protocol: 'http',
         hostname: '127.0.0.1',
+        port: '8000',
       },
       {
         protocol: 'https',

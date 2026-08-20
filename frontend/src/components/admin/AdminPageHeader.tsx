@@ -11,7 +11,8 @@ interface AdminPageHeaderProps {
   badge?: string;
   actionButton?: {
     label: string;
-    href: string;
+    href?: string;
+    onClick?: () => void;
     icon?: React.ComponentType<{ className?: string }>;
   };
   secondaryAction?: React.ReactNode;
@@ -57,13 +58,23 @@ export function AdminPageHeader({
       <div className="flex items-center gap-2.5 shrink-0">
         {secondaryAction}
         {actionButton && (
-          <Link
-            href={actionButton.href}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-bold rounded-xl shadow-xs hover:shadow-md transition-all cursor-pointer"
-          >
-            <ActionIcon className="w-4 h-4" />
-            <span>{actionButton.label}</span>
-          </Link>
+          actionButton.onClick ? (
+            <button
+              onClick={actionButton.onClick}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-bold rounded-xl shadow-xs hover:shadow-md transition-all cursor-pointer"
+            >
+              <ActionIcon className="w-4 h-4" />
+              <span>{actionButton.label}</span>
+            </button>
+          ) : actionButton.href ? (
+            <Link
+              href={actionButton.href}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-bold rounded-xl shadow-xs hover:shadow-md transition-all cursor-pointer"
+            >
+              <ActionIcon className="w-4 h-4" />
+              <span>{actionButton.label}</span>
+            </Link>
+          ) : null
         )}
       </div>
     </div>

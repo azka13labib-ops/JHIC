@@ -52,4 +52,12 @@ export const navigationGroups: NavGroup[] = [
       { title: 'Tautan Cepat', href: '/admin/quick-links', icon: LinkIcon },
     ],
   },
+  {
+    group: 'LAYANAN & PRODUK',
+    items: [
+      { title: 'Kotak Suara Aman', href: '/admin/reports', icon: MessageSquare, badge: 'Laporan' },
+      { title: 'Produk (BLUD)', href: '/admin/products', icon: FolderOpen },
+      { title: 'Lowongan (BKK)', href: '/admin/jobs', icon: Users },
+    ],
+  },
 ];

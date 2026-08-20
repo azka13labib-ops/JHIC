@@ -41,6 +41,13 @@ export function NavMobileDrawer({ isOpen, onClose }: NavMobileDrawerProps) {
         >
           EKSTRAKURIKULER
         </Link>
+        <Link
+          href="/alumni"
+          onClick={onClose}
+          className="p-2.5 font-bold text-slate-900 hover:bg-slate-100 hover:text-blue-600 rounded-xl transition-colors"
+        >
+          ALUMNI
+        </Link>
       </div>
 
       <div className="border-t border-slate-200 pt-3">
@@ -111,13 +118,6 @@ export function NavMobileDrawer({ isOpen, onClose }: NavMobileDrawerProps) {
             className="p-1.5 text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-lg"
           >
             Artikel
-          </Link>
-          <Link
-            href="/alumni"
-            onClick={onClose}
-            className="p-1.5 text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-lg"
-          >
-            Tracer Alumni
           </Link>
           <Link
             href="/buku-tamu"

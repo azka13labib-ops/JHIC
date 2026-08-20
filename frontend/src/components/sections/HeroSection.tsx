@@ -14,7 +14,7 @@ export default function HeroSection() {
       href: '/jurusan',
     },
     {
-      title: 'Profil & Fasilitas Kampus',
+      title: 'Profil & Fasilitas Sekolah',
       desc: 'Gedung representatif, 3 laboratorium komputer terpadu, lab sains modern, perpustakaan digital, dan lingkungan asri.',
       icon: Building2,
       href: '/profil/sejarah',
@@ -35,7 +35,7 @@ export default function HeroSection() {
         <div className="absolute inset-0 z-0">
           <Image
             src="/image.png"
-            alt="Kampus SMA PGRI 1 Lumajang"
+            alt="Sekolah SMA PGRI 1 Lumajang"
             fill
             priority
             sizes="100vw"
