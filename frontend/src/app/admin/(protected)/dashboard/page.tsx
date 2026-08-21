@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 
 import { STATUS_CONFIG } from '@/types/ppdb';
+import { PpdbTrendChart } from '@/components/admin/dashboard/PpdbTrendChart';
 
 interface DashboardStats {
   ppdb: { total: number; pending: number; verified?: number; accepted: number; rejected: number };
@@ -196,64 +197,69 @@ export default function DashboardPage() {
       {/* Main Grid: Recent PPDB Registrations + Quick Actions */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        {/* Left (7 Cols): Recent PPDB Registrations */}
-        <div className="lg:col-span-7 bg-white border border-slate-200 rounded-xl p-5 shadow-2xs space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-            <div>
-              <h2 className="font-bold text-sm text-slate-900">Pendaftar PPDB Terbaru</h2>
-              <span className="text-[11px] text-slate-500">Daftar calon siswa baru yang masuk sistem</span>
-            </div>
-            <Link
-              href="/admin/ppdb"
-              className="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1"
-            >
-              <span>Lihat Semua</span>
-              <ArrowRight className="w-3 h-3" />
-            </Link>
-          </div>
+        {/* Left (7 Cols): PPDB Trend & Recent Registrations */}
+        <div className="lg:col-span-7 space-y-6">
+          
+          <PpdbTrendChart />
 
-          {loading ? (
-            <div className="flex items-center justify-center py-8">
-              <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-2xs space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div>
+                <h2 className="font-bold text-sm text-slate-900">Pendaftar PPDB Terbaru</h2>
+                <span className="text-[11px] text-slate-500">Daftar calon siswa baru yang masuk sistem</span>
+              </div>
+              <Link
+                href="/admin/ppdb"
+                className="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1"
+              >
+                <span>Lihat Semua</span>
+                <ArrowRight className="w-3 h-3" />
+              </Link>
             </div>
-          ) : stats?.recent_registrations && stats.recent_registrations.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="w-full text-xs text-left">
-                <thead className="bg-slate-50 text-slate-700 border-b border-slate-200 font-semibold">
-                  <tr>
-                    <th className="py-2.5 px-3">No. Daftar</th>
-                    <th className="py-2.5 px-3">Nama Siswa</th>
-                    <th className="py-2.5 px-3">Pilihan</th>
-                    <th className="py-2.5 px-3">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {stats.recent_registrations.map((reg) => {
-                    const statusObj = STATUS_CONFIG[reg.status as keyof typeof STATUS_CONFIG] || {
-                      label: reg.status,
-                      color: 'bg-slate-100 text-slate-700',
-                    };
-                    return (
-                      <tr key={reg.id} className="hover:bg-slate-50 transition-colors">
-                        <td className="py-2.5 px-3 font-mono font-bold text-blue-700">{reg.registration_number}</td>
-                        <td className="py-2.5 px-3 font-medium text-slate-900">{reg.full_name}</td>
-                        <td className="py-2.5 px-3 text-slate-600">{reg.major_choice || '—'}</td>
-                        <td className="py-2.5 px-3">
-                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${statusObj.badge}`}>
-                            {statusObj.label}
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div className="text-center py-8 text-slate-500 text-xs">
-              Belum ada pendaftaran siswa baru dalam antrean.
-            </div>
-          )}
+
+            {loading ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : stats?.recent_registrations && stats.recent_registrations.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left">
+                  <thead className="bg-slate-50 text-slate-700 border-b border-slate-200 font-semibold">
+                    <tr>
+                      <th className="py-2.5 px-3">No. Daftar</th>
+                      <th className="py-2.5 px-3">Nama Siswa</th>
+                      <th className="py-2.5 px-3">Pilihan</th>
+                      <th className="py-2.5 px-3">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {stats.recent_registrations.map((reg) => {
+                      const statusObj = STATUS_CONFIG[reg.status as keyof typeof STATUS_CONFIG] || {
+                        label: reg.status,
+                        color: 'bg-slate-100 text-slate-700',
+                      };
+                      return (
+                        <tr key={reg.id} className="hover:bg-slate-50 transition-colors">
+                          <td className="py-2.5 px-3 font-mono font-bold text-blue-700">{reg.registration_number}</td>
+                          <td className="py-2.5 px-3 font-medium text-slate-900">{reg.full_name}</td>
+                          <td className="py-2.5 px-3 text-slate-600">{reg.major_choice || '—'}</td>
+                          <td className="py-2.5 px-3">
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${statusObj.badge}`}>
+                              {statusObj.label}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="text-center py-8 text-slate-500 text-xs">
+                Belum ada pendaftaran siswa baru dalam antrean.
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Right (5 Cols): PPDB Summary & Quick Operations */}

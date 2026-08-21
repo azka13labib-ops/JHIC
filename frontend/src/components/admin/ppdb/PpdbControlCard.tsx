@@ -18,51 +18,48 @@ export function PpdbControlCard({
 }: PpdbControlCardProps) {
   return (
     <div
-      className={`rounded-3xl p-6 sm:p-8 text-white shadow-xl transition-all duration-300 relative overflow-hidden ${
+      className={`rounded-2xl p-6 sm:p-8 transition-all duration-300 relative border shadow-xs ${
         settings.is_open
-          ? 'bg-linear-to-br from-emerald-600 via-teal-600 to-emerald-800 shadow-emerald-600/20'
-          : 'bg-linear-to-br from-slate-700 via-slate-800 to-slate-900 shadow-slate-900/20'
+          ? 'bg-white border-emerald-200 text-slate-900'
+          : 'bg-white border-slate-200 text-slate-900'
       }`}
     >
-      {/* Decorative background glow */}
-      <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white/10 blur-2xl pointer-events-none" />
-
       <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
         <div>
           <div className="flex items-center gap-3 mb-3">
             <span
-              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider ${
                 settings.is_open
-                  ? 'bg-white/20 text-emerald-100 backdrop-blur-sm'
-                  : 'bg-rose-500/30 text-rose-200 backdrop-blur-sm'
+                  ? 'bg-emerald-100 text-emerald-800'
+                  : 'bg-rose-100 text-rose-800'
               }`}
             >
               <span
-                className={`w-2 h-2 rounded-full ${
-                  settings.is_open ? 'bg-emerald-300 animate-ping' : 'bg-rose-400'
+                className={`w-1.5 h-1.5 rounded-full ${
+                  settings.is_open ? 'bg-emerald-500' : 'bg-rose-500'
                 }`}
               />
-              {settings.is_open ? 'Pendaftaran Sedang Dibuka' : 'Pendaftaran Ditutup'}
+              {settings.is_open ? 'Pendaftaran Dibuka' : 'Pendaftaran Ditutup'}
             </span>
-            <span className="text-xs text-white/80 font-medium">
+            <span className="text-xs font-medium text-slate-500">
               Tahun Ajaran: {settings.academic_year}
             </span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight mb-2">
-            Master Kontrol PPDB
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
+            Status Pendaftaran PPDB
           </h2>
-          <p className="text-white/80 text-sm max-w-xl">
+          <p className="text-sm max-w-xl leading-relaxed text-slate-600">
             {settings.is_open
-              ? 'Formulir pendaftaran publik aktif dan dapat menerima berkas pendaftar baru.'
-              : 'Formulir pendaftaran publik ditutup. Pengunjung diarahkan ke informasi layanan atau hotline WhatsApp.'}
+              ? 'Calon siswa dapat mengisi formulir dan mengirim berkas pendaftaran melalui halaman web.'
+              : 'Pendaftaran ditutup. Pengunjung web akan melihat pesan penutupan dan kontak bantuan.'}
           </p>
 
           {/* Timeline schedule hints */}
           {(settings.registration_start || settings.registration_end) && (
-            <div className="mt-4 flex flex-wrap gap-4 text-xs text-white/90">
+            <div className="mt-5 flex flex-wrap gap-4 text-xs text-slate-600">
               {settings.registration_start && (
-                <span className="flex items-center gap-1.5 bg-black/20 px-3 py-1 rounded-lg">
+                <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-slate-100 border border-slate-200">
                   <Calendar className="w-3.5 h-3.5" /> Buka:{' '}
                   {new Date(settings.registration_start).toLocaleDateString('id-ID', {
                     day: 'numeric',
@@ -72,7 +69,7 @@ export function PpdbControlCard({
                 </span>
               )}
               {settings.registration_end && (
-                <span className="flex items-center gap-1.5 bg-black/20 px-3 py-1 rounded-lg">
+                <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-slate-100 border border-slate-200">
                   <Clock className="w-3.5 h-3.5" /> Tutup:{' '}
                   {new Date(settings.registration_end).toLocaleDateString('id-ID', {
                     day: 'numeric',
@@ -82,7 +79,7 @@ export function PpdbControlCard({
                 </span>
               )}
               {settings.announcement_date && (
-                <span className="flex items-center gap-1.5 bg-black/20 px-3 py-1 rounded-lg">
+                <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-slate-100 border border-slate-200">
                   <Megaphone className="w-3.5 h-3.5" /> Pengumuman:{' '}
                   {new Date(settings.announcement_date).toLocaleDateString('id-ID', {
                     day: 'numeric',
@@ -98,19 +95,19 @@ export function PpdbControlCard({
         <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={onOpenSettings}
-            className="flex items-center gap-2 bg-white/15 hover:bg-white/25 active:scale-95 text-white font-bold px-5 py-3 rounded-2xl transition border border-white/20 backdrop-blur-sm text-sm"
+            className="flex items-center gap-2 font-semibold px-5 py-2.5 rounded-lg transition text-sm bg-white border border-slate-300 hover:bg-slate-50 text-slate-700"
           >
             <Settings className="w-4 h-4" />
-            Atur Jadwal & Pesan
+            Pengaturan Jadwal
           </button>
 
           <button
             onClick={onToggle}
             disabled={toggling}
-            className={`flex items-center gap-2 font-black px-6 py-3 rounded-2xl transition shadow-lg active:scale-95 text-sm ${
+            className={`flex items-center gap-2 font-bold px-5 py-2.5 rounded-lg transition text-sm ${
               settings.is_open
-                ? 'bg-rose-500 hover:bg-rose-600 text-white shadow-rose-900/30'
-                : 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-900/30'
+                ? 'bg-rose-100 hover:bg-rose-200 text-rose-800'
+                : 'bg-emerald-600 hover:bg-emerald-700 text-white'
             }`}
           >
             {toggling ? (

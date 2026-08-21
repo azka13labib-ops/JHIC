@@ -95,10 +95,10 @@ export default function AdminPpdbPage() {
       });
       const json = await res.json();
       if (res.ok) {
-        setSettings((prev) => ({ ...prev, is_open: json.is_ppdb_open }));
+        setSettings((prev) => ({ ...prev, is_open: json.is_open }));
         showAlert(
           'success',
-          json.is_ppdb_open
+          json.is_open
             ? 'Pendaftaran PPDB berhasil DIBUKA.'
             : 'Pendaftaran PPDB berhasil DITUTUP.'
         );

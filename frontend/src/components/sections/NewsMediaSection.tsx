@@ -36,11 +36,12 @@ interface AgendaItem {
 }
 
 interface NewsMediaSectionProps {
-  initialNews?: NewsItem[];
+  initialNews?: any[];
   initialAgendas?: AgendaItem[];
+  isPpdbOpen?: boolean;
 }
 
-export default function NewsMediaSection({ initialNews = [], initialAgendas = [] }: NewsMediaSectionProps) {
+export default function NewsMediaSection({ initialNews = [], initialAgendas = [], isPpdbOpen = true }: NewsMediaSectionProps) {
   // Only show pinned news
   const pinnedNews = initialNews.filter(n => n.is_pinned);
   const totalNews = pinnedNews.length;
@@ -167,7 +168,7 @@ export default function NewsMediaSection({ initialNews = [], initialAgendas = []
                       className="group bg-white rounded-xl border border-slate-200 shadow-2xs hover:border-blue-300 transition-colors flex flex-col overflow-hidden"
                     >
                       {/* Thumbnail Image */}
-                      <div className="relative aspect-[21/9] bg-slate-100 overflow-hidden">
+                      <div className="relative aspect-21/9 bg-slate-100 overflow-hidden">
                         <Image
                           src={resolveImage(item)}
                           alt={item.title}
@@ -266,24 +267,26 @@ export default function NewsMediaSection({ initialNews = [], initialAgendas = []
             </div>
 
             {/* Quick Link Card for PPDB */}
-            <div className="bg-blue-900 text-white rounded-xl p-5 shadow-xs">
-              <span className="text-[10px] font-bold tracking-widest text-[#d4af37] uppercase block mb-1">
-                Penerimaan Siswa Baru
-              </span>
-              <h3 className="text-sm font-bold text-white mb-2">
-                Pendaftaran PPDB 2026/2027 Masih Dibuka
-              </h3>
-              <p className="text-xs text-blue-100 mb-4 leading-relaxed">
-                Pilih Jalur Reguler atau Jalur Prestasi secara online tanpa perlu antre di sekolah.
-              </p>
-              <Link
-                href="/ppdb"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#d4af37] hover:bg-[#c49e2e] text-slate-950 text-xs font-bold transition-colors"
-              >
-                <span>Daftar Sekarang</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
+            {isPpdbOpen && (
+              <div className="bg-blue-900 text-white rounded-xl p-5 shadow-xs">
+                <span className="text-[10px] font-bold tracking-widest text-[#d4af37] uppercase block mb-1">
+                  Penerimaan Siswa Baru
+                </span>
+                <h3 className="text-sm font-bold text-white mb-2">
+                  Pendaftaran PPDB 2026/2027 Masih Dibuka
+                </h3>
+                <p className="text-xs text-blue-100 mb-4 leading-relaxed">
+                  Pilih Jalur Reguler atau Jalur Prestasi secara online tanpa perlu antre di sekolah.
+                </p>
+                <Link
+                  href="/ppdb"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#d4af37] hover:bg-[#c49e2e] text-slate-950 text-xs font-bold transition-colors"
+                >
+                  <span>Daftar Sekarang</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            )}
 
           </div>
 

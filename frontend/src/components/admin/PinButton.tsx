@@ -6,13 +6,14 @@ import { useSession } from 'next-auth/react';
 import { Pin, Loader2 } from 'lucide-react';
 import LimitModal from '@/components/ui/LimitModal';
 
-interface PinNewsButtonProps {
+interface PinButtonProps {
   id: number;
   initialPinned: boolean;
   title: string;
+  type: 'news' | 'agendas';
 }
 
-export function PinNewsButton({ id, initialPinned, title }: PinNewsButtonProps) {
+export function PinButton({ id, initialPinned, title, type }: PinButtonProps) {
   const [pinned, setPinned] = useState(initialPinned);
   const [loading, setLoading] = useState(false);
   const [modalData, setModalData] = useState<{isOpen: boolean, title: string, message: string}>({
@@ -30,7 +31,7 @@ export function PinNewsButton({ id, initialPinned, title }: PinNewsButtonProps) 
 
     try {
       setLoading(true);
-      const url = `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/admin/news/${id}/toggle-pin`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/admin/${type}/${id}/toggle-pin`;
       const res = await fetch(url, {
         method: 'POST',
         headers: {
@@ -50,7 +51,7 @@ export function PinNewsButton({ id, initialPinned, title }: PinNewsButtonProps) 
           });
           return;
         }
-        throw new Error('Gagal memperbarui status sematan berita');
+        throw new Error('Gagal memperbarui status sematan');
       }
 
       setPinned(data.is_pinned);

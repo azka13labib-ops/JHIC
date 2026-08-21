@@ -4,9 +4,6 @@ import { useState, useEffect } from 'react';
 import { X, Save, Loader2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { generateSlug } from '@/lib/utils';
-import dynamic from 'next/dynamic';
-
-const SimpleEditor = dynamic(() => import('@/components/admin/SimpleEditor'), { ssr: false });
 
 interface JobFormModalProps {
   isOpen: boolean;
@@ -196,16 +193,24 @@ export function JobFormModal({ isOpen, onClose, onSuccess, job }: JobFormModalPr
 
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-700 uppercase">Deskripsi Pekerjaan</label>
-              <div className="border border-slate-200 rounded-lg overflow-hidden">
-                <SimpleEditor value={description} onChange={setDescription} placeholder="Tuliskan deskripsi pekerjaan..." />
-              </div>
+              <textarea 
+                value={description} 
+                onChange={(e) => setDescription(e.target.value)} 
+                placeholder="Tuliskan deskripsi pekerjaan..."
+                rows={5}
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
             </div>
 
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-700 uppercase">Kualifikasi (Opsional)</label>
-              <div className="border border-slate-200 rounded-lg overflow-hidden">
-                <SimpleEditor value={requirements} onChange={setRequirements} placeholder="Tuliskan kualifikasi yang dibutuhkan..." />
-              </div>
+              <textarea 
+                value={requirements} 
+                onChange={(e) => setRequirements(e.target.value)} 
+                placeholder="Tuliskan kualifikasi yang dibutuhkan..."
+                rows={4}
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
             </div>
 
             <div className="flex items-center gap-2 pt-2">

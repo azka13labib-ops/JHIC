@@ -9,7 +9,7 @@ import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
 import { AdminSearchBar } from '@/components/admin/AdminSearchBar';
 import { AdminPagination } from '@/components/admin/AdminPagination';
 import { DeleteConfirmButton } from '@/components/admin/DeleteConfirmButton';
-import { PinAgendaButton } from '@/components/admin/PinAgendaButton';
+import { PinButton } from '@/components/admin/PinButton';
 import { Pin } from 'lucide-react';
 
 interface AdminAgendaItem {
@@ -154,7 +154,7 @@ export default function AdminAgendasPage() {
                       </td>
                       <td className="py-4 px-6 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <PinAgendaButton id={item.id} initialPinned={!!item.is_pinned} title={item.title} />
+                          <PinButton type="agendas" id={item.id} initialPinned={!!item.is_pinned} title={item.title} />
 
                           {item.slug && (
                             <a
