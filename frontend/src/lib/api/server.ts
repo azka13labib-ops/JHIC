@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 const isServer = typeof window === 'undefined';
 
 // Gunakan URL internal Docker untuk komunikasi antar container di server,
@@ -12,7 +14,7 @@ if (isServer) {
 
 export async function serverFetch<T>(
   endpoint: string,
-  options?: { revalidate?: number | false; tags?: string[] }
+  options?: { revalidate?: number | false; tags?: string[]; schema?: z.ZodSchema<T> }
 ): Promise<T> {
   const fetchOptions: RequestInit = {
     headers: {
@@ -42,5 +44,18 @@ export async function serverFetch<T>(
     throw new Error(`API Error: ${res.status} on ${endpoint}`);
   }
   
-  return res.json();
+  const data = await res.json();
+  
+  if (options?.schema) {
+    try {
+      return options.schema.parse(data);
+    } catch (err) {
+      console.error(`Schema validation failed for ${endpoint}:`, err);
+      // Depending on strictness, we might throw here, but for now we'll just log and return data
+      // to avoid breaking legacy code that hasn't fully conformed to schemas yet.
+      return data as T;
+    }
+  }
+
+  return data as T;
 }
