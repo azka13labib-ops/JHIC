@@ -29,6 +29,8 @@ export default function AdminJobsPage() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
+  const [totalItems, setTotalItems] = useState(0);
+  const [error, setError] = useState<string | null>(null);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingJob, setEditingJob] = useState<AdminJobItem | undefined>(undefined);
@@ -41,35 +43,30 @@ export default function AdminJobsPage() {
   const fetchData = useCallback(async () => {
     if (!session?.accessToken) return;
     setLoading(true);
+    setError(null);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/jobs`, { headers: authHeaders });
+      const queryParams = new URLSearchParams({
+        page: page.toString(),
+        limit: perPage.toString(),
+        ...(search && { search })
+      });
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/jobs?${queryParams.toString()}`, { headers: authHeaders });
+      if (!res.ok) throw new Error('Gagal mengambil data dari server');
+      
       const data = await res.json();
       setJobsList(Array.isArray(data) ? data : data.data ?? []);
-    } catch {
+      setTotalItems(data.total ?? (Array.isArray(data) ? data.length : data.data?.length ?? 0));
+    } catch (err: unknown) {
       setJobsList([]);
+      setError(err instanceof Error ? err.message : 'Terjadi kesalahan jaringan');
     } finally {
       setLoading(false);
     }
-  }, [session, authHeaders]);
+  }, [session, authHeaders, page, perPage, search]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
-  // Filter and pagination
-  const filteredJobs = useMemo(() => {
-    if (!search.trim()) return jobsList;
-    const q = search.toLowerCase();
-    return jobsList.filter(
-      (item) =>
-        item.title.toLowerCase().includes(q) ||
-        item.company_name.toLowerCase().includes(q)
-    );
-  }, [jobsList, search]);
-
-  const totalPages = Math.ceil(filteredJobs.length / perPage) || 1;
-  const paginatedJobs = useMemo(() => {
-    const start = (page - 1) * perPage;
-    return filteredJobs.slice(start, start + perPage);
-  }, [filteredJobs, page, perPage]);
+  const totalPages = Math.ceil(totalItems / perPage) || 1;
 
   const handleSearchChange = (val: string) => {
     setSearch(val);
@@ -106,12 +103,17 @@ export default function AdminJobsPage() {
           value={search}
           onChange={handleSearchChange}
           placeholder="Cari judul lowongan atau nama perusahaan..."
-          totalResults={filteredJobs.length}
+          totalResults={totalItems}
         />
 
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          </div>
+        ) : error ? (
+          <div className="py-12 text-center">
+            <p className="text-red-500 font-bold mb-2">{error}</p>
+            <button onClick={fetchData} className="text-blue-600 text-xs font-semibold hover:underline">Coba lagi</button>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -125,14 +127,14 @@ export default function AdminJobsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
-                {paginatedJobs.length === 0 ? (
+                {jobsList.length === 0 ? (
                   <tr>
                     <td colSpan={4} className="py-12 text-center text-slate-400">
                       {search ? 'Tidak ada lowongan yang cocok dengan pencarian.' : 'Belum ada lowongan.'}
                     </td>
                   </tr>
                 ) : (
-                  paginatedJobs.map((item: AdminJobItem) => {
+                  jobsList.map((item: AdminJobItem) => {
                     const isClosed = new Date(item.closing_date) < new Date();
                     return (
                       <tr key={item.id} className="hover:bg-slate-50/80 transition-colors">
@@ -206,7 +208,7 @@ export default function AdminJobsPage() {
         <AdminPagination
           currentPage={page}
           totalPages={totalPages}
-          totalItems={filteredJobs.length}
+          totalItems={totalItems}
           itemsPerPage={perPage}
           onPageChange={setPage}
           onItemsPerPageChange={(newPerPage) => {

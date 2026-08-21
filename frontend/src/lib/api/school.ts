@@ -13,6 +13,23 @@ async function fetchList<T = any>(endpoint: string, tag: string, revalidate = 60
   }
 }
 
+async function fetchPaginatedList<T = any>(endpoint: string, tag: string, revalidate = 60, params?: Record<string, string | number>): Promise<{ data: T[], total?: number, current_page?: number, last_page?: number }> {
+  try {
+    const url = new URL(endpoint, 'http://dummy.com'); 
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value) url.searchParams.append(key, value.toString());
+      });
+    }
+    const finalEndpoint = `${url.pathname}${url.search}`;
+    const res = await serverFetch<any>(finalEndpoint, { revalidate, tags: [tag] });
+    return res;
+  } catch (error) {
+    console.error(`Failed to fetch paginated ${tag}`, error);
+    return { data: [] };
+  }
+}
+
 async function fetchItem<T = any>(endpoint: string, tag: string, revalidate = 60): Promise<T | null> {
   try {
     const res = await serverFetch<{ data: T }>(endpoint, { revalidate, tags: [tag] });
@@ -49,6 +66,7 @@ export const getAchievementById = (id: string) => fetchItem<Achievement>(`/achie
 
 // News
 export const getNews = () => fetchList('/news', 'news');
+export const getNewsPaginated = (params: Record<string, string | number>) => fetchPaginatedList('/news', 'news', 60, params);
 export const getNewsBySlug = (slug: string) => fetchItem(`/news/${slug}`, `news-${slug}`);
 
 // Agendas
@@ -57,7 +75,6 @@ export const getAgendaBySlug = (slug: string) => fetchItem(`/agendas/${slug}`, `
 
 // Articles
 export const getArticles = () => fetchList('/articles', 'articles');
-export const getArticle = getArticles;
 export const getArticleBySlug = (slug: string) => fetchItem(`/articles/${slug}`, `article-${slug}`);
 
 // Galleries
@@ -70,7 +87,6 @@ export const getStudentWorkBySlug = (slug: string) => fetchItem(`/student-works/
 
 // Opinions
 export const getOpinions = () => fetchList('/opinions', 'opinions');
-export const getOpinion = getOpinions;
 export const getOpinionBySlug = (slug: string) => fetchItem(`/opinions/${slug}`, `opinion-${slug}`);
 
 // Blogs
@@ -78,6 +94,9 @@ export const getBlogs = () => fetchList('/blogs', 'blogs');
 
 // Quick Links
 export const getQuickLinks = () => fetchList('/quick-links', 'quick-links');
+
+// PPDB Info
+export const getPpdbInfo = () => fetchItem('/ppdb/info', 'ppdb-info', 0);
 
 // Products (BLUD)
 export const getProducts = () => fetchList('/products', 'products');
@@ -102,6 +121,7 @@ export const inquireProduct = async (productId: number, data: any) => {
 
 // Jobs (BKK)
 export const getJobs = () => fetchList('/jobs', 'jobs');
+export const getJobsPaginated = (params: Record<string, string | number>) => fetchPaginatedList('/jobs', 'jobs', 60, params);
 export const getJobBySlug = (slug: string) => fetchItem(`/jobs/${slug}`, `job-${slug}`);
 export const applyJob = async (jobId: number, data: FormData) => {
     const url = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
