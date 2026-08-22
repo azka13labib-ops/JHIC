@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { SYSTEM_PROMPT } from '@/config/ai-prompts';
+import { getSystemPrompt } from '@/config/ai-prompts';
 
 // Helper to strip any <think> reasoning tags
 function cleanAIResponse(rawText: string): string {
@@ -9,7 +9,7 @@ function cleanAIResponse(rawText: string): string {
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json();
+    const { messages, academicYear } = await req.json();
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
@@ -26,9 +26,12 @@ export async function POST(req: Request) {
       });
     }
 
+    const year = academicYear || '2026/2027';
+    const systemPrompt = getSystemPrompt(year);
+
     // Format messages for Groq LLM API
     const formattedMessages = [
-      { role: 'system', content: SYSTEM_PROMPT },
+      { role: 'system', content: systemPrompt },
       ...messages.map((m: { sender?: string; role?: string; text?: string; content?: string }) => ({
         role: m.role || (m.sender === 'user' ? 'user' : 'assistant'),
         content: m.content || m.text || '',
@@ -75,7 +78,7 @@ export async function POST(req: Request) {
     }
 
     if (!reply) {
-      reply = 'Halo! Saya adalah Asisten Virtual SMAGRISA. Ada yang bisa saya bantu seputar PPDB 2026, 13 Ekstrakurikuler, Jurusan, atau Fasilitas SMA PGRI 1 Lumajang?';
+      reply = `Halo! Saya adalah Asisten Virtual SMAGRISA. Ada yang bisa saya bantu seputar PPDB ${year}, 13 Ekstrakurikuler, Jurusan, atau Fasilitas SMA PGRI 1 Lumajang?`;
     }
 
     return NextResponse.json({ reply });

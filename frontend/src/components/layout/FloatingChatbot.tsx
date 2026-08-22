@@ -19,14 +19,14 @@ interface Message {
   quickActions?: { label: string; query: string }[];
 }
 
-const INITIAL_MESSAGES: Message[] = [
+const getInitialMessages = (year: string): Message[] => [
   {
     id: 'welcome-1',
     sender: 'bot',
-    text: 'Halo! 👋 Saya **SMAGRISA AI Assistant**, asisten cerdas resmi SMA PGRI 1 Lumajang.\n\nAda yang bisa saya bantu terkait **PPDB 2026, Peminatan Jurusan, 13 Ekstrakurikuler, atau Fasilitas Sekolah**?',
+    text: `Halo! 👋 Saya **SMAGRISA AI Assistant**, asisten cerdas resmi SMA PGRI 1 Lumajang.\n\nAda yang bisa saya bantu terkait **PPDB ${year}, Peminatan Jurusan, 13 Ekstrakurikuler, atau Fasilitas Sekolah**?`,
     time: 'Baru saja',
     quickActions: [
-      { label: '📝 Syarat & 2 Jalur PPDB', query: 'Jelaskan syarat dan 2 jalur pendaftaran PPDB 2026 di SMAGRISA' },
+      { label: '📝 Syarat & 2 Jalur PPDB', query: `Jelaskan syarat dan 2 jalur pendaftaran PPDB ${year} di SMAGRISA` },
       { label: '🏆 Jadwal 13 Ekstrakurikuler', query: 'Sebutkan 13 ekstrakurikuler pilihan dan ekstrakurikuler wajib beserta jadwalnya' },
       { label: '📚 Pilihan Jurusan', query: 'Apa saja jurusan peminatan di SMA PGRI 1 Lumajang?' },
       { label: '🏢 Fasilitas Sekolah', query: 'Ceritakan tentang fasilitas laboratorium dan kampus modern di SMAGRISA' },
@@ -46,12 +46,42 @@ function sanitizeText(raw: string): string {
 export function FloatingChatbot() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
+  const [academicYear, setAcademicYear] = useState('2026/2027');
+  const [messages, setMessages] = useState<Message[]>(getInitialMessages('2026/2027'));
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
 
   const messageIdCounter = useRef(1);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Fetch dynamic academic year from backend API
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+    fetch(`${apiUrl}/ppdb/info`)
+      .then(async res => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          return res.json();
+        } else {
+          throw new Error("Response was not JSON");
+        }
+      })
+      .then(json => {
+        const data = json?.data;
+        if (data?.academic_year) {
+          setAcademicYear(data.academic_year);
+          setMessages(prev => {
+            // Only update welcome message if user hasn't chatted yet
+            if (prev.length === 1 && prev[0].id === 'welcome-1') {
+              return getInitialMessages(data.academic_year);
+            }
+            return prev;
+          });
+        }
+      })
+      .catch(err => console.error("Failed to fetch PPDB info:", err));
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -104,7 +134,10 @@ export function FloatingChatbot() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: apiMessages }),
+        body: JSON.stringify({ 
+          messages: apiMessages,
+          academicYear: academicYear 
+        }),
       });
 
       let botReply = '';
@@ -144,7 +177,7 @@ export function FloatingChatbot() {
   };
 
   const handleResetChat = () => {
-    setMessages(INITIAL_MESSAGES);
+    setMessages(getInitialMessages(academicYear));
   };
 
   const renderFormattedText = (text: string) => {
