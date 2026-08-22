@@ -40,7 +40,7 @@ export function OpinionForm({ isEdit = false, initialData }: OpinionFormProps) {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
       const endpoint = isEdit ? `/admin/opinions/${initialData?.id}` : `/admin/opinions`;
       
-      const payload: any = { title, content };
+      const payload: Record<string, string> = { title, content };
       
       const res = await fetch(`${apiUrl}${endpoint}`, {
         method: isEdit ? "PUT" : "POST",
@@ -96,7 +96,7 @@ export function OpinionForm({ isEdit = false, initialData }: OpinionFormProps) {
             <Textarea 
               id="content" 
               placeholder="Tulis isi opini di sini..." 
-              className="min-h-[200px]"
+              className="min-h-50"
               value={content} 
               onChange={(e) => setContent(e.target.value)} 
               required

@@ -14,7 +14,7 @@ export default function LimitModal({ isOpen, onClose, title, message }: LimitMod
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/40 backdrop-blur-sm animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-slate-950/40 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="relative bg-white rounded-xl shadow-xl w-full max-w-sm mx-4 overflow-hidden border border-slate-200/60 animate-in zoom-in-95 duration-200">
         
         {/* Header */}

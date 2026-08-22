@@ -78,11 +78,11 @@ export function Select({
       {isOpen && (
         <div 
           className={classNames(
-            'absolute z-50 w-full min-w-[140px] mt-1.5 py-1.5 bg-white border border-slate-100 rounded-xl shadow-xl shadow-slate-200/50 animate-in fade-in zoom-in-95 duration-100 overflow-hidden',
+            'absolute z-50 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-lg shadow-slate-200/50 min-w-35 max-h-60 overflow-auto animate-in fade-in zoom-in-95 duration-100',
             listClassName
           )}
         >
-          <div className="max-h-[250px] overflow-y-auto">
+          <div className="max-h-62.5 overflow-y-auto">
             {options.map((opt) => {
               const isSelected = opt.value.toString() === value?.toString();
               return (

@@ -36,7 +36,7 @@ interface AgendaItem {
 }
 
 interface NewsMediaSectionProps {
-  initialNews?: any[];
+  initialNews?: NewsItem[];
   initialAgendas?: AgendaItem[];
   isPpdbOpen?: boolean;
 }
