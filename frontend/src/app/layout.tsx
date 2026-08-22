@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import { Poppins, Playfair_Display } from "next/font/google";
+import { Inter, Lora } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
 });
 
-const playfair = Playfair_Display({
+const lora = Lora({
   variable: "--font-serif",
   subsets: ["latin"],
-  weight: ["600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -66,7 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="id"
       suppressHydrationWarning
-      className={`${poppins.variable} ${playfair.variable} font-sans h-full antialiased`}
+      className={`${inter.variable} ${lora.variable} font-sans h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-slate-50 text-slate-900 antialiased">
         <script
