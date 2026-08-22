@@ -101,6 +101,8 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --animate-fade-in-up: fade-in-up 0.4s ease-out forwards;
 }
 
 /* Base Body Defaults */
@@ -119,6 +121,17 @@ body {
 
 .animate-shake {
   animation: shake 0.45s ease-in-out;
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Admin Panel isolation - guarantees sharp text and visible inputs */
