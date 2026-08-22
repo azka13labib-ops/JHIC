@@ -2,12 +2,12 @@ import { MessageSquareQuote, ArrowRight } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
-import { getOpinion } from "@/lib/api/school";
+import { getOpinions } from "@/lib/api/school";
 
 export const revalidate = 60;
 
 export default async function OpiniPage() {
-  const opinions = await getOpinion();
+  const opinions = await getOpinions();
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
@@ -39,7 +39,7 @@ export default async function OpiniPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {opinions.map((item) => (
+            {opinions.map((item: any) => (
               <Link href={`/opini/${item.slug}`} key={item.id} className="group">
                 <div className="bg-white rounded-xl border border-slate-200 shadow-2xs hover:border-blue-300 transition-colors h-full flex flex-col justify-between overflow-hidden">
                   <div>

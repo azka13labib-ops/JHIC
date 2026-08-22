@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { X, Settings, Loader2 } from 'lucide-react';
+import { DatePicker } from '@/components/ui/DatePicker';
 import { PpdbSettings } from '@/types/ppdb';
 
 interface PpdbSettingsModalProps {
@@ -75,13 +76,10 @@ export function PpdbSettingsModal({
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
                 Tanggal Mulai Pendaftaran
               </label>
-              <input
-                type="date"
+              <DatePicker
                 value={form.registration_start}
-                onChange={(e) =>
-                  setForm({ ...form, registration_start: e.target.value })
-                }
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm font-medium"
+                onChange={(val: string) => setForm({ ...form, registration_start: val })}
+                className="w-full"
               />
             </div>
 
@@ -89,13 +87,10 @@ export function PpdbSettingsModal({
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
                 Tanggal Tutup Pendaftaran
               </label>
-              <input
-                type="date"
+              <DatePicker
                 value={form.registration_end}
-                onChange={(e) =>
-                  setForm({ ...form, registration_end: e.target.value })
-                }
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm font-medium"
+                onChange={(val: string) => setForm({ ...form, registration_end: val })}
+                className="w-full"
               />
             </div>
           </div>
@@ -104,13 +99,10 @@ export function PpdbSettingsModal({
             <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
               Tanggal Pengumuman Hasil
             </label>
-            <input
-              type="date"
+            <DatePicker
               value={form.announcement_date}
-              onChange={(e) =>
-                setForm({ ...form, announcement_date: e.target.value })
-              }
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm font-medium"
+              onChange={(val: string) => setForm({ ...form, announcement_date: val })}
+              className="w-full"
             />
           </div>
 

@@ -70,7 +70,7 @@ export default function AdminPpdbPage() {
       });
       if (res.ok) {
         const json = await res.json();
-        if (json.data) setSettings(json.data);
+        if (json.is_open !== undefined) setSettings(json);
       }
     } catch {
       // Graceful fallback

@@ -199,15 +199,6 @@ export default function SejarahPage() {
           </div>
         </div>
 
-        {/* Navigasi Cepat Profil */}
-        <div className="max-w-4xl mx-auto mt-20 pt-10 border-t border-slate-200 flex flex-wrap justify-between items-center gap-4">
-          <Link href="/profil/visi-misi" className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:underline">
-            <span>&rarr;</span> Lanjut ke Halaman Visi & Misi
-          </Link>
-          <Link href="/profil/sambutan" className="inline-flex items-center gap-2 text-slate-600 font-semibold hover:text-blue-600">
-            Baca Sambutan Kepala Sekolah <span>&rarr;</span>
-          </Link>
-        </div>
       </div>
     </div>
   );

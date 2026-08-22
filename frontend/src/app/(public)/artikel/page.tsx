@@ -2,12 +2,12 @@ import { Newspaper, ArrowRight } from 'lucide-react';
 import { getImageUrl } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
-import { getArticle } from "@/lib/api/school";
+import { getArticles } from "@/lib/api/school";
 
 export const revalidate = 60;
 
 export default async function ArtikelPage() {
-  const articles = await getArticle();
+  const articles = await getArticles();
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
@@ -39,7 +39,7 @@ export default async function ArtikelPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {articles.map((item) => (
+            {articles.map((item: any) => (
               <Link href={`/artikel/${item.slug}`} key={item.id} className="group">
                 <div className="bg-white rounded-xl border border-slate-200 shadow-2xs hover:border-blue-300 transition-colors h-full flex flex-col justify-between overflow-hidden">
                   <div>

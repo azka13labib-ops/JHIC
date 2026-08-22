@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import { Select } from '@/components/ui/Select';
 
 interface AdminPaginationProps {
   currentPage: number;
@@ -68,19 +69,19 @@ export function AdminPagination({
       {/* Right: Controls & Page Numbers */}
       <div className="flex flex-wrap items-center gap-2">
         {onItemsPerPageChange && (
-          <div className="flex items-center gap-1.5 mr-2 text-slate-500 font-medium">
+          <div className="flex items-center gap-1.5 mr-2 text-slate-500 font-medium text-xs">
             <span>Baris:</span>
-            <select
-              value={itemsPerPage}
-              onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
-              aria-label="Jumlah baris per halaman"
-              className="bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-xs font-bold text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={50}>50</option>
-            </select>
+            <Select
+              value={itemsPerPage.toString()}
+              onChange={(val: string) => onItemsPerPageChange(Number(val))}
+              options={[
+                { value: '5', label: '5' },
+                { value: '10', label: '10' },
+                { value: '20', label: '20' },
+                { value: '50', label: '50' },
+              ]}
+              className="w-16"
+            />
           </div>
         )}
 
