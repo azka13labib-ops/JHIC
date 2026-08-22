@@ -9,7 +9,7 @@ import {
   BookMarked
 } from 'lucide-react';
 
-export default function Footer() {
+export default async function Footer() {
   const sponsors = [
     { name: 'Jagoan Hosting', desc: 'Cloud & Infrastructure', tag: 'Web Hosting', image: '/images/sponsors/images.jpg' },
     { name: 'Komdigi RI', desc: 'Kementerian Komunikasi & Digital', tag: 'Government', image: '/images/sponsors/komdigi.jpeg' },
@@ -17,17 +17,33 @@ export default function Footer() {
     { name: 'Ngalup.co', desc: 'Talent & Startup Ecosystem', tag: 'Community Partner', image: '/images/sponsors/ngalup1.png' },
   ];
 
+  let ppdbOpen = true;
+  let academicYear = "2026/2027";
+
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
+    const res = await fetch(`${apiUrl}/ppdb/info`, { next: { revalidate: 60 } });
+    if (res.ok) {
+      const json = await res.json();
+      if (json.data) {
+        ppdbOpen = json.data.is_open !== false;
+        academicYear = json.data.academic_year || "2026/2027";
+      }
+    }
+  } catch (_e) {
+    // silently fail and use defaults
+  }
+
   return (
     <footer className="bg-slate-50 text-slate-600 border-t border-slate-200 pt-16 pb-12 relative overflow-hidden">
       
 
-
       {/* 2. Main Multi-Column Footer Grid */}
-      <div className="container mx-auto px-4 max-w-7xl pt-12 relative">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+      <div className="container mx-auto px-4 max-w-7xl pt-10 sm:pt-12 relative">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-12 gap-x-6 gap-y-10">
           
           {/* Col 1 (3 cols): Circular Seal + School Title in Serif + 5 Social Dots */}
-          <div className="lg:col-span-3 space-y-3">
+          <div className="col-span-2 lg:col-span-3 space-y-3">
             <div className="w-12 h-12 rounded-xl bg-white p-1.5 flex items-center justify-center shadow-xs border border-slate-200 overflow-hidden">
               <Image
                 src="/logo-sekolah.png"
@@ -72,55 +88,60 @@ export default function Footer() {
           </div>
 
           {/* Col 2 (2 cols): TENTANG KAMI */}
-          <div className="lg:col-span-2 space-y-2.5">
+          <div className="col-span-1 lg:col-span-2 space-y-3">
             <h5 className="text-xs font-bold uppercase tracking-wider text-slate-900">
               Tentang Kami
             </h5>
-            <ul className="space-y-1.5 text-xs text-slate-600">
+            <ul className="space-y-2 text-xs text-slate-600">
               <li><Link href="/profil/sejarah" className="hover:text-blue-600 transition-colors">Sejarah Sekolah</Link></li>
               <li><Link href="/profil/visi-misi" className="hover:text-blue-600 transition-colors">Visi & Misi</Link></li>
               <li><Link href="/profil/fasilitas" className="hover:text-blue-600 transition-colors">Fasilitas Sekolah</Link></li>
-              <li><Link href="/profil/sambutan" className="hover:text-blue-600 transition-colors">Sambutan Kepala Sekolah</Link></li>
-              <li><Link href="/jurusan" className="hover:text-blue-600 transition-colors">Peminatan Jurusan</Link></li>
+              <li><Link href="/profil/sambutan" className="hover:text-blue-600 transition-colors">Sambutan</Link></li>
+              <li><Link href="/jurusan" className="hover:text-blue-600 transition-colors">Jurusan</Link></li>
               <li><Link href="/guru" className="hover:text-blue-600 transition-colors">Direktori Guru</Link></li>
             </ul>
           </div>
 
           {/* Col 3 (2 cols): INFORMASI */}
-          <div className="lg:col-span-2 space-y-2.5">
+          <div className="col-span-1 lg:col-span-2 space-y-3">
             <h5 className="text-xs font-bold uppercase tracking-wider text-slate-900">
               Informasi
             </h5>
-            <ul className="space-y-1.5 text-xs text-slate-600">
+            <ul className="space-y-2 text-xs text-slate-600">
               <li><Link href="/berita" className="hover:text-blue-600 transition-colors">Berita Terkini</Link></li>
               <li><Link href="/agenda" className="hover:text-blue-600 transition-colors">Agenda Kegiatan</Link></li>
               <li><Link href="/artikel" className="hover:text-blue-600 transition-colors">Artikel Edukasi</Link></li>
-              <li><Link href="/galeri" className="hover:text-blue-600 transition-colors">Galeri Dokumentasi</Link></li>
+              <li><Link href="/galeri" className="hover:text-blue-600 transition-colors">Dokumentasi</Link></li>
               <li><Link href="/karya-siswa" className="hover:text-blue-600 transition-colors">Karya Siswa</Link></li>
             </ul>
           </div>
 
           {/* Col 4 (2 cols): LAYANAN & PPDB */}
-          <div className="lg:col-span-2 space-y-2.5">
+          <div className="col-span-1 lg:col-span-2 space-y-3">
             <h5 className="text-xs font-bold uppercase tracking-wider text-slate-900">
-              Layanan & PPDB
+              Layanan
             </h5>
-            <ul className="space-y-1.5 text-xs text-slate-600">
-              <li>
-                <Link href="/ppdb" className="text-blue-600 hover:text-blue-700 font-bold transition-colors">
-                  PPDB Online 2026
-                </Link>
-              </li>
+            <ul className="space-y-2 text-xs text-slate-600">
+              {ppdbOpen && (
+                <li>
+                  <Link href="/ppdb" className="text-blue-600 hover:text-blue-700 font-bold transition-colors flex items-center gap-1.5">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    PPDB {academicYear}
+                  </Link>
+                </li>
+              )}
               <li><Link href="/prestasi" className="hover:text-blue-600 transition-colors">Prestasi Siswa</Link></li>
               <li><Link href="/ekstrakurikuler" className="hover:text-blue-600 transition-colors">Ekstrakurikuler</Link></li>
               <li><Link href="/alumni" className="hover:text-blue-600 transition-colors">Tracer Alumni</Link></li>
-              <li><Link href="/link-penting" className="hover:text-blue-600 transition-colors">Tautan Cepat</Link></li>
               <li><Link href="/buku-tamu" className="hover:text-blue-600 transition-colors">Buku Tamu</Link></li>
             </ul>
           </div>
 
           {/* Col 5 (3 cols): KONTAK & ALAMAT */}
-          <div className="lg:col-span-3 space-y-2.5 pr-8">
+          <div className="col-span-2 lg:col-span-3 space-y-3 lg:pr-8 pt-4 lg:pt-0">
             <h5 className="text-xs font-bold uppercase tracking-wider text-slate-900">
               Kontak & Alamat
             </h5>
