@@ -91,14 +91,13 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-
-
-        {/* 3. Mobile Navigation Drawer */}
-        <NavMobileDrawer
-          isOpen={mobileMenuOpen}
-          onClose={() => setMobileMenuOpen(false)}
-        />
       </nav>
+
+      {/* 3. Mobile Navigation Drawer (Moved outside nav to escape backdrop-filter containing block) */}
+      <NavMobileDrawer
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+      />
     </header>
   );
 }
