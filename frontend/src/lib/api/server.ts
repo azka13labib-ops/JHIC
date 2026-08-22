@@ -23,7 +23,7 @@ export async function serverFetch<T>(
     }
   };
 
-  const nextOptions: any = {};
+  const nextOptions: Record<string, unknown> = {};
   if (options?.revalidate !== undefined) {
     nextOptions.revalidate = options.revalidate;
   } else {
@@ -35,7 +35,7 @@ export async function serverFetch<T>(
   }
 
   if (Object.keys(nextOptions).length > 0) {
-    (fetchOptions as any).next = nextOptions;
+    (fetchOptions as RequestInit & { next?: Record<string, unknown> }).next = nextOptions;
   }
 
   const res = await fetch(`${BASE_URL}${endpoint}`, fetchOptions);

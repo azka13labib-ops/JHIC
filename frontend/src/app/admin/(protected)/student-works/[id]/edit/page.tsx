@@ -11,7 +11,15 @@ export default function EditStudentWorkPage() {
   const id = params.id;
   const { data: session } = useSession();
   
-  const [data, setData] = useState<any>(null);
+  interface StudentWorkData {
+    id?: number;
+    title?: string;
+    description?: string;
+    student_name?: string;
+    image_path?: string;
+    image?: string;
+  }
+  const [data, setData] = useState<StudentWorkData | undefined>(undefined);
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState('');
 
@@ -29,8 +37,8 @@ export default function EditStudentWorkPage() {
         
         const result = await res.json();
         setData(result);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : String(err));
       } finally {
         setFetching(false);
       }
