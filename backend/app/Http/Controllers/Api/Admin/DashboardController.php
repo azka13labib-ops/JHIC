@@ -32,6 +32,9 @@ class DashboardController extends Controller
             'recent_registrations' => Registration::latest()->limit(5)->get([
                 'id', 'registration_number', 'full_name', 'major_choice', 'status', 'created_at',
             ]),
+            'recent_news' => News::latest()->limit(3)->get([
+                'id', 'title', 'created_at',
+            ]),
         ];
 
         return response()->json($stats);
