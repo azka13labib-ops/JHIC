@@ -42,6 +42,7 @@ export default function DashboardPage() {
   const { data: session } = useSession();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function fetchStats() {
@@ -55,9 +56,12 @@ export default function DashboardPage() {
         if (res.ok) {
           const json = await res.json();
           setStats(json.data || json);
+        } else {
+          setError(true);
         }
       } catch (err) {
         console.error('Failed to fetch dashboard stats', err);
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -119,11 +123,23 @@ export default function DashboardPage() {
             <div className="h-20 bg-slate-100 rounded-lg" />
           </div>
         </div>
+      ) : error ? (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+          <AlertCircle className="w-8 h-8 text-red-500 mx-auto mb-3" />
+          <h2 className="text-red-900 font-bold">Gagal memuat data dashboard</h2>
+          <p className="text-red-700 text-sm mt-1 mb-4">Terjadi kesalahan saat mengambil statistik terbaru. Silakan coba lagi.</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-white border border-red-200 text-red-700 text-sm font-medium rounded-md hover:bg-red-50 transition-colors"
+          >
+            Muat Ulang
+          </button>
+        </div>
       ) : (
         <>
           {/* 1. PRIMARY JOB AREA: PPDB Alerts */}
           {needsVerification && (
-            <section aria-label="Tugas Prioritas">
+            <section aria-label="Tugas Prioritas" className="mb-6">
               <div className="bg-amber-50 border border-amber-300 rounded-lg p-4 flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
                 <div className="flex gap-3 items-start">
                   <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
@@ -144,6 +160,26 @@ export default function DashboardPage() {
               </div>
             </section>
           )}
+
+          {/* 2. STATISTIK KONTEN (Dense Metrics Scorecard) */}
+          <section className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex flex-col justify-center">
+               <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Total Pendaftar</div>
+               <div className="text-2xl font-bold text-slate-900">{stats?.ppdb?.total ?? 0}</div>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex flex-col justify-center border-l-4 border-l-amber-500">
+               <div className="text-xs font-semibold text-amber-700 uppercase tracking-wider mb-1">Menunggu Verifikasi</div>
+               <div className="text-2xl font-bold text-amber-700">{stats?.ppdb?.pending ?? 0}</div>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex flex-col justify-center">
+               <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Berita Diterbitkan</div>
+               <div className="text-2xl font-bold text-slate-900">{stats?.news?.total ?? 0}</div>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex flex-col justify-center">
+               <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Prestasi Tercatat</div>
+               <div className="text-2xl font-bold text-slate-900">{stats?.achievements?.total ?? 0}</div>
+            </div>
+          </section>
 
           {/* 3. TERTIARY AREA: Data Tables & Charts */}
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
