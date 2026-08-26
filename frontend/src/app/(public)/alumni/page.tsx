@@ -10,11 +10,7 @@ export const metadata = {
 export default async function AlumniPage() {
   const alumni = await getAlumni();
 
-  // Statistics
   const totalAlumni = alumni.length;
-  
-  // Hitung jumlah alumni yang bekerja vs kuliah vs lainnya berdasarkan isi current_job atau company
-  // Ini hanya estimasi sederhana untuk demo statistik
   const workingAlumni = alumni.filter(a => a.current_job?.toLowerCase().includes('kerja') || a.company).length;
   const studyingAlumni = alumni.filter(a => a.current_job?.toLowerCase().includes('kuliah') || a.current_job?.toLowerCase().includes('mahasiswa')).length;
 
