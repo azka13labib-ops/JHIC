@@ -1,10 +1,10 @@
 # SMA PGRI 1 Lumajang - Integrated School Information System
 
-Proyek ini adalah sistem informasi digital dan website profil terpadu untuk **SMA PGRI 1 Lumajang**. Sistem ini dibangun dengan arsitektur modern (*decoupled*) yang memisahkan frontend (tampilan publik dan panel admin) dengan backend (API dan pengelolaan database) untuk menjamin kecepatan, keamanan, dan kemudahan skalabilitas.
+Proyek ini adalah sistem informasi digital dan website profil terpadu untuk **SMA PGRI 1 Lumajang**. Sistem ini dibangun dengan arsitektur modern (decoupled) yang memisahkan frontend (tampilan publik dan panel admin) dengan backend (API dan pengelolaan database) untuk menjamin kecepatan, keamanan, dan kemudahan skalabilitas.
 
 ---
 
-## 🚀 Arsitektur & Teknologi
+## Arsitektur & Teknologi
 
 Proyek ini terbagi menjadi dua direktori utama: `frontend` dan `backend`.
 
@@ -24,7 +24,7 @@ Berfungsi sebagai pusat data, logika bisnis, dan API provider untuk frontend.
 
 ---
 
-## ✨ Fitur Utama
+## Fitur Utama
 
 - **Portal Publik Informatif:** Menyajikan sejarah, visi misi, daftar guru, galeri, agenda, dan berita sekolah secara dinamis.
 - **PPDB Online:** Sistem Pendaftaran Peserta Didik Baru terintegrasi (unggah dokumen, pelacakan status).
@@ -35,41 +35,6 @@ Berfungsi sebagai pusat data, logika bisnis, dan API provider untuk frontend.
 
 ---
 
-## 🛠 Panduan Instalasi (Development)
-
-Pastikan komputer Anda sudah terinstal **PHP 8.3+**, **Composer**, **Node.js (LTS)**, **pnpm**, dan **MySQL**.
-
-### 1. Setup Backend (Laravel)
-```bash
-cd backend
-composer install
-cp .env.example .env
-php artisan key:generate
-# Sesuaikan konfigurasi database (DB_*) di file .env
-php artisan migrate:fresh --seed
-php artisan serve
-```
-
-### 2. Setup Frontend (Next.js)
-```bash
-cd frontend
-pnpm install
-cp .env.example .env
-# Pastikan NEXT_PUBLIC_API_URL menunjuk ke backend Anda (misal: http://127.0.0.1:8000/api)
-pnpm dev
-```
-
----
-
-## 🌍 Deployment
-
-Sistem ini dirancang untuk di-*deploy* di server Linux (VPS).
-- **Web Server:** Nginx (Reverse Proxy)
-- **Process Manager:** PM2 (menjalankan service Next.js dan Laravel di latar belakang)
-- **Jaringan:** Terhubung menggunakan Tailscale untuk VPN dan isolasi jaringan privat.
-
----
-
-## 📝 Lisensi
+## Lisensi
 
 Proyek ini dikembangkan secara spesifik untuk kebutuhan internal SMA PGRI 1 Lumajang.
