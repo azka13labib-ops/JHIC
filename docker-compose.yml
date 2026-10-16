@@ -10,7 +10,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./backend:/var/www/html
+      - .:/var/www/html
       - ./nginx/conf.d:/etc/nginx/conf.d
     depends_on:
       - app
@@ -21,13 +21,13 @@ services:
   # Laravel Backend (PHP-FPM)
   app:
     build:
-      context: ./backend
+      context: .
       dockerfile: Dockerfile
     container_name: jihc_backend
     restart: unless-stopped
     working_dir: /var/www/html
     volumes:
-      - ./backend:/var/www/html
+      - .:/var/www/html
       - /var/www/html/vendor
     depends_on:
       - db
@@ -41,7 +41,7 @@ services:
   # Frontend Next.js
   nextjs:
     build:
-      context: ./frontend
+      context: ./web
       dockerfile: Dockerfile
     container_name: jihc_frontend
     restart: unless-stopped

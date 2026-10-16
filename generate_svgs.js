@@ -9,10 +9,10 @@ const createSvg = (text, width, height, color) => `
 </svg>
 `;
 
-fs.writeFileSync('frontend/public/images/sponsors/jagoan-hosting.svg', createSvg('Jagoan Hosting', 200, 50, '#1e293b'));
-fs.writeFileSync('frontend/public/images/sponsors/komdigi.svg', createSvg('Komdigi RI', 150, 50, '#1e293b'));
-fs.writeFileSync('frontend/public/images/sponsors/ngalup.svg', createSvg('Ngalup.co', 140, 50, '#1e293b'));
-fs.writeFileSync('frontend/public/images/sponsors/garuda-spark.svg', createSvg('Garuda Spark', 180, 50, '#1e293b'));
-fs.writeFileSync('frontend/public/images/sponsors/jihc.svg', createSvg('JIHC', 80, 50, '#1e293b'));
+fs.writeFileSync('web/public/images/sponsors/jagoan-hosting.svg', createSvg('Jagoan Hosting', 200, 50, '#1e293b'));
+fs.writeFileSync('web/public/images/sponsors/komdigi.svg', createSvg('Komdigi RI', 150, 50, '#1e293b'));
+fs.writeFileSync('web/public/images/sponsors/ngalup.svg', createSvg('Ngalup.co', 140, 50, '#1e293b'));
+fs.writeFileSync('web/public/images/sponsors/garuda-spark.svg', createSvg('Garuda Spark', 180, 50, '#1e293b'));
+fs.writeFileSync('web/public/images/sponsors/jihc.svg', createSvg('JIHC', 80, 50, '#1e293b'));
 
 console.log('SVGs created successfully.');

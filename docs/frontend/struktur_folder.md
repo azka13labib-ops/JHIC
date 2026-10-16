@@ -7,7 +7,7 @@ Menggunakan **Next.js App Router** dengan pola **Server Components + Client Comp
 ## 📁 Struktur Lengkap
 
 ```
-frontend/
+web/
 ├── public/                         # Aset statis (gambar, favicon, logo)
 │   ├── images/
 │   │   ├── logo-sekolah.png

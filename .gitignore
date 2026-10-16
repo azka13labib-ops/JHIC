@@ -22,3 +22,11 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Next.js web application
+/web/node_modules
+/web/.next
+/web/.env*
+/web/out
+/web/build
+/web/*.tsbuildinfo

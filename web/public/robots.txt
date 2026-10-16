@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Allow: /
+
+# *
+User-agent: *
+Disallow: /admin
+
+# Host
+Host: https://smapgri1lumajang.sch.id
+
+# Sitemaps
+Sitemap: https://smapgri1lumajang.sch.id/sitemap.xml

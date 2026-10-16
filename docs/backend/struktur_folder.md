@@ -7,7 +7,7 @@ Menggunakan pola **Repository Pattern + Service Layer** untuk memisahkan *busine
 ## 📁 Struktur Lengkap
 
 ```
-backend/
+./ (Root Project - Laravel 13)
 └── app/
     ├── Console/
     │   └── Commands/               # Artisan command kustom (cron job, seeder manual, dll)
