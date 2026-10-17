@@ -6,12 +6,9 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PpdbController;
 use Spatie\ResponseCache\Middlewares\CacheResponse;
 
-// Global Rate Limiting untuk proteksi API SMA PGRI 1 Lumajang
 Route::middleware(['throttle:100,1'])->group(function () {
 
-    // Cached Public API Routes
     Route::middleware([CacheResponse::class])->group(function () {
-        // Landing Page & School Info
         Route::get('/landing', [LandingPageController::class, 'landing']);
         Route::get('/school-info', [LandingPageController::class, 'schoolInfo']);
         Route::get('/features', [LandingPageController::class, 'features']);
@@ -19,7 +16,6 @@ Route::middleware(['throttle:100,1'])->group(function () {
         Route::get('/news', [LandingPageController::class, 'news']);
         Route::get('/news/{slug}', [LandingPageController::class, 'showNews']);
         
-        // Akademik & Kegiatan Siswa
         Route::get('/agendas', [LandingPageController::class, 'agendas']);
         Route::get('/agendas/{slug}', [LandingPageController::class, 'showAgenda']);
         Route::get('/articles', [LandingPageController::class, 'articles']);
@@ -33,40 +29,32 @@ Route::middleware(['throttle:100,1'])->group(function () {
         Route::get('/galleries/{slug}', [LandingPageController::class, 'showGallery']);
         Route::get('/quick-links', [LandingPageController::class, 'quickLinks']);
 
-        // Prestasi, Alumni, Mitra
         Route::get('/achievements', [LandingPageController::class, 'achievements']);
         Route::get('/achievements/{id}', [LandingPageController::class, 'showAchievement']);
         Route::get('/alumnis', [LandingPageController::class, 'alumnis']);
         Route::get('/partners', [LandingPageController::class, 'partners']);
         
-        // Buku Tamu Publik
         Route::get('/guestbooks', [LandingPageController::class, 'guestbooks']);
 
-        // Produk Unggulan / BLUD
         Route::get('/products', [\App\Http\Controllers\Api\ProductController::class, 'index']);
         Route::get('/products/{slug}', [\App\Http\Controllers\Api\ProductController::class, 'show']);
     });
 });
 
-// PPDB Info Publik (Tanpa Auth)
 Route::get('/ppdb/info', [PpdbController::class, 'info']);
 
-// PPDB Public Status Check (Throttled)
 Route::middleware(['throttle:30,1'])->group(function () {
     Route::get('/ppdb/check-status', [PpdbController::class, 'checkStatus']);
 });
 
-// PPDB Public / Candidate Submit (Throttled)
 Route::middleware(['throttle:20,1'])->group(function () {
     Route::post('/ppdb/submit', [PpdbController::class, 'submit']);
 });
 
-// Guestbook Submit (Throttled)
 Route::middleware(['throttle:20,1'])->group(function () {
     Route::post('/guestbooks', [LandingPageController::class, 'storeGuestbook']);
     Route::post('/products/{id}/inquire', [\App\Http\Controllers\Api\ProductController::class, 'inquire']);
     
-    // Kotak Suara Aman (Public)
     Route::post('/reports', [\App\Http\Controllers\Api\Public\ReportController::class, 'store']);
     Route::get('/reports/status/{ticket_id}', [\App\Http\Controllers\Api\Public\ReportController::class, 'status']);
 });
