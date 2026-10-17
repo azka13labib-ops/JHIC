@@ -18,15 +18,24 @@ class ReportController extends Controller
     {
         $validated = $request->validate([
             'status' => 'required|string|in:Pending,Proses,Selesai',
+            'admin_response' => 'nullable|string|max:5000',
         ]);
 
         $report = Report::findOrFail($id);
-        $report->update([
+        
+        $updateData = [
             'status' => $validated['status'],
-        ]);
+        ];
+
+        if ($request->has('admin_response')) {
+            $updateData['admin_response'] = $validated['admin_response'];
+            $updateData['responded_at'] = now();
+        }
+
+        $report->update($updateData);
 
         return response()->json([
-            'message' => 'Status laporan berhasil diperbarui.',
+            'message' => 'Status dan tanggapan laporan berhasil diperbarui.',
             'data' => $report
         ]);
     }

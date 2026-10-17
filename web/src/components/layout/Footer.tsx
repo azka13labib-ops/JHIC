@@ -31,7 +31,7 @@ export default async function Footer() {
         academicYear = json.data.academic_year || "2026/2027";
       }
     }
-  } catch (_e) {
+  } catch {
     // silently fail and use defaults
   }
 
@@ -138,6 +138,12 @@ export default async function Footer() {
               <li><Link href="/ekstrakurikuler" className="hover:text-blue-600 transition-colors">Ekstrakurikuler</Link></li>
               <li><Link href="/alumni" className="hover:text-blue-600 transition-colors">Tracer Alumni</Link></li>
               <li><Link href="/buku-tamu" className="hover:text-blue-600 transition-colors">Buku Tamu</Link></li>
+              <li>
+                <Link href="/lapor" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                  Kotak Suara Aman (Lapor)
+                </Link>
+              </li>
             </ul>
           </div>
 

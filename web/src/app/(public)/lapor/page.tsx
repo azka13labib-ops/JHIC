@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Send, Search, CheckCircle2, AlertCircle, Loader2, ShieldAlert } from "lucide-react";
+import { Send, Search, CheckCircle2, AlertCircle, Loader2, ShieldAlert, Copy, Check, MessageSquare, Clock, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 export default function LaporPage() {
@@ -12,12 +12,20 @@ export default function LaporPage() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [ticketId, setTicketId] = useState("");
+  const [copied, setCopied] = useState(false);
 
   // Cek Status State
   const [checkLoading, setCheckLoading] = useState(false);
   const [checkTicketId, setCheckTicketId] = useState("");
   const [checkResult, setCheckResult] = useState<any>(null);
   const [checkError, setCheckError] = useState("");
+
+  const handleCopy = () => {
+    if (!ticketId) return;
+    navigator.clipboard.writeText(ticketId);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,7 +50,8 @@ export default function LaporPage() {
       });
 
       if (!res.ok) {
-        throw new Error('Gagal mengirim laporan.');
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Gagal mengirim laporan.');
       }
 
       const data = await res.json();
@@ -65,9 +74,10 @@ export default function LaporPage() {
     setCheckResult(null);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/reports/status/${checkTicketId}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api'}/reports/status/${checkTicketId.trim()}`);
       if (!res.ok) {
-        throw new Error('Kode Tiket tidak ditemukan atau salah.');
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Kode Tiket tidak ditemukan atau salah.');
       }
       const data = await res.json();
       setCheckResult(data.data);
@@ -94,7 +104,7 @@ export default function LaporPage() {
           </h1>
           
           <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Sampaikan keluhan, masukan, atau laporan kejadian di lingkungan sekolah. Identitas Anda dijamin kerahasiaannya.
+            Sampaikan keluhan, masukan, atau laporan kejadian di lingkungan sekolah. Identitas Anda dijamin 100% anonim dan rahasia.
           </p>
         </div>
       </section>
@@ -113,7 +123,7 @@ export default function LaporPage() {
               onClick={() => setActiveTab('cek')}
               className={`flex-1 py-4 px-6 text-sm font-bold uppercase tracking-wider transition-colors ${activeTab === 'cek' ? 'bg-white text-blue-700 border-b-2 border-blue-600' : 'bg-slate-50 text-slate-500 hover:text-slate-800'}`}
             >
-              Cek Status
+              Cek Status & Balasan
             </button>
           </div>
 
@@ -126,17 +136,45 @@ export default function LaporPage() {
                     <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
                       <CheckCircle2 className="w-8 h-8" />
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2">Laporan Terkirim</h3>
-                    <p className="text-sm text-slate-600 mb-6 max-w-sm mx-auto">Terima kasih atas laporan Anda. Simpan kode tiket di bawah ini untuk melacak tindak lanjut dari pihak sekolah secara anonim.</p>
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">Laporan Terkirim Secara Anonim</h3>
+                    <p className="text-sm text-slate-600 mb-6 max-w-sm mx-auto">
+                      Terima kasih atas laporan Anda. Simpan kode tiket di bawah ini untuk melihat balasan dan tindak lanjut dari pihak sekolah.
+                    </p>
                     
-                    <div className="bg-slate-50 border border-slate-200 p-6 rounded-xl max-w-sm mx-auto">
-                      <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Kode Tiket Rahasia</div>
-                      <div className="text-2xl font-black text-slate-800 font-mono tracking-widest">{ticketId}</div>
+                    <div className="bg-slate-50 border border-slate-200 p-6 rounded-2xl max-w-sm mx-auto relative group">
+                      <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Kode Tiket Rahasia Anda</div>
+                      <div className="text-2xl font-black text-slate-800 font-mono tracking-widest selection:bg-blue-200">{ticketId}</div>
+                      
+                      <button
+                        onClick={handleCopy}
+                        className={`mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all shadow-xs ${
+                          copied 
+                            ? 'bg-emerald-600 text-white' 
+                            : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 hover:border-slate-400'
+                        }`}
+                      >
+                        {copied ? (
+                          <>
+                            <Check className="w-4 h-4 text-white" />
+                            <span>Kode Berhasil Disalin!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-4 h-4 text-slate-500" />
+                            <span>Salin Kode Tiket</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    <div className="mt-6 flex items-center justify-center gap-2 text-xs text-slate-500">
+                      <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                      <span>Identitas Anda aman dan tidak disimpan di sistem.</span>
                     </div>
 
                     <button 
                       onClick={() => setSuccess(false)}
-                      className="mt-8 text-sm font-semibold text-blue-600 hover:text-blue-800 underline"
+                      className="mt-6 text-sm font-semibold text-blue-600 hover:text-blue-800 underline block mx-auto"
                     >
                       Kirim Laporan Baru
                     </button>
@@ -173,10 +211,12 @@ export default function LaporPage() {
                         id="message" 
                         name="message" 
                         required 
+                        minLength={15}
                         rows={6}
-                        placeholder="Ceritakan secara jelas dan detail apa yang ingin Anda laporkan..."
+                        placeholder="Ceritakan secara jelas dan detail apa yang ingin Anda laporkan (minimal 15 karakter)..."
                         className="w-full px-4 py-3 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-400 resize-none text-slate-700"
                       ></textarea>
+                      <p className="text-[11px] text-slate-400">Identitas, IP address, atau akun Anda tidak disimpan sama sekali.</p>
                     </div>
                     
                     <button 
@@ -214,7 +254,7 @@ export default function LaporPage() {
                       <button 
                         type="submit"
                         disabled={checkLoading || !checkTicketId.trim()}
-                        className="absolute right-1.5 top-1.5 bottom-1.5 px-4 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 disabled:opacity-70"
+                        className="absolute right-1.5 top-1.5 bottom-1.5 px-4 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 disabled:opacity-70 cursor-pointer"
                       >
                         {checkLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
                         <span>Cari</span>
@@ -230,33 +270,77 @@ export default function LaporPage() {
                 </form>
 
                 {checkResult && (
-                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 animate-in fade-in slide-in-from-bottom-2">
-                    <div className="flex items-start justify-between gap-4 mb-6 pb-6 border-b border-slate-200">
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 animate-in fade-in slide-in-from-bottom-2 space-y-5">
+                    {/* Header Status */}
+                    <div className="flex items-start justify-between gap-4 pb-4 border-b border-slate-200">
                       <div>
-                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Status Laporan</div>
+                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Status Penanganan</div>
                         <div className="flex items-center gap-2">
                           <span className={`w-3 h-3 rounded-full ${
-                            checkResult.status === 'Selesai' ? 'bg-emerald-500' :
-                            checkResult.status === 'Proses' ? 'bg-amber-500' :
+                            checkResult.status === 'Selesai' ? 'bg-emerald-500 ring-2 ring-emerald-200' :
+                            checkResult.status === 'Proses' ? 'bg-amber-500 ring-2 ring-amber-200 animate-pulse' :
                             'bg-slate-400'
                           }`}></span>
-                          <span className="text-lg font-black text-slate-900">{checkResult.status}</span>
+                          <span className="text-lg font-black text-slate-900">
+                            {checkResult.status === 'Selesai' ? 'Selesai Ditangani' :
+                             checkResult.status === 'Proses' ? 'Sedang Diproses' :
+                             'Menunggu Ditinjau'}
+                          </span>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Dikirim Pada</div>
-                        <div className="text-sm font-semibold text-slate-700">
-                          {new Date(checkResult.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Kategori</div>
+                        <div className="text-xs font-bold text-slate-800 bg-white border border-slate-200 px-2.5 py-1 rounded-lg inline-block shadow-2xs">
+                          {checkResult.category}
                         </div>
                       </div>
                     </div>
 
-                    <div>
-                      <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Kategori Laporan</div>
-                      <div className="text-sm font-semibold text-slate-800 bg-white border border-slate-200 px-3 py-2 rounded-lg inline-block shadow-2xs">
-                        {checkResult.category}
+                    {/* Tanggapan Resmi Sekolah / BK */}
+                    {checkResult.admin_response ? (
+                      <div className="rounded-xl bg-blue-50/90 border border-blue-200 p-5 shadow-xs">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                          <div className="flex items-center gap-2">
+                            <div className="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-xs shrink-0">
+                              <MessageSquare className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-900 leading-tight">Tanggapan Resmi Pihak Sekolah</h4>
+                              <span className="text-[10px] font-semibold text-blue-700 uppercase tracking-wider">Tim Kesiswaan & Bimbingan Konseling</span>
+                            </div>
+                          </div>
+                          {checkResult.responded_at && (
+                            <span className="text-[11px] font-medium text-slate-500 shrink-0">
+                              {new Date(checkResult.responded_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                          )}
+                        </div>
+                        <div className="bg-white rounded-lg p-4 border border-blue-100 text-sm text-slate-800 leading-relaxed whitespace-pre-line shadow-2xs">
+                          {checkResult.admin_response}
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="rounded-xl bg-amber-50/80 border border-amber-200 p-4 flex items-start gap-3 text-amber-900 text-xs sm:text-sm">
+                        <Clock className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                        <div>
+                          <p className="font-bold text-amber-950 mb-0.5">Laporan Sedang Dalam Antrean</p>
+                          <p className="text-amber-800/90 text-xs">Pihak sekolah/BK belum memberikan tanggapan tertulis. Silakan periksa kembali halaman ini secara berkala menggunakan kode tiket Anda.</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Ringkasan Pesan yang Dikirim */}
+                    {checkResult.message && (
+                      <div className="pt-2">
+                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Isi Laporan Anda</div>
+                        <div className="text-xs text-slate-700 bg-white border border-slate-200 rounded-xl p-3.5 whitespace-pre-line leading-relaxed shadow-2xs">
+                          {checkResult.message}
+                        </div>
+                        <div className="text-[11px] text-slate-400 mt-1.5 text-right">
+                          Dikirim pada: {new Date(checkResult.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

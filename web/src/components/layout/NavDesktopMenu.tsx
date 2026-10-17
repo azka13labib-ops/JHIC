@@ -21,7 +21,8 @@ import {
   PenTool,
   BookUser,
   Link as LinkIcon,
-  Phone
+  Phone,
+  ShieldAlert
 } from 'lucide-react';
 
 export function NavDesktopMenu() {
@@ -316,6 +317,15 @@ export function NavDesktopMenu() {
               <BookUser className="w-3.5 h-3.5" />
             </div>
             <span className="text-xs sm:text-sm font-semibold text-slate-800 group-hover/item:text-blue-600">Buku Tamu Publik</span>
+          </Link>
+          <Link href="/lapor" className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item">
+            <div className="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-100">
+              <ShieldAlert className="w-3.5 h-3.5" />
+            </div>
+            <div>
+              <div className="text-xs sm:text-sm font-semibold text-slate-800 group-hover/item:text-rose-600">Kotak Suara Aman</div>
+              <div className="text-[10px] text-slate-400">Layanan pengaduan anonim</div>
+            </div>
           </Link>
           <Link href="/link-penting" className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item">
             <div className="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100">

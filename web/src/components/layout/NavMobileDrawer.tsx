@@ -22,7 +22,8 @@ import {
   PenTool,
   BookUser,
   Link as LinkIcon,
-  Phone
+  Phone,
+  ShieldAlert
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -103,6 +104,7 @@ export function NavMobileDrawer({ isOpen, onClose }: NavMobileDrawerProps) {
       title: 'KONTAK',
       submenus: [
         { title: 'Buku Tamu Publik', href: '/buku-tamu', icon: BookUser, iconColor: 'text-blue-600' },
+        { title: 'Kotak Suara Aman', href: '/lapor', icon: ShieldAlert, iconColor: 'text-rose-600' },
         { title: 'Tautan Cepat', href: '/link-penting', icon: LinkIcon, iconColor: 'text-emerald-600' },
         { title: 'Kontak & Alamat', href: '/kontak', icon: Phone, iconColor: 'text-amber-600' },
       ],

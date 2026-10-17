@@ -14,5 +14,11 @@ class Report extends Model
         'category',
         'message',
         'status',
+        'admin_response',
+        'responded_at',
+    ];
+
+    protected $casts = [
+        'responded_at' => 'datetime',
     ];
 }
