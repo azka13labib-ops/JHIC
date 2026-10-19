@@ -62,7 +62,7 @@ export function AdminCommandPalette({
 
     // System
     { title: 'Lihat Website Publik', category: 'Sistem', action: () => window.open(PUBLIC_SITE_URL, '_blank'), icon: ExternalLink, keywords: 'preview website live' },
-    { title: 'Keluar Sesi (Logout)', category: 'Sistem', action: () => signOut({ callbackUrl: '/login' }), icon: LogOut, keywords: 'logout exit sign out' },
+    { title: 'Keluar Sesi (Logout)', category: 'Sistem', action: () => signOut({ callbackUrl: '/admin/login' }), icon: LogOut, keywords: 'logout exit sign out' },
   ];
 
   // Listen for Ctrl+K / Cmd+K

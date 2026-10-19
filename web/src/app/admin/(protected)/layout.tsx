@@ -40,9 +40,9 @@ export default function ProtectedAdminLayout({
     // If user is clearly unauthenticated, kick them out immediately.
     // window.location.replace is used to prevent the Back button from returning here.
     if (status === 'unauthenticated') {
-      window.location.replace('/login');
+      window.location.replace('/admin/login');
     } else if (status === 'authenticated' && session?.user?.role !== 'admin') {
-      window.location.replace('/login?error=AccessDenied');
+      window.location.replace('/admin/login?error=AccessDenied');
     }
   }, [status, session]);
 
@@ -91,7 +91,7 @@ export default function ProtectedAdminLayout({
       
       // Use the clean login route and force a hard redirect
       await signOut({ redirect: false });
-      window.location.replace('/login');
+      window.location.replace('/admin/login');
     }
   };
 
