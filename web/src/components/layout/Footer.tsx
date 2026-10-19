@@ -11,9 +11,8 @@ import {
 
 export default async function Footer() {
   const sponsors = [
-    { name: 'JHIC 2.0', desc: 'Jagoan Hosting Innovation Competition', tag: 'Event', image: '/images/sponsors/jhic.jpg' },
-    { name: 'Jagoan Hosting', desc: 'Cloud & Infrastructure', tag: 'Web Hosting', image: '/images/sponsors/images.jpg' },
-    { name: 'Komdigi RI', desc: 'Kementerian Komunikasi & Digital', tag: 'Government', image: '/images/sponsors/komdigi.jpeg' },
+    { name: 'Jagoan Hosting', desc: 'Cloud & Infrastructure Provider', tag: 'Technology Partner', image: '/images/sponsors/images.jpg' },
+    { name: 'Komdigi RI', desc: 'Kementerian Komunikasi & Digital RI', tag: 'Government', image: '/images/sponsors/komdigi.jpeg' },
     { name: 'Garuda Spark', desc: 'Digital Innovation Hub', tag: 'Industry Partner', image: '/images/sponsors/garudaspark.jpg' },
     { name: 'Ngalup.co', desc: 'Talent & Startup Ecosystem', tag: 'Community Partner', image: '/images/sponsors/ngalup1.png' },
   ];
