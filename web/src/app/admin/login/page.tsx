@@ -74,6 +74,7 @@ export default function LoginPage() {
               src="/image.png"
               alt="SMA PGRI 1 Lumajang"
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover object-center brightness-90 contrast-105 transform group-hover:scale-105 transition-transform duration-700 ease-out"
               priority
             />
