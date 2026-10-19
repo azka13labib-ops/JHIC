@@ -32,6 +32,20 @@ interface NavMobileDrawerProps {
   onClose: () => void;
 }
 
+interface SubmenuItem {
+  title: string;
+  href: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  iconColor?: string;
+  comingSoon?: boolean;
+}
+
+interface NavItem {
+  title: string;
+  href?: string;
+  submenus?: SubmenuItem[];
+}
+
 export function NavMobileDrawer({ isOpen, onClose }: NavMobileDrawerProps) {
   const [isRendered, setIsRendered] = useState(isOpen);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -53,7 +67,7 @@ export function NavMobileDrawer({ isOpen, onClose }: NavMobileDrawerProps) {
     }
   }, [isOpen]);
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { title: 'HOME', href: '/' },
     {
       title: 'PROFIL',
@@ -78,11 +92,11 @@ export function NavMobileDrawer({ isOpen, onClose }: NavMobileDrawerProps) {
     {
       title: 'PORTAL',
       submenus: [
-        { title: 'E-Learning Siswa', href: '#', icon: Laptop, iconColor: 'text-blue-600' },
-        { title: 'Ujian CBT Online', href: '#', icon: FileText, iconColor: 'text-amber-600' },
-        { title: 'E-Rapor Digital', href: '#', icon: BarChart3, iconColor: 'text-emerald-600' },
+        { title: 'E-Learning Siswa', href: '#', icon: Laptop, iconColor: 'text-blue-600', comingSoon: true },
+        { title: 'Ujian CBT Online', href: '#', icon: FileText, iconColor: 'text-amber-600', comingSoon: true },
+        { title: 'E-Rapor Digital', href: '#', icon: BarChart3, iconColor: 'text-emerald-600', comingSoon: true },
       ],
-    },
+    },  
     {
       title: 'INFORMASI',
       submenus: [
@@ -175,7 +189,26 @@ export function NavMobileDrawer({ isOpen, onClose }: NavMobileDrawerProps) {
                             {item.submenus.map((sub) => {
                               const Icon = sub.icon;
                               const iconColor = sub.iconColor || 'text-slate-400';
-                              return (
+                              return sub.comingSoon ? (
+                                <div
+                                  key={sub.title}
+                                  className="flex items-center justify-between p-3 text-sm font-semibold text-slate-500 bg-white/30 rounded-xl"
+                                >
+                                  <div className="flex items-center gap-3.5">
+                                    {Icon ? (
+                                      <div className="w-9 h-9 rounded-xl bg-white shadow-xs border border-slate-100 flex items-center justify-center shrink-0 opacity-70">
+                                        <Icon className={`w-4.5 h-4.5 ${iconColor}`} />
+                                      </div>
+                                    ) : (
+                                      <div className="w-1.5 h-1.5 rounded-full bg-slate-300 ml-3"></div>
+                                    )}
+                                    <span>{sub.title}</span>
+                                  </div>
+                                  <span className="text-[10px] font-bold text-slate-400 bg-slate-200/70 px-2 py-0.5 rounded-md">
+                                    Segera Hadir
+                                  </span>
+                                </div>
+                              ) : (
                                 <Link
                                   key={sub.title}
                                   href={sub.href}

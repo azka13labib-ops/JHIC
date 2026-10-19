@@ -195,39 +195,46 @@ export function NavDesktopMenu() {
           <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
             Layanan Digital
           </div>
-          <a 
-            href="#" 
-            className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item"
-          >
-            <div className="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-100">
-              <Laptop className="w-3.5 h-3.5" />
+          {/* TODO: Integrasi Portal Layanan Digital Sekolah */}
+          <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50/70 border border-slate-100 mb-1">
+            <div className="flex items-center gap-3">
+              <div className="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-100">
+                <Laptop className="w-3.5 h-3.5" />
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-slate-700">
+                E-Learning Siswa
+              </span>
             </div>
-            <span className="text-xs sm:text-sm font-semibold text-slate-800 group-hover/item:text-blue-600">
-              E-Learning Siswa
+            <span className="text-[10px] font-bold text-slate-400 bg-slate-200/70 px-2 py-0.5 rounded-md">
+              Segera Hadir
             </span>
-          </a>
-          <a 
-            href="#" 
-            className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item"
-          >
-            <div className="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-100">
-              <FileText className="w-3.5 h-3.5" />
+          </div>
+          <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50/70 border border-slate-100 mb-1">
+            <div className="flex items-center gap-3">
+              <div className="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-100">
+                <FileText className="w-3.5 h-3.5" />
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-slate-700">
+                Ujian CBT Online
+              </span>
             </div>
-            <span className="text-xs sm:text-sm font-semibold text-slate-800 group-hover/item:text-amber-600">
-              Ujian CBT Online
+            <span className="text-[10px] font-bold text-slate-400 bg-slate-200/70 px-2 py-0.5 rounded-md">
+              Segera Hadir
             </span>
-          </a>
-          <a 
-            href="#" 
-            className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/item"
-          >
-            <div className="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100">
-              <BarChart3 className="w-3.5 h-3.5" />
+          </div>
+          <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50/70 border border-slate-100">
+            <div className="flex items-center gap-3">
+              <div className="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100">
+                <BarChart3 className="w-3.5 h-3.5" />
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-slate-700">
+                E-Rapor Digital
+              </span>
             </div>
-            <span className="text-xs sm:text-sm font-semibold text-slate-800 group-hover/item:text-emerald-600">
-              E-Rapor Digital
+            <span className="text-[10px] font-bold text-slate-400 bg-slate-200/70 px-2 py-0.5 rounded-md">
+              Segera Hadir
             </span>
-          </a>
+          </div>
         </div>
       </div>
 
