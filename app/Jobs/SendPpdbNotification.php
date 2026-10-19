@@ -28,7 +28,6 @@ class SendPpdbNotification implements ShouldQueue
      */
     public function handle(): void
     {
-        // Simulate sending email by logging
         Log::info('PPDB Notification sent asynchronously to user: ' . $this->registrationData['user_id']);
         Log::info('Registration Number: ' . $this->registrationData['registration_number']);
     }
