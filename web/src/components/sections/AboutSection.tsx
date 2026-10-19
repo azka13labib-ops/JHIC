@@ -44,7 +44,7 @@ export default function AboutSection() {
               </div>
               <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 text-center">
                 <Users className="w-5 h-5 text-blue-700 mx-auto mb-1.5" />
-                <div className="text-sm font-bold text-slate-900">78% Tembus PTN</div>
+                <div className="text-sm font-bold text-slate-900">Alumni PTN</div>
                 <div className="text-[11px] text-slate-500 font-medium mt-0.5">Tracer Study</div>
               </div>
             </div>

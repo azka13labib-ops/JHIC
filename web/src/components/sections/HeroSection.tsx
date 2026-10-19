@@ -21,7 +21,7 @@ export default function HeroSection() {
     },
     {
       title: 'Prestasi & Jejak Alumni',
-      desc: '78% lulusan tembus PTN terkemuka, pembinaan kejuaraan OSN/FLS2N, serta dukungan beasiswa bakat berkelanjutan.',
+      desc: 'Alumni tersebar di berbagai PTN terkemuka, pembinaan intensif OSN/FLS2N, serta dukungan beasiswa bakat berkelanjutan.',
       icon: Trophy,
       href: '/prestasi',
     },
