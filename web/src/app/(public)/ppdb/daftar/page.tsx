@@ -99,7 +99,7 @@ export default function PpdbDaftarPage() {
             <span>Kembali ke Informasi PPDB</span>
           </Link>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900">Form Pendaftaran PPDB</h1>
-          <p className="text-slate-500 text-xs mt-1">SMA PGRI 1 Lumajang — Tahun Ajaran {ppdbInfo.academic_year || '2026/2027'}</p>
+          <p className="text-slate-500 text-xs mt-1">SMA PGRI 1 Lumajang, Tahun Ajaran {ppdbInfo.academic_year || '2026/2027'}</p>
         </div>
 
         <div className="flex items-center justify-center gap-2 mb-8">

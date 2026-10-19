@@ -203,7 +203,7 @@ export default function PpdbPage() {
                 </div>
                 <div className="text-[11px] text-slate-500 font-semibold uppercase tracking-wider mb-1">{label}</div>
                 <div className="text-sm sm:text-base font-bold text-slate-900">
-                  {date ? new Date(date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '—'}
+                  {date ? new Date(date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '-'}
                 </div>
               </div>
             ))}
