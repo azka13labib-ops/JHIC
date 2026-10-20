@@ -38,7 +38,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  output: 'standalone',
+  output: process.env.VERCEL ? undefined : 'standalone',
   compress: true,
   poweredByHeader: false,
   images: {
@@ -77,15 +77,6 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/(.*).(png|jpg|jpeg|webp|avif|svg|ico)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/_next/static/(.*)',
         headers: [
           {
             key: 'Cache-Control',
