@@ -21,6 +21,19 @@ export const metadata: Metadata = {
   }
 };
 
+interface NewsArticleItem {
+  id: number | string;
+  slug: string;
+  title: string;
+  content: string;
+  image_path?: string;
+  is_pinned?: boolean;
+  published_at?: string;
+  created_at?: string;
+  author?: { name?: string };
+  category?: { name?: string };
+}
+
 function stripHtml(html: string) {
   if (!html) return '';
   return html.replace(/<[^>]*>?/gm, '');
@@ -99,7 +112,7 @@ export default async function BeritaPage(
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {paginatedNews.map((item: any) => {
+              {paginatedNews.map((item: NewsArticleItem) => {
                 const excerpt = stripHtml(item.content);
                 return (
                   <Link href={`/berita/${item.slug}`} key={item.id} className="group">
@@ -129,7 +142,7 @@ export default async function BeritaPage(
 
                         <div className="p-4 space-y-2">
                           <div className="flex items-center justify-between text-[11px] text-slate-500">
-                            <span>{new Date(item.published_at || item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                            <span>{item.published_at || item.created_at ? new Date(item.published_at || item.created_at!).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-'}</span>
                             <span className="text-blue-700 font-semibold">{item.author?.name || 'Admin SMAGRISA'}</span>
                           </div>
 

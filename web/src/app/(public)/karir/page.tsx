@@ -13,6 +13,16 @@ export const metadata: Metadata = {
   },
 };
 
+interface JobItem {
+  id: number | string;
+  slug: string;
+  title: string;
+  company_name?: string;
+  type?: string;
+  location?: string;
+  closing_date?: string;
+}
+
 export default async function KarirPage() {
   const jobs = await getJobs();
 
@@ -44,7 +54,7 @@ export default async function KarirPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {jobs.map((job: any) => (
+            {jobs.map((job: JobItem) => (
               <Link href={`/karir/${job.slug}`} key={job.id} className="group">
                 <div className="bg-white rounded-xl border border-slate-200 shadow-sm hover:border-blue-300 transition-colors h-full flex flex-col p-6">
                   <div className="flex-1">
@@ -79,7 +89,7 @@ export default async function KarirPage() {
 
                   <div className="pt-4 border-t border-slate-100 flex items-center justify-between mt-4">
                     <div className="text-[11px] text-slate-500">
-                      Batas lamaran: <span className="font-semibold text-slate-700">{new Date(job.closing_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                      Batas lamaran: <span className="font-semibold text-slate-700">{job.closing_date ? new Date(job.closing_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Sesuai Pengumuman'}</span>
                     </div>
                     <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
                       <ArrowRight className="w-4 h-4" />

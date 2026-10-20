@@ -11,6 +11,12 @@ import {
   getAchievements 
 } from '@/lib/api/school';
 
+interface SitemapEntity {
+  id?: string | number;
+  slug?: string;
+  updated_at?: string;
+}
+
 export const revalidate = 3600; // Revalidate dynamic sitemap every hour
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -79,7 +85,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // News
     if (newsList.status === 'fulfilled' && Array.isArray(newsList.value)) {
-      newsList.value.forEach((item: any) => {
+      newsList.value.forEach((item: SitemapEntity) => {
         if (item?.slug) {
           dynamicRoutes.push({
             url: `${baseUrl}/berita/${item.slug}`,
@@ -93,7 +99,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Agendas
     if (agendaList.status === 'fulfilled' && Array.isArray(agendaList.value)) {
-      agendaList.value.forEach((item: any) => {
+      agendaList.value.forEach((item: SitemapEntity) => {
         if (item?.slug) {
           dynamicRoutes.push({
             url: `${baseUrl}/agenda/${item.slug}`,
@@ -107,7 +113,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Articles
     if (articleList.status === 'fulfilled' && Array.isArray(articleList.value)) {
-      articleList.value.forEach((item: any) => {
+      articleList.value.forEach((item: SitemapEntity) => {
         if (item?.slug) {
           dynamicRoutes.push({
             url: `${baseUrl}/artikel/${item.slug}`,
@@ -121,7 +127,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Galleries
     if (galleryList.status === 'fulfilled' && Array.isArray(galleryList.value)) {
-      galleryList.value.forEach((item: any) => {
+      galleryList.value.forEach((item: SitemapEntity) => {
         if (item?.slug) {
           dynamicRoutes.push({
             url: `${baseUrl}/galeri/${item.slug}`,
@@ -135,7 +141,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Jobs (BKK)
     if (jobList.status === 'fulfilled' && Array.isArray(jobList.value)) {
-      jobList.value.forEach((item: any) => {
+      jobList.value.forEach((item: SitemapEntity) => {
         if (item?.slug) {
           dynamicRoutes.push({
             url: `${baseUrl}/karir/${item.slug}`,
@@ -149,7 +155,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Student Works
     if (studentWorkList.status === 'fulfilled' && Array.isArray(studentWorkList.value)) {
-      studentWorkList.value.forEach((item: any) => {
+      studentWorkList.value.forEach((item: SitemapEntity) => {
         if (item?.slug) {
           dynamicRoutes.push({
             url: `${baseUrl}/karya-siswa/${item.slug}`,
@@ -163,7 +169,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Opinions
     if (opinionList.status === 'fulfilled' && Array.isArray(opinionList.value)) {
-      opinionList.value.forEach((item: any) => {
+      opinionList.value.forEach((item: SitemapEntity) => {
         if (item?.slug) {
           dynamicRoutes.push({
             url: `${baseUrl}/opini/${item.slug}`,
@@ -177,7 +183,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Products
     if (productList.status === 'fulfilled' && Array.isArray(productList.value)) {
-      productList.value.forEach((item: any) => {
+      productList.value.forEach((item: SitemapEntity) => {
         if (item?.slug) {
           dynamicRoutes.push({
             url: `${baseUrl}/produk/${item.slug}`,
@@ -191,7 +197,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Achievements
     if (achievementList.status === 'fulfilled' && Array.isArray(achievementList.value)) {
-      achievementList.value.forEach((item: any) => {
+      achievementList.value.forEach((item: SitemapEntity) => {
         if (item?.id) {
           dynamicRoutes.push({
             url: `${baseUrl}/prestasi/${item.id}`,

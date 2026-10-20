@@ -15,6 +15,18 @@ export const metadata: Metadata = {
   },
 };
 
+interface ArticleItem {
+  id: number | string;
+  slug: string;
+  title: string;
+  image?: string;
+  author?: string;
+  created_at?: string;
+  published_at?: string;
+  excerpt?: string;
+  content?: string;
+}
+
 export default async function ArtikelPage() {
   const articles = await getArticles();
 
@@ -48,7 +60,7 @@ export default async function ArtikelPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {articles.map((item: any) => (
+            {articles.map((item: ArticleItem) => (
               <Link href={`/artikel/${item.slug}`} key={item.id} className="group">
                 <div className="bg-white rounded-xl border border-slate-200 shadow-2xs hover:border-blue-300 transition-colors h-full flex flex-col justify-between overflow-hidden">
                   <div>
@@ -70,7 +82,7 @@ export default async function ArtikelPage() {
 
                     <div className="p-4 space-y-2">
                       <div className="flex items-center justify-between text-[11px] text-slate-500">
-                        <span>{new Date(item.published_at || item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                        <span>{item.published_at || item.created_at ? new Date(item.published_at || item.created_at!).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-'}</span>
                         <span className="text-blue-700 font-semibold">{item.author || 'Admin SMAGRISA'}</span>
                       </div>
 
