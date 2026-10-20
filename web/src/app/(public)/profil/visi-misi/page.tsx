@@ -23,8 +23,11 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Visi, Misi & Fasilitas | SMA PGRI 1 Lumajang',
-  description: 'Visi, misi, tujuan pendidikan, tata nilai luhur, dan fasilitas unggulan SMA PGRI 1 Lumajang dalam mendidik generasi penerus bangsa.',
+  title: 'Visi, Misi & Tujuan Pendidikan',
+  description: 'Visi, misi, tujuan strategis, dan nilai-nilai keunggulan karakter SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/profil/visi-misi',
+  },
 };
 
 export const revalidate = 86400;

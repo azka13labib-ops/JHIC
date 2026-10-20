@@ -3,8 +3,17 @@ import { getImageUrl } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { getArticles } from "@/lib/api/school";
+import type { Metadata } from 'next';
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: 'Artikel & Wawasan Pendidikan',
+  description: 'Kumpulan artikel edukatif, opini pendidik, dan wawasan akademik seputar Kurikulum Merdeka di SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/artikel',
+  },
+};
 
 export default async function ArtikelPage() {
   const articles = await getArticles();

@@ -3,8 +3,53 @@ import { getImageUrl } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getGalleryBySlug } from "@/lib/api/school";
+import type { Metadata } from 'next';
 
 export const revalidate = 60;
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const item = await getGalleryBySlug(slug);
+
+  if (!item) {
+    return {
+      title: "Galeri Tidak Ditemukan",
+      description: "Dokumentasi foto yang Anda cari tidak tersedia.",
+    };
+  }
+
+  const description = item.description || `Dokumentasi foto ${item.title} di SMA PGRI 1 Lumajang.`;
+  const imageUrl = item.image ? getImageUrl(item.image) : "https://smapgri1lumajang.sch.id/image.png";
+
+  return {
+    title: item.title,
+    description,
+    alternates: {
+      canonical: `/galeri/${slug}`,
+    },
+    openGraph: {
+      title: item.title,
+      description,
+      url: `https://smapgri1lumajang.sch.id/galeri/${slug}`,
+      siteName: "SMA PGRI 1 Lumajang",
+      type: "website",
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: item.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: item.title,
+      description,
+      images: [imageUrl],
+    },
+  };
+}
 
 export default async function DetailGaleriPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -37,13 +82,20 @@ export default async function DetailGaleriPage({ params }: { params: Promise<{ s
               <img 
                 src={getImageUrl(item.image)} 
                 alt={item.title} 
-                className="max-h-[650px] w-full sm:w-auto h-auto object-contain rounded-xl border border-slate-200 shadow-2xs"
+                className="max-h-162.5 w-full sm:w-auto h-auto object-contain rounded-xl border border-slate-200 shadow-2xs"
               />
             </div>
           ) : (
-            <div className="w-full aspect-video bg-slate-100 flex items-center justify-center text-slate-400 rounded-lg">
-              <Camera className="w-12 h-12 text-slate-300" />
+            <div className="h-64 rounded-xl bg-slate-100 flex flex-col items-center justify-center text-slate-400">
+              <Camera className="w-8 h-8 mb-2" />
+              <span className="text-xs">Foto belum tersedia</span>
             </div>
+          )}
+
+          {item.description && (
+            <p className="text-slate-600 text-sm leading-relaxed border-t border-slate-100 pt-4">
+              {item.description}
+            </p>
           )}
         </div>
 

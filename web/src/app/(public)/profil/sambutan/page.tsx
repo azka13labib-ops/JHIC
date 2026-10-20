@@ -11,8 +11,11 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Sambutan Kepala Sekolah | SMA PGRI 1 Lumajang',
+  title: 'Sambutan Kepala Sekolah',
   description: 'Sambutan resmi Kepala Sekolah SMA PGRI 1 Lumajang kepada siswa, wali murid, dan seluruh masyarakat.',
+  alternates: {
+    canonical: '/profil/sambutan',
+  },
 };
 
 export const revalidate = 86400;

@@ -1,11 +1,13 @@
 import { getBlogs } from "@/lib/api/school";
-import Link from "next/link";
-import { BookOpen, ExternalLink, Globe, User } from "lucide-react";
+import { ExternalLink, Globe, User } from "lucide-react";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Blog Siswa | SMA PGRI 1 Lumajang',
+  title: 'Blog & Portofolio Siswa',
   description: 'Kumpulan portofolio, tulisan, dan web blog pribadi karya kreatif siswa-siswi SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/blog-siswa',
+  },
 };
 
 export const revalidate = 60;

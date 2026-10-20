@@ -3,8 +3,11 @@ import type { Metadata } from 'next';
 import ContactForm from './ContactForm';
 
 export const metadata: Metadata = {
-  title: 'Hubungi Kami | SMA PGRI 1 Lumajang',
-  description: 'Hubungi SMA PGRI 1 Lumajang melalui formulir kontak, telepon, atau kunjungi kami langsung di Lumajang, Jawa Timur.',
+  title: 'Hubungi Kami & Layanan Informasi',
+  description: 'Hubungi SMA PGRI 1 Lumajang melalui formulir kontak, telepon resmi, atau kunjungi kampus kami di Lumajang, Jawa Timur.',
+  alternates: {
+    canonical: '/kontak',
+  },
 };
 
 export default function KontakPage() {

@@ -3,8 +3,17 @@ import { getImageUrl } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { getOpinions } from "@/lib/api/school";
+import type { Metadata } from 'next';
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: 'Opini & Kolom Pemikiran',
+  description: 'Gagasan kritis, opini pendidikan, dan tulisan reflektif dari guru dan siswa SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/opini',
+  },
+};
 
 export default async function OpiniPage() {
   const opinions = await getOpinions();

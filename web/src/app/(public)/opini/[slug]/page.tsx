@@ -3,8 +3,61 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import { getOpinionBySlug } from "@/lib/api/school";
+import type { Metadata } from "next";
 
 export const revalidate = 60;
+
+function cleanExcerpt(content?: string, length = 160): string {
+  if (!content) return "Kolom opini dan gagasan kritis civitas akademika SMA PGRI 1 Lumajang.";
+  const plain = content.replace(/<[^>]*>?/gm, "").replace(/\s+/g, " ").trim();
+  return plain.length > length ? plain.slice(0, length) + "..." : plain;
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const opinion = await getOpinionBySlug(slug);
+
+  if (!opinion) {
+    return {
+      title: "Opini Tidak Ditemukan",
+      description: "Tulisan opini yang Anda cari tidak tersedia.",
+    };
+  }
+
+  const description = cleanExcerpt(opinion.content);
+  const imageUrl = opinion.image ? getImageUrl(opinion.image) : "https://smapgri1lumajang.sch.id/image.png";
+
+  return {
+    title: `${opinion.title} - Opini`,
+    description,
+    alternates: {
+      canonical: `/opini/${slug}`,
+    },
+    openGraph: {
+      title: `${opinion.title} - Opini`,
+      description,
+      url: `https://smapgri1lumajang.sch.id/opini/${slug}`,
+      siteName: "SMA PGRI 1 Lumajang",
+      type: "article",
+      publishedTime: opinion.published_at || opinion.created_at,
+      authors: [opinion.author || "Pendidik SMAGRISA"],
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: opinion.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: opinion.title,
+      description,
+      images: [imageUrl],
+    },
+  };
+}
 
 export default async function DetailOpiniPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -59,7 +112,7 @@ export default async function DetailOpiniPage({ params }: { params: Promise<{ sl
               <img 
                 src={getImageUrl(opinion.image)} 
                 alt={opinion.title} 
-                className="max-h-[600px] w-full sm:w-auto h-auto object-contain rounded-xl border border-slate-200 shadow-2xs"
+                className="max-h-150 w-full sm:w-auto h-auto object-contain rounded-xl border border-slate-200 shadow-2xs"
               />
             </div>
           )}

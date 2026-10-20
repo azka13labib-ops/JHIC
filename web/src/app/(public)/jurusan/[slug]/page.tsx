@@ -26,8 +26,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     (d) => d.name.toLowerCase().replace(/\s+/g, '-') === slug
   );
   return {
-    title: `${dept?.name ?? 'Peminatan'} (Fase F) | SMA PGRI 1 Lumajang`,
+    title: `${dept?.name ?? 'Peminatan'} - Fase F`,
     description: dept?.description ?? 'Detail program peminatan Fase F (Kelas 11 & 12) SMA PGRI 1 Lumajang',
+    alternates: {
+      canonical: `/jurusan/${slug}`,
+    },
+    openGraph: {
+      title: `${dept?.name ?? 'Peminatan'} - Fase F | SMA PGRI 1 Lumajang`,
+      description: dept?.description ?? 'Detail program peminatan Fase F (Kelas 11 & 12) SMA PGRI 1 Lumajang',
+      url: `/jurusan/${slug}`,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${dept?.name ?? 'Peminatan'} - Fase F | SMA PGRI 1 Lumajang`,
+      description: dept?.description ?? 'Detail program peminatan Fase F (Kelas 11 & 12) SMA PGRI 1 Lumajang',
+    },
   };
 }
 
@@ -83,18 +97,64 @@ export default async function JurusanDetailPage({ params }: { params: Promise<{ 
 
   const IconComp = details.icon;
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'Beranda',
+            'item': 'https://smapgri1lumajang.sch.id',
+          },
+          {
+            '@type': 'ListItem',
+            'position': 2,
+            'name': 'Peminatan',
+            'item': 'https://smapgri1lumajang.sch.id/jurusan',
+          },
+          {
+            '@type': 'ListItem',
+            'position': 3,
+            'name': dept.name,
+            'item': `https://smapgri1lumajang.sch.id/jurusan/${slug}`,
+          },
+        ],
+      },
+      {
+        '@type': 'EducationalOccupationalProgram',
+        'name': dept.name,
+        'description': dept.description,
+        'url': `https://smapgri1lumajang.sch.id/jurusan/${slug}`,
+        'provider': {
+          '@type': 'HighSchool',
+          'name': 'SMA PGRI 1 Lumajang',
+          'url': 'https://smapgri1lumajang.sch.id',
+        },
+        'educationalProgramMode': 'Full-time',
+        'occupationalCategory': details.prospects.join(', '),
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 py-8 sm:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="container mx-auto px-4 max-w-5xl space-y-6">
         
-        {/* Back Link */}
-        <Link
-          href="/jurusan"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-blue-700 bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-2xs transition-colors"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Kembali ke Daftar Peminatan</span>
-        </Link>
+        {/* Navigation Breadcrumb / Back Link */}
+        <div className="flex items-center gap-2 text-xs text-slate-600">
+          <Link href="/" className="hover:text-blue-700 transition-colors">Beranda</Link>
+          <span>/</span>
+          <Link href="/jurusan" className="hover:text-blue-700 transition-colors">Peminatan</Link>
+          <span>/</span>
+          <span className="font-semibold text-slate-900">{dept.name}</span>
+        </div>
 
         {/* Header Hero Card */}
         <div className="bg-white border border-slate-200 rounded-xl p-6 sm:p-8 shadow-2xs flex flex-col sm:flex-row items-start gap-5">

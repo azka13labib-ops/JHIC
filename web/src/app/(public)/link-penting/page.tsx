@@ -1,7 +1,16 @@
 import { getQuickLinks } from "@/lib/api/school";
 import { ExternalLink, Link2 } from 'lucide-react';
+import type { Metadata } from 'next';
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: 'Tautan Penting & Portal Layanan Terkait',
+  description: 'Akses cepat portal resmi Kemendikbud, Dapodik, SNPMB, Dinas Pendidikan Jawa Timur, dan mitra resmi SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/link-penting',
+  },
+};
 
 export default async function QuickLinkPage() {
   const links = await getQuickLinks();

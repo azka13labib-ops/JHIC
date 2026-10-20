@@ -9,11 +9,15 @@ import Form from 'next/form';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Berita & Informasi - SMA PGRI 1 Lumajang',
+  title: 'Berita & Warta Sekolah',
   description: 'Kumpulan warta kegiatan sekolah, pengumuman akademik, dan kabar prestasi siswa SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/berita',
+  },
   openGraph: {
-    title: 'Berita & Informasi - SMA PGRI 1 Lumajang',
+    title: 'Berita & Warta Sekolah',
     description: 'Kumpulan warta kegiatan sekolah, pengumuman akademik, dan kabar prestasi siswa SMA PGRI 1 Lumajang.',
+    url: 'https://smapgri1lumajang.sch.id/berita',
   }
 };
 

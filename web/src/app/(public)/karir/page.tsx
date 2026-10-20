@@ -1,8 +1,17 @@
 import { Briefcase, ArrowRight, Building, MapPin } from 'lucide-react';
 import Link from "next/link";
 import { getJobs } from "@/lib/api/school";
+import type { Metadata } from 'next';
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: 'Bursa Kerja Khusus (BKK) & Peluang Karir',
+  description: 'Peluang karir, magang, dan lowongan kerja dari mitra industri terpercaya untuk alumni SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/karir',
+  },
+};
 
 export default async function KarirPage() {
   const jobs = await getJobs();

@@ -3,8 +3,61 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import { getNewsBySlug } from "@/lib/api/school";
+import type { Metadata } from "next";
 
 export const revalidate = 60;
+
+function cleanExcerpt(content?: string, length = 160): string {
+  if (!content) return "Warta dan pengumuman resmi SMA PGRI 1 Lumajang.";
+  const plain = content.replace(/<[^>]*>?/gm, "").replace(/\s+/g, " ").trim();
+  return plain.length > length ? plain.slice(0, length) + "..." : plain;
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const news = await getNewsBySlug(slug);
+
+  if (!news) {
+    return {
+      title: "Berita Tidak Ditemukan",
+      description: "Berita yang Anda cari tidak tersedia.",
+    };
+  }
+
+  const description = cleanExcerpt(news.content);
+  const imageUrl = news.image_path ? getImageUrl(news.image_path) : "https://smapgri1lumajang.sch.id/image.png";
+
+  return {
+    title: news.title,
+    description,
+    alternates: {
+      canonical: `/berita/${slug}`,
+    },
+    openGraph: {
+      title: news.title,
+      description,
+      url: `https://smapgri1lumajang.sch.id/berita/${slug}`,
+      siteName: "SMA PGRI 1 Lumajang",
+      type: "article",
+      publishedTime: news.published_at || news.created_at,
+      authors: [news.author?.name || "Admin SMAGRISA"],
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: news.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: news.title,
+      description,
+      images: [imageUrl],
+    },
+  };
+}
 
 export default async function DetailBeritaPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -14,8 +67,38 @@ export default async function DetailBeritaPage({ params }: { params: Promise<{ s
     notFound();
   }
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: news.title,
+    description: cleanExcerpt(news.content),
+    image: [news.image_path ? getImageUrl(news.image_path) : "https://smapgri1lumajang.sch.id/image.png"],
+    datePublished: news.published_at || news.created_at,
+    dateModified: news.updated_at || news.published_at || news.created_at,
+    author: {
+      "@type": "Person",
+      name: news.author?.name || "Admin SMAGRISA",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "SMA PGRI 1 Lumajang",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://smapgri1lumajang.sch.id/logo-sekolah.png",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://smapgri1lumajang.sch.id/berita/${slug}`,
+    },
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 py-8 sm:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <div className="container mx-auto px-4 max-w-4xl">
         
         {/* Back Link */}
@@ -59,7 +142,7 @@ export default async function DetailBeritaPage({ params }: { params: Promise<{ s
               <img 
                 src={getImageUrl(news.image_path)} 
                 alt={news.title} 
-                className="max-h-[600px] w-full sm:w-auto h-auto object-contain rounded-xl border border-slate-200 shadow-2xs"
+                className="max-h-150 w-full sm:w-auto h-auto object-contain rounded-xl border border-slate-200 shadow-2xs"
               />
             </div>
           )}

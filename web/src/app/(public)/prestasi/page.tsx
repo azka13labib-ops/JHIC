@@ -8,8 +8,11 @@ import { getAchievements } from '@/lib/api/school';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Prestasi Siswa | SMA PGRI 1 Lumajang',
+  title: 'Prestasi & Kejuaraan Siswa',
   description: 'Daftar kejuaraan, medali olimpiade, dan prestasi membanggakan siswa SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/prestasi',
+  },
 };
 
 const LEVEL_CONFIG: Record<string, { label: string; badge: string }> = {

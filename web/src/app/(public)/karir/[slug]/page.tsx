@@ -4,14 +4,55 @@ import Link from "next/link";
 import { getJobBySlug } from "@/lib/api/school";
 import JobApplyForm from "./JobApplyForm";
 
+import type { Metadata } from "next";
+
 export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }> | { slug: string };
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const job = await getJobBySlug(resolvedParams.slug);
+
+  if (!job || !job.is_active) {
+    return {
+      title: "Lowongan Tidak Ditemukan",
+      description: "Informasi lowongan kerja atau magang ini tidak tersedia.",
+    };
+  }
+
+  const description = `Lowongan kerja ${job.title} di ${job.company} (${job.location}). Disediakan melalui BKK SMA PGRI 1 Lumajang.`;
+
+  return {
+    title: `${job.title} - ${job.company} | Bursa Karir`,
+    description,
+    alternates: {
+      canonical: `/karir/${resolvedParams.slug}`,
+    },
+    openGraph: {
+      title: `${job.title} - ${job.company}`,
+      description,
+      url: `https://smapgri1lumajang.sch.id/karir/${resolvedParams.slug}`,
+      siteName: "SMA PGRI 1 Lumajang",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${job.title} - ${job.company}`,
+      description,
+    },
+  };
+}
 
 export default async function JobDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }> | { slug: string };
 }) {
-  const job = await getJobBySlug(params.slug);
+  const resolvedParams = await params;
+  const job = await getJobBySlug(resolvedParams.slug);
 
   if (!job || !job.is_active) {
     notFound();
@@ -19,8 +60,34 @@ export default async function JobDetailPage({
 
   const isClosed = new Date(job.closing_date) < new Date();
 
+  const jobJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    title: job.title,
+    description: job.description || `${job.title} di ${job.company}`,
+    datePosted: job.created_at || new Date().toISOString(),
+    validThrough: job.closing_date,
+    employmentType: job.type === 'Full-time' ? 'FULL_TIME' : job.type === 'Part-time' ? 'PART_TIME' : 'INTERN',
+    hiringOrganization: {
+      "@type": "Organization",
+      name: job.company,
+    },
+    jobLocation: {
+      "@type": "Place",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: job.location || "Lumajang",
+        addressCountry: "ID",
+      },
+    },
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jobJsonLd) }}
+      />
       <section className="bg-white border-b border-slate-200 pt-8 pb-10">
         <div className="container mx-auto px-4 max-w-5xl">
           <Link 

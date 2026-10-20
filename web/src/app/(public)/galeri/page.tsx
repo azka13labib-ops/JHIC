@@ -3,8 +3,17 @@ import Link from "next/link";
 import { getImageUrl } from "@/lib/utils";
 import Image from "next/image";
 import { getGalleries } from "@/lib/api/school";
+import type { Metadata } from 'next';
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: 'Galeri Foto & Dokumentasi Kegiatan',
+  description: 'Dokumentasi arsip foto kegiatan akademik, ekstrakurikuler, dan momentum bersejarah SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/galeri',
+  },
+};
 
 export default async function GalleryPage() {
   const galleries = await getGalleries();

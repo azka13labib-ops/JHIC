@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import Image from 'next/image';
 import { 
-  Building2, 
   Laptop, 
   Microscope, 
   BookOpen, 
@@ -15,8 +13,11 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Fasilitas & Sarana Prasarana | SMA PGRI 1 Lumajang',
+  title: 'Fasilitas & Sarana Prasarana Sekolah',
   description: 'Eksplorasi sarana prasarana modern, laboratorium komputer, laboratorium sains, studio podcast, perpustakaan digital, dan fasilitas olahraga SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/profil/fasilitas',
+  },
 };
 
 export const revalidate = 86400;

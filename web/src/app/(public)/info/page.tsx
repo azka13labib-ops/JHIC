@@ -3,7 +3,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Informasi | SMA PGRI 1 Lumajang',
+  title: 'Pusat Informasi & Pengumuman Resmi',
+  description: 'Pusat informasi, edaran resmi, dan pengumuman akademik SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/info',
+  },
 };
 
 export default function InfoPage() {

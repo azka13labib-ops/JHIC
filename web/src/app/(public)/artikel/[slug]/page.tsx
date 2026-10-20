@@ -3,8 +3,61 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import { getArticleBySlug } from "@/lib/api/school";
+import type { Metadata } from "next";
 
 export const revalidate = 60;
+
+function cleanExcerpt(content?: string, length = 160): string {
+  if (!content) return "Artikel edukasi dan wawasan akademik SMA PGRI 1 Lumajang.";
+  const plain = content.replace(/<[^>]*>?/gm, "").replace(/\s+/g, " ").trim();
+  return plain.length > length ? plain.slice(0, length) + "..." : plain;
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const article = await getArticleBySlug(slug);
+
+  if (!article) {
+    return {
+      title: "Artikel Tidak Ditemukan",
+      description: "Artikel yang Anda cari tidak tersedia.",
+    };
+  }
+
+  const description = cleanExcerpt(article.content);
+  const imageUrl = article.image ? getImageUrl(article.image) : "https://smapgri1lumajang.sch.id/image.png";
+
+  return {
+    title: article.title,
+    description,
+    alternates: {
+      canonical: `/artikel/${slug}`,
+    },
+    openGraph: {
+      title: article.title,
+      description,
+      url: `https://smapgri1lumajang.sch.id/artikel/${slug}`,
+      siteName: "SMA PGRI 1 Lumajang",
+      type: "article",
+      publishedTime: article.published_at || article.created_at,
+      authors: [article.author || "Admin SMAGRISA"],
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: article.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description,
+      images: [imageUrl],
+    },
+  };
+}
 
 export default async function DetailArtikelPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -14,8 +67,38 @@ export default async function DetailArtikelPage({ params }: { params: Promise<{ 
     notFound();
   }
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: cleanExcerpt(article.content),
+    image: [article.image ? getImageUrl(article.image) : "https://smapgri1lumajang.sch.id/image.png"],
+    datePublished: article.published_at || article.created_at,
+    dateModified: article.updated_at || article.published_at || article.created_at,
+    author: {
+      "@type": "Person",
+      name: article.author || "Admin SMAGRISA",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "SMA PGRI 1 Lumajang",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://smapgri1lumajang.sch.id/logo-sekolah.png",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://smapgri1lumajang.sch.id/artikel/${slug}`,
+    },
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 py-8 sm:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <div className="container mx-auto px-4 max-w-4xl">
         
         {/* Back Link */}
@@ -59,7 +142,7 @@ export default async function DetailArtikelPage({ params }: { params: Promise<{ 
               <img 
                 src={getImageUrl(article.image)} 
                 alt={article.title} 
-                className="max-h-[600px] w-full sm:w-auto h-auto object-contain rounded-xl border border-slate-200 shadow-2xs"
+                className="max-h-150 w-full sm:w-auto h-auto object-contain rounded-xl border border-slate-200 shadow-2xs"
               />
             </div>
           )}

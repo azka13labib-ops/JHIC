@@ -7,14 +7,16 @@ import {
   Laptop, 
   Palette, 
   Music, 
-  GraduationCap, 
   ArrowRight 
 } from 'lucide-react';
 import { getDepartments } from '@/lib/api/school';
 
 export const metadata: Metadata = {
-  title: 'Program Peminatan Fase F (Kelas 11-12) | SMA PGRI 1 Lumajang',
+  title: 'Program Peminatan Fase F (MIPA, IPS, Bahasa)',
   description: 'Program kelompok mata pelajaran peminatan Fase F (Kelas XI & XII) di SMA PGRI 1 Lumajang: MIPA, IPS, dan Ilmu Bahasa & Budaya.',
+  alternates: {
+    canonical: '/jurusan',
+  },
 };
 
 export const revalidate = 86400;

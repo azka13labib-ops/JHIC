@@ -3,8 +3,17 @@ import { getImageUrl } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { getProducts } from "@/lib/api/school";
+import type { Metadata } from 'next';
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: 'Katalog Produk & Teaching Factory',
+  description: 'Produk unggulan dan layanan resmi karya siswa teaching factory SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/produk',
+  },
+};
 
 export default async function ProdukPage() {
   const products = await getProducts();

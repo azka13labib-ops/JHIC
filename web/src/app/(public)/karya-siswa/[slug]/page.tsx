@@ -3,8 +3,53 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, User } from "lucide-react";
 import { getStudentWorkBySlug } from "@/lib/api/school";
+import type { Metadata } from 'next';
 
 export const revalidate = 60;
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const item = await getStudentWorkBySlug(slug);
+
+  if (!item) {
+    return {
+      title: "Karya Siswa Tidak Ditemukan",
+      description: "Karya siswa yang Anda cari tidak tersedia.",
+    };
+  }
+
+  const description = item.description || `Karya kreatif siswa SMA PGRI 1 Lumajang oleh ${item.student_name}.`;
+  const imageUrl = item.image ? getImageUrl(item.image) : "https://smapgri1lumajang.sch.id/image.png";
+
+  return {
+    title: `${item.title} - Karya Siswa`,
+    description,
+    alternates: {
+      canonical: `/karya-siswa/${slug}`,
+    },
+    openGraph: {
+      title: `${item.title} - Karya Siswa`,
+      description,
+      url: `https://smapgri1lumajang.sch.id/karya-siswa/${slug}`,
+      siteName: "SMA PGRI 1 Lumajang",
+      type: "article",
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: item.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: item.title,
+      description,
+      images: [imageUrl],
+    },
+  };
+}
 
 export default async function DetailKaryaSiswaPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -44,7 +89,7 @@ export default async function DetailKaryaSiswaPage({ params }: { params: Promise
               <img 
                 src={getImageUrl(item.image)} 
                 alt={item.title} 
-                className="max-h-[600px] w-full sm:w-auto h-auto object-contain rounded-xl border border-slate-200 shadow-2xs"
+                className="max-h-150 w-full sm:w-auto h-auto object-contain rounded-xl border border-slate-200 shadow-2xs"
               />
             </div>
           )}

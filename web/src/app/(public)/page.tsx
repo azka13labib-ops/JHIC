@@ -1,6 +1,7 @@
 import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
 import NewsMediaSection from '@/components/sections/NewsMediaSection';
+import FaqSection from '@/components/sections/FaqSection';
 
 import { 
   getNews,
@@ -25,6 +26,9 @@ export default async function LandingPage() {
 
       {/* 3. News & Media Center (Grid news, podcast, calendar, agenda, and PPDB CTA) */}
       <NewsMediaSection initialNews={newsList} initialAgendas={agendas} isPpdbOpen={ppdbInfo?.is_open} />
+
+      {/* 4. AI-SEO Answer Center & FAQ (with FAQPage schema) */}
+      <FaqSection />
     </div>
   );
 }

@@ -13,8 +13,11 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Sejarah Singkat | SMA PGRI 1 Lumajang',
+  title: 'Sejarah & Kilas Balik Sekolah',
   description: 'Sejarah panjang berdirinya SMA PGRI 1 Lumajang sejak tahun 1985 hingga menjadi sekolah unggulan berstandar nasional.',
+  alternates: {
+    canonical: '/profil/sejarah',
+  },
 };
 
 export const revalidate = 86400;

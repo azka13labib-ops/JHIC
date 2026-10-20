@@ -3,8 +3,17 @@ import { getImageUrl } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { getAgendas } from "@/lib/api/school";
+import type { Metadata } from 'next';
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: 'Agenda & Kalender Kegiatan Akademik',
+  description: 'Jadwal agenda kegiatan belajar mengajar, ujian, perlombaan, dan acara resmi SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/agenda',
+  },
+};
 
 export default async function AgendaPage() {
   const agendas = await getAgendas();

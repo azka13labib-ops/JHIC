@@ -3,8 +3,11 @@ import { GraduationCap, Briefcase, Building2, Search, Quote } from "lucide-react
 import Image from "next/image";
 
 export const metadata = {
-  title: 'Direktori Alumni - SMA PGRI 1 Lumajang',
-  description: 'Jejak langkah dan kisah sukses alumni SMA PGRI 1 Lumajang di berbagai bidang dan institusi.',
+  title: 'Direktori & Jejak Langkah Alumni',
+  description: 'Jejak langkah dan kisah sukses alumni SMA PGRI 1 Lumajang di perguruan tinggi dan dunia kerja.',
+  alternates: {
+    canonical: '/alumni',
+  },
 };
 
 export default async function AlumniPage() {

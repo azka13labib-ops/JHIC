@@ -3,7 +3,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Peta Situs | SMA PGRI 1 Lumajang',
+  title: 'Peta Situs (HTML Sitemap)',
+  description: 'Struktur direktori navigasi dan peta situs seluruh halaman portal SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/sitemap',
+  },
 };
 
 export default function SitemapPage() {

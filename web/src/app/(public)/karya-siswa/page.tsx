@@ -3,8 +3,17 @@ import Link from "next/link";
 import { getImageUrl } from "@/lib/utils";
 import Image from "next/image";
 import { getStudentWorks } from "@/lib/api/school";
+import type { Metadata } from 'next';
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: 'Karya & Kreativitas Siswa',
+  description: 'Eksplorasi portofolio karya kreatif, inovasi seni, dan tulisan siswa berbakat SMA PGRI 1 Lumajang.',
+  alternates: {
+    canonical: '/karya-siswa',
+  },
+};
 
 export default async function StudentWorkPage() {
   const works = await getStudentWorks();

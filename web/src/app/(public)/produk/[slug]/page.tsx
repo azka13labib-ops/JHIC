@@ -6,21 +6,95 @@ import { getProductBySlug } from "@/lib/api/school";
 import { getImageUrl } from "@/lib/utils";
 import InquiryForm from "./InquiryForm";
 
+import type { Metadata } from "next";
+
 export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }> | { slug: string };
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const product = await getProductBySlug(resolvedParams.slug);
+
+  if (!product) {
+    return {
+      title: "Produk Tidak Ditemukan",
+      description: "Produk teaching factory sekolah tidak tersedia.",
+    };
+  }
+
+  const description = product.description || `Karya dan produk teaching factory SMA PGRI 1 Lumajang: ${product.name}.`;
+  const imageUrl = product.image ? getImageUrl(product.image) : "https://smapgri1lumajang.sch.id/image.png";
+
+  return {
+    title: `${product.name} - Produk Sekolah`,
+    description,
+    alternates: {
+      canonical: `/produk/${resolvedParams.slug}`,
+    },
+    openGraph: {
+      title: `${product.name} - Produk SMAGRISA`,
+      description,
+      url: `https://smapgri1lumajang.sch.id/produk/${resolvedParams.slug}`,
+      siteName: "SMA PGRI 1 Lumajang",
+      type: "website",
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: product.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description,
+      images: [imageUrl],
+    },
+  };
+}
 
 export default async function ProductDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }> | { slug: string };
 }) {
-  const product = await getProductBySlug(params.slug);
+  const resolvedParams = await params;
+  const product = await getProductBySlug(resolvedParams.slug);
 
   if (!product) {
     notFound();
   }
 
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description || product.name,
+    image: [product.image ? getImageUrl(product.image) : "https://smapgri1lumajang.sch.id/image.png"],
+    brand: {
+      "@type": "Brand",
+      name: "SMA PGRI 1 Lumajang",
+    },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "IDR",
+      price: product.price || 0,
+      availability: "https://schema.org/InStock",
+      url: `https://smapgri1lumajang.sch.id/produk/${resolvedParams.slug}`,
+    },
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
       {/* Editorial Header */}
       <section className="bg-white border-b border-slate-200 pt-8 pb-10">
         <div className="container mx-auto px-4 max-w-5xl">
